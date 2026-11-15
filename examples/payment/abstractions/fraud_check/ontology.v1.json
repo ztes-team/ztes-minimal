@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the check of the next recorded request",
+  "inputs": {"context": ["k", "reqs", "req", "earlier"]},
+  "returns": "Check",
+  "body": {"result": "{'id': req['id'], 'passed': not earlier}"}
+}

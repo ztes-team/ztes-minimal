@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the payment of the next request, once its check is recorded",
+  "inputs": {"context": ["k", "req", "check"]},
+  "returns": "Payment",
+  "body": {"result": "{'from': req['from'], 'to': req['to'], 'amount': req['amount']}"}
+}

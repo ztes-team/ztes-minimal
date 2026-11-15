@@ -1,0 +1,11 @@
+{
+  "note": "[ω] v2 (governed repair): reads 'bounds'; the criterion is unchanged",
+  "inputs": {
+    "context": {
+      "k": "k",
+      "bound": {"from": "bounds", "select": "one", "type": "Bound", "where": "x['n'] == k"}
+    }
+  },
+  "returns": "Interval",
+  "body": {"result": "{'n': k, 'lo': Fraction(bound['a'], bound['d']), 'hi': Fraction(bound['a'] + 1, bound['d'])}"}
+}

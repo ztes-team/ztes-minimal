@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the k-th denominator is 2^k, up to N",
+  "inputs": {"context": ["k"], "candidate": {"name": "w", "type": "Den"}},
+  "body": {"result": "w['n'] == k and w['d'] == 2 ** w['n'] and w['n'] <= N"}
+}

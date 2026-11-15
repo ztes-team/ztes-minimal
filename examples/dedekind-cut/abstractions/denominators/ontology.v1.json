@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next denominator 2^k",
+  "inputs": {"context": ["k"]},
+  "returns": "Den",
+  "body": {"result": "{'n': k, 'd': 2 ** k}"}
+}

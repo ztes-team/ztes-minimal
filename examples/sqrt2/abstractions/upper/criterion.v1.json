@@ -1,0 +1,5 @@
+{
+  "note": "[τ] admits an upper bound of the cut: w² > 2, strictly inside the current interval",
+  "inputs": {"context": ["lower", "upper"], "candidate": {"name": "w", "type": "rational"}},
+  "body": {"result": "w * w > 2 and lower < w < upper"}
+}

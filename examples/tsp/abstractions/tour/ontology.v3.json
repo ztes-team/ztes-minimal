@@ -1,0 +1,12 @@
+{
+  "note": "[ω] the same for Q = 0, 1, 2, 3, 5, 7: every subproblem it needs is recorded",
+  "constants": {
+    "N": 8,
+    "Q": [0, 1, 2, 3, 5, 7]
+  },
+  "inputs": {
+    "context": ["entry", "tours"]
+  },
+  "returns": "Tour",
+  "body_file": "ontology.v1.py"
+}

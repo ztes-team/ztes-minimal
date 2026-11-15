@@ -1,0 +1,9 @@
+{
+  "note": "the next subproblem in ORDER, with its cost and predecessor from the recorded ones",
+  "constants": {"N": 8},
+  "inputs": {
+    "context": ["done", "cost"]
+  },
+  "returns": "Entry",
+  "body_file": "ontology.v1.py"
+}

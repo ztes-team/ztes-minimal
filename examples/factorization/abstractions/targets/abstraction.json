@@ -1,0 +1,7 @@
+{
+  "bindings": {
+    "k":    {"from": "targets", "select": "count"},
+    "f":    {"from": "factor", "select": "count"},
+    "seen": {"from": "targets", "select": "all", "type": "integer"}
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "note": "[τ] any valid tour shorter than the recorded best, whatever produced it",
+  "inputs": {"context": ["best"], "candidate": {"name": "w", "type": "Tour"}},
+  "body": {
+    "result": "valid(w['walk'], N) and tour_length(D, w['walk']) == w['length'] < best['length']"
+  }
+}

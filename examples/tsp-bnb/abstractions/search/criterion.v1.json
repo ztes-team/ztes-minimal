@@ -1,0 +1,8 @@
+{
+  "note": "[τ] the node is open and not pruned, its children and bounds are exactly right",
+  "constants": {"N": 7},
+  "inputs": {
+    "context": ["exps", "best"],
+    "candidate": {"name": "w", "type": "Expansion"}
+  }
+}

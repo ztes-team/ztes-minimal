@@ -1,0 +1,9 @@
+{
+  "note": "[ω] the next authorization in AUTH that applies to a recorded failed check",
+  "inputs": {"context": ["failed", "overrides"]},
+  "returns": "Override",
+  "body": {
+    "todo": "[a for a in AUTH if a['id'] in [c['id'] for c in failed] and a['id'] not in [o['id'] for o in overrides]]",
+    "result": "todo[0] if todo else None"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "note": "[ω] the walk of the next ant, resolved against the trail it sees (quota rule, no draw)",
+  "inputs": {"context": ["k", "trail"]},
+  "returns": "Tour"
+}

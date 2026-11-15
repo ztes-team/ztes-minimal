@@ -1,0 +1,7 @@
+{
+  "bindings": {
+    "req":   {"from": "requests", "select": "one", "type": "Request", "where": "x['id'] == k + 1"},
+    "check": {"from": "fraud_check", "select": "one", "type": "Check", "where": "x['id'] == k + 1"},
+    "overridden": {"from": "override", "select": "exists", "type": "Override", "where": "x['id'] == k + 1"}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "note": "[τ] the product is n, every factor is a recorded prime, the reuse is stated exactly",
+  "inputs": {
+    "context": {
+      "n": {"from": "targets", "select": "last", "type": "integer", "default": 0},
+      "primes": "primes",
+      "prev": "prev"
+    },
+    "candidate": {"name": "w", "type": "Cert"}
+  },
+  "body": {
+    "identity": "w['n'] == n and prod(w['factors']) == n",
+    "certified": "all(q in primes for q in w['factors'])",
+    "provenance": "w['gcd'] == gcd(n, prev['n']) and w['reused'] == (prev['n'] if w['gcd'] > 1 else 0)",
+    "result": "n != prev['n'] and identity and certified and provenance"
+  }
+}

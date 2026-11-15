@@ -1,0 +1,4 @@
+{
+  "note": "[τ] the indicators of the latest profile, each equal to its definition in measure()",
+  "inputs": {"context": ["done", "tours", "profile", "profiles", "kpis"], "candidate": {"name": "w", "type": "Kpi"}}
+}

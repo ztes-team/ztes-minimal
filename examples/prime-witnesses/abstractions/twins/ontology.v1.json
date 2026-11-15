@@ -1,0 +1,9 @@
+{
+  "note": "[ω] the smallest visible twin pair after the last one; ⊥ while none is visible",
+  "inputs": {"context": ["last", "primes"]},
+  "returns": "Twin",
+  "body": {
+    "ps": "[p for p in primes if p > last['p'] and p + 2 in primes]",
+    "result": "{'p': ps[0], 'q': ps[0] + 2} if ps else None"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "note": "[τ] the same check for N = 8 (city 7 added)",
+  "constants": {"N": 8},
+  "inputs": {
+    "context": ["cost"],
+    "candidate": {"name": "w", "type": "Entry"}
+  },
+  "body_file": "criterion.v1.py"
+}

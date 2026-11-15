@@ -1,0 +1,17 @@
+{
+  "note": "[τ] admission ground: the check passed, or an override is recorded (§1.3)",
+  "inputs": {
+    "context": {
+      "k": "k",
+      "reqs": "reqs",
+      "checks": "checks",
+      "overridden": "overridden"
+    },
+    "candidate": {"name": "w", "type": "Payment"}
+  },
+  "body": {
+    "same": "[{'from': r['from'], 'to': r['to'], 'amount': r['amount']} for r in reqs if r['id'] == k + 1] == [w]",
+    "passed": "{'id': k + 1, 'passed': True} in checks",
+    "result": "same and (passed or overridden)"
+  }
+}

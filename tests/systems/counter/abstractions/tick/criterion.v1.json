@@ -1,0 +1,14 @@
+{
+  "role": "criterion",
+  "abstraction": "tick",
+  "version": 1,
+  "inputs": {
+    "context": {
+      "n": {"from": "tick", "select": "count"}
+    },
+    "candidate": {"name": "w", "type": "integer"}
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {"result": "w == n + 1 and w <= 5"}
+}

@@ -1,0 +1,36 @@
+{
+  "system": "factorization",
+  "title": "Integer factorization with reused admitted certificates (cf. §8.7, Table 7)",
+  "abstractions": ["targets", "primes", "factor"],
+  "types": {
+    "Cert": {"record": {"n": "integer", "factors": {"list": "integer"}, "reused": "integer", "gcd": "integer"}}
+  },
+  "constants": {
+    "MAX": 23,
+    "T": [2310, 30030, 510510, 7429]
+  },
+  "bindings": {
+    "primes": {"from": "primes", "select": "all", "type": "integer"},
+    "p":      {"from": "primes", "select": "last", "type": "integer", "default": 1},
+    "prev":   {"from": "factor", "select": "last", "type": "Cert", "default": {"n": 1, "factors": [], "reused": 0, "gcd": 1}}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 27,
+    "states": {"targets": "wait", "primes": "closed", "factor": "wait"},
+    "values": {
+      "primes": [2, 3, 5, 7, 11, 13, 17, 19, 23],
+      "factor": [
+        {"n": 2310, "factors": [2, 3, 5, 7, 11], "reused": 0, "gcd": 1},
+        {"n": 30030, "factors": [2, 3, 5, 7, 11, 13], "reused": 2310, "gcd": 2310},
+        {"n": 510510, "factors": [2, 3, 5, 7, 11, 13, 17], "reused": 30030, "gcd": 30030},
+        {"n": 7429, "factors": [17, 19, 23], "reused": 510510, "gcd": 17}
+      ]
+    }
+  }
+}

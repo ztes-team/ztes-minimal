@@ -1,0 +1,5 @@
+{
+  "note": "[τ] a check of the next request: it passes if and only if no earlier request is identical",
+  "inputs": {"context": ["k", "reqs", "earlier"], "candidate": {"name": "w", "type": "Check"}},
+  "body": {"result": "w['id'] == k + 1 and w['id'] in [r['id'] for r in reqs] and w['passed'] == (not earlier)"}
+}

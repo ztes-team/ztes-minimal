@@ -1,0 +1,8 @@
+{
+  "note": "[τ] every open node has a bound at least the best length, checked against the record",
+  "constants": {"N": 7},
+  "inputs": {
+    "context": ["exps", "best", "proofs"],
+    "candidate": {"name": "w", "type": "Proof"}
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "bindings": {
+    "req": {"from": "requests", "select": "one", "type": "Request", "where": "x['id'] == k + 1"},
+    "earlier": {"from": "requests", "select": "exists", "type": "Request",
+                "where": "x['id'] < k + 1 and [x['from'], x['to'], x['amount']] in [[r['from'], r['to'], r['amount']] for r in reqs if r['id'] == k + 1]"}
+  }
+}

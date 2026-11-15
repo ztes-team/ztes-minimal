@@ -1,0 +1,8 @@
+{
+  "note": "[ω] expand the open node with the smallest bound below the recorded best (best first)",
+  "constants": {"N": 7},
+  "inputs": {
+    "context": ["exps", "best"]
+  },
+  "returns": "Expansion"
+}

@@ -1,0 +1,8 @@
+{
+  "note": "[ω] first a seed from the recorded optimum for N − 1 cities, then as v1",
+  "constants": {"N": 8},
+  "inputs": {
+    "context": ["exps", "best", "prev"]
+  },
+  "returns": "Best"
+}

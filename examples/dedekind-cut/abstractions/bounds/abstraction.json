@@ -1,0 +1,6 @@
+{
+  "bindings": {
+    "den":  {"from": "denominators", "select": "one", "type": "Den", "where": "x['n'] == k"},
+    "dens": {"from": "denominators", "select": "all", "type": "Den"}
+  }
+}

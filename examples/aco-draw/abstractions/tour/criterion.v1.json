@@ -1,0 +1,7 @@
+{
+  "note": "[τ] any valid tour of ant k is admitted as experience, while the budget T lasts",
+  "inputs": {"context": ["k"], "candidate": {"name": "w", "type": "Tour"}},
+  "body": {
+    "result": "w['k'] == k and k < T and valid(w['walk'], N) and tour_length(D, w['walk']) == w['length']"
+  }
+}

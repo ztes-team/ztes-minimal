@@ -1,0 +1,6 @@
+{
+  "note": "[ω] a = isqrt(2d²) for the k-th recorded denominator; ⊥ while it is not recorded",
+  "inputs": {"context": ["k", "den"]},
+  "returns": "Bound",
+  "body": {"result": "{'n': k, 'd': den['d'], 'a': isqrt(2 * den['d'] ** 2)}"}
+}

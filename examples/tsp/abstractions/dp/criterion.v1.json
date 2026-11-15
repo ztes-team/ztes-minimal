@@ -1,0 +1,8 @@
+{
+  "note": "[τ] one subproblem, checked against its recorded predecessors only (D2)",
+  "constants": {"N": 7},
+  "inputs": {
+    "context": ["cost"],
+    "candidate": {"name": "w", "type": "Entry"}
+  }
+}

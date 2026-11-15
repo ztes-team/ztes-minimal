@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the next prime up to MAX, certified by the recorded primes",
+  "inputs": {"context": ["p", "primes"], "candidate": {"name": "w", "type": "integer"}},
+  "body": {"result": "p < w <= MAX and all(w % q != 0 for q in primes if q * q <= w)"}
+}

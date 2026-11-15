@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the shortest recorded tour, if it is shorter than the recorded best; ⊥ before the first tour",
+  "requires": {"tour": 1},
+  "inputs": {"context": ["tours", "best"]},
+  "returns": "Tour"
+}

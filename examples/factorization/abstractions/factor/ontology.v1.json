@@ -1,0 +1,11 @@
+{
+  "note": "[ω] factor n reusing the last certificate (ontology.v1.py); ⊥ while a prime is missing",
+  "inputs": {
+    "context": {
+      "n": {"from": "targets", "select": "last", "type": "integer"},
+      "primes": "primes",
+      "prev": "prev"
+    }
+  },
+  "returns": "Cert"
+}

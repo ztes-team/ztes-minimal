@@ -1,0 +1,13 @@
+{
+  "role": "ontology",
+  "abstraction": "tick",
+  "version": 1,
+  "inputs": {
+    "context": {
+      "n": {"from": "tick", "select": "count"}
+    }
+  },
+  "returns": "integer",
+  "partial": true,
+  "body": {"result": "n + 1"}
+}

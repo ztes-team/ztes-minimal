@@ -1,0 +1,38 @@
+{
+  "system": "payment",
+  "title": "Identical payments with different admission grounds (§1.3)",
+  "abstractions": ["requests", "fraud_check", "override", "transfer"],
+  "types": {
+    "Request":  {"record": {"id": "integer", "from": "text", "to": "text", "amount": "integer"}},
+    "Check":    {"record": {"id": "integer", "passed": "boolean"}},
+    "Override": {"record": {"id": "integer", "by": "text"}},
+    "Payment":  {"record": {"from": "text", "to": "text", "amount": "integer"}}
+  },
+  "constants": {
+    "R": [{"id": 1, "from": "a", "to": "b", "amount": 50},
+          {"id": 2, "from": "a", "to": "b", "amount": 50},
+          {"id": 3, "from": "a", "to": "b", "amount": 50}],
+    "AUTH": [{"id": 2, "by": "supervisor-1"}]
+  },
+  "bindings": {
+    "reqs":   {"from": "requests", "select": "all", "type": "Request"},
+    "checks": {"from": "fraud_check", "select": "all", "type": "Check"},
+    "overrides": {"from": "override", "select": "all", "type": "Override"},
+    "k":      {"from": "$self", "select": "count"}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 21,
+    "states": {"requests": "wait", "fraud_check": "wait", "override": "wait", "transfer": "closed"},
+    "values": {
+      "fraud_check": [{"id": 1, "passed": true}, {"id": 2, "passed": false}, {"id": 3, "passed": false}],
+      "override": [{"id": 2, "by": "supervisor-1"}],
+      "transfer": [{"from": "a", "to": "b", "amount": 50}, {"from": "a", "to": "b", "amount": 50}]
+    }
+  }
+}

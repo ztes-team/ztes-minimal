@@ -1,0 +1,11 @@
+{
+  "note": "[ω] v1 has an interface defect: it reads the lineage 'bound', which no abstraction writes",
+  "inputs": {
+    "context": {
+      "k": "k",
+      "bound": {"from": "bound", "select": "one", "type": "Bound", "where": "x['n'] == k"}
+    }
+  },
+  "returns": "Interval",
+  "body": {"result": "{'n': k, 'lo': Fraction(bound['a'], bound['d']), 'hi': Fraction(bound['a'] + 1, bound['d'])}"}
+}

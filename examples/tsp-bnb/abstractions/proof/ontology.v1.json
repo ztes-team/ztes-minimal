@@ -1,0 +1,8 @@
+{
+  "note": "[ω] the proof of optimality, once no open node can beat the best tour",
+  "constants": {"N": 7},
+  "inputs": {
+    "context": ["exps", "best", "proofs"]
+  },
+  "returns": "Proof"
+}

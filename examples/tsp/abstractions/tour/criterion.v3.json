@@ -1,0 +1,12 @@
+{
+  "note": "[τ] the same check for the question Q = 0, 1, 2, 3, 5, 7",
+  "constants": {
+    "N": 8,
+    "Q": [0, 1, 2, 3, 5, 7]
+  },
+  "inputs": {
+    "context": ["entry", "tours"],
+    "candidate": {"name": "w", "type": "Tour"}
+  },
+  "body_file": "criterion.v1.py"
+}

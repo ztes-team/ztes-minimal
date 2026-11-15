@@ -1,0 +1,5 @@
+{
+  "note": "[ω] the walk of the next ant, from the trail it sees and its recorded draw; ⊥ until that draw is admitted",
+  "inputs": {"context": ["k", "trail", "rolls"]},
+  "returns": "Tour"
+}

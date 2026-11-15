@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the next request: consecutive id, positive amount, two different accounts",
+  "inputs": {"context": ["k"], "candidate": {"name": "w", "type": "Request"}},
+  "body": {"result": "w['id'] == k + 1 and w['amount'] > 0 and w['from'] != w['to']"}
+}

@@ -1,0 +1,8 @@
+{
+  "note": "[τ] any valid tour shorter than the recorded best: an upper bound, whatever produced it",
+  "constants": {"N": 7},
+  "inputs": {
+    "context": ["best"],
+    "candidate": {"name": "w", "type": "Best"}
+  }
+}

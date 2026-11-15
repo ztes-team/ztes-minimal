@@ -1,0 +1,7 @@
+{
+  "note": "[τ] an authorized override of a failed check, at most once per request",
+  "inputs": {"context": ["failed", "overrides"], "candidate": {"name": "w", "type": "Override"}},
+  "body": {
+    "result": "w in AUTH and w['id'] in [c['id'] for c in failed] and w['id'] not in [o['id'] for o in overrides]"
+  }
+}

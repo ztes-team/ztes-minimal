@@ -1,0 +1,14 @@
+{
+  "note": "[τ] the interval [a/d, (a+1)/d] of the k-th recorded bound",
+  "inputs": {
+    "context": {
+      "k": "k",
+      "bound": {"from": "bounds", "select": "one", "type": "Bound", "where": "x['n'] == k",
+                "default": {"n": -1, "d": 1, "a": 0}}
+    },
+    "candidate": {"name": "w", "type": "Interval"}
+  },
+  "body": {
+    "result": "bound['n'] == k == w['n'] and w['lo'] == Fraction(bound['a'], bound['d']) and w['hi'] == Fraction(bound['a'] + 1, bound['d'])"
+  }
+}

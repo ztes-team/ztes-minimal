@@ -1,0 +1,13 @@
+{
+  "note": "[ω] the optimal tour through Q, read from the recorded subproblems; ⊥ until they are complete",
+  "constants": {
+    "N": 7,
+    "Q": [0, 1, 2, 3, 4, 5, 6],
+    "NEEDED": 192
+  },
+  "requires": {"dp": "NEEDED"},
+  "inputs": {
+    "context": ["entry", "tours"]
+  },
+  "returns": "Tour"
+}

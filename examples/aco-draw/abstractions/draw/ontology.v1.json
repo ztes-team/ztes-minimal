@@ -1,0 +1,6 @@
+{
+  "note": "[ω] boundary: one occurrence of the random source, N − 1 integers below M; not computed from C",
+  "boundary": true,
+  "returns": "Draw",
+  "inputs": {"context": {}}
+}

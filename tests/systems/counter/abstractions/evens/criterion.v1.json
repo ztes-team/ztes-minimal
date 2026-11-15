@@ -1,0 +1,28 @@
+{
+  "role": "criterion",
+  "abstraction": "evens",
+  "version": 1,
+  "inputs": {
+    "context": {
+      "prev": {
+        "from": "evens",
+        "select": "last",
+        "type": {
+          "record": {"count": "integer", "sum": "integer"}
+        },
+        "default": {"count": 0, "sum": 0}
+      }
+    },
+    "candidate": {
+      "name": "w",
+      "type": {
+        "record": {"count": "integer", "sum": "integer"}
+      }
+    }
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {
+    "result": "w['sum'] > prev['sum'] and w['count'] == prev['count'] + 1"
+  }
+}

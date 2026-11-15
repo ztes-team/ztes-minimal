@@ -1,0 +1,23 @@
+{
+  "system": "sqrt2",
+  "title": "√2 by bisection, a simplified variant of §8.2",
+  "abstractions": ["lower", "upper"],
+  "bindings": {
+    "lower": {"from": "lower", "select": "last", "type": "rational", "default": "1"},
+    "upper": {"from": "upper", "select": "last", "type": "rational", "default": "2"}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3, "max_admissions": 2},
+    {"govern": ["lower/criterion.v2", "upper/criterion.v2"],
+     "note": "criteria v2 stop the refinement at width 1/64; ontologies unchanged"},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 16,
+    "states": {"lower": "closed", "upper": "wait"},
+    "values": {"lower": ["5/4", "11/8", "45/32"], "upper": ["3/2", "23/16", "91/64"]}
+  }
+}

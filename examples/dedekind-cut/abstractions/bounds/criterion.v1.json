@@ -1,0 +1,8 @@
+{
+  "note": "[τ] a = ⌊√2·d⌋ for a recorded denominator d, checked by squares",
+  "inputs": {"context": ["k", "dens"], "candidate": {"name": "w", "type": "Bound"}},
+  "body": {
+    "recorded": "{'n': w['n'], 'd': w['d']} in dens",
+    "result": "w['n'] == k and recorded and w['a'] ** 2 <= 2 * w['d'] ** 2 < (w['a'] + 1) ** 2"
+  }
+}

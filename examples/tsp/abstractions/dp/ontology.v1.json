@@ -1,0 +1,8 @@
+{
+  "note": "the next subproblem in ORDER, with its cost and predecessor from the recorded ones",
+  "constants": {"N": 7},
+  "inputs": {
+    "context": ["done", "cost"]
+  },
+  "returns": "Entry"
+}

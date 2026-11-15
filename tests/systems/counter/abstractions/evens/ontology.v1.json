@@ -1,0 +1,17 @@
+{
+  "role": "ontology",
+  "abstraction": "evens",
+  "version": 1,
+  "inputs": {
+    "context": {
+      "xs": {"from": "tick", "select": "all", "type": "integer", "where": "x % 2 == 0"}
+    }
+  },
+  "returns": {
+    "record": {"count": "integer", "sum": "integer"}
+  },
+  "partial": true,
+  "body": {
+    "result": "{'count': len(xs), 'sum': sum(xs)} if xs else None"
+  }
+}

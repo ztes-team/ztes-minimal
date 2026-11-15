@@ -1,0 +1,13 @@
+{
+  "role": "ontology",
+  "abstraction": "alarm",
+  "version": 1,
+  "inputs": {
+    "context": {
+      "v": {"from": "sensor", "select": "last", "type": "integer"}
+    }
+  },
+  "returns": "integer",
+  "partial": true,
+  "body": {"result": "2 * v"}
+}

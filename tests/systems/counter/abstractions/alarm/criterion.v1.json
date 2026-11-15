@@ -1,0 +1,12 @@
+{
+  "role": "criterion",
+  "abstraction": "alarm",
+  "version": 1,
+  "inputs": {
+    "context": {},
+    "candidate": {"name": "w", "type": "integer"}
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {"result": "w > 0"}
+}

@@ -1,0 +1,7 @@
+{
+  "note": "[τ] E[k] = p + q with p ≤ q, both recorded primes",
+  "inputs": {"context": ["k", "primes"], "candidate": {"name": "w", "type": "Goldbach"}},
+  "body": {
+    "result": "k < len(E) and w['even'] == E[k] and w['p'] + w['q'] == w['even'] and w['p'] <= w['q'] and w['p'] in primes and w['q'] in primes"
+  }
+}

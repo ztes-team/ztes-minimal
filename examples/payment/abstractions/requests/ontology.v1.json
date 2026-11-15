@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next request of R; ⊥ when all are recorded",
+  "inputs": {"context": ["k"]},
+  "returns": "Request",
+  "body": {"result": "R[k] if k < len(R) else None"}
+}

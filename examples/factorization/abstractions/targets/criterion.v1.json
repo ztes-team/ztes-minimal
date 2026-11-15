@@ -1,0 +1,5 @@
+{
+  "note": "[τ] a new target, admitted only after the previous one is factored",
+  "inputs": {"context": ["k", "f", "seen"], "candidate": {"name": "w", "type": "integer"}},
+  "body": {"result": "w > 1 and w not in seen and k == f"}
+}

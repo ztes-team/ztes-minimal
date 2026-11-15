@@ -1,0 +1,5 @@
+{
+  "system": "counter",
+  "title": "Test system: counting, a filtered aggregate, and a wait on an external lineage",
+  "abstractions": ["tick", "evens", "alarm"]
+}

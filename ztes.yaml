@@ -1,0 +1,32 @@
+# How ztes runs a system: the store of the record, where services read it, how Z₀ reaches them.
+# These are the defaults; without this file ztes behaves the same. Nothing here changes the
+# record: the same system gives the same events under every configuration.
+# A value "${NAME}" is taken from the environment. Options on the command line override this file.
+
+store:
+  backend: disk                       # memory | disk | redis
+  path: null                          # disk: the directory of the record (null: a new temporary one)
+  url: redis://localhost:6379/0       # redis: the primary, the only place Z₀ appends
+  record: C                           # redis: the name of the record; several may share one database
+  durability: null                    # redis: always | everysec | none (null: the server as it is)
+  replicas: 0                         # redis: replicas that must confirm every append
+  replica_timeout_ms: 1000            # redis: how long Z₀ waits for that confirmation
+  batch: 256                          # redis: events fetched by one read
+
+execution:
+  mode: central                       # central: one agenda and one Z₀ | workers: one Z₀ per abstraction
+  local: true                         # workers: started here as threads (false: they run elsewhere, `ztes work`)
+  poll: 0.002                         # workers: seconds between two looks at the record while waiting
+  timeout: 60.0                       # workers: seconds the coordinator waits for them before it gives up
+
+read:
+  url: null                           # redis: a replica the services read (null: the primary)
+  wait: 5.0                           # seconds a service waits until its store holds Cⁿ
+
+services:
+  mode: inprocess                     # inprocess | http (one local HTTP service per abstraction)
+  urls: {}                            # abstraction: URL of a running `python -m ztes serve`
+  timeout: 10.0                       # seconds Z₀ waits for one answer of a service
+  retries: 2                          # further attempts after a call that failed in transport
+  base_port: 8701                     # http: the port of the first local service
+  startup: 1.0                        # http: seconds given to local services to start

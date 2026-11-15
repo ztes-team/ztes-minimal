@@ -1,0 +1,33 @@
+{
+  "system": "dedekind-cut",
+  "title": "Computable Dedekind cut for √2 with three streams and a governed horizon repair (§8.1–8.5, Table 6)",
+  "abstractions": ["denominators", "bounds", "intervals"],
+  "types": {
+    "Den":      {"record": {"n": "integer", "d": "integer"}},
+    "Bound":    {"record": {"n": "integer", "d": "integer", "a": "integer"}},
+    "Interval": {"record": {"n": "integer", "lo": "rational", "hi": "rational"}}
+  },
+  "constants": {"N": 4},
+  "bindings": {
+    "k": {"from": "$self", "select": "count"}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3, "note": "the interval ontology v1 reads the lineage 'bound' instead of 'bounds' (an interface defect)"},
+    {"govern": ["intervals/ontology.v2"], "note": "diagnosis: intervals waits on an external lineage; repair its horizon"},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 26,
+    "states": {"denominators": "closed", "bounds": "wait", "intervals": "wait"},
+    "values": {
+      "bounds": [{"n": 0, "d": 1, "a": 1}, {"n": 1, "d": 2, "a": 2}, {"n": 2, "d": 4, "a": 5},
+                 {"n": 3, "d": 8, "a": 11}, {"n": 4, "d": 16, "a": 22}],
+      "intervals": [{"n": 0, "lo": "1", "hi": "2"}, {"n": 1, "lo": "1", "hi": "3/2"},
+                    {"n": 2, "lo": "5/4", "hi": "3/2"}, {"n": 3, "lo": "11/8", "hi": "3/2"},
+                    {"n": 4, "lo": "11/8", "hi": "23/16"}]
+    }
+  }
+}

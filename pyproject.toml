@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ztes"
+version = "0.1.0"
+description = "A minimal Zero Tier Execution Substrate for the OEE calculus of execution"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.12"
+authors = [
+  {name = "Milan Škarić"}, {name = "Aleksandar Ivanović"}, {name = "Miloš Radenković"},
+  {name = "Sergei Prokhorov"}, {name = "Aleksandra Labus"}, {name = "Božidar Radenković"},
+]
+dependencies = ["diskcache>=5.6", "pyyaml>=6.0"]
+
+[project.optional-dependencies]
+http = ["fastapi>=0.110", "uvicorn>=0.29", "httpx>=0.27"]
+redis = ["redis>=5.0"]
+test = ["pytest>=8.0", "fakeredis>=2.20", "fastapi>=0.110", "uvicorn>=0.29", "httpx>=0.27", "redis>=5.0"]
+
+[project.scripts]
+ztes = "ztes.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["ztes*"]

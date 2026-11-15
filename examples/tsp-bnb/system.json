@@ -1,0 +1,58 @@
+{
+  "system": "tsp-bnb",
+  "title": "Exact travelling salesman by branch and bound over the record: recorded bounds prune the search",
+  "abstractions": ["best", "search", "proof"],
+  "kpi": "kpi",
+  "types": {
+    "Node":      {"record": {"path": {"list": "integer"}, "cost": "integer", "bound": "integer"}},
+    "Expansion": {"record": {"n": "integer", "node": {"list": "integer"}, "children": {"list": "Node"}}},
+    "Best":      {"record": {"n": "integer", "tour": {"list": "integer"}, "length": "integer", "source": "text"}},
+    "Proof":     {"record": {"n": "integer", "length": "integer", "tour": {"list": "integer"},
+                             "expanded": "integer", "open_left": "integer"}},
+    "Kpi":       {"record": {"profile": "integer",
+                             "instances": {"list": {"record": {"n": "integer", "expansions": "integer",
+                                                               "full_tree": "integer", "open_left": "integer"}}},
+                             "search_invocations": "integer", "search_not_yet": "integer",
+                             "best_invocations": "integer", "best_not_yet": "integer"}}
+  },
+  "constants": {
+    "XY": [[0, 0], [2, 7], [8, 3], [5, 9], [9, 9], [1, 4], [7, 6], [4, 1]]
+  },
+  "derived": {"D": "matrix(XY, N)"},
+  "bindings": {
+    "exps":   {"from": "search", "select": "all", "type": "Expansion", "where": "x['n'] == N"},
+    "best":   {"from": "best", "select": "last", "type": "Best", "where": "x['n'] == N",
+               "default": {"n": 0, "tour": [], "length": 1000000000, "source": "none"}},
+    "prev":   {"from": "best", "select": "last", "type": "Best", "where": "x['n'] == N - 1",
+               "default": {"n": 0, "tour": [], "length": 1000000000, "source": "none"}},
+    "proofs": {"from": "proof", "select": "all", "type": "Proof"}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3, "note": "instance 1: cities 0–6, searched from nothing"},
+    {"govern": ["best/criterion.v2", "best/ontology.v2", "search/criterion.v2", "search/ontology.v2",
+                "proof/criterion.v2", "proof/ontology.v2"],
+     "note": "instance 2: city 7 is added; the optimal tour of instance 1 seeds the upper bound"},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 71,
+    "states": {"best": "wait", "search": "wait", "proof": "wait"},
+    "values": {
+      "best": [
+        {"n": 7, "tour": [0, 2, 6, 4, 3, 1, 5, 0], "length": 38, "source": "search"},
+        {"n": 8, "tour": [0, 7, 2, 6, 4, 3, 1, 5, 0], "length": 38, "source": "seed"}
+      ],
+      "proof": [
+        {"n": 7, "length": 38, "tour": [0, 2, 6, 4, 3, 1, 5, 0], "expanded": 34, "open_left": 69},
+        {"n": 8, "length": 38, "tour": [0, 7, 2, 6, 4, 3, 1, 5, 0], "expanded": 14, "open_left": 46}
+      ]
+    },
+    "any_schedule": {
+      "note": "how far the search runs before a bound is recorded depends on the schedule; the optimum does not",
+      "last": {"best": {"n": 8, "length": 38}, "proof": {"n": 8, "length": 38}}
+    }
+  }
+}

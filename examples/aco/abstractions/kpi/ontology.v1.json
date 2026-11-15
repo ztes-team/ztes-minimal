@@ -1,0 +1,5 @@
+{
+  "note": "[ω] the indicators of the colony, computed on demand over the record",
+  "inputs": {"context": ["tours", "best", "profile", "profiles", "kpis"]},
+  "returns": "Kpi"
+}

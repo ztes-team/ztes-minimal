@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next target of T, once the previous one is factored",
+  "inputs": {"context": ["k", "f"]},
+  "returns": "integer",
+  "body": {"result": "T[k] if k < len(T) and k == f else None"}
+}

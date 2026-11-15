@@ -1,0 +1,9 @@
+{
+  "note": "[τ] the same for N = 8",
+  "constants": {"N": 8},
+  "inputs": {
+    "context": ["exps", "best"],
+    "candidate": {"name": "w", "type": "Expansion"}
+  },
+  "body_file": "criterion.v1.py"
+}

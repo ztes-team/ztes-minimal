@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the least k > p not divisible by a recorded prime",
+  "inputs": {"context": ["p", "primes"]},
+  "returns": "integer",
+  "body": {"result": "min([k for k in range(p + 1, 2 * p + 2) if k > 1 and all(k % q != 0 for q in primes)])"}
+}

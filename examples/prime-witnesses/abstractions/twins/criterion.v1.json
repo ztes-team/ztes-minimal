@@ -1,0 +1,5 @@
+{
+  "note": "[τ] q = p + 2, both recorded primes, after the last admitted pair",
+  "inputs": {"context": ["last", "primes"], "candidate": {"name": "w", "type": "Twin"}},
+  "body": {"result": "w['q'] == w['p'] + 2 and w['p'] in primes and w['q'] in primes and w['p'] > last['p']"}
+}

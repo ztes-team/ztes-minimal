@@ -1,0 +1,8 @@
+{
+  "note": "[ω] the shortest complete tour found by the search, if it improves the recorded best",
+  "constants": {"N": 7},
+  "inputs": {
+    "context": ["exps", "best"]
+  },
+  "returns": "Best"
+}

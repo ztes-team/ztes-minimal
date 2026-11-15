@@ -1,0 +1,5 @@
+{
+  "bindings": {
+    "failed": {"from": "fraud_check", "select": "all", "type": "Check", "where": "not x['passed']"}
+  }
+}

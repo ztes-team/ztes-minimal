@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the same pair, but only once every prime that could take part is recorded: ⊥ until the primes reach E[k] − 2. The answer then does not depend on when goldbach is invoked",
+  "inputs": {"context": ["k", "primes"]},
+  "returns": "Goldbach",
+  "body": {
+    "complete": "k < len(E) and len(primes) > 0 and primes[-1] >= E[k] - 2",
+    "pairs": "[(p, E[k] - p) for p in primes if p <= E[k] - p and E[k] - p in primes] if complete else []",
+    "result": "{'even': E[k], 'p': pairs[0][0], 'q': pairs[0][1]} if pairs else None"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the midpoint, defined only if it lies below √2; ⊥ otherwise (D1: no selector)",
+  "inputs": {"context": ["lower", "upper"]},
+  "returns": "rational",
+  "body": {"m": "(lower + upper) / 2", "result": "m if m * m < 2 else None"}
+}

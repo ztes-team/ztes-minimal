@@ -1,0 +1,37 @@
+{
+  "system": "prime-witnesses",
+  "title": "Admitted prime witnesses and stream interactions (§8.3)",
+  "abstractions": ["primes", "goldbach", "twins"],
+  "types": {
+    "Goldbach": {"record": {"even": "integer", "p": "integer", "q": "integer"}},
+    "Twin":     {"record": {"p": "integer", "q": "integer"}}
+  },
+  "constants": {"MAX": 23, "E": [10, 14, 20]},
+  "bindings": {
+    "primes": {"from": "primes", "select": "all", "type": "integer"},
+    "p":      {"from": "primes", "select": "last", "type": "integer", "default": 1},
+    "k":      {"from": "$self", "select": "count"},
+    "last":   {"from": "twins", "select": "last", "type": "Twin", "default": {"p": 0, "q": 2}}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 26,
+    "states": {"primes": "closed", "goldbach": "wait", "twins": "wait"},
+    "values": {
+      "primes": [2, 3, 5, 7, 11, 13, 17, 19, 23],
+      "goldbach": [{"even": 10, "p": 5, "q": 5}, {"even": 14, "p": 7, "q": 7}, {"even": 20, "p": 3, "q": 17}],
+      "twins": [{"p": 3, "q": 5}, {"p": 5, "q": 7}, {"p": 11, "q": 13}, {"p": 17, "q": 19}]
+    },
+    "any_schedule": {
+      "note": "goldbach resolves each even number against the primes recorded when it is invoked (D1)",
+      "events": 26,
+      "values": {"primes": [2, 3, 5, 7, 11, 13, 17, 19, 23], "twins": [{"p": 3, "q": 5}, {"p": 5, "q": 7}, {"p": 11, "q": 13}, {"p": 17, "q": 19}]},
+      "last": {"goldbach": {"even": 20}}
+    }
+  }
+}

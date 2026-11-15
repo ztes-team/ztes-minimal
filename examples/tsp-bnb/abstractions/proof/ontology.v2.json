@@ -1,0 +1,9 @@
+{
+  "note": "[ω] the same for N = 8",
+  "constants": {"N": 8},
+  "inputs": {
+    "context": ["exps", "best", "proofs"]
+  },
+  "returns": "Proof",
+  "body_file": "ontology.v1.py"
+}

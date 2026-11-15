@@ -1,0 +1,5 @@
+{
+  "note": "[τ] v2 (governed change): also requires the interval to be wider than 1/64",
+  "inputs": {"context": ["lower", "upper"], "candidate": {"name": "w", "type": "rational"}},
+  "body": {"result": "w * w < 2 and lower < w < upper and upper - lower > Fraction(1, 64)"}
+}
