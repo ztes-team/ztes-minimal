@@ -74,18 +74,63 @@ def valid(t):
 
 
 def decode(t, v):
-    """JSON payload → value. Called for every payload a binding reads, so the common cases come first."""
+    """JSON payload → value. Called for every payload a binding reads, so each type is compiled once
+    into a decoder (decoder below); it gives the same values and raises the same errors as the
+    recursive reading of t, with a fast path for a list of plain integers."""
+    return decoder(t)(v)
+
+
+_DECODERS = {}                  # id(t) → (t, its decoder); t is kept, so its id is not reused
+
+
+def decoder(t):
+    """The decoder of type t, compiled on first use."""
+    hit = _DECODERS.get(id(t))
+    if hit is None or hit[0] is not t:
+        hit = _DECODERS[id(t)] = (t, _compile(t))
+    return hit[1]
+
+
+def _compile(t):
     if t.__class__ is str:
-        if t == "json" or (t == "integer" and v.__class__ is int):
-            return v
-        return BASIC[t][0](v)
+        if t == "json":
+            return _as_is
+        if t == "integer":
+            return _integer_value
+        return BASIC[t][0]
     if "list" in t:
         u = t["list"]
-        return [decode(u, x) for x in v]
+        if u == "integer":
+            return _integers
+        item = decoder(u)
+        return lambda v: [item(x) for x in v]
     u = t["record"]
-    if not isinstance(v, dict) or v.keys() != u.keys():
-        raise TypeError(f"record fields {sorted(v)} differ from {sorted(u)}")
-    return {f: decode(u[f], v[f]) for f in u}
+    fields = [(f, decoder(u[f])) for f in u]
+    keys = u.keys()
+
+    def record(v):
+        if not isinstance(v, dict) or v.keys() != keys:
+            raise TypeError(f"record fields {sorted(v)} differ from {sorted(u)}")
+        return {f: d(v[f]) for f, d in fields}
+    return record
+
+
+def _as_is(v):
+    return v
+
+
+def _integer_value(v):
+    return v if v.__class__ is int else _integer(v)
+
+
+_INT = {int}
+
+
+def _integers(v):
+    """A list of integers: when every element is a plain int, one copy of the list."""
+    if set(map(type, v)) <= _INT:
+        return list(v)
+    return [_integer_value(x) for x in v]
 
 
 def encode(t, x):
