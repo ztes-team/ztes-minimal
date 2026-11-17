@@ -28,14 +28,17 @@ are simply not read, so forgetting needs no change of the record (S1.1).
 
 Performance. Bindings are answered from the index of the record (view.py), never by scanning
 C; a map is kept in that index and extended with each new event, so no invocation rebuilds it;
-the derived values and the namespace of a specification are prepared once and reused.
+so is the list of events that pass a filter which reads nothing but x and functions (whether an
+event passes then depends on the event alone, and is decided once); the derived values and the
+namespace of a specification are prepared once and reused.
 """
+import bisect
 from collections.abc import Mapping
 from types import MappingProxyType
 
 from . import types
 from .errors import Undefined
-from .language import expression, namespace
+from .language import CONSTANT_NAMES, SAFE, expression, free_names, namespace
 from .view import indexed
 
 SELECT = ("last", "first", "one", "all", "count", "exists", "map")
@@ -196,20 +199,27 @@ def bind(C, name, b, env=None, ns=None, key=None):
         if "default" in b:
             return types.decode(t, b["default"])
         raise Undefined(f"{name}: no event in {src} yet")
-    raw = ix.payloads(src, n)                                  # payloads of the horizon, in record order
     k = b.get("window")                                        # the last K qualifying events only
     if k is not None:
         k = env[k] if isinstance(k, str) else k
-        if "where" not in b:
-            raw = raw[-k:]                                     # decode only what is read
-    if "where" in b:
+    if "where" in b and _reads_only_x(b["where"], env, ns):    # the qualifying events are kept in the index
+        raw = _qualifying(ix, n, src, t, b["where"], ns)
+        if k is not None:
+            raw = raw[-k:]
+        xs = [types.decode(t, p) for p in raw]                 # a new value at every read, as below
+    elif "where" in b:
+        raw = ix.payloads(src, n)
         xs = [x for x in (types.decode(t, p) for p in raw) if expression(b["where"], {**env, "x": x}, ns)]
         if k is not None:
             xs = xs[-k:]
-    elif sel == "first":
-        xs = [types.decode(t, raw[0])] if raw else []
     else:
-        xs = [types.decode(t, p) for p in raw]
+        raw = ix.payloads(src, n)                              # payloads of the horizon, in record order
+        if k is not None:
+            raw = raw[-k:]                                     # decode only what is read
+        if sel == "first":
+            xs = [types.decode(t, raw[0])] if raw else []
+        else:
+            xs = [types.decode(t, p) for p in raw]
     if sel == "one" and len(xs) > 1:
         raise ValueError(f"binding '{name}': select one found {len(xs)} events")
     if sel == "all":
@@ -224,6 +234,42 @@ def bind(C, name, b, env=None, ns=None, key=None):
         return types.decode(t, b["default"])
     raise Undefined(f"{name}: no event in {src} yet")
 
+
+
+# ---- a filter that reads only x: which events pass is decided once and kept in the index ----
+
+_USED = {}
+
+
+def _reads_only_x(where, env, ns):
+    """Does the filter read nothing but x and functions of the namespace (no constant, no binding)?
+    Then whether an event passes depends on that event alone. The names are resolved as
+    expression() resolves them: env before the namespace."""
+    used = _USED.get(where)
+    if used is None:
+        used = _USED[where] = frozenset(free_names(where) - {"x"} - CONSTANT_NAMES)
+    space = SAFE if ns is None else ns
+    return all(u in space and u not in env for u in used)
+
+
+def _qualifying(ix, n, src, t, where, ns):
+    """The payloads of the execution events of src before position n that pass the filter, in record
+    order. The index keeps those it has decided; the events after them are decided once, and the
+    entry is extended only when all of them are (a filter that fails leaves it as it was)."""
+    key = ("where", id(ns), types.canon([src, t, where]))
+    entry = ix.memo.get(key)
+    if entry is None or entry["ns"] is not ns:                 # the entry keeps ns, so its id is not reused
+        entry = ix.memo[key] = {"ns": ns, "upto": 0, "pos": [], "pay": []}
+    if n > entry["upto"]:
+        pos, pay = [], []
+        for q, p in ix.items_between(src, entry["upto"], n):
+            if expression(where, {"x": types.decode(t, p)}, ns):
+                pos.append(q)
+                pay.append(p)
+        entry["pos"] += pos
+        entry["pay"] += pay
+        entry["upto"] = n
+    return entry["pay"][:bisect.bisect_left(entry["pos"], n)]
 
 def missing(C, s):
     """[C] What the horizon of s still lacks in Cⁿ, in words; None when the horizon is complete.
