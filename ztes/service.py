@@ -26,9 +26,14 @@ class AbstractionService:
     """
 
     def __init__(self, store, name, wait=0.0):
+        """The service of abstraction `name`, reading the record in `store`."""
         self.store, self.name, self.wait = store, name, wait
 
     def _load(self, address, n):
+        """Exactly the prefix Cⁿ, and the specification at `address`, which must be admitted in it and
+        belong to this abstraction. A store that holds fewer than n events is waited for, up to `wait`
+        seconds; then ServiceUnavailable.
+        """
         until = time.monotonic() + self.wait
         while len(C := read(self.store, n)) != n:       # exactly the prefix Cⁿ on which Z₀ judges
             if time.monotonic() >= until:
@@ -62,14 +67,17 @@ def make_app(store, name, wait=0.0):
 
     @app.exception_handler(ServiceUnavailable)
     def unavailable(request, x):                # e.g. the replica read here does not hold Cⁿ yet
+        """A service that cannot read Cⁿ yet answers 503, and the client asks again."""
         return JSONResponse({"unavailable": str(x)}, status_code=503)
 
     @app.get("/health")
     def health():
+        """The name of the abstraction: the service is up."""
         return {"abstraction": name}
 
     @app.get("/realize")
     def realize(address: str, n: int):
+        """Step 3a on Cⁿ: {"omega": ω or null}, or {"error": …} for a defect of the specification."""
         try:
             return {"omega": svc.realize(address, n)}
         except SpecError as x:                  # a defect of the specification, not of the service
@@ -77,6 +85,9 @@ def make_app(store, name, wait=0.0):
 
     @app.post("/realize")
     def realize_boundary(address: str = Body(), n: int = Body(), occurrence=Body()):
+        """Step 3a of a boundary abstraction: the occurrence bound to the invocation, read through its
+        specification.
+        """
         try:                                    # a boundary abstraction: the occurrence of the invocation
             return {"omega": svc.realize(address, n, occurrence)}
         except SpecError as x:
@@ -84,6 +95,7 @@ def make_app(store, name, wait=0.0):
 
     @app.post("/judge")
     def judge(address: str = Body(), n: int = Body(), w=Body()):
+        """Step 3b on Cⁿ: {"value": true or false}, or {"error": …} for a defect of the specification."""
         try:
             return {"value": svc.judge(address, n, w)}
         except SpecError as x:
@@ -103,12 +115,18 @@ class HttpService:
     """
 
     def __init__(self, url=None, client=None, timeout=10.0, retries=2):
+        """A client for the service at url (or the given httpx client): `timeout` seconds for each call,
+        and `retries` more attempts.
+        """
         if client is None:
             import httpx
             client = httpx.Client(base_url=url, timeout=timeout)
         self.http, self.retries = client, retries
 
     def _call(self, method, path, **kw):
+        """One request, made again after a failure in transport or an answer 503, up to `retries` times;
+        then ServiceUnavailable.
+        """
         import httpx
         for attempt in range(self.retries + 1):
             try:
@@ -123,15 +141,20 @@ class HttpService:
 
     @staticmethod
     def _answer(r, key):
+        """The value under `key` of an answer. A defect of the specification reported by the service is
+        raised here as SpecError, as in process.
+        """
         if "error" in r:
             raise SpecError(r["error"])
         return r[key]
 
     def realize(self, address, n, occurrence=None):
+        """Step 3a over HTTP (AbstractionService.realize); a boundary abstraction sends its occurrence."""
         if occurrence is not None:
             body = {"address": address, "n": n, "occurrence": occurrence}
             return self._answer(self._call("post", "/realize", json=body), "omega")
         return self._answer(self._call("get", "/realize", params={"address": address, "n": n}), "omega")
 
     def judge(self, address, n, w):
+        """Step 3b over HTTP (AbstractionService.judge); the candidate travels as JSON."""
         return self._answer(self._call("post", "/judge", json={"address": address, "n": n, "w": w}), "value")

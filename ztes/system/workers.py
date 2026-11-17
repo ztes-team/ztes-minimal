@@ -58,17 +58,21 @@ class Paused(Exception):
 
 class Bounded:
     """The store as a worker uses it: no append at or beyond position `until` (a step of the plan
-    that admits a given number of events, or the admission limit)."""
+    that admits a given number of events, or the admission limit).
+    """
 
     def __init__(self, store):
+        """The store, with no bound until the coordinator sets one for a step."""
         self.store, self.until = store, None
         if hasattr(store, "get_many"):
             self.get_many, self.batch = store.get_many, store.batch
 
     def get(self, n):
+        """The event at position n: reading is not bounded."""
         return self.store.get(n)
 
     def put_if_absent(self, n, event):
+        """The insert of the store, refused with Paused at or beyond the bound of the current step."""
         if self.until is not None and n >= self.until:
             raise Paused()
         return self.store.put_if_absent(n, event)
@@ -96,6 +100,9 @@ class Worker:
             self.source.next()
 
     def run(self):
+        """Step until the coordinator stops the run. A failure is written to the worker's note, where
+        the coordinator finds it, and then raised.
+        """
         try:
             while self.step():
                 pass
@@ -157,11 +164,13 @@ class Coordinator:
     """Executes a phase-3 step of the plan through the workers (the `phase3` of System.run)."""
 
     def __init__(self, store, poll=0.002, timeout=60.0):
+        """A new run, with its own id; the workers are told to wait."""
         self.store, self.poll, self.timeout = store, poll, timeout
         self.run, self.step = uuid.uuid4().hex, 0
         self._control(go=False)
 
     def _control(self, **fields):
+        """Write the control note: the next step of this run, with the given fields (go, until, stop)."""
         self.step += 1
         self.store.put_note(CONTROL, {"run": self.run, "step": self.step, **fields})
 
@@ -178,6 +187,9 @@ class Coordinator:
         return reports
 
     def _wait(self, system, accept):
+        """Wait until every worker reports as `accept` requires, at the current length of C; then return
+        the reports. ServiceUnavailable after `timeout` seconds.
+        """
         end = time.monotonic() + self.timeout
         while (reports := self._reports(system, accept)) is None:
             if time.monotonic() > end:
@@ -187,6 +199,10 @@ class Coordinator:
         return reports
 
     def __call__(self, system, z0, max_admissions, log):
+        """Execute one phase-3 step of the plan by the workers: let them run until each is idle on the
+        same Cⁿ (terminal) or the bound of the step is reached, pause them, take their counts for the
+        profile, and report.
+        """
         start = len(z0.prefix())
         until = start + (max_admissions or system.admission_limit)
         self._control(go=True, until=until)
@@ -207,6 +223,7 @@ class Coordinator:
             log(f"   stopped at the admission limit {system.admission_limit}: not terminal")
 
     def stop(self):
+        """Tell every worker to stop."""
         self._control(go=False, stop=True)
 
 

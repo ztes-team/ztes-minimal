@@ -12,6 +12,9 @@ from .errors import Undefined, where_of
 
 
 def _show(v):
+    """A value as an explanation prints it: a map by its size, a rational as p/q, lists and records
+    element by element, anything else by repr.
+    """
     if isinstance(v, RecordMap):
         return f"map of {len(v)} entries"
     if isinstance(v, Fraction):

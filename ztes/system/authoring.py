@@ -52,10 +52,14 @@ NOTE = "note"                                                   # authoring-only
 
 
 def _load(path):
+    """A JSON file as a dict; an empty dict if it does not exist (abstraction.json is optional)."""
     return json.loads(Path(path).read_text(encoding="utf8")) if Path(path).exists() else {}
 
 
 def _resolve_type(t, named, seen=()):
+    """Type t with every name of a declared type replaced by its definition, all the way down; a type
+    defined in terms of itself is an error.
+    """
     if isinstance(t, str):
         if t in named:
             assert t not in seen, f"type {t} is defined in terms of itself"
@@ -71,11 +75,13 @@ def _resolve_type(t, named, seen=()):
 
 
 def _names(expr):
+    """The names an expression reads."""
     tree = ast.parse(expr, mode="eval")
     return {n.id for n in ast.walk(tree) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)}
 
 
 def _without_note(d):
+    """A dict without its "note" (a comment for the reader); any other value as it is."""
     return {k: v for k, v in d.items() if k != NOTE} if isinstance(d, dict) else d
 
 

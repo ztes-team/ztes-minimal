@@ -58,6 +58,10 @@ class Z0:
         return read(self.store)
 
     def _admit_specification(self, s):
+        """Phases 1 and 2 (and governed changes): judge s with τ_root on the latest prefix and append it
+        as a specification event at that position. If another instance took the position first, s is
+        judged again on the longer prefix. FALSE only when τ_root refuses s on the latest prefix.
+        """
         C = self._latest()
         while True:
             if not tau_root(C, s):                              # judgment on Cⁿ

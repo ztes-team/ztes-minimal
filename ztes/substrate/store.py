@@ -33,13 +33,16 @@ class MemoryStore:
     """In-memory backend: for static checks and tests; the record disappears with the process."""
 
     def __init__(self):
+        """An empty record and no notes; one lock makes the insert atomic among the threads."""
         import threading
         self.c, self.notes, self.lock = {}, {}, threading.Lock()
 
     def get(self, n):
+        """The event at position n, or None if C is shorter."""
         return self.c.get(n)
 
     def put_if_absent(self, n, event):
+        """The atomic conditional insert: store the event at position n only if n is free. True if stored."""
         with self.lock:                                        # atomic among the threads of this process
             if n in self.c:
                 return False
@@ -47,12 +50,17 @@ class MemoryStore:
             return True
 
     def get_note(self, name):
+        """The note under `name`, or None."""
         return self.notes.get(name)
 
     def put_note(self, name, value):
+        """Set the note under `name`. A note is not an event: it may be overwritten."""
         self.notes[name] = value
 
     def again(self):
+        """Another handle on the same record and notes, for another thread or instance of Z₀; it keeps
+        its own cache of what it has read (read()).
+        """
         other = MemoryStore()
         other.c, other.notes, other.lock = self.c, self.notes, self.lock
         return other
@@ -70,6 +78,7 @@ class DiskStore:
     """Local backend (diskcache). Atomic across processes on one machine; the record is one directory."""
 
     def __init__(self, path):
+        """Open the record in the directory `path`, creating it if it does not exist."""
         import diskcache
         self.c = diskcache.Cache(path)
 
@@ -82,12 +91,15 @@ class DiskStore:
         return self.c.add(key(n), event)
 
     def get_note(self, name):
+        """The note under `name`, or None."""
         return self.c.get(f"note|{name}")
 
     def put_note(self, name, value):
+        """Set the note under `name`. A note is not an event: it may be overwritten."""
         self.c.set(f"note|{name}", value)
 
     def again(self):
+        """Another handle on the same directory, for another thread or process."""
         return DiskStore(self.c.directory)
 
 
@@ -118,6 +130,9 @@ class RedisStore:
 
     def __init__(self, url="redis://localhost:6379/0", client=None, record="C", durability=None,
                  replicas=0, replica_timeout_ms=1000, batch=256):
+        """Connect to the server at url, or use the given client; with `durability`, make sure the server
+        provides it (see the class docstring).
+        """
         if client is None:
             import redis
             client = redis.Redis.from_url(url)
@@ -127,6 +142,9 @@ class RedisStore:
             self._require(durability)
 
     def _require(self, durability):
+        """Check, and where the server allows it set, the settings that `durability` asks for; NotDurable
+        if the server neither has them nor lets them be set.
+        """
         if durability not in REDIS_DURABILITY:
             raise ValueError(f"durability {durability!r} is not one of {sorted(REDIS_DURABILITY)}")
         for name, wanted in REDIS_DURABILITY[durability].items():
@@ -140,6 +158,7 @@ class RedisStore:
                                  f"neither confirms it nor lets it be set ({type(x).__name__}: {x})") from x
 
     def get(self, n):
+        """The event at position n, or None if C is shorter."""
         v = self.r.get(key(n, self.record))
         return None if v is None else json.loads(v)
 
@@ -153,6 +172,9 @@ class RedisStore:
         return out
 
     def put_if_absent(self, n, event):
+        """SET NX: store the event at position n only if n is free. With replicas, wait until that many
+        confirm it; NotDurable if they do not in time (the event is then on the primary).
+        """
         if not self.r.set(key(n, self.record), json.dumps(event), nx=True):
             return False
         if self.replicas:
@@ -163,13 +185,16 @@ class RedisStore:
         return True
 
     def get_note(self, name):
+        """The note under `name`, or None."""
         v = self.r.get(f"{{{self.record}}}|note|{name}")
         return None if v is None else json.loads(v)
 
     def put_note(self, name, value):
+        """Set the note under `name`. A note is not an event: it may be overwritten."""
         self.r.set(f"{{{self.record}}}|note|{name}", json.dumps(value))
 
     def again(self):
+        """Another handle on the same record, with the same client and settings."""
         return RedisStore(client=self.r, record=self.record, replicas=self.replicas,
                           replica_timeout_ms=self.replica_timeout_ms, batch=self.batch)
 

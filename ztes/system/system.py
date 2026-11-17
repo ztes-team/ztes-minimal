@@ -60,6 +60,10 @@ class System:
     """
 
     def __init__(self, path=None, definition=None):
+        """Load a system from its directory (path) or from a definition already read (a dict, as
+        authoring.read_directory gives it), and expand every specification into its recorded form.
+        Nothing is recorded: that is what run() does.
+        """
         assert (path is None) != (definition is None), "give a directory or a definition"
         self.path = Path(path) if path is not None else None
         m = read_directory(self.path) if path is not None else definition
@@ -81,6 +85,7 @@ class System:
 
     @classmethod
     def from_dict(cls, definition):
+        """A system from a definition already read (see __init__)."""
         return cls(definition=definition)
 
     def save(self, path, design=None):
@@ -91,6 +96,7 @@ class System:
     # ---- step 0 -----------------------------------------------------------------
 
     def describe(self, log=print):
+        """Print step 0: every specification of the system, with its horizon and the form of its body."""
         log(f"Step 0  design: {self.title}")
         for key, s in self.specs.items():
             b = s.get("body")
@@ -224,6 +230,7 @@ class System:
 
 
 def _short(v, limit=120):
+    """A value as JSON, cut to `limit` characters for the log."""
     import json
     text = json.dumps(v, ensure_ascii=False)
     return text if len(text) <= limit else text[:limit - 2] + " …"

@@ -37,6 +37,7 @@ def problems(s):
 
 
 def _compiles(expr, what):
+    """No problem if the expression compiles; otherwise one message, located by `what`."""
     try:
         compile(expr, f"<{what}>", "eval")
         return []
@@ -45,6 +46,10 @@ def _compiles(expr, what):
 
 
 def _problems(s):
+    """The rule violations of a specification, in the order of the module docstring: identity,
+    constants, library and derived values, bindings, body, and what its role requires.
+    problems() turns a malformed specification that makes this fail into one message.
+    """
     out = []
     role, a, v = s["role"], s["abstraction"], s["version"]
     if role not in ("criterion", "ontology"):
@@ -145,6 +150,12 @@ def _problems(s):
 
 
 def _binding_problems(b, criterion, static, earlier, constants=None):
+    """The rule violations of one binding: its lineages, select, type, filter, window and default.
+    criterion: the binding belongs to a criterion, so a binding that selects one event needs a
+    default (τ is total). static: the names any expression may use (constants, derived values,
+    library); earlier: the bindings declared before this one. A map is kept in the index, so its
+    expressions may use x and the static names only.
+    """
     out = []
     src = b.get("from")
     if not (isinstance(src, str) or (isinstance(src, list) and src and all(isinstance(x, str) for x in src))):

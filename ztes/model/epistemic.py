@@ -75,6 +75,9 @@ class Prepared:
     __slots__ = ("spec", "ns", "base", "maps")
 
     def __init__(self, s):
+        """Prepare s once: its namespace, its constants with its derived values (frozen), and the key
+        under which the index keeps each of its map bindings.
+        """
         self.spec = s                                          # kept alive: id(s) cannot be reused
         self.ns = namespace(s.get("library", ""))
         tag = types.canon([s.get("constants", {}), s.get("derived", {}), s.get("library", "")])
@@ -130,9 +133,13 @@ class RecordMap(Mapping):
     __slots__ = ("_entries", "_n")
 
     def __init__(self, entries, n):
+        """A view of the entries {key: (position, value)} of a map, restricted to positions below n."""
         self._entries, self._n = entries, n
 
     def __getitem__(self, k):
+        """The value under key k if it was recorded before position n; KeyError otherwise. A list key
+        is read as a tuple, as the keys are kept.
+        """
         if k.__class__ is list:
             k = _key(k)
         hit = self._entries.get(k)
@@ -141,18 +148,22 @@ class RecordMap(Mapping):
         return hit[1]
 
     def __contains__(self, k):
+        """Was key k recorded before position n?"""
         if k.__class__ is list:
             k = _key(k)
         hit = self._entries.get(k)
         return hit is not None and hit[0] < self._n
 
     def get(self, k, default=None):
+        """The value under key k, or default if it was not recorded before position n."""
         return self[k] if k in self else default
 
     def __iter__(self):
+        """The keys recorded before position n."""
         return (k for k, (pos, _) in self._entries.items() if pos < self._n)
 
     def __len__(self):
+        """The number of keys recorded before position n."""
         return sum(1 for pos, _ in self._entries.values() if pos < self._n)
 
 
@@ -244,7 +255,8 @@ _USED = {}
 def _reads_only_x(where, env, ns):
     """Does the filter read nothing but x and functions of the namespace (no constant, no binding)?
     Then whether an event passes depends on that event alone. The names are resolved as
-    expression() resolves them: env before the namespace."""
+    expression() resolves them: env before the namespace.
+    """
     used = _USED.get(where)
     if used is None:
         used = _USED[where] = frozenset(free_names(where) - {"x"} - CONSTANT_NAMES)
@@ -255,7 +267,8 @@ def _reads_only_x(where, env, ns):
 def _qualifying(ix, n, src, t, where, ns):
     """The payloads of the execution events of src before position n that pass the filter, in record
     order. The index keeps those it has decided; the events after them are decided once, and the
-    entry is extended only when all of them are (a filter that fails leaves it as it was)."""
+    entry is extended only when all of them are (a filter that fails leaves it as it was).
+    """
     key = ("where", id(ns), types.canon([src, t, where]))
     entry = ix.memo.get(key)
     if entry is None or entry["ns"] is not ns:                 # the entry keeps ns, so its id is not reused

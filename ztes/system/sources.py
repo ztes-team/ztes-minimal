@@ -21,9 +21,11 @@ class RandomSource:
     """SplitMix64: a small, fully specified generator (Steele, Lea, Flood 2014)."""
 
     def __init__(self, seed, size, below):
+        """A generator from `seed`; each occurrence is `size` integers below `below`."""
         self.state, self.size, self.below = seed & MASK, size, below
 
     def _next64(self):
+        """The next 64-bit output: the state advances by the golden-ratio constant and is mixed."""
         self.state = (self.state + 0x9E3779B97F4A7C15) & MASK
         z = self.state
         z = ((z ^ (z >> 30)) * 0xBF58476D1CE4E5B9) & MASK

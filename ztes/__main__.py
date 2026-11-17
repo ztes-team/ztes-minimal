@@ -52,6 +52,10 @@ def configuration(args):
 
 
 def main(argv=None):
+    """The command line (python -m ztes): parse the arguments and run one command. Returns the exit
+    status: 0 when the command succeeded, 1 when a check, a replay or the expected end failed, 2 when
+    the command could not be carried out.
+    """
     ap = argparse.ArgumentParser(prog="python -m ztes")
     sub = ap.add_subparsers(dest="cmd", required=True)
     nw = sub.add_parser("new", help="create the skeleton of a new system")

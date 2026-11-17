@@ -24,6 +24,9 @@ from .ontological import located
 def judge(C, s, w):
     """[τ] Sτ on (C, ω): exactly one Boolean."""
     def run():
+        """The judgment: the bindings of the criterion on Cⁿ, the candidate read by its declared type,
+        and the body evaluated on them.
+        """
         env = project(C, s)
         candidate = s["inputs"]["candidate"]
         env[candidate["name"]] = types.decode(candidate["type"], w)

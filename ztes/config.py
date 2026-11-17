@@ -84,6 +84,10 @@ def load(path=None, overrides=None):
 
 
 def _set(cfg, section, key, value, origin):
+    """Set one option of the configuration: it must exist, have an allowed value and the type of its
+    default (a boolean, or a number not below zero); environment variables in a text are expanded.
+    origin names where the value came from, for the error message.
+    """
     if section not in cfg or key not in cfg[section]:
         raise ConfigError(f"{origin}: unknown option {section}.{key}; "
                           f"known: {', '.join(f'{s}.{k}' for s in DEFAULTS for k in DEFAULTS[s])}")
@@ -135,6 +139,7 @@ def open_services(cfg, system, store):
     s, wait = cfg["services"], cfg["read"]["wait"]
 
     def client(url):
+        """A client for the abstraction service at url, with the timeout and the retries of the configuration."""
         return HttpService(url, timeout=s["timeout"], retries=s["retries"])
 
     if s["urls"]:

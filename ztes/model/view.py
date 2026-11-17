@@ -26,14 +26,19 @@ class Index:
         spec_at   address → (position, payload) of an admitted specification    (phases 1, 2)
         versions  (abstraction, role) → [(position, address)] of its versions  (S1.3)
         maps      incremental entries of "select": "map" bindings  (epistemic.bind)
-        memo      other values derived from C once and reused (e.g. horizons, substrate.lookups)
+        memo      other values derived from C once and reused: the horizons (substrate.lookups),
+                  the events that pass a filter reading only x (epistemic._qualifying)
     """
 
     def __init__(self):
+        """An empty index: no event read yet."""
         self.exec, self.spec_at, self.versions = {}, {}, {}
         self.maps, self.memo = {}, {}
 
     def add(self, n, e):
+        """Index event e at position n: an execution event under its lineage, a specification under its
+        address and among the versions of its abstraction and role. Called once per event, in order.
+        """
         c = e["coord"]
         if c["kind"] == "exec":
             pos, pay = self.exec.setdefault(c["abstraction"], ([], []))
@@ -92,12 +97,17 @@ class Record(Sequence):
     """
 
     def __init__(self, events, n=None, index=None):
+        """A view of the first n events of `events` (all of them if n is None), queried through `index`."""
         self._events, self._n, self.index = events, len(events) if n is None else n, index
 
     def __len__(self):
+        """n: the length of the prefix."""
         return self._n
 
     def __getitem__(self, i):
+        """An event of the prefix by position, or a prefix C[:k], which is again a view sharing the index;
+        any other slice is a plain list.
+        """
         if isinstance(i, slice):
             start, stop, step = i.indices(self._n)
             if start == 0 and step == 1:
@@ -110,12 +120,15 @@ class Record(Sequence):
         return self._events[i]
 
     def __iter__(self):
+        """The events of the prefix, in order."""
         return itertools.islice(self._events, self._n)
 
     def __eq__(self, other):
+        """Two prefixes are equal when they hold the same events in the same order."""
         return list(self) == list(other)
 
     def __repr__(self):
+        """Record(n events)."""
         return f"Record({self._n} events)"
 
     @classmethod

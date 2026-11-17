@@ -237,6 +237,16 @@ the map is shared between invocations, `key`, `value` and `where` may use `x`, c
 values and helper functions, but not other bindings; τ_root checks this. Values in a map are
 immutable (lists become tuples).
 
+### Filters that read only `x`
+
+A `where` that reads nothing but `x` and functions (no constant, no binding), such as
+`"x['kind'] == 'opt'"`, decides an event by that event alone. The substrate then decides each
+event once and keeps the events that pass in the index, as it keeps a map; an invocation decodes
+only those. A filter that reads a constant or an earlier binding is evaluated on every event of
+the horizon at every invocation, so its cost grows with the lineage. Both give the same values,
+and every read gives new values that the body may change. When a filter compares with a constant,
+consider writing the constant into a helper function, or reading a map instead.
+
 ### Types
 
 | Type | Payload in C | Value in the body |

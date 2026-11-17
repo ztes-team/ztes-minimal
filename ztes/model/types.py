@@ -8,6 +8,7 @@ value an expression computes with. Types are written in specifications:
                 {"record": {f: T, …}}  a JSON object with exactly these fields
 
 A new basic type is one entry in BASIC; nothing else in the model or in Z₀ changes.
+A payload is read by the decoder of its type, compiled once per type (decoder, _compile).
 encode is strict: a value of the wrong type is a contract violation of the
 specification, not something to be repaired silently.
 """
@@ -22,11 +23,13 @@ def canon(x):
 
 
 def _no_float(x, t):
+    """Refuse a float: a value in C is exact (an integer, or a rational written "p/q")."""
     if isinstance(x, float):
         raise TypeError(f"{x!r} is a float, not {t}: use Fraction(a, b) or // instead of a / b")
 
 
 def _integer(x):
+    """An integer: an int, or a Fraction whose denominator is 1 (made an int); not a bool, not a float."""
     _no_float(x, "an integer")
     if isinstance(x, Fraction) and x.denominator == 1:
         x = int(x)
@@ -36,6 +39,7 @@ def _integer(x):
 
 
 def _rational(x):
+    """A rational (Fraction) from an int or a Fraction; not a bool, not a float."""
     _no_float(x, "a rational")
     if isinstance(x, bool) or not isinstance(x, (int, Fraction)):
         raise TypeError(f"not a rational: {x!r}")
@@ -43,7 +47,9 @@ def _rational(x):
 
 
 def _of(t):
+    """A codec for a basic type that is one Python type t: it lets values of t pass and refuses others."""
     def check(x):
+        """x itself, if it is of type t; TypeError otherwise."""
         if not isinstance(x, t):
             raise TypeError(f"not a {t.__name__}: {x!r}")
         return x
@@ -76,7 +82,8 @@ def valid(t):
 def decode(t, v):
     """JSON payload → value. Called for every payload a binding reads, so each type is compiled once
     into a decoder (decoder below); it gives the same values and raises the same errors as the
-    recursive reading of t, with a fast path for a list of plain integers."""
+    recursive reading of t, with a fast path for a list of plain integers.
+    """
     return decoder(t)(v)
 
 
@@ -92,6 +99,10 @@ def decoder(t):
 
 
 def _compile(t):
+    """The decoder of type t, built from the decoders of its parts. It reads as the recursive
+    definition does: a basic type by BASIC ("json" as it is, a plain int without a call), a list
+    element by element, a record with exactly its fields, each by its decoder, in the order of t.
+    """
     if t.__class__ is str:
         if t == "json":
             return _as_is
@@ -109,6 +120,7 @@ def _compile(t):
     keys = u.keys()
 
     def record(v):
+        """A record: exactly the declared fields, each read by its decoder; TypeError otherwise."""
         if not isinstance(v, dict) or v.keys() != keys:
             raise TypeError(f"record fields {sorted(v)} differ from {sorted(u)}")
         return {f: d(v[f]) for f, d in fields}
@@ -116,10 +128,12 @@ def _compile(t):
 
 
 def _as_is(v):
+    """A "json" value is read as it is."""
     return v
 
 
 def _integer_value(v):
+    """An integer by the rule of _integer, without a call when v is a plain int."""
     return v if v.__class__ is int else _integer(v)
 
 
@@ -134,6 +148,7 @@ def _integers(v):
 
 
 def encode(t, x):
+    """Value → JSON payload, strictly: a value of the wrong type is a TypeError, never repaired."""
     if isinstance(t, str):
         return BASIC[t][1](x)
     (k, u), = t.items()

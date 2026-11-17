@@ -90,6 +90,7 @@ def source_names(src):
 
 
 def is_function(body):
+    """Is the body one Python function (its source text) rather than named expressions (a dict)?"""
     return isinstance(body, str)
 
 
@@ -102,6 +103,7 @@ def parse(src):
 
 
 def parameters(src):
+    """The names of the parameters of a function body, in order: the inputs it receives."""
     return [a.arg for a in parse(src).args.args]
 
 
@@ -115,6 +117,11 @@ def problems(src, allowed):
 
 
 def _fn_problems(fn, allowed):
+    """The rule violations of one function, of a body or of a library (see the module docstring):
+    plain parameters, only the allowed statements, no name or attribute that starts with an
+    underscore, no call of itself, and no name read that is not a parameter, a local variable or
+    in `allowed`.
+    """
     out = []
     a = fn.args
     if a.vararg or a.kwarg or a.kwonlyargs or a.defaults or a.posonlyargs or fn.decorator_list:
@@ -159,6 +166,9 @@ def library_defs(src):
 
 
 def library_problems(src, allowed):
+    """The rule violations of a library: it contains only defs, no name is defined twice, and each
+    def obeys the rules of a function, calling only the allowed names and the defs written before it.
+    """
     try:
         defs = library_defs(src)
     except (SyntaxError, ValueError) as x:
@@ -174,6 +184,7 @@ def library_problems(src, allowed):
 
 
 def library_names(src):
+    """The names of the defs of a library, in order; none for an empty library."""
     return [n for n, _ in library_defs(src)] if src else []
 
 

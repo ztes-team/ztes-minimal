@@ -27,12 +27,14 @@ class Walk:
     """Z₀'s interface over an existing record: walks it while it lasts, then hands over to Z₀."""
 
     def __init__(self, z0):
+        """Walk the record of z0's store: from position 1 (0 is genesis) to its present end."""
         self.z0, self.store, self.services = z0, z0.store, z0.services
         self.n, self.end = 1, len(read(z0.store))              # position 0 is genesis
         self.position = None
 
     @property
     def walking(self):
+        """Are there recorded events still to walk?"""
         return self.n < self.end
 
     def prefix(self):
@@ -40,6 +42,7 @@ class Walk:
         return read(self.store, self.n) if self.walking else self.z0.prefix()
 
     def _expect(self, event, what):
+        """The next recorded event must be exactly `event`: move past it, or DifferentRecord."""
         there = read(self.store, self.n + 1)[self.n]
         if there != event:
             c = there["coord"]
@@ -48,6 +51,9 @@ class Walk:
         self.n += 1
 
     def _admit(self, s, live):
+        """Phases 1 and 2 while walking: the specification event this plan would record must be the next
+        one. After the record, `live` (Z₀) admits it.
+        """
         if not self.walking:
             return live(s)
         P = self.prefix()
@@ -55,12 +61,17 @@ class Walk:
         return "recorded"
 
     def admit_criterion(self, s):
+        """Z0.admit_criterion, walked (_admit)."""
         return self._admit(s, self.z0.admit_criterion)
 
     def admit_ontology(self, s):
+        """Z0.admit_ontology, walked (_admit)."""
         return self._admit(s, self.z0.admit_ontology)
 
     def execute(self, name, occurrence=None):
+        """Z0.execute, walked: the invocation is evaluated on the prefix it was judged on, and where Z₀
+        would append, the next recorded event must be that event. After the record, Z₀ executes.
+        """
         if not self.walking:
             result = self.z0.execute(name, occurrence)
             self.position = self.z0.position

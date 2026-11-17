@@ -60,6 +60,10 @@ ONTOLOGY = {
 
 
 def new_system(path, abstractions, title=None):
+    """Create the skeleton of a new system in the empty directory `path`: system.json with the given
+    abstractions and the default plan, a criterion and an ontology to be written for each
+    abstraction, and DESIGN.md with a table to fill. Returns the directory.
+    """
     root = Path(path)
     if root.exists() and any(root.iterdir()):
         raise FileExistsError(f"{root} exists and is not empty")

@@ -476,9 +476,13 @@ system.save("examples/squares", design="# squares …")     # the same system as
 | `test_tampering_with_a_profile_is_detected` | R2 re-judges a boundary occurrence: a changed U is found |
 | `test_tsp_kpi_measures_reuse_on_demand` | the KPI of `tsp`: 448 of 720 subproblems, 272 saved; 230 wake-ups of `tour` |
 | `test_run_writes_metrics_as_json` | `run --metrics FILE` writes the indicators as JSON |
+| `test_the_record_is_the_pinned_one`, `test_every_example_is_pinned` | every example gives, under the agenda, the record pinned in `tests/test_records.py` (number of events and a digest of the whole record): an optimization must leave every record identical |
+| `test_the_cached_filter_gives_what_the_uncached_one_gives` and the other tests of `tests/test_filter_cache.py` | a filter that reads only `x` is decided once per event and kept in the index; it gives what the uncached filter gives for every select, window and prefix, and the same errors; a filter that reads a constant or a binding is not cached |
+| `test_the_compiled_decoder_gives_what_the_old_decode_gave` and the other tests of `tests/test_decoders.py` | the decoder compiled once per type gives what the recursive decode gave, value for value and error for error, on random types and values |
 
 These tests concern the model and the substrate and are grouped by package (`tests/test_model.py`,
-`test_substrate.py`, `test_system.py`, `test_cli.py`); they use `examples/sqrt2` and
+`test_substrate.py`, `test_system.py`, `test_cli.py`, and `test_records.py`, `test_filter_cache.py`,
+`test_decoders.py` for the optimizations); they use `examples/sqrt2` and
 `tests/systems/counter`, a small system written in the same standard form. The examples have their
 own tests (`tests/test_examples.py`), described in [`examples/README.md`](examples/README.md).
 

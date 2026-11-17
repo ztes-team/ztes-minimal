@@ -11,6 +11,9 @@ from ..substrate.replay import verify
 
 
 def show(C, log=print):
+    """Print the record, one event per line: an execution event with its value, a specification with
+    its role, version and address.
+    """
     log(f"\n{'n':>4}  {'kind':7} {'abstraction':12} value")
     for e in C:
         c = e["coord"]
@@ -60,6 +63,7 @@ def _decimal(p):
 
 
 def report_verification(C, log=print):
+    """Replay the record (R2) and print the outcome, with every event that fails; returns the failures."""
     errors = verify(C)
     log(f"\nR2  replay of {len(C)} events: " + ("OK" if not errors else "FAILED"))
     for n, why in errors:
