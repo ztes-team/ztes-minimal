@@ -1,0 +1,45 @@
+"""The record of every example under the agenda, pinned by a digest.
+
+A change of the substrate that keeps its semantics, such as an optimization, must leave every
+record identical: every coordinate, every payload, every hash link, in the same order. The digests
+were taken at commit 822d15c. A change that alters a record on purpose (a new field of a coordinate,
+a changed example) updates the digest here and says why in its commit message.
+"""
+import hashlib
+import json
+
+import pytest
+
+from conftest import ROOT, quiet
+from ztes.substrate.store import MemoryStore, read
+from ztes.system.system import System
+
+PINNED = {                      # example: (events, digest of the record)
+    "aco":             (73,  "449255bb3c29dce2"),
+    "aco-draw":        (138, "de75462c47bef7af"),
+    "dedekind-cut":    (26,  "cb2a10ba074ba456"),
+    "factorization":   (27,  "7412db70b15c9f13"),
+    "payment":         (21,  "93eab31cd4750c1f"),
+    "prime-witnesses": (26,  "912bd79788754d47"),
+    "sqrt2":           (16,  "2ac1e04d3a666ca2"),
+    "tsp":             (468, "2f197520f400df1c"),
+    "tsp-bnb":         (71,  "0ac6d3fa72f98c17"),
+}
+
+
+def digest(C):
+    """The first 16 hexadecimal digits of SHA-256 over the canonical JSON of the whole record."""
+    text = json.dumps(C, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+    return hashlib.sha256(text.encode()).hexdigest()[:16]
+
+
+def test_every_example_is_pinned():
+    assert sorted(PINNED) == sorted(d.name for d in (ROOT / "examples").iterdir() if d.is_dir())
+
+
+@pytest.mark.parametrize("name", sorted(PINNED))
+def test_the_record_is_the_pinned_one(name):
+    system, store = System(ROOT / "examples" / name), MemoryStore()
+    system.run(store, log=quiet)
+    C = list(read(store))
+    assert (len(C), digest(C)) == PINNED[name]
