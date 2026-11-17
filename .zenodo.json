@@ -5,8 +5,8 @@
   "version": "0.1.0",
   "description": "Executable supplement to \"A Calculus of Execution for Systems of Interacting Binary Relations\": a minimal substrate Z0 that applies Axiom 0 to systems of abstractions given as specifications, nine worked examples (a computable Dedekind cut, prime witnesses, certified factorization, three liftings of the travelling salesman problem), eight defective mechanisms for the conditions of S1, and replay under R2. Execution in one process or by one worker per abstraction is an option of the configuration.",
   "creators": [
-    {"name": "Škarić, Milan"}, {"name": "Ivanović, Aleksandar"}, {"name": "Radenković, Miloš"},
-    {"name": "Prokhorov, Sergei"}, {"name": "Labus, Aleksandra"}, {"name": "Radenković, Božidar"}
+    {"name": "Radenković, Miloš"}, {"name": "Prokhorov, Sergei"},
+    {"name": "Labus, Aleksandra"}, {"name": "Radenković, Božidar"}
   ],
   "keywords": ["execution calculus", "binary relations", "append-only record", "replay", "admission"]
 }

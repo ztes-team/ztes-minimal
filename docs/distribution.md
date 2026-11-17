@@ -77,7 +77,7 @@ So two runs may give two records. What holds for all of them:
 |---|---|---|
 | `prime-witnesses` | which primes `goldbach` admits for an even number (10 = 3 + 7 or 5 + 5): it resolves each even number against the primes recorded when it is invoked | the even numbers answered, the primes, the twins |
 | `aco-draw` | how many improvements `best` records (3 to 5): it sees the tours recorded when it is invoked | every draw, every tour, the best length 54 |
-| `tsp-bnb` | how many nodes the search expands before a bound is recorded (the record had 70 to 103 events) | the optimal tour, its length 38, the proof of optimality |
+| `tsp-bnb` | how many nodes the search expands before a bound is recorded (the record had 70 to 73 events in 40 runs) | the optimal tour, its length 38, the proof of optimality |
 | every example | the counts of the profile (invocations, Not Yet, false): they count the schedule | the admitted events they are checked against |
 
 **A rule for the writer of a system.** `prime-witnesses` is the one example in which the schedule
