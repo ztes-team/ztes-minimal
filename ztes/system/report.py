@@ -62,10 +62,13 @@ def _decimal(p):
     return ""
 
 
-def report_verification(C, log=print):
-    """Replay the record (R2) and print the outcome, with every event that fails; returns the failures."""
-    errors = verify(C)
-    log(f"\nR2  replay of {len(C)} events: " + ("OK" if not errors else "FAILED"))
+def report_verification(C, log=print, judgments_only=False):
+    """Replay the record (R2) and print the outcome, with every event that fails; returns the failures.
+    judgments_only: judge the recorded candidates without re-deriving them (replay.py).
+    """
+    errors = verify(C, judgments_only)
+    mode = " (judgments only: the candidates are not re-derived)" if judgments_only else ""
+    log(f"\nR2  replay of {len(C)} events{mode}: " + ("OK" if not errors else "FAILED"))
     for n, why in errors:
         log(f"   event {n}: {why}")
     return errors

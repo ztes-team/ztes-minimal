@@ -4,6 +4,17 @@ The replay uses only C: no service, no state of Z₀, no clock. For every event 
 re-derives the event from the prefix Cⁿ with the model (ztes.model) and reports the first check
 that fails, named by the S1 condition it protects. By Theorem C′, a judgment-relevant violation
 of S1 at an admitted event shows up here, at that event.
+
+Two modes. The full replay (the default) re-derives every candidate with the ontology active at
+its event and then re-judges it with the criterion: it checks the judgment and also that the
+candidate follows from the record. With judgments_only the recorded candidate is judged again as
+it stands, and the ontology is not evaluated (except for a boundary event, whose occurrence is
+checked against its type): the position, the hash link, the specifications, the active versions
+and every judgment are checked, which is what R2 requires, and the cost of the ontologies (the
+search of a heuristic, for example) is not paid again. What this mode does not check is that a
+candidate is the one its ontology gives on its prefix: a candidate computed from inputs that are
+not in the record (S1.2), and admissible, passes. Of the eight defects of Table 5 (ztes defects)
+it finds seven; the third, a colony whose draws were never recorded, only the full replay finds.
 """
 from ..model import SpecError, judge, realize, types
 from ..model.view import Record
@@ -26,8 +37,10 @@ def lost(reason):
     return "R2"                                                 # a specification that cannot be loaded or evaluated
 
 
-def check(P, e):
-    """Verify one event e against its prefix P = Cⁿ. Raises AssertionError on failure."""
+def check(P, e, judgments_only=False):
+    """Verify one event e against its prefix P = Cⁿ. Raises AssertionError on failure.
+    judgments_only: judge the recorded candidate without re-deriving it (see the module docstring).
+    """
     c = e["coord"]
     assert c["n"] == len(P), "S1.1 position in the shared order"
     assert c["prev"] == events.link(P), "S1.5 hash link to the preceding event"
@@ -48,6 +61,8 @@ def check(P, e):
         if o.get("boundary"):                                          # §5.2: the occurrence is the evidence
             w = realize(P, o, types.decode(o["returns"], e["payload"]))
             assert w == e["payload"], "S1.4 boundary occurrence does not have its declared type"
+        elif judgments_only:
+            w = e["payload"]                                           # the recorded candidate, as it stands
         else:
             w = realize(P, o)                                          # replay of 3a [ω]
             assert w == e["payload"], f"S1.2/S1.4 realization gives {w}, record has {e['payload']}"
@@ -57,14 +72,16 @@ def check(P, e):
         raise AssertionError("unknown event kind")
 
 
-def verify(C):
-    """[R2] Replay the whole record; returns [(n, reason)] for every event that fails (empty: R2 holds)."""
+def verify(C, judgments_only=False):
+    """[R2] Replay the whole record; returns [(n, reason)] for every event that fails (empty: R2 holds).
+    judgments_only: the faster mode of the module docstring, which does not re-derive candidates.
+    """
     if not isinstance(C, Record):
         C = Record.of(C)                                       # one index for all prefixes
     errors = []
     for n, e in enumerate(C):
         try:
-            check(C[:n], e)
+            check(C[:n], e, judgments_only)
         except (AssertionError, KeyError, SpecError) as x:
             errors.append((n, str(x)))
     return errors

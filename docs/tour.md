@@ -78,7 +78,9 @@ needs: where it stands, which versions produced and judged it, and what was admi
 **Replay (R2)** uses only the record. For event 5 it takes the prefix C⁵, loads the two
 specifications named in the coordinate, evaluates the ontology again, compares the result with the
 payload, and evaluates the criterion again. `python -m ztes verify DIR` does this for every event
-and reports the first check that fails, with the condition of S1 it protects.
+and reports the first check that fails, with the condition of S1 it protects. With `--judgments`
+it skips the ontology and only judges the recorded payload again: faster when the ontologies search,
+and enough for R2, but it no longer checks that the payload follows from the record (`replay.py`).
 
 **A governed change (R1)** is the next thing `sqrt2` does. After two admissions the plan records
 `lower/criterion.v2` and `upper/criterion.v2`, which also require the interval to be wider than

@@ -438,7 +438,7 @@ system.save("examples/squares", design="# squares …")     # the same system as
 | `test_workers_as_separate_processes` | three worker processes and a coordinator on one record |
 | `test_a_service_waits_for_its_replica` | a lagging replica delays the run and does not change the record |
 | `test_an_append_no_replica_confirmed_stops_the_run_and_the_run_continues` | replica confirmation; the run continues from the record |
-| `test_command_line` | `run` with a kept record, then `verify` |
+| `test_command_line` | `run` with a kept record, then `verify`, and `verify --judgments` |
 | `test_malformed_system_is_refused` | a file whose version does not match its name is refused at load |
 | `test_sqrt2_termination_states` | √2 ends terminal: `lower` closed, `upper` in permanent wait |
 | `test_generic_context_and_external_wait` | `count`, `all` + `where`, record payloads, a wait on an external lineage |
@@ -478,12 +478,13 @@ system.save("examples/squares", design="# squares …")     # the same system as
 | `test_run_writes_metrics_as_json` | `run --metrics FILE` writes the indicators as JSON |
 | `test_the_record_is_the_pinned_one`, `test_every_example_is_pinned` | every example gives, under the agenda, the record pinned in `tests/test_records.py` (number of events and a digest of the whole record): an optimization must leave every record identical |
 | `test_the_cached_filter_gives_what_the_uncached_one_gives` and the other tests of `tests/test_filter_cache.py` | a filter that reads only `x` is decided once per event and kept in the index; it gives what the uncached filter gives for every select, window and prefix, and the same errors; a filter that reads a constant or a binding is not cached |
+| `test_a_sound_record_passes_both_modes`, `test_the_faster_mode_finds_every_defect_but_the_hidden_draw` | the replay that re-judges recorded candidates without re-deriving them passes every sound example and finds seven of the eight defects of Table 5, all at the same event but the overwritten tour (one event later, by the hash link); it misses the hidden draw |
 | `test_the_values_are_those_of_the_plain_binding_frozen` and the other tests of `tests/test_frozen.py` | a frozen binding gives the values of the plain binding, frozen, for every prefix, filter and window; they are shared and immutable; τ_root refuses a frozen binding whose filter reads another binding; a system that reads its history frozen runs and replays to the same values |
 | `test_the_compiled_decoder_gives_what_the_old_decode_gave` and the other tests of `tests/test_decoders.py` | the decoder compiled once per type gives what the recursive decode gave, value for value and error for error, on random types and values |
 
 These tests concern the model and the substrate and are grouped by package (`tests/test_model.py`,
 `test_substrate.py`, `test_system.py`, `test_cli.py`, and `test_records.py`, `test_filter_cache.py`,
-`test_decoders.py`, `test_frozen.py` for the optimizations); they use `examples/sqrt2` and
+`test_decoders.py`, `test_frozen.py`, `test_replay_modes.py` for the optimizations); they use `examples/sqrt2` and
 `tests/systems/counter`, a small system written in the same standard form. The examples have their
 own tests (`tests/test_examples.py`), described in [`examples/README.md`](examples/README.md).
 
@@ -555,6 +556,11 @@ link (case 1) and the re-judgment of the stored candidate (case 6) would stop it
   abstractions with criteria of their own (§6.4, §8.5) are ordinary abstractions and are not
   included (§9.1.1).
 * The verifier re-derives every candidate and then re-judges it, which is more than R2 requires.
+  `verify --judgments` (`replay.verify(C, judgments_only=True)`) re-judges the recorded candidates
+  without re-deriving them: it checks every judgment, and does not pay again for the ontologies
+  (the search of a heuristic, for example). It does not check that a candidate follows from the
+  record: of the eight defects it finds seven, and misses the third, whose draws were never
+  recorded. The full replay remains the default.
 * Not included yet: scheduling and abeyance
   abstractions (§5.2).
 

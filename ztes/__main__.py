@@ -9,7 +9,9 @@
     python -m ztes run     examples/sqrt2 --workers       phase 3 by one worker per abstraction (workers.py)
     python -m ztes work    examples/sqrt2 lower (--record DIR | --redis URL)
                                                          one worker as a separate process
-    python -m ztes verify  DIR | --redis URL              R2 replay of an existing record
+    python -m ztes verify  DIR | --redis URL [--judgments]
+                                                         R2 replay of an existing record; --judgments:
+                                                         re-judge the recorded candidates only (replay.py)
     python -m ztes defects                                the eight defective mechanisms of Table 5
 
     python -m ztes explain DIR N | --redis URL N          why event N is in the record
@@ -92,6 +94,9 @@ def main(argv=None):
     v = sub.add_parser("verify", help="replay an existing record (R2)")
     v.add_argument("record", nargs="?")
     v.add_argument("--redis")
+    v.add_argument("--judgments", action="store_true",
+                   help="judge the recorded candidates without re-deriving them: faster, but a candidate "
+                        "that does not follow from the record is not found (see replay.py)")
     sub.add_parser("defects", help="the eight defective mechanisms of Table 5, and what replay finds")
     x = sub.add_parser("explain", help="explain why an event is in an existing record")
     x.add_argument("args", nargs="+", help="DIR N, or N with --redis")
@@ -200,7 +205,7 @@ def main(argv=None):
             ap.error("verify needs a record: a directory, --redis URL, or a store in ztes.yaml")
         C = read(config.open_store(cfg), check=False)             # the verifier says where a record fails
         show(C)
-        return 1 if report_verification(C) else 0
+        return 1 if report_verification(C, judgments_only=args.judgments) else 0
 
 
 if __name__ == "__main__":

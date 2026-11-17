@@ -16,6 +16,8 @@ def test_command_line(tmp_path, capsys):
     assert main(["run", str(SQRT2), "--record", str(tmp_path)]) == 0
     assert main(["verify", str(tmp_path)]) == 0
     assert "R2  replay of 16 events: OK" in capsys.readouterr().out
+    assert main(["verify", str(tmp_path), "--judgments"]) == 0
+    assert "R2  replay of 16 events (judgments only: the candidates are not re-derived): OK" in capsys.readouterr().out
 
 
 def test_a_failing_specification_stops_the_run_with_its_location(tmp_path, capsys):
