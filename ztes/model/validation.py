@@ -11,7 +11,8 @@ refused by τ_root (substrate/governance.py) and found by `check`, never at exec
     bindings     a known select, a valid type, a "where" that uses only x, the constants and
                  earlier bindings, a default that decodes under its type; a map has a key, and
                  its key, value and where use no other binding (it is kept in the index); a
-                 window belongs to select "all" and is a positive integer or names one
+                 window belongs to select "all" and is a positive integer or names one; so does
+                 "frozen", true or false, and the where of a frozen binding uses no other binding
     body         expressions: each compiles, uses only declared names, and "result" is defined;
                  a function: obeys language.py, and its parameters are declared inputs
     criterion    [τ] returns "boolean", total, a typed candidate, and a value for every
@@ -153,8 +154,9 @@ def _binding_problems(b, criterion, static, earlier, constants=None):
     """The rule violations of one binding: its lineages, select, type, filter, window and default.
     criterion: the binding belongs to a criterion, so a binding that selects one event needs a
     default (τ is total). static: the names any expression may use (constants, derived values,
-    library); earlier: the bindings declared before this one. A map is kept in the index, so its
-    expressions may use x and the static names only.
+    library); earlier: the bindings declared before this one. A map and a frozen binding are kept
+    in the index, so their expressions may use x and the static names only; "frozen" belongs to
+    select "all".
     """
     out = []
     src = b.get("from")
@@ -178,11 +180,23 @@ def _binding_problems(b, criterion, static, earlier, constants=None):
                 if not bad and language.free_names(b[f]) - static - {"x"}:
                     extra = sorted(language.free_names(b[f]) - static - {"x"})
                     out.append(f"{f} uses {extra}: a map may use only x, constants, derived values and the library")
+    elif "where" in b and b.get("frozen"):
+        # a frozen binding is kept in the index like a map: its filter may not use another binding
+        bad = _compiles(b["where"], "where")
+        out += bad
+        if not bad and language.free_names(b["where"]) - static - {"x"}:
+            extra = sorted(language.free_names(b["where"]) - static - {"x"})
+            out.append(f"where uses {extra}: a frozen binding may use only x, constants, derived values and the library")
     elif "where" in b:
         bad = _compiles(b["where"], "where")
         out += bad
         if not bad and language.free_names(b["where"]) - static - earlier - {"x"}:
             out.append(f"where uses undeclared {sorted(language.free_names(b['where']) - static - earlier - {'x'})}")
+    if "frozen" in b:
+        if not isinstance(b["frozen"], bool):
+            out.append('"frozen" must be true or false')
+        elif b["frozen"] and sel != "all":
+            out.append('"frozen" belongs to select "all"')
     if "window" in b:
         k = b["window"]
         k = (constants or {}).get(k) if isinstance(k, str) else k

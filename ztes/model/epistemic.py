@@ -16,6 +16,9 @@ of §9.1.1). The inputs are
                           "window": K,                             with "all": only the last K
                                                                    qualifying events (K an integer
                                                                    or the name of a constant)
+                          "frozen": true,                          with "all": every value decoded
+                                                                   once, immutable, shared by all
+                                                                   reads (kept in the index)
                           "default": v}                            value while nothing qualifies
                        "select": "map" also has "key" (and optionally "value"), expressions
                        over x; it gives a read-only mapping {key: value}.
@@ -29,8 +32,9 @@ are simply not read, so forgetting needs no change of the record (S1.1).
 Performance. Bindings are answered from the index of the record (view.py), never by scanning
 C; a map is kept in that index and extended with each new event, so no invocation rebuilds it;
 so is the list of events that pass a filter which reads nothing but x and functions (whether an
-event passes then depends on the event alone, and is decided once); the derived values and the
-namespace of a specification are prepared once and reused.
+event passes then depends on the event alone, and is decided once), and so are the values of a
+frozen binding, decoded once; the derived values and the namespace of a specification are prepared
+once and reused.
 """
 import bisect
 from collections.abc import Mapping
@@ -76,13 +80,14 @@ class Prepared:
 
     def __init__(self, s):
         """Prepare s once: its namespace, its constants with its derived values (frozen), and the key
-        under which the index keeps each of its map bindings.
+        under which the index keeps each of its map bindings and frozen bindings.
         """
         self.spec = s                                          # kept alive: id(s) cannot be reused
         self.ns = namespace(s.get("library", ""))
         tag = types.canon([s.get("constants", {}), s.get("derived", {}), s.get("library", "")])
         self.base = {**s.get("constants", {}), **derived(s, self.ns, tag)}
-        self.maps = {name: map_key(tag, b) for name, b in s["inputs"]["context"].items() if b["select"] == "map"}
+        self.maps = {name: map_key(tag, b) for name, b in s["inputs"]["context"].items()
+                     if b["select"] == "map" or b.get("frozen")}
 
 
 _PREPARED = {}
@@ -200,6 +205,10 @@ def bind(C, name, b, env=None, ns=None, key=None):
     env = env or {}
     if sel == "map":
         return _map(ix, n, name, b, src, t, env, ns, key or map_key(None, b))
+    if sel == "all" and b.get("frozen"):
+        k = b.get("window")
+        k = env[k] if isinstance(k, str) else k
+        return _frozen(ix, n, b, src, t, env, ns, key or map_key(None, b), k)
     if "where" not in b and sel in ("count", "exists"):        # no value is needed: count positions
         k = ix.count(src, n)
         return k if sel == "count" else k > 0
@@ -245,6 +254,34 @@ def bind(C, name, b, env=None, ns=None, key=None):
         return types.decode(t, b["default"])
     raise Undefined(f"{name}: no event in {src} yet")
 
+
+
+# ---- "frozen": true: the values of "all" decoded once, immutable and kept in the index ----
+
+def _frozen(ix, n, b, src, t, env, ns, tag, window):
+    """The values of a frozen binding over Cⁿ, in record order, as a tuple. Every event of src is
+    decoded once, filtered once (its filter may use only x, the constants, the derived values and
+    the library: validation.py), frozen (lists become tuples, records read-only mappings) and kept
+    in the index with its position. The entry is extended with the events not yet in it, and only
+    when all of them are decided, so a filter that fails leaves it as it was. Every read shares the
+    same values; a body cannot alter them. A window keeps the last K of them.
+    """
+    cache = ix.maps.get(("frozen", tag))
+    if cache is None:
+        cache = ix.maps[("frozen", tag)] = {"upto": 0, "pos": [], "values": []}
+    if n > cache["upto"]:
+        pos, values = [], []
+        for q, p in ix.items_between(src, cache["upto"], n):
+            x = types.decode(t, p)
+            if "where" in b and not expression(b["where"], {**env, "x": x}, ns):
+                continue
+            pos.append(q)
+            values.append(freeze(x))
+        cache["pos"] += pos
+        cache["values"] += values
+        cache["upto"] = n
+    xs = cache["values"][:bisect.bisect_left(cache["pos"], n)]
+    return tuple(xs if window is None else xs[-window:])
 
 
 # ---- a filter that reads only x: which events pass is decided once and kept in the index ----

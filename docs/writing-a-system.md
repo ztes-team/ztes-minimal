@@ -183,6 +183,7 @@ itself, is a binding. `context` is either an object of bindings or a list of dec
 | `from` | the lineage(s) read. The union over both specifications is the abstraction's **event horizon**. A lineage that is not an abstraction of the system is **external**. |
 | `select` | `last` (latest value), `first`, `one` (the single qualifying value; more than one is an error), `all` (list of values), `count`, `exists`, `map` (below) |
 | `window` | with `select: "all"`: only the last K qualifying events are read (K an integer or the name of a constant). Older events stay in C; they are simply not read |
+| `frozen` | with `select: "all"`: `true` gives every value decoded once, immutable (lists become tuples, records read-only) and shared by every read, kept in the index; its `where` may use `x`, constants, derived values and helper functions, but not other bindings. For a history that grows with the run |
 | `type` | how payloads are decoded; default `json` |
 | `where` | optional filter over `x`, one decoded value; it may also use the constants and the bindings declared **before** it, e.g. `"where": "x['n'] == k"` |
 | `default` | the value of `last`/`first`/`one` while no event qualifies, written as a payload of type T |
@@ -246,6 +247,12 @@ only those. A filter that reads a constant or an earlier binding is evaluated on
 the horizon at every invocation, so its cost grows with the lineage. Both give the same values,
 and every read gives new values that the body may change. When a filter compares with a constant,
 consider writing the constant into a helper function, or reading a map instead.
+
+A binding that reads a whole history, such as every step of the searchers, decodes it at every
+invocation, so its cost grows with the square of the record. With `"frozen": true` each event is
+decoded once and the values are shared: the body receives a tuple of immutable values, and must
+not expect lists (a list in a value is a tuple, so compare it element by element, not with `==`
+against a list).
 
 ### Types
 
