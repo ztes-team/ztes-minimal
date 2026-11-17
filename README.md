@@ -167,7 +167,7 @@ bodies), so that every part of a system says which axis it belongs to.
 | **substrate**: Z₀ and C | `store.py` [C] | the medium of C: append-only; the only write is one atomic conditional insert | S1.1, §9.1 |
 | | `events.py` [C] | events ⟨coordinate, payload⟩ and Rec; hash link to the previous event | §3.2.5, S1.2, S1.4, S1.5 |
 | | `lookups.py` [C] | admitted and active versions, event horizons | S1.3, Definition 10 |
-| | `governance.py` [Z₀] | τ_root: the API (model.validation) and the lineage in C; gives the reason of a refusal | §3.4.1, §4.2.7, R1 |
+| | `governance.py` [Z₀] | τ_root: the API (model.validation) and the lineage in C; gives the reason of a refusal; the specifications a candidate carries | §3.4.1, §4.2.7, R1 |
 | | `z0.py` [Z₀] | **Z₀**: Axiom 0; phases 1, 2, 3; the only writer to C | §3.4.1, §3.4.3 |
 | | `replay.py` [R2] | R2 replay; each check is named by the S1 condition it protects | §4.2.6, Theorem C′ |
 | | `service.py` [ω][τ] | one stateless microservice per abstraction: Z₀ asks it for steps 3a and 3b | §3.4.4, §9.1.1 |
@@ -192,6 +192,30 @@ bodies), so that every part of a system says which axis it belongs to.
 
 Phases 1 and 2 only record specifications. Evaluation happens only in phase 3. Not Yet is not a
 value of either function: it is the decision of Z₀ not to append when ω is undefined in Cⁿ.
+
+### Specifications carried by a candidate
+
+A specification enters C in one of two ways, both judged by τ_root: the plan records it from a file
+(phases 1 and 2, the step `govern`), or a candidate carries it in phase 3. An ontology whose record
+type has one field of type `{"list": "specification"}` carries, in that field, the specifications
+it proposes. In one invocation:
+
+```
+3a  ω := Sω(Cⁿ); every ontology ω carries is bound to the criterion active at its place (as in phase 2)
+3b  b := Sτ(Cⁿ, ω)                 the criterion of the proposer judges the whole candidate
+    τ_root, in order               each carried specification on Cⁿ and the ones before it; one refused → false
+3c  put_if_absent(n, Rec(Cⁿ, ω))   one execution event; its coordinate lists what it carries
+```
+
+Every carried specification is an admitted version from that event on (S1.3), and replay checks
+it as a specification event. Z₀ knows no kinds of abstraction: who may change what is a question
+for the criterion of the proposer, which may read a policy recorded in C. An abstraction whose
+specifications are carried goes back on the agenda, and one the system did not have is adopted
+(`System.adopt`), by workers with a worker of its own. Whether a change takes effect at the same
+position under every schedule is a property of the system: the proposer decides at every point
+where a decision is due, and the abstractions it may change wait for that decision. The design is
+in [`docs/specifications-in-execution.md`](docs/specifications-in-execution.md); how to write such
+a system, in [`docs/writing-a-system.md`](docs/writing-a-system.md).
 
 ### Atomic append
 
@@ -481,10 +505,12 @@ system.save("examples/squares", design="# squares …")     # the same system as
 | `test_a_sound_record_passes_both_modes`, `test_the_faster_mode_finds_every_defect_but_the_hidden_draw` | the replay that re-judges recorded candidates without re-deriving them passes every sound example and finds seven of the eight defects of Table 5, all at the same event but the overwritten tour (one event later, by the hash link); it misses the hidden draw |
 | `test_the_values_are_those_of_the_plain_binding_frozen` and the other tests of `tests/test_frozen.py` | a frozen binding gives the values of the plain binding, frozen, for every prefix, filter and window; they are shared and immutable; τ_root refuses a frozen binding whose filter reads another binding; a system that reads its history frozen runs and replays to the same values |
 | `test_the_compiled_decoder_gives_what_the_old_decode_gave` and the other tests of `tests/test_decoders.py` | the decoder compiled once per type gives what the recursive decode gave, value for value and error for error, on random types and values |
+| `test_a_carried_ontology_is_active_from_its_event_and_replays` and the other tests of `tests/test_carried.py` | a specification carried by a candidate is active from its event and replays in both modes; a criterion and its ontology carried together bring in a new abstraction, executed by the agenda and by workers; τ_root judges carried specifications in order (version gaps, an ontology without its criterion, two carried fields), and a refused candidate leaves C unchanged; an abstraction that does not read the proposer is evaluated again; a carrying candidate is judged again after a lost race; an interrupted run continues to the same record; the same histories under random schedules; an altered carried specification fails replay at its event |
 
 These tests concern the model and the substrate and are grouped by package (`tests/test_model.py`,
 `test_substrate.py`, `test_system.py`, `test_cli.py`, and `test_records.py`, `test_filter_cache.py`,
-`test_decoders.py`, `test_frozen.py`, `test_replay_modes.py` for the optimizations); they use `examples/sqrt2` and
+`test_decoders.py`, `test_frozen.py`, `test_replay_modes.py` for the optimizations, `test_carried.py` for
+specifications carried in execution); they use `examples/sqrt2` and
 `tests/systems/counter`, a small system written in the same standard form. The examples have their
 own tests (`tests/test_examples.py`), described in [`examples/README.md`](examples/README.md).
 
@@ -551,10 +577,12 @@ link (case 1) and the re-judgment of the stored candidate (case 6) would stop it
   KPI profile, and abstractions with a declared source (`"sources"` in `system.json`; at present
   one kind, a seeded random source). Lineages read from outside the system are reported by
   `check`, and their readers wait.
-* Every specification event, including a governed change, is admitted under τ_root, which checks
-  that the new version is well formed and continues its lineage. Diagnosis and governing
-  abstractions with criteria of their own (§6.4, §8.5) are ordinary abstractions and are not
-  included (§9.1.1).
+* Every specification is admitted under τ_root, which checks that the new version is well formed
+  and continues its lineage, whether the plan records it from a file or a candidate carries it in
+  phase 3. Diagnosis and governing abstractions (§6.4, §8.5) are therefore ordinary abstractions
+  whose criteria decide what they may change; none is among the examples here. An abstraction
+  brought into being by a carried specification is evaluated in process, also when the others are
+  served over HTTP, and a KPI profile already recorded does not count it.
 * The verifier re-derives every candidate and then re-judges it, which is more than R2 requires.
   `verify --judgments` (`replay.verify(C, judgments_only=True)`) re-judges the recorded candidates
   without re-deriving them: it checks every judgment, and does not pay again for the ontologies

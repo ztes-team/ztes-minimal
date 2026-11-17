@@ -23,7 +23,8 @@ class Index:
     """[C] Positions of the events of C, built once per event as C is read.
 
         exec      lineage → (positions, payloads) of its execution events      (phase 3)
-        spec_at   address → (position, payload) of an admitted specification    (phases 1, 2)
+        spec_at   address → (position, payload) of an admitted specification    (phases 1, 2;
+                  and a specification carried by an execution event, at that event)
         versions  (abstraction, role) → [(position, address)] of its versions  (S1.3)
         maps      incremental entries of "select": "map" bindings  (epistemic.bind)
         memo      other values derived from C once and reused: the horizons (substrate.lookups),
@@ -38,12 +39,19 @@ class Index:
     def add(self, n, e):
         """Index event e at position n: an execution event under its lineage, a specification under its
         address and among the versions of its abstraction and role. Called once per event, in order.
+        The specifications an execution event carries (its coordinate lists them) are indexed as
+        specifications admitted at its position, exactly as a specification event would be.
         """
         c = e["coord"]
         if c["kind"] == "exec":
             pos, pay = self.exec.setdefault(c["abstraction"], ([], []))
             pos.append(n)
             pay.append(e["payload"])
+            if "carries" in c:
+                field = c["carries"]["field"]
+                for k, d in enumerate(c["carries"]["specs"]):
+                    self.spec_at[d["addr"]] = (n, e["payload"][field][k])
+                    self.versions.setdefault((d["abstraction"], d["role"]), []).append((n, d["addr"]))
         elif c["kind"] == "spec":
             self.spec_at[c["addr"]] = (n, e["payload"])
             self.versions.setdefault((c["abstraction"], c["role"]), []).append((n, c["addr"]))

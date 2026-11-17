@@ -27,6 +27,8 @@ Two abstractions take part:
 Counting outcomes is the agenda's own bookkeeping (agenda.py): one counter per invocation.
 """
 
+from ..substrate import lookups
+
 PROFILE = "profile"
 PROFILE_TYPE = {"list": {"record": {"abstraction": "text", "I": "integer", "A": "integer",
                                     "U": "integer", "H": "integer", "F": "integer"}}}
@@ -63,10 +65,19 @@ def profile_specs(abstractions):
     return {f"{PROFILE}/criterion.v1": criterion, f"{PROFILE}/ontology.v1": ontology}
 
 
-def observation(system):
-    """The occurrence for profile: the outcomes counted by the agenda so far, in system order."""
+def observation(system, C=None):
+    """The occurrence for profile: the outcomes counted by the agenda so far, in system order.
+
+    With C: for the abstractions the active criterion of profile names, which are those of the
+    system when the first profile was recorded. An abstraction adopted after it (System.adopt) is
+    not counted by that profile.
+    """
+    names = system.abstractions
+    address = lookups.active(C, PROFILE, "criterion") if C is not None else None
+    if address is not None:
+        names = lookups.load(C, address)["constants"]["ABSTRACTIONS"]
     return [{"abstraction": a, **{k: system.outcomes[a][k] for k in ("I", "A", "U", "H", "F")}}
-            for a in system.abstractions]
+            for a in names]
 
 
 def table(system, C):

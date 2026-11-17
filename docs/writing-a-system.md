@@ -123,6 +123,9 @@ Plan steps:
 | `{"phase": 3, "max_admissions": k}` | execute at most k admissions, then go on with the plan |
 | `{"govern": ["a/criterion.v2", …]}` | record new versions; the changed abstractions are evaluated again |
 
+A new version may also come from the system itself, carried by a candidate in phase 3; see
+[Specifications carried by a candidate](#specifications-carried-by-a-candidate).
+
 Any step may carry `"note"`, printed when the step starts.
 
 ## 4. A specification
@@ -263,6 +266,7 @@ against a list).
 | `boolean` | `true` | `True` |
 | `text` | `"abc"` | `"abc"` |
 | `json` | any JSON | as is |
+| `specification` | a JSON object | as is (a dict); that it is a specification is judged by τ_root when it is carried |
 | `{"list": T}` | `[…]` | list of T |
 | `{"record": {"f": T, …}}` | `{"f": …}` | dict with exactly these fields |
 | a declared name, e.g. `"Bound"` | as its definition | as its definition |
@@ -372,6 +376,54 @@ The criterion admits one measurement per profile, each indicator equal to its de
 for few admissions (U against A) suggests a horizon wider than the abstraction needs. A heuristic
 agent reads the `kpi` lineage and adapts; `run --metrics` prints the latest indicators.
 
+### Specifications carried by a candidate
+
+An abstraction may propose new versions of specifications, of other abstractions or of its own, and
+bring new abstractions into being. Its ontology returns a record with one field of type
+`{"list": "specification"}`; the specifications in that list are carried by the candidate, in that
+order. An empty list carries nothing. From the test system `steered` (`tests/test_carried.py`),
+simplified:
+
+```json
+"types": {"Decision": {"record": {"r": "integer", "specifications": {"list": "specification"}}}}
+```
+
+```python
+# steer/ontology: a decision at every step; at step 3 a new ontology of count
+None if steers >= LIMIT or counted < steers else {'r': steers, 'specifications': CHANGE if steers == 3 else []}
+# steer/criterion: the authority in force; it may change the ontology of count and nothing else
+w['r'] == steers and all(s['abstraction'] == 'count' and s['role'] == 'ontology' for s in w['specifications'])
+```
+
+What happens in one invocation:
+
+* The criterion of the proposer judges the whole candidate, the carried specifications included.
+  It is the only policy: ZTES has no kinds of abstraction and forbids nothing. A criterion may
+  read a policy that is itself recorded, and changed, by admitted events.
+* τ_root then judges each carried specification in order, as it judges a file in phases 1 and 2:
+  well formed, the next version of its lineage, an ontology bound to the active criterion. If it
+  refuses one, the candidate is refused and nothing is appended.
+* A carried ontology is bound by Z₀ to the criterion active at its place, as the plan binds it in
+  phase 2: the last criterion of its abstraction carried before it in the same list, otherwise the
+  one active in Cⁿ. The proposer writes no address.
+* One execution event is appended, and its coordinate lists what it carries (`"carries"`). Every
+  carried specification is active from that event on, and replay checks it as a specification
+  event.
+
+A carried specification is written in the complete, expanded form, not in the short authoring
+format (`python -m ztes design SYSTEM --full` prints the expanded form of every file). To bring in
+a new abstraction, carry its criterion and then its ontology, in one candidate or in two.
+
+The abstraction whose specification is carried goes back on the agenda; one that the system did
+not have is adopted for the rest of the run and, by workers, gets a worker of its own. For the
+same history under every schedule, let the proposer record a decision at every point where one is
+due (also when it changes nothing), and let the abstractions it may change wait for that decision
+through an ordinary binding, as `count` waits for `decided` in the test system. A proposer that
+reads the record as it stands gives a valid record whose course depends on the schedule.
+
+Limits: an adopted abstraction is evaluated in process (also when the others are served over HTTP),
+and a KPI profile already recorded counts only the abstractions it was recorded for.
+
 ### When a specification fails
 
 An exception inside a body (an index out of range, a wrong type) is a defect of the specification.
@@ -463,6 +515,8 @@ which gives every phase-3 invocation of `draw` a list of 11 integers below 1,000
 - [ ] Each specification has a `"note"` saying, in one line, what it proposes or admits.
 - [ ] The plan ends with `{"kpi": true}`; indicators specific to the problem are a `kpi` abstraction.
 - [ ] Every criterion requires progress and eventually becomes false (or the wait is intended).
+- [ ] An abstraction that carries specifications decides at every point where a decision is due, and
+      its criterion says what it may change.
 - [ ] `system.json` has `"expect"` matching "Expected end" in `DESIGN.md`.
 - [ ] Bodies written as functions iterate over `sorted(...)`, not over sets of strings.
 - [ ] `python -m ztes check` reports OK.

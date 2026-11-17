@@ -138,10 +138,11 @@ def main(argv=None):
     if args.cmd == "work":
         from .system.workers import Worker
         system = System(args.system)
-        if args.abstraction not in system.abstractions:
-            ap.error(f"{args.abstraction} is not an abstraction of {system.name}")
         if cfg["store"]["backend"] == "memory" or (cfg["store"]["backend"] == "disk" and not cfg["store"]["path"]):
             ap.error("work needs the shared record: --record DIR, --redis URL, or a store in ztes.yaml")
+        if args.abstraction not in system.abstractions:      # it may be brought in during the run (governance.py)
+            print(f"{args.abstraction} is not declared in {system.name}: its worker waits until a candidate "
+                  "carries its specifications")
         Worker(system, args.abstraction, config.open_store(cfg), cfg["execution"]["poll"]).run()
         return 0
     if args.cmd == "check":

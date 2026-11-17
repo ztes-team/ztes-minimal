@@ -6,7 +6,8 @@ An event has two logical fields, e = ⟨coord(e), payload(e)⟩ (§3.2.5, §9.1)
              abstraction, addresses of the specification versions used,
              and the hash of the preceding event
     payload  the admitted content: a specification (phases 1 and 2)
-             or a realized candidate ω (phase 3)
+             or a realized candidate ω (phase 3), which may carry specifications
+             (substrate/governance.py); the coordinate then lists them
 
 Rec is deterministic (S1.2): the same prefix, invocation and payload always
 give the same event. The hash link `prev` makes the record self-certifying
@@ -53,8 +54,13 @@ def spec_event(C, s, prev=None):
     return rec(C, coord, s, prev)
 
 
-def exec_event(C, name, ontology_addr, criterion_addr, omega, prev=None):
-    """Phase 3: the payload is ω; the coordinate names the exact versions that produced and judged it."""
+def exec_event(C, name, ontology_addr, criterion_addr, omega, prev=None, carries=None):
+    """Phase 3: the payload is ω; the coordinate names the exact versions that produced and judged it.
+    carries: what ω carries (governance.carry), named in the coordinate so that the index finds the
+    carried specifications; absent when ω carries nothing, so other events are as they always were.
+    """
     coord = {"kind": "exec", "abstraction": name,
              "ontology": ontology_addr, "criterion": criterion_addr}
+    if carries:
+        coord["carries"] = carries
     return rec(C, coord, omega, prev)

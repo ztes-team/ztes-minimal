@@ -13,6 +13,11 @@ which are data in C and are evaluated by the model (ztes.model), never by Z₀ i
                 3b  b := Sτ(Cⁿ, ω)               false → nothing appended           [τ] D2
                 3c  Cⁿ⁺¹ := Cⁿ ⁀ Rec(i, Cⁿ, ω)   only if b is true: atomic append   [C] S1.1, S1.5
 
+A candidate may carry specifications (governance.py). They are bound before 3b, so the criterion
+judges what will be recorded; τ_root then judges each of them, and refuses the candidate if it
+refuses one. A candidate that carries a specification is never appended on a longer prefix without
+being judged again, since the versions it continues may have changed.
+
 The three-step constitution of an abstraction in §3.4.3 (eschatological specification →
 ontological specification → execution event) is phases 1, 2, 3; the factorization inside one
 invocation is 3a, 3b, 3c.
@@ -21,7 +26,7 @@ Steps 3a and 3b are asked of the abstraction's service (ztes.service), which eva
 specifications on Cⁿ, in process or over HTTP. Only Z₀ appends to C.
 """
 from . import events, lookups
-from .governance import tau_root
+from .governance import carried, carry, tau_root
 from .store import known, read, tip, wrote
 
 ADMITTED, FALSE, NOT_YET, UNSPECIFIED = "admitted", "false", "Not Yet", "unspecified"
@@ -96,10 +101,12 @@ class Z0:
         versions. If none of the events added since is an event of a lineage in that horizon,
         of the abstraction itself, or a specification of it, both are the same on `newer`, and the
         candidate may be appended there without being computed again. Replay agrees: on the
-        prefix where the event stands it derives the same candidate and the same judgment.
+        prefix where the event stands it derives the same candidate and the same judgment. An event
+        that carries a specification of the abstraction changes its versions, so it counts too.
         """
         watched = {name, *lookups.horizon(C, name)}
-        return all(e["coord"].get("abstraction") not in watched for e in newer[len(C):])
+        return all(e["coord"].get("abstraction") not in watched
+                   and all(d["abstraction"] != name for d in carried(e)) for e in newer[len(C):])
 
     def execute(self, name, occurrence=None):
         """[A0] One invocation of abstraction `name`. Returns (result, ω).
@@ -118,18 +125,23 @@ class Z0:
             if w_addr is not None and t_addr is not None:
                 omega = (service.realize(w_addr, n) if occurrence is None  # 3a [ω] realization on Cⁿ (D1)
                          else service.realize(w_addr, n, occurrence))
+                carries = why = None
+                if omega is not None:                          # specifications it carries, bound (governance.py)
+                    omega, carries, why = carry(C, lookups.load(C, w_addr), omega)
                 if omega is None:
                     result = NOT_YET                           #    ⊥: τ is not called, nothing appended
                 elif not service.judge(t_addr, n, omega):      # 3b [τ] judgment on the same Cⁿ  (D2)
                     result = FALSE                             #    false: nothing appended
+                elif why is not None:
+                    result = FALSE                             #    τ_root refuses a carried specification
                 else:
                     while True:
-                        event = events.exec_event(C, name, w_addr, t_addr, omega, tip(self.store, C))
+                        event = events.exec_event(C, name, w_addr, t_addr, omega, tip(self.store, C), carries)
                         if self.store.put_if_absent(n, event): # 3c [C] atomic append at position n
                             wrote(self.store, n, event)
                             return ADMITTED, omega
                         newer = read(self.store)               # another instance wrote position n first
-                        stands = self._stands(C, newer, name)
+                        stands = self._stands(C, newer, name) and not carries
                         C, n = newer, len(newer)
                         self.position = n
                         if not stands:

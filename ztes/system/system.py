@@ -18,6 +18,9 @@ The plan is a list of steps executed in order:
     {"phase": 3}                          execute until the system is terminal
     {"phase": 3, "max_admissions": k}     execute at most k admissions, then continue with the plan
     {"govern": ["a/criterion.v2", …]}     record new specification versions (governed change, §4.2.7)
+
+A new version may also be carried by a candidate in phase 3 (substrate/governance.py): it is then
+recorded by its execution event, and an abstraction the system did not have is adopted (adopt).
     {"kpi": true}                         compute the execution indicators now (kpi.py): profile, then
                                           the system's own KPI abstraction ("kpi" in system.json)
 
@@ -69,7 +72,8 @@ class System:
         m = read_directory(self.path) if path is not None else definition
         self.definition = m
         self.name, self.title = m["system"], m.get("title", m["system"])
-        self.abstractions = list(m["abstractions"])           # the domain abstractions
+        self.declared = list(m["abstractions"])               # the domain abstractions of the files
+        self.abstractions = list(self.declared)               # and those a run adopts (adopt)
         self.kpi = m.get("kpi")                                # optional KPI abstraction of this system
         self.declared_sources = m.get("sources", {})           # occurrences for boundary abstractions
         self.plan = m.get("plan", DEFAULT_PLAN)
@@ -159,6 +163,7 @@ class System:
         if len(read(store)) > 1:                         # a record exists: walk it, then continue (resume.py)
             log(f"Resuming on a record of {len(read(store))} events: the schedule is walked again, nothing is rewritten")
             z0 = Walk(z0)
+        self.abstractions = list(self.declared)          # a run adopts its new abstractions again
         self.agenda = list(self.abstractions)            # phase 3 starts with every abstraction
         self.sources = sources.make(self.declared_sources)   # every run starts from the declared seeds
         self.last = {}                                   # abstraction → last outcome (result, ω)
@@ -190,6 +195,20 @@ class System:
                 raise ValueError(f"unknown plan step {step}")
         return z0
 
+    def adopt(self, name, z0=None):
+        """An abstraction that a candidate has brought into being by carrying its specifications
+        (substrate/governance.py) exists for the rest of the run: it is added to the abstractions,
+        its outcomes are counted, and Z₀ is given a service for it in this process. One the system
+        already has is left as it is. Returns True if it was new.
+        """
+        if name in self.abstractions:
+            return False
+        self.abstractions.append(name)
+        self.outcomes[name] = {"I": 0, "A": 0, "U": 0, "H": 0, "F": 0}
+        if z0 is not None and name not in z0.services:
+            z0.services[name] = AbstractionService(z0.store, name)
+        return True
+
     def measure(self, z0, log=print):
         """Compute the execution indicators now: admit a profile, then the system's KPI (kpi.py).
 
@@ -197,12 +216,14 @@ class System:
         Returns (profile result, kpi result or None); each is (result, ω).
         """
         log("KPI  execution indicators, on demand")
+        if lookups.active(z0.prefix(), kpi.PROFILE, "criterion") is None:   # first profile: of the abstractions now
+            self.specs.update(kpi.profile_specs(self.abstractions))
         for a in [kpi.PROFILE] + ([self.kpi] if self.kpi else []):
             for role in ("criterion", "ontology"):
                 if lookups.active(z0.prefix(), a, role) is None:
                     self._admit(z0, f"{a}/{role}.v1", log)
         n = len(z0.prefix())
-        profile = z0.execute(kpi.PROFILE, kpi.observation(self))
+        profile = z0.execute(kpi.PROFILE, kpi.observation(self, z0.prefix()))
         log(f"   C^{n:<3} {kpi.PROFILE:12} → {profile[0]}")
         measured = None
         if self.kpi:

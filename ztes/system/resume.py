@@ -15,6 +15,7 @@ A record that does not follow the plan (another system, another version of the t
 reported at the first event that differs; it is never extended.
 """
 from ..substrate import events, lookups
+from ..substrate.governance import carry
 from ..substrate.store import read
 from ..substrate.z0 import ADMITTED, FALSE, NOT_YET, UNSPECIFIED
 
@@ -85,7 +86,8 @@ class Walk:
         omega = service.realize(w_addr, n) if occurrence is None else service.realize(w_addr, n, occurrence)
         if omega is None:
             return NOT_YET, None
-        if not service.judge(t_addr, n, omega):
+        omega, carries, why = carry(P, lookups.load(P, w_addr), omega)     # as Z₀ does (z0.py)
+        if not service.judge(t_addr, n, omega) or why is not None:
             return FALSE, omega
-        self._expect(events.exec_event(P, name, w_addr, t_addr, omega), f"an event of {name}")
+        self._expect(events.exec_event(P, name, w_addr, t_addr, omega, carries=carries), f"an event of {name}")
         return ADMITTED, omega

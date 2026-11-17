@@ -1,6 +1,7 @@
 # Specifications proposed in execution: design
 
-*Status: agreed in principle; not yet implemented. It comes after the optimizations that keep every record identical (§7).*
+*Status: implemented (§5), after the optimizations that keep every record identical (§7). How to
+write such a system: [writing-a-system.md](writing-a-system.md#specifications-carried-by-a-candidate).*
 
 ## 1. What is proposed
 
@@ -54,14 +55,25 @@ each as an admitted version at that position, exactly as it registers a specific
 active version is still the last admitted one, whichever way it came; `lookups` does not change.
 
 **Replay (R2).** Such an event is checked as every execution event (its versions were active, ω
-re-derived from Cⁿ is the payload, the criterion is true on replay), and in addition every carried
-specification is checked against τ_root, in order, as a specification event is.
+re-derived from Cⁿ and bound is the payload, the criterion is true on replay), and in addition every
+carried specification is checked against τ_root, in order, as a specification event is, and the
+coordinate must list exactly what the payload carries. Replay judges the carried specifications as
+they are recorded, without binding them again, so that an ontology bound to a wrong criterion is
+found also by the replay that does not re-derive candidates (`verify --judgments`).
 
 **The set of abstractions.** An abstraction exists for execution when it has an active criterion
 and an active ontology in C. The list in `system.json` names the abstractions of the files; those
-that appear later through carried specifications are added when they appear: to the agenda, to the
-counts of the profile, and, by workers, a worker is started for each. A specification carried for
-an abstraction makes that abstraction due, as a `govern` step does today.
+that appear later through carried specifications are added when they appear (`System.adopt`): to
+the agenda and, by workers, a worker is started for each (by the coordinator when the workers run
+in its process; elsewhere `python -m ztes work SYSTEM NAME` accepts a name that is not declared,
+and its worker waits until its specifications are carried). A specification carried for an
+abstraction makes that abstraction due, as a `govern` step does. A KPI profile is recorded for the
+abstractions of the system at its first measurement; one adopted after that is not counted by it.
+
+**Races.** Z₀ may append a candidate one position later without computing it again when the event
+that took the position is outside its horizon (Lemma 6). An event that carries a specification of
+the abstraction counts as inside it, and a candidate that carries specifications is always judged
+again, since the versions it continues may have changed.
 
 ## 4. Determinism
 
@@ -82,13 +94,20 @@ whose course depends on the schedule, as the asynchronous forms do.
 | `substrate/z0.py` | in `execute`, after a true criterion: bind carried ontologies, judge the carried specifications with τ_root in order; one event |
 | `substrate/events.py` | the coordinate of an execution event may list the addresses of carried specifications |
 | `model/view.py` | `Index.add` registers carried specifications as versions |
-| `substrate/replay.py` | τ_root for carried specifications |
-| `system/system.py`, `agenda.py`, `workers.py`, `kpi.py`, `report.py` | the set of abstractions grows with the record |
+| `substrate/governance.py` | `carry`: bind the carried ontologies, judge the carried specifications in order (`carried_refusal`), describe them for the coordinate |
+| `substrate/replay.py` | τ_root for carried specifications; the coordinate lists exactly what the payload carries |
+| `system/resume.py` | a run continued on a record walks carrying events as Z₀ appends them |
+| `system/system.py`, `agenda.py`, `workers.py`, `kpi.py`, `__main__.py` | the set of abstractions grows with the record |
 
 Out of scope for the first version: carried specifications for abstractions served over HTTP
 (they run in process), and carrying in other places of a candidate than one top-level field.
 
 ## 6. Tests
+
+All of the following are in `tests/test_carried.py`. Each part of the mechanism was also removed
+or weakened in turn (22 mutations: the index, replay in both modes, Z₀, the agenda, the workers and
+the coordinator, the binding, each rule of τ_root, the walk of a continued run, the profile), and
+each mutation fails at least one of these tests.
 
 - **Regression.** Every example of ztes-minimal and of oee-heuristic-agents gives a record identical,
   byte for byte, to the baseline (no existing coordinate gains a field), and the same histories by
@@ -100,11 +119,17 @@ Out of scope for the first version: carried specifications for abstractions serv
     to an inactive criterion), each leaving C unchanged;
   - a new abstraction brought in by a candidate is executed by the agenda and by workers;
   - the same histories under random schedules when the decision pattern of §4 is followed;
-  - a record whose carried specification was altered fails replay at that event.
+  - a record whose carried specification was altered fails replay at that event (its body, its
+    version, the criterion it is bound to), in both modes;
+  - an abstraction that does not read the proposer is evaluated again when its specification is
+    carried, by the agenda and by a waiting worker;
+  - a carrying candidate is judged again after a lost race;
+  - an interrupted run continues to the same record, cut before, at and after a carrying event;
+  - the profile, the coordinator and the command line (`run`, `verify`, `explain`).
 
 ## 7. Order of work
 
 1. Baseline (done): hashes of the records and times of every example, under the agenda and by
    workers.
 2. Optimizations that keep every record identical, one per commit.
-3. This proposal, after review; then the example of adaptive VNS in oee-heuristic-agents that uses it.
+3. This proposal (done); then the example of adaptive VNS in oee-heuristic-agents that uses it.

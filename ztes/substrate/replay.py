@@ -15,11 +15,15 @@ search of a heuristic, for example) is not paid again. What this mode does not c
 candidate is the one its ontology gives on its prefix: a candidate computed from inputs that are
 not in the record (S1.2), and admissible, passes. Of the eight defects of Table 5 (ztes defects)
 it finds seven; the third, a colony whose draws were never recorded, only the full replay finds.
+
+An execution event that carries specifications (governance.py) is checked as every execution
+event, and in both modes also as specification events are: τ_root must admit what it carries, in
+order, and its coordinate must list exactly that.
 """
 from ..model import SpecError, judge, realize, types
 from ..model.view import Record
 from . import events, lookups
-from .governance import refusal
+from .governance import carry, refusal
 
 
 # What each check protects (Table 5): the requirement that is lost when it fails.
@@ -65,8 +69,13 @@ def check(P, e, judgments_only=False):
             w = e["payload"]                                           # the recorded candidate, as it stands
         else:
             w = realize(P, o)                                          # replay of 3a [ω]
+            if w is not None:
+                w = carry(P, o, w)[0]                                  # with its carried ontologies bound
             assert w == e["payload"], f"S1.2/S1.4 realization gives {w}, record has {e['payload']}"
         assert judge(P, lookups.load(P, c["criterion"]), w), "S1.2 criterion is false on replay"   # 3b [τ]
+        _, carries, why = carry(P, o, e["payload"], bind=False)       # what it carries, as recorded, under τ_root
+        assert why is None, f"S1.3 carried specification not admissible under τ_root: {why}"
+        assert c.get("carries") == carries, "S1.3 the coordinate does not list what the payload carries"
 
     else:
         raise AssertionError("unknown event kind")

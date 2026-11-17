@@ -7,7 +7,9 @@ admission only the abstractions that can be affected are evaluated again.
   * Z₀ takes one abstraction from the agenda and applies Axiom 0. For a boundary abstraction
     with a declared source (sources.py) the invocation is bound to the next occurrence.
   * admitted:        the abstraction itself and every abstraction whose event
-                     horizon contains it go back on the agenda;
+                     horizon contains it go back on the agenda; so does every abstraction
+                     whose specification the event carries (governance.py), and one that
+                     the system did not have is adopted (System.adopt);
   * Not Yet / false: the abstraction leaves the agenda and waits. Not Yet (ω = ⊥) has two
                      grounds, counted separately: the horizon is incomplete (an event the
                      ontology requires is not in Cⁿ; nothing is computed), or the horizon is
@@ -36,6 +38,7 @@ agenda and execution continues at the next phase-3 step of the plan.
 from ..model import explain as explaining
 from ..model import missing
 from ..substrate import lookups
+from ..substrate.governance import carried
 from ..substrate.store import read
 from ..substrate.z0 import ADMITTED, FALSE, NOT_YET
 from .report import _text
@@ -65,7 +68,11 @@ def execute(system, z0, max_admissions, log):
                 log("        " + line)
         if result == ADMITTED:
             admitted += 1
-            for b in [a] + dependents(system, read(z0.store, n + 1), a):   # Cⁿ⁺¹: the new event
+            C = read(z0.store, n + 1)                    # Cⁿ⁺¹: the new event
+            changed = [d["abstraction"] for d in carried(C[n])]   # abstractions whose specifications it carries
+            for b in changed:
+                system.adopt(b, z0)                      # one that is new here exists from now on
+            for b in [a] + dependents(system, C, a) + changed:
                 if b not in system.agenda:
                     system.agenda.append(b)
     if system.agenda and max_admissions:

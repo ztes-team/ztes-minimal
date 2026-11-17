@@ -3,9 +3,12 @@
 A payload in C is a JSON value. A type is a codec between that JSON value and the
 value an expression computes with. Types are written in specifications:
 
-    basic       "integer" | "rational" | "boolean" | "text" | "json"
+    basic       "integer" | "rational" | "boolean" | "text" | "json" | "specification"
     composite   {"list": T}            a JSON array of T
                 {"record": {f: T, …}}  a JSON object with exactly these fields
+
+"specification" is a JSON object read as it is; that it is a well-formed specification is not a
+question of its type but of τ_root, which judges it when a candidate carries it (carried_field).
 
 A new basic type is one entry in BASIC; nothing else in the model or in Z₀ changes.
 A payload is read by the decoder of its type, compiled once per type (decoder, _compile).
@@ -56,6 +59,22 @@ def _of(t):
     return check
 
 
+def _plain(x):
+    """A value as plain JSON: read-only mappings become dicts and tuples lists, all the way down."""
+    if isinstance(x, Mapping):
+        return {k: _plain(v) for k, v in x.items()}
+    if isinstance(x, (list, tuple)):
+        return [_plain(v) for v in x]
+    return x
+
+
+def _specification(x):
+    """A specification as a payload: a JSON object, written as plain JSON (a frozen value is thawed)."""
+    if not isinstance(x, Mapping):
+        raise TypeError(f"not a specification (a JSON object): {x!r}")
+    return _plain(x)
+
+
 #            name        decode (JSON → value)          encode (value → JSON)
 BASIC = {
     "integer":  (lambda v: _integer(v),            lambda x: _integer(x)),
@@ -63,7 +82,21 @@ BASIC = {
     "boolean":  (_of(bool),                        _of(bool)),
     "text":     (_of(str),                         _of(str)),
     "json":     (lambda v: v,                      lambda x: x),
+    "specification": (_specification,                _specification),
 }
+
+CARRIED = {"list": "specification"}           # the type of the field in which a candidate carries specifications
+
+
+def carried_field(t):
+    """The field of a record type t in which a candidate carries specifications: the one field whose
+    type is {"list": "specification"}; None if t is not a record or has no such field. (Validation
+    refuses an ontology that declares more than one.)
+    """
+    if not isinstance(t, dict) or "record" not in t:
+        return None
+    fields = [f for f, u in t["record"].items() if u == CARRIED]
+    return fields[0] if len(fields) == 1 else None
 
 
 def valid(t):

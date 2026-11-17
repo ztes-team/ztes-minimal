@@ -44,6 +44,7 @@ import uuid
 
 from ..service import AbstractionService, ServiceUnavailable
 from ..substrate import lookups
+from ..substrate.governance import carried
 from ..substrate.store import read
 from ..substrate.z0 import ADMITTED, NOT_YET, Z0
 from . import agenda, sources
@@ -144,8 +145,9 @@ class Worker:
         """Events appended since the last look: do they touch this abstraction?"""
         if len(C) > self.seen:
             watched = {self.name, *lookups.horizon(C, self.name)}
-            if any(e["coord"].get("abstraction") in watched for e in C[self.seen:]):
-                self.due = True
+            if any(e["coord"].get("abstraction") in watched or any(d["abstraction"] == self.name for d in carried(e))
+                   for e in C[self.seen:]):
+                self.due = True                          # its horizon, or a specification of its own carried by another
             self.seen = len(C)
 
     def tell(self, control, state, n):
@@ -163,11 +165,26 @@ class Worker:
 class Coordinator:
     """Executes a phase-3 step of the plan through the workers (the `phase3` of System.run)."""
 
-    def __init__(self, store, poll=0.002, timeout=60.0):
-        """A new run, with its own id; the workers are told to wait."""
-        self.store, self.poll, self.timeout = store, poll, timeout
-        self.run, self.step = uuid.uuid4().hex, 0
+    def __init__(self, store, poll=0.002, timeout=60.0, start=None):
+        """A new run, with its own id; the workers are told to wait. start(name): start a worker for
+        an abstraction that a carried specification brings into being; None when the workers run
+        elsewhere, where its worker is started as every other (`python -m ztes work`).
+        """
+        self.store, self.poll, self.timeout, self.start = store, poll, timeout, start
+        self.run, self.step, self.scanned = uuid.uuid4().hex, 0, 0
         self._control(go=False)
+
+    def _adopt(self, system):
+        """Adopt the abstractions that events appended since the last look carry specifications of
+        and the system does not have yet (System.adopt), and start a worker for each if the workers
+        run here. From then on the coordinator waits for its report as for every other worker.
+        """
+        C = read(self.store)
+        for e in C[self.scanned:]:
+            for d in carried(e):
+                if system.adopt(d["abstraction"]) and self.start is not None:
+                    self.start(d["abstraction"])
+        self.scanned = len(C)
 
     def _control(self, **fields):
         """Write the control note: the next step of this run, with the given fields (go, until, stop)."""
@@ -191,12 +208,15 @@ class Coordinator:
         the reports. ServiceUnavailable after `timeout` seconds.
         """
         end = time.monotonic() + self.timeout
-        while (reports := self._reports(system, accept)) is None:
+        while True:
+            self._adopt(system)                          # an abstraction brought in since: its worker reports too
+            reports = self._reports(system, accept)
+            if reports is not None:
+                return reports
             if time.monotonic() > end:
                 raise ServiceUnavailable(f"the workers of {system.abstractions} did not all report within "
                                          f"{self.timeout} s (are they running, on this record?)")
             time.sleep(self.poll)
-        return reports
 
     def __call__(self, system, z0, max_admissions, log):
         """Execute one phase-3 step of the plan by the workers: let them run until each is idle on the
@@ -233,13 +253,18 @@ def run(system, store, local=True, poll=0.002, timeout=60.0, log=print, plan=Non
     local: the workers are threads of this process, each with its own handle on the record;
            otherwise they are expected to run elsewhere (`python -m ztes work SYSTEM ABSTRACTION`).
     """
-    coordinator = Coordinator(store, poll, timeout)
     threads = []
+
+    def start(a):
+        """A worker for abstraction a, in a thread of this process."""
+        worker = Worker(system, a, store.again(), poll, hesitate)
+        threads.append(threading.Thread(target=worker.run, name=f"worker {a}", daemon=True))
+        threads[-1].start()
+
+    coordinator = Coordinator(store, poll, timeout, start if local else None)
     if local:
         for a in system.abstractions:
-            worker = Worker(system, a, store.again(), poll, hesitate)
-            threads.append(threading.Thread(target=worker.run, name=f"worker {a}", daemon=True))
-            threads[-1].start()
+            start(a)
     try:
         log(f"Workers  phase 3 is executed by {len(system.abstractions)} workers, one per abstraction"
             + ("" if local else " (running elsewhere)"))

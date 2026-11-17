@@ -18,7 +18,9 @@ refused by τ_root (substrate/governance.py) and found by `check`, never at exec
     criterion    [τ] returns "boolean", total, a typed candidate, and a value for every
                  binding that might be missing (defaults for last, first, one): Sτ is total
     ontology     [ω] partial, a valid return type, and a field "criterion" naming the criterion
-                 it is bound to (which criterion is a question about C: τ_root checks it);
+                 it is bound to (which criterion is a question about C: τ_root checks it); at
+                 most one field of its record type is {"list": "specification"}: the field in
+                 which its candidate carries specifications (substrate/governance.carry);
                  a boundary ontology ("boundary": true, §5.2) has no body: its candidate is the
                  occurrence bound to the invocation
 
@@ -145,6 +147,9 @@ def _problems(s):
             out.append("an ontology is partial")
         if not types.valid(s.get("returns")):
             out.append(f"return type {s.get('returns')!r} is not a type")
+        elif isinstance(s["returns"], dict) and "record" in s["returns"] and \
+                sum(1 for u in s["returns"]["record"].values() if u == types.CARRIED) > 1:
+            out.append('a candidate carries specifications in one field of type {"list": "specification"}, not more')
         if "criterion" not in s:
             out.append("an ontology names the criterion it is bound to (phase 2 follows phase 1)")
     return out
