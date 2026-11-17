@@ -39,7 +39,11 @@ Shortcuts in a specification file (criterion.v<k>.json, ontology.v<k>.json):
       no body: its candidate is the occurrence bound to the invocation (§5.2);
     - "note": "…" is a comment for the reader (JSON has no comments). It may stand in a
       specification, in a binding (also a declared one in system.json) and in the
-      candidate; it is removed before the specification is recorded.
+      candidate; it is removed before the specification is recorded;
+    - a constant, or any part of one, may be {"$specifications": ["a/ontology.v2", …]}: it
+      becomes the list of those specification files of the system in their recorded form.
+      This is how a specification carries other specifications written as files
+      (substrate/governance.py); a file named there may not name others in turn.
 """
 import ast
 import json
@@ -49,6 +53,7 @@ from ..model.language import is_function, library_subset, parameters, source_nam
 from ..model.types import BASIC
 
 NOTE = "note"                                                   # authoring-only comment field
+SPECIFICATIONS = "$specifications"                              # a constant that names specification files
 
 
 def _load(path):
@@ -235,7 +240,10 @@ def write_directory(definition, path, design=None):
 
 
 def load_specs(definition):
-    """All specifications of a system, expanded into their recorded form, keyed "a/role.vk"."""
+    """All specifications of a system, expanded into their recorded form, keyed "a/role.vk".
+    Constants that name specification files ({"$specifications": […]}) are then replaced by those
+    specifications, expanded (_referred).
+    """
     out = {}
     for key, raw in definition["specifications"].items():
         a, stem = key.split("/")
@@ -245,4 +253,37 @@ def load_specs(definition):
         assert role in ("criterion", "ontology"), f"{key}: must be <abstraction>/criterion.v<k> or ontology.v<k>"
         decl = declarations(definition, definition.get("declarations", {}).get(a, {}))
         out[key] = expand(raw, a, role, int(v), decl)
+    plain = dict(out)                                          # as expanded, before any reference is replaced
+    for key, s in plain.items():
+        if "constants" in s:
+            out[key] = dict(s, constants={n: _referred(c, plain, key) for n, c in s["constants"].items()})
     return out
+
+
+def _refers(value):
+    """Whether a constant value names specification files anywhere in it."""
+    if isinstance(value, dict):
+        return SPECIFICATIONS in value or any(_refers(v) for v in value.values())
+    return isinstance(value, list) and any(_refers(v) for v in value)
+
+
+def _referred(value, specs, key):
+    """A constant value with every {"$specifications": ["a/role.vk", …]} in it replaced by the list
+    of those specifications in their recorded form, taken from specs (the files of the system,
+    expanded). A specification named there may not name others: what is carried is complete as it
+    stands, and the order of expansion does not matter.
+    """
+    if isinstance(value, dict) and SPECIFICATIONS in value:
+        names = value[SPECIFICATIONS]
+        assert set(value) == {SPECIFICATIONS} and isinstance(names, list), \
+            f"{key}: a reference is {{\"{SPECIFICATIONS}\": [\"a/role.vk\", …]}}, alone in its object"
+        for n in names:
+            assert n in specs, f"{key}: {SPECIFICATIONS} names {n}, which is not a specification file of the system"
+            assert not _refers(specs[n].get("constants", {})), \
+                f"{key}: {SPECIFICATIONS} names {n}, which names specification files in turn"
+        return [json.loads(json.dumps(specs[n])) for n in names]
+    if isinstance(value, dict):
+        return {k: _referred(v, specs, key) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_referred(v, specs, key) for v in value]
+    return value

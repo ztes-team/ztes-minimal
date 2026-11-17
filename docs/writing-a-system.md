@@ -410,9 +410,18 @@ What happens in one invocation:
   carried specification is active from that event on, and replay checks it as a specification
   event.
 
-A carried specification is written in the complete, expanded form, not in the short authoring
-format (`python -m ztes design SYSTEM --full` prints the expanded form of every file). To bring in
-a new abstraction, carry its criterion and then its ontology, in one candidate or in two.
+A carried specification is recorded in its complete, expanded form. The simplest way to write it is
+as an ordinary file of the abstraction it belongs to (`abstractions/count/ontology.v2.json`), which
+the plan does not record, and to name it in a constant of the proposer:
+
+```json
+"constants": {"CHANGE": {"$specifications": ["count/ontology.v2"]}}
+```
+
+When the system is loaded, the reference becomes the list of the named files in their expanded form
+(`python -m ztes design SYSTEM --full` shows it). A file named in this way may not name other files
+in turn. To bring in a new abstraction, carry its criterion and then its ontology, in one candidate
+or in two.
 
 The abstraction whose specification is carried goes back on the agenda; one that the system did
 not have is adopted for the rest of the run and, by workers, gets a worker of its own. For the

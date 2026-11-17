@@ -98,6 +98,7 @@ whose course depends on the schedule, as the asynchronous forms do.
 | `substrate/replay.py` | τ_root for carried specifications; the coordinate lists exactly what the payload carries |
 | `system/resume.py` | a run continued on a record walks carrying events as Z₀ appends them |
 | `system/system.py`, `agenda.py`, `workers.py`, `kpi.py`, `__main__.py` | the set of abstractions grows with the record |
+| `system/authoring.py` | a constant may name specification files (`{"$specifications": […]}`): a proposer carries versions written as files |
 
 Out of scope for the first version: carried specifications for abstractions served over HTTP
 (they run in process), and carrying in other places of a candidate than one top-level field.

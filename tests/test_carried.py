@@ -369,3 +369,33 @@ def test_the_command_line_runs_and_verifies_a_record_with_carried_specifications
     C = by_agenda(system)
     n = next(k for k, e in enumerate(C) if e["coord"].get("carries"))
     assert main(["explain", str(rec), str(n)]) == 0
+
+
+# ---- carried specifications written as files (authoring: {"$specifications": […]}) ----
+
+def test_a_constant_may_name_the_specification_files_it_carries(tmp_path):
+    """The same system with version 2 of count written as a file and named by the constant CHANGE:
+    the record is the one of the complete specification written into the constant."""
+    fs = files([], [])
+    fs["count/ontology.v2.json"] = {"inputs": {"context": ["k", "decided"]}, "returns": "Count",
+                                    "body": {"result": "None if k >= LIMIT or decided <= k else {'k': k, 'by': 2}"}}
+    d = definition([], [LATE_CRITERION, LATE_ONTOLOGY])
+    d["constants"]["CHANGE"] = {"$specifications": ["count/ontology.v2"]}
+    named = make_system(tmp_path / "named", d, fs)
+    assert named.specs["steer/ontology.v1"]["constants"]["CHANGE"] == [named.specs["count/ontology.v2"]]
+    assert by_agenda(named) == by_agenda(steered(tmp_path))
+
+
+@pytest.mark.parametrize("change, message", [
+    ({"$specifications": ["count/ontology.v9"]}, "not a specification file of the system"),
+    ({"$specifications": ["count/ontology.v2"], "more": 1}, "alone in its object"),
+    ({"$specifications": ["steer/ontology.v2"]}, "names specification files in turn"),
+])
+def test_a_reference_to_specification_files_is_checked(tmp_path, change, message):
+    fs = files([], [])
+    fs["count/ontology.v2.json"] = fs["count/ontology.v1.json"]
+    fs["steer/ontology.v2.json"] = dict(fs["steer/ontology.v1.json"], constants={"X": {"$specifications": ["count/ontology.v2"]}})
+    d = definition([], [])
+    d["constants"]["CHANGE"] = change
+    with pytest.raises(AssertionError, match=message):
+        make_system(tmp_path / "bad", d, fs)
