@@ -52,7 +52,53 @@ are later twin pairs.
 
 ## 5. Plan
 
-No plan: phase 1, phase 2, phase 3 until terminal.
+The default plan records criteria and ontologies, runs phase 3 to termination, and records a final profile.
+
+### Optional next-prime criterion
+
+In the reference run described in §8.3 of OEE v167, the ontology proposes 2
+at the initial prefix. Criterion v1 also accepts 4 and 5 if judged directly
+at that prefix, where the recorded list of trial divisors is empty.
+
+Criterion v2 checks the candidate independently of the proposal rule (D2).
+The candidate must exceed the last admitted prime and be in the range from
+2 through MAX. The criterion checks its divisors through its integer square
+root and verifies that each skipped integer is composite. It uses an admitted
+divisor when one is visible and checks finite divisibility otherwise. At the
+initial prefix v2 admits 2 and refuses 4 and 5.
+
+A governed change can install an ontology that proposes 5 first. Criterion
+v1 admits that proposal. After a further governing event activates v2 (R1),
+the new criterion admits 7 on [5] by checking 6 for divisibility. Replay
+checks the two admissions at their respective historical prefixes and
+criterion versions (R2).
+
+In either example, insert the governing event before phase 3 in a copy
+of the default plan. Run this from the repository root.
+
+```python
+from ztes.substrate.replay import verify
+from ztes.substrate.store import MemoryStore
+from ztes.system.system import System
+
+for example, expected_events in (("prime-witnesses", 27), ("factorization", 28)):
+    system = System(f"examples/{example}")
+    plan = list(system.plan)
+    start = next(i for i, step in enumerate(plan) if step.get("phase") == 3)
+    plan.insert(start, {"govern": ["primes/criterion.v2"]})
+    record = system.run(MemoryStore(), plan=plan).prefix()
+    assert len(record) == expected_events
+    assert verify(record, judgments_only=True) == []
+    assert verify(record) == []
+```
+
+With the central agenda this gives 27 events for `prime-witnesses` and 28 for
+`factorization`, including the final profile. The default plans with criterion v1
+record 26 and 27 events respectively. The extra specification event changes
+the addresses that follow it, and the domain payloads and final profile
+agree with the default runs. Run
+`python -m pytest -q tests/test_prime_criterion.py` to check both examples,
+including a change of criterion between the admissions of 2 and 3.
 
 ## 6. Expected end
 

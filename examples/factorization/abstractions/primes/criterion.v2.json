@@ -1,0 +1,10 @@
+{
+  "note": "[τ] check the least next prime, reusing recorded divisors when available",
+  "inputs": {"context": ["p", "primes"], "candidate": {"name": "w", "type": "integer"}},
+  "body": {
+    "within_range": "2 <= w <= MAX and p < w",
+    "prime": "within_range and all(w % d != 0 for d in range(2, isqrt(w) + 1))",
+    "without_recorded_divisor": "[k for k in range(p + 1, w) if not any(1 < q and q * q <= k and k % q == 0 for q in primes)] if prime else []",
+    "result": "prime and all(any(k % d == 0 for d in range(2, isqrt(k) + 1)) for k in without_recorded_divisor)"
+  }
+}

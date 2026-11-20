@@ -97,6 +97,10 @@ the smallest p among the primes visible at that moment: 10 = 5 + 5 (7 was not ye
 14 = 7 + 7, 20 = 3 + 17. `twins` admits (3, 5), (5, 7), (11, 13), (17, 19). Finite witnesses
 establish no universal statement; the final permanent wait of `twins` is relative to the bound.
 
+The [optional next-prime criterion](prime-witnesses/DESIGN.md#optional-next-prime-criterion)
+reproduces the governed variant in §8.3 of OEE v167 for both prime witnesses and
+factorization. The optional plans record 27 and 28 events respectively.
+
 ### factorization: reused certificates (Table 7)
 
 `targets` releases 2,310, 30,030, 510,510, 7,429 one after another; `primes` certifies primes up to

@@ -55,7 +55,14 @@ The certificate is a record payload:
 
 ## 5. Plan
 
-No plan: phase 1, phase 2, phase 3 until terminal. No governed change.
+The default plan records criteria and ontologies, runs phase 3 to termination, and records a final profile.
+
+An optional `primes/criterion.v2` checks that a proposed integer is the least
+next prime. For the rule, the governed plan and the replay checks, see the
+[optional next-prime criterion](../prime-witnesses/DESIGN.md#optional-next-prime-criterion).
+With this plan the central agenda records 28 events, including the additional
+specification event. The four factorization certificates in Table 7 of
+OEE v167 (§8.7) occur with the same payloads as in the default run.
 
 ## 6. Expected end
 
