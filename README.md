@@ -507,11 +507,13 @@ system.save("examples/squares", design="# squares …")     # the same system as
 | `test_the_compiled_decoder_gives_what_the_old_decode_gave` and the other tests of `tests/test_decoders.py` | the decoder compiled once per type gives what the recursive decode gave, value for value and error for error, on random types and values |
 | `test_a_carried_ontology_is_active_from_its_event_and_replays` and the other tests of `tests/test_carried.py` | a specification carried by a candidate is active from its event and replays in both modes; a criterion and its ontology carried together bring in a new abstraction, executed by the agenda and by workers; τ_root judges carried specifications in order (version gaps, an ontology without its criterion, two carried fields), and a refused candidate leaves C unchanged; an abstraction that does not read the proposer is evaluated again; a carrying candidate is judged again after a lost race; an interrupted run continues to the same record; the same histories under random schedules; an altered carried specification fails replay at its event; a constant may name the specification files a proposer carries |
 | `test_criterion_v2_accepts_exactly_the_next_prime` and the other tests of `tests/test_prime_criterion.py` | the optional next-prime criterion of `prime-witnesses` and `factorization` admits exactly the next prime at every prefix, where criterion v1 also admits 4 and 5 on an empty lineage; admissions on each side of the change keep their evidence; a sparse lineage [5] continues with 7; the optional plan adds one specification event and keeps the domain payloads; both replay modes across the change |
+| `test_failed_map_extension_matches_fresh_index` (`tests/test_map_recovery.py`) | a map binding whose batch fails (a value that cannot be computed, a key that occurs twice in the recorded prefix or in the new batch) fails again in the same way when read again, and a shorter prefix reads as a fresh evaluation |
 
 These tests concern the model and the substrate and are grouped by package (`tests/test_model.py`,
 `test_substrate.py`, `test_system.py`, `test_cli.py`, and `test_records.py`, `test_filter_cache.py`,
 `test_decoders.py`, `test_frozen.py`, `test_replay_modes.py` for the optimizations, `test_carried.py` for
-specifications carried in execution, `test_prime_criterion.py` for the optional next-prime criterion); they use `examples/sqrt2` and
+specifications carried in execution, `test_prime_criterion.py` for the optional next-prime criterion, `test_map_recovery.py` for a map
+binding after a failed batch); they use `examples/sqrt2` and
 `tests/systems/counter`, a small system written in the same standard form. The examples have their
 own tests (`tests/test_examples.py`), described in [`examples/README.md`](examples/README.md).
 

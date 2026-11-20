@@ -173,20 +173,29 @@ class RecordMap(Mapping):
 
 
 def _map(ix, n, name, b, src, t, env, ns, tag):
-    """The entries of a map binding over Cⁿ, extended in the index with the events not yet in it."""
+    """The entries of a map binding over Cⁿ, extended in the index with the events not yet in it.
+
+    The new entries are published together, after every key and value of the batch has been
+    computed: a batch that fails (a value that cannot be computed, a key that occurs twice) leaves
+    the index as it was, so a later read of that prefix fails in the same way as a fresh one, and a
+    read of a shorter prefix is unaffected.
+    """
     cache = ix.maps.get(tag)
     if cache is None:
         cache = ix.maps[tag] = {"upto": 0, "entries": {}}
     if n > cache["upto"]:
         entries = cache["entries"]
+        # Publish the batch only after every key and value has been checked.
+        pending = {}
         for pos, p in ix.items_between(src, cache["upto"], n):
             x = types.decode(t, p)
             if "where" in b and not expression(b["where"], {**env, "x": x}, ns):
                 continue
             k = _key(expression(b["key"], {**env, "x": x}, ns))
-            if k in entries:
+            if k in entries or k in pending:
                 raise ValueError(f"binding '{name}': key {k!r} occurs twice")
-            entries[k] = (pos, freeze(expression(b["value"], {**env, "x": x}, ns) if "value" in b else x))
+            pending[k] = (pos, freeze(expression(b["value"], {**env, "x": x}, ns) if "value" in b else x))
+        entries.update(pending)
         cache["upto"] = n
     return RecordMap(cache["entries"], n)                     # a view of the prefix: no copy
 
@@ -280,8 +289,9 @@ def _frozen(ix, n, b, src, t, env, ns, tag, window):
         cache["pos"] += pos
         cache["values"] += values
         cache["upto"] = n
-    xs = cache["values"][:bisect.bisect_left(cache["pos"], n)]
-    return tuple(xs if window is None else xs[-window:])
+    end = bisect.bisect_left(cache["pos"], n)
+    start = 0 if window is None else max(0, end - window)
+    return tuple(cache["values"][start:end])
 
 
 # ---- a filter that reads only x: which events pass is decided once and kept in the index ----
