@@ -1,6 +1,6 @@
 # ZTES: a minimal Zero Tier Execution Substrate for the OEE calculus
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24416120.svg)](https://doi.org/10.5281/zenodo.24416120)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24416119.svg)](https://doi.org/10.5281/zenodo.24416119)
 
 A minimal executable substrate for the calculus in *A Calculus of Execution for Systems of
 Interacting Binary Relations: Contextual Resolution, Separated Admission, and an Inseparable
