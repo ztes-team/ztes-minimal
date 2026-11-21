@@ -3,7 +3,7 @@
   "upload_type": "software",
   "license": "mit",
   "version": "0.1.0",
-  "description": "Executable supplement to \"A Calculus of Execution for Systems of Interacting Binary Relations\": a minimal zero-tier execution substrate Z0 that applies Axiom 0 to systems of abstractions given as JSON specifications. Nine worked examples (the square root of two, a computable Dedekind cut, a payment with protective refusal, prime witnesses, certified factorization, exact TSP by Held-Karp and by branch and bound, and an ant colony with and without a recorded draw), eight defective mechanisms for the essential conditions of S1, and replay under R2 in full and judgments-only modes. Specifications are loaded from files or carried by a candidate during execution; execution in one process or by one worker per abstraction is an option of the configuration.",
+  "description": "A minimal realization of the Zero Tier Execution Substrate (ZTES) published in Systems 14 (2026) 547, from which it takes its name, and the executable supplement to \"A Calculus of Execution for Systems of Interacting Binary Relations\". Its zero-tier execution substrate Z0 applies Axiom 0 to systems of abstractions given as JSON specifications. Nine worked examples (the square root of two, a computable Dedekind cut, a payment with protective refusal, prime witnesses, certified factorization, exact TSP by Held-Karp and by branch and bound, and an ant colony with and without a recorded draw), eight defective mechanisms for the essential conditions of S1, and replay under R2 in full and judgments-only modes. Specifications are loaded from files or carried by a candidate during execution; execution in one process or by one worker per abstraction is an option of the configuration.",
   "creators": [
     {"name": "Radenković, Miloš", "affiliation": "School of Computing, Union University, Belgrade", "orcid": "0000-0002-1708-9799"},
     {"name": "Prokhorov, Sergei", "affiliation": "S.I. Vavilov Institute for the History of Science and Technology, Russian Academy of Sciences, Moscow", "orcid": "0000-0002-1874-8602"},
@@ -13,6 +13,6 @@
   "keywords": ["execution calculus", "binary relations", "append-only record", "replay", "admission"],
   "related_identifiers": [
     {"identifier": "10.20944/preprints202608.1545.v3", "relation": "isSupplementTo", "resource_type": "publication-preprint"},
-    {"identifier": "10.3390/systems14050547", "relation": "references", "resource_type": "publication-article"}
+    {"identifier": "10.3390/systems14050547", "relation": "isDerivedFrom", "resource_type": "publication-article"}
   ]
 }

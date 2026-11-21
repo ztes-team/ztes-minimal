@@ -24,12 +24,26 @@ authors:
     affiliation: "University of Belgrade, FON"
     orcid: "https://orcid.org/0000-0003-2111-7788"
 abstract: >-
-  Executable supplement to "A Calculus of Execution for Systems of Interacting Binary Relations":
-  a minimal zero-tier execution substrate Z0 that applies Axiom 0 to systems of abstractions given
-  as JSON specifications, with nine worked examples, eight defective mechanisms for the essential
-  conditions of S1, and replay under R2.
+  A minimal realization of the Zero Tier Execution Substrate (ZTES) published in Systems 14 (2026)
+  547, from which it takes its name, and the executable supplement to "A Calculus of Execution for
+  Systems of Interacting Binary Relations". Its zero-tier execution substrate Z0 applies Axiom 0 to
+  systems of abstractions given as JSON specifications, with nine worked examples, eight defective
+  mechanisms for the essential conditions of S1, and replay under R2.
 keywords: [execution calculus, binary relations, append-only record, replay, admission]
 references:
+  - type: article
+    title: "Zero Tier Execution Substrate for Evolutionary Software Systems"
+    authors:
+      - {family-names: "Ivanović", given-names: "Aleksandar"}
+      - {family-names: "Radenković", given-names: "Miloš"}
+      - {family-names: "Prokhorov", given-names: "Sergei"}
+      - {family-names: "Labus", given-names: "Aleksandra"}
+      - {family-names: "Radenković", given-names: "Božidar"}
+    journal: "Systems"
+    year: 2026
+    volume: 14
+    start: 547
+    doi: "10.3390/systems14050547"
   - type: article
     title: "A Calculus of Execution for Systems of Interacting Binary Relations"
     authors:

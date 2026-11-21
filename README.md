@@ -5,8 +5,10 @@ Interacting Binary Relations: Contextual Resolution, Separated Admission, and an
 Execution Substrate* (Škarić, Ivanović, M. Radenković, Prokhorov, Labus, B. Radenković) [2].
 Preprint: DOI to be added.
 
-This repository is one possible implementation of the ZTES execution model [3], which is
-independent of infrastructure and design method; here it serves to demonstrate the calculus.
+This repository is a minimal realization of the Zero Tier Execution Substrate (ZTES) published in
+*Systems* [3], from which it takes its name. The ZTES execution model is independent of
+infrastructure and design method; this is one possible implementation of it, and here it serves to
+demonstrate the calculus.
 
 A problem is decomposed into binary relations. Each relation is lifted into an executable
 specification, an **abstraction**. The **zero-tier execution substrate Z₀** executes the
