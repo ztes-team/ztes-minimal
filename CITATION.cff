@@ -4,6 +4,7 @@ title: "ZTES: a minimal Zero Tier Execution Substrate for the OEE calculus"
 type: software
 version: 0.1.0
 date-released: 2026-11-21
+doi: "10.5281/zenodo.24416120"
 license: MIT
 repository-code: "https://github.com/ztes-team/ztes-minimal"
 authors:
