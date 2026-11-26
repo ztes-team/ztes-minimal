@@ -56,7 +56,7 @@ The default plan records criteria and ontologies, runs phase 3 to termination, a
 
 ### Optional next-prime criterion
 
-In the reference run described in §8.3 of OEE v167, the ontology proposes 2
+In the reference run described in §8.3 of the paper, the ontology proposes 2
 at the initial prefix. Criterion v1 also accepts 4 and 5 if judged directly
 at that prefix, where the recorded list of trial divisors is empty.
 

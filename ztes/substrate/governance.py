@@ -10,7 +10,7 @@ governance is internal to execution (R1).
     the record  s continues its lineage in C:
                   - its version is the next one (versions 1, 2, … without gaps; immutable lineage);
                   - an ontology names the criterion that is active in Cⁿ: the eschatological
-                    specification comes first, the ontological one is bound to it (§3.1.4, §3.4.3)
+                    specification comes first, the ontological one is bound to it (§3.1.2, §3.4.3)
 
 It checks the API, not the domain meaning: what an abstraction does is judged by its own
 criterion in phase 3.

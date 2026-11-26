@@ -1,6 +1,9 @@
 # A tour of the package
 
-For a reader of the paper who wants to see the calculus run. It takes four stops: one invocation
+For a reader of the paper who wants to see the calculus run. Section, theorem and table numbers
+refer to version 4 of the base paper; [`glossary.md`](glossary.md) gives the terms of the paper next
+to those printed here (the paper calls the local outcome Not Yet *Pending*), and
+[`REPRODUCING.md`](../REPRODUCING.md) lists every result of the paper with its command. It takes four stops: one invocation
 followed from start to finish, the map from the paper to the code, the examples in order, and what
 happens when a condition is left out. The [README](../README.md) is the reference of the substrate
 and [`writing-a-system.md`](writing-a-system.md) the guide for writing a system; this document
@@ -107,13 +110,15 @@ false: the lineage is closed.
 | S_ω, S_τ variable, Z₀ fixed (§3.4.4, §9.1.1) | `model/` never imports `substrate/` | `test_model_does_not_import_the_substrate` |
 | boundary abstraction (§5.2) | `"boundary": true`; `system/sources.py` | `test_aco_draws_are_recorded_and_replay_never_asks_the_source` |
 | recorded merges; scheduling is not fixed by Axiom 0 (§5.3) | `system/agenda.py`, `system/resume.py` | `test_an_interrupted_run_continues_to_the_same_record` |
-| structural non-progress and governed repair (§6, §8.5) | the termination report of `agenda.py` | `test_dedekind_cut_repair` |
-| execution indicators (§6.3, §8.8) | `system/kpi.py`: `profile`, and a `kpi` abstraction per problem | `test_kpi_profile_records_what_the_record_does_not_keep` |
+| Theorem K and Corollary 7: nondeterminism is located in the record (§5.3) | `system/workers.py`: one worker per abstraction | `test_every_example_under_random_schedules` |
+| non-termination: the classes of Theorem 4 (§6.2) | the termination report of `agenda.py`: terminal, closed, permanent wait, the admission limit | `test_sqrt2_termination_states` |
+| structural non-progress and governed repair (§6.3, §6.5, Corollary 9, §8.5) | the diagnosis in the termination report; a `govern` step | `test_dedekind_cut_repair` |
+| execution indicators (§6.4, §8.8) | `system/kpi.py`: `profile`, and a `kpi` abstraction per problem | `test_kpi_profile_records_what_the_record_does_not_keep` |
 | distributed realization (§9.1.1) | `service.py`: one service per abstraction | `test_separate_microservice_processes` |
 
 Three things the paper discusses are not in the package: diagnosis and governing abstractions with
 criteria of their own (every specification is admitted under τ_root), abeyance as a recorded
-abstraction (§5.2), and consensus across failing nodes (§9.5).
+abstraction (§5.2), and consensus across failing nodes (§9.4).
 
 ## 3. The examples, in order
 
@@ -126,7 +131,9 @@ Each adds one thing; `examples/README.md` has the table and a guide by question.
 3. **`payment`** admits two transfers with the same payload on different grounds, and refuses a
    third. `python -m ztes explain DIR N` shows the ground of each from the record.
 4. **`prime-witnesses`** admits 10 = 5 + 5 and not 3 + 7, because 7 is not yet certified when the
-   invocation completes. The relation is multivalued; the record resolves it.
+   invocation completes. The relation is multivalued; the record resolves it. Under another
+   schedule of the workers 7 can be recorded first, and then 3 + 7 is admitted (§8.3;
+   [`distribution.md`](distribution.md)).
 5. **`factorization`** reuses admitted certificates, so later factorizations are checked, not
    searched for.
 6. **`tsp`** does the same at scale: 448 subproblems are computed for three questions that need
@@ -156,6 +163,9 @@ and names the check that failed; the table is in the README.
 The point of this stop is the one the paper makes with Theorems C and D. The eight conditions are
 not a list from which a design may choose. Leave any one out, and either a past judgment can no
 longer be reproduced (R2) or a change of the rules has escaped the rules (R1).
+
+The contributions of the paper and the examples that confirm them are mapped in Table 10 of the
+paper and in [`REPRODUCING.md`](../REPRODUCING.md#the-contributions-of-table-10).
 
 ## Where to go next
 

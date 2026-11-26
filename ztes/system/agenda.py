@@ -1,4 +1,4 @@
-"""[Z₀] Phase 3: the agenda, termination, and the state of each abstraction.   Paper: §4.1.3, §4.6.5, §6.2
+"""[Z₀] Phase 3: the agenda, termination, and the state of each abstraction.   Paper: §4.1.3, §4.6.5, §6.3
 
 Phase 3 is driven by an agenda, as in a three-phase simulation: after each
 admission only the abstractions that can be affected are evaluated again.

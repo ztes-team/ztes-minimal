@@ -1,15 +1,16 @@
-# Specifications proposed in execution: design
+# Specifications carried by a candidate: design and mechanism
 
-*Status: implemented (§5), after the optimizations that keep every record identical (§7). How to
-write such a system: [writing-a-system.md](writing-a-system.md#specifications-carried-by-a-candidate).*
+*This page explains why and how an abstraction can propose specifications during execution. How to
+write such a system: [writing-a-system.md](writing-a-system.md#specifications-carried-by-a-candidate).
+The history of the change is in [`CHANGELOG.md`](../CHANGELOG.md). Section and theorem numbers refer
+to version 4 of the base paper.*
 
-## 1. What is proposed
+## 1. What it is
 
-Today a specification enters the record in one way: the plan reads it from a JSON file and Z₀
-admits it under τ_root (phases 1 and 2, and the plan step `govern`). The proposal adds a second way:
-an abstraction proposes specifications in phase 3, as part of its candidate, and they are admitted
-by the same rule. Both ways give the same thing in C: an admitted version, active from its event on
-(S1.3).
+A specification enters the record in one of two ways. The plan reads it from a JSON file and Z₀
+admits it under τ_root (phases 1 and 2, and the plan step `govern`). Or an abstraction proposes it in
+phase 3, as part of its candidate, and it is admitted by the same rule. Both ways give the same thing
+in C: an admitted version, active from its event on (S1.3).
 
 This is R1 taken literally: governance is internal to execution. A system can then change its own
 ontologies and criteria, and bring new abstractions into being, through admitted events that replay.
@@ -85,9 +86,9 @@ the VNS examples wait for the incumbent of their round. A change then takes effe
 fixed by complete horizons. A proposer that reads the record "as it stands" gives a valid record
 whose course depends on the schedule, as the asynchronous forms do.
 
-## 5. What changes in the code
+## 5. Where in the code
 
-| Where | Change |
+| Where | What it does |
 |---|---|
 | `model/types.py` | the basic type `specification` (JSON object; the API is checked by τ_root) |
 | `model/validation.py` | an ontology may declare at most one field of type `{"list": "specification"}` |
@@ -127,10 +128,3 @@ each mutation fails at least one of these tests.
   - a carrying candidate is judged again after a lost race;
   - an interrupted run continues to the same record, cut before, at and after a carrying event;
   - the profile, the coordinator and the command line (`run`, `verify`, `explain`).
-
-## 7. Order of work
-
-1. Baseline (done): hashes of the records and times of every example, under the agenda and by
-   workers.
-2. Optimizations that keep every record identical, one per commit.
-3. This proposal (done); then the example of adaptive VNS in oee-heuristic-agents that uses it.

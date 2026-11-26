@@ -1,4 +1,4 @@
-"""Execution indicators (KPI) as abstractions above Z₀, computed on demand.      Paper: §6.3, §8.8, §5.2
+"""Execution indicators (KPI) as abstractions above Z₀, computed on demand.      Paper: §6.4, §8.8, §5.2
 
 KPI are not part of the calculus. They belong to the design of an execution: ordinary abstractions,
 admitted by Z₀ under Axiom 0, that are invoked only when an indicator is needed (a plan step

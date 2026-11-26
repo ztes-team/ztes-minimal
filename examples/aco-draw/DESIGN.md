@@ -1,6 +1,6 @@
 # Ant colony optimization with recorded draws: design (step 0)
 
-*Not yet in the paper (planned with §8.8). Tags: [C] epistemic, [ω] ontological, [τ] eschatological (see the README).*
+*Paper: §8.8 and Table 8; case 3 of Table 5 removes exactly the recorded draw. Tags: [C] epistemic, [ω] ontological, [τ] eschatological (see the README).*
 
 **What this example adds.** After `aco`: the same colony with a real random draw. Chance enters as a boundary abstraction, the only kind of candidate not computed from the record.
 

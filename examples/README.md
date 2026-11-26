@@ -1,8 +1,11 @@
 # Examples
 
-Nine systems. Seven are the executable counterparts of examples in the paper *A Calculus of
-Execution for Systems of Interacting Binary Relations*; two (`aco`, `aco-draw`) apply the same
-method to a heuristic. Each is a directory of JSON specifications with a `DESIGN.md` that records
+Nine systems, the executable counterparts of the examples in the base paper *A Calculus of
+Execution for Interacting Binary Relations* (version 4, https://doi.org/10.20944/preprints202608.1545.v4),
+Section 8 and Table 8. Seven come from its worked examples; two (`aco`, `aco-draw`) apply the same
+method to a heuristic, and `aco` is also the colony of the eight defective mechanisms of Table 5.
+[`REPRODUCING.md`](../REPRODUCING.md) gives for each result of the paper the command and the
+expected output. Each is a directory of JSON specifications with a `DESIGN.md` that records
 the design step by step: the problem, its decomposition into binary relations, the lifting into
 abstractions, the design decisions, the plan, the expected end, the files, and the indicators.
 
@@ -25,26 +28,26 @@ A guided walk through the package, starting with one invocation of `sqrt2`, is i
 
 Each example adds one thing to the one before it; the first line of every `DESIGN.md` says what.
 
-| | Example | Paper | Abstractions | Events | What it adds |
-|---|---|---|---|---|---|
-| 1 | [`sqrt2`](sqrt2/DESIGN.md) | §8.2 (simplified) | 2 | 16 | the smallest system: two abstractions, one governed change |
-| 2 | [`dedekind-cut`](dedekind-cut/DESIGN.md) | §8.1–8.5, Table 6 | 3 | 26 | three streams; a wrong horizon found at termination and repaired by governance |
-| 3 | [`payment`](payment/DESIGN.md) | §1.1 | 4 | 21 | equal payloads, different grounds; protective refusal |
-| 4 | [`prime-witnesses`](prime-witnesses/DESIGN.md) | §8.3 | 3 | 26 | the record resolves a multivalued relation (10 = 5 + 5, not 3 + 7) |
-| 5 | [`factorization`](factorization/DESIGN.md) | §8.7, Table 7 | 3 | 27 | admitted certificates are reused: checking replaces search |
-| 6 | [`tsp`](tsp/DESIGN.md) | §8.8 | 2 | 468 | exact TSP (Held–Karp); the record is the memo table across instances |
-| 7 | [`tsp-bnb`](tsp-bnb/DESIGN.md) | §8.8 | 3 | 71 | exact TSP by branch and bound; recorded bounds prune; optimality as a recorded proof |
-| 8 | [`aco`](aco/DESIGN.md) | not yet | 2 | 73 | a heuristic: the trail is a lineage, evaporation a window, a quota replaces the draw |
-| 9 | [`aco-draw`](aco-draw/DESIGN.md) | not yet | 3 | 138 | the same colony with a random draw, recorded as a boundary event |
+| | Example | Paper | Table 10 | Abstractions | Events | What it adds |
+|---|---|---|---|---|---|---|
+| 1 | [`sqrt2`](sqrt2/DESIGN.md) | §8.2 (simplified) | C2, C3 | 2 | 16 | the smallest system: two abstractions, one governed change |
+| 2 | [`dedekind-cut`](dedekind-cut/DESIGN.md) | §8.1–8.5, Table 6 | C2, C3 | 3 | 26 | three streams; a wrong horizon found at termination and repaired by governance |
+| 3 | [`payment`](payment/DESIGN.md) | §1.1, Table 2 | C1 | 4 | 21 | equal payloads, different grounds; protective refusal |
+| 4 | [`prime-witnesses`](prime-witnesses/DESIGN.md) | §8.3 | C1, C4 | 3 | 26 | the record resolves a multivalued relation (10 = 5 + 5, not 3 + 7) |
+| 5 | [`factorization`](factorization/DESIGN.md) | §8.7, Table 7 | C1, C6 | 3 | 27 | admitted certificates are reused: checking replaces search |
+| 6 | [`tsp`](tsp/DESIGN.md) | §8.8 | C2, C6 | 2 | 468 | exact TSP (Held–Karp); the record is the memo table across instances |
+| 7 | [`tsp-bnb`](tsp-bnb/DESIGN.md) | §8.8 | C6 | 3 | 71 | exact TSP by branch and bound; recorded bounds prune; optimality as a recorded proof |
+| 8 | [`aco`](aco/DESIGN.md) | §8.8, Table 5 | C2 | 2 | 73 | a heuristic: the trail is a lineage, evaporation a window, a quota replaces the draw |
+| 9 | [`aco-draw`](aco-draw/DESIGN.md) | §8.8 | C2 | 3 | 138 | the same colony with a random draw, recorded as a boundary event |
 
-The event counts include the KPI step with which every plan ends.
+The event counts include the KPI step with which every plan ends. The column Table 10 names the contributions of the paper that the example confirms; one Z₀ executes all nine (C5).
 
 ## Where to look
 
 | If you want to see … | look at |
 |---|---|
 | one invocation of Axiom 0, step by step | `sqrt2`, with `run --trace`, and `docs/tour.md` |
-| Not Yet (⊥): an abstraction that waits and leaves no event | `sqrt2` (`upper`), `factorization` (`factor`) |
+| Not Yet (⊥; Pending in the paper): an abstraction that waits and leaves no event | `sqrt2` (`upper`), `factorization` (`factor`) |
 | a false judgment that protects, and one that closes | `payment` (`transfer`); `sqrt2` (`lower`) |
 | D1: several valid answers, one admitted, no choice function | `prime-witnesses`, `aco` |
 | D2: a criterion that knows nothing of how the candidate was made | `factorization`, `aco` (`tour`) |
@@ -86,7 +89,7 @@ The shortest example; start here.
 Three streams: denominators 2ⁿ, integer bounds aₙ with aₙ² ≤ 2·4ⁿ < (aₙ + 1)², and intervals
 [aₙ/2ⁿ, (aₙ + 1)/2ⁿ]. The interval ontology v1 reads a wrong lineage, so after the first execution
 the termination report shows `intervals` waiting on the external lineage `bound`, although the
-bounds are in the record (§6.2, §8.4). A governed change admits ontology v2 with the correct
+bounds are in the record (§6.3, §8.4; class 𝔓 of Theorem 4). A governed change admits ontology v2 with the correct
 horizon (§8.5), and the five intervals of Table 6 follow: [1, 2], [1, 3/2], [5/4, 3/2], [11/8, 3/2],
 [11/8, 23/16].
 
@@ -98,7 +101,7 @@ the smallest p among the primes visible at that moment: 10 = 5 + 5 (7 was not ye
 establish no universal statement; the final permanent wait of `twins` is relative to the bound.
 
 The [optional next-prime criterion](prime-witnesses/DESIGN.md#optional-next-prime-criterion)
-reproduces the governed variant in §8.3 of OEE v167 for both prime witnesses and
+reproduces the governed variant in §8.3 of the paper for both prime witnesses and
 factorization. The optional plans record 27 and 28 events respectively.
 
 ### factorization: reused certificates (Table 7)
@@ -132,7 +135,7 @@ The companion of `tsp`. Every expansion of the search tree records the lower bou
 every tour found records an upper bound, and a node whose recorded lower bound reaches the recorded
 best tour is never expanded. Optimality is a recorded proof (no open node can beat the best tour),
 checked against the record. For 7 cities 34 nodes are expanded instead of 1,237; for 8 cities 14
-instead of 8,660. When city 7 is added, the search tree of instance 1 is no longer valid (all bounds
+instead of 8,660. When city 7 (the eighth city; cities are numbered from zero) is added, the search tree of instance 1 is no longer valid (all bounds
 change), but its optimal tour, with the new city inserted, seeds the upper bound: 14 expansions
 instead of 16. The two TSP examples together show that what carries over between instances depends
 on what an abstraction records: DP subproblems almost entirely, a branch-and-bound tree only its

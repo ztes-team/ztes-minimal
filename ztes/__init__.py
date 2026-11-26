@@ -1,10 +1,10 @@
 """ztes: a minimal Zero Tier Execution Substrate for the OEE execution calculus.
 
-One possible implementation of the ZTES execution model [50], which is independent of
-infrastructure and design method; here it serves to demonstrate the calculus of
-"A Calculus of Execution for Systems of Interacting Binary Relations: Contextual Resolution,
-Separated Admission, and an Inseparable Execution Substrate". Section, theorem and table
-numbers in the comments refer to that paper.
+One possible implementation of the ZTES execution model (Systems 14 (2026) 547), which is
+independent of infrastructure and design method; here it serves to demonstrate the calculus of
+"A Calculus of Execution for Interacting Binary Relations" (Preprints 2026, 2026081545, v4,
+https://doi.org/10.20944/preprints202608.1545.v4). Section, theorem and table numbers in the
+comments refer to version 4 of that paper.
 
 The package keeps the model apart from the substrate that executes it:
 

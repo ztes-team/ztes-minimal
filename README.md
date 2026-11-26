@@ -2,10 +2,11 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24416119.svg)](https://doi.org/10.5281/zenodo.24416119)
 
-A minimal executable substrate for the calculus in *A Calculus of Execution for Systems of
-Interacting Binary Relations: Contextual Resolution, Separated Admission, and an Inseparable
-Execution Substrate* (Škarić, Ivanović, M. Radenković, Prokhorov, Labus, B. Radenković) [2].
-Preprint: DOI to be added.
+A minimal executable substrate for the calculus in *A Calculus of Execution for Interacting Binary
+Relations* (Škarić, Ivanović, M. Radenković, Prokhorov, Labus, B. Radenković) [2], version 4 of the
+preprint, https://doi.org/10.20944/preprints202608.1545.v4. The heuristic agents of the companion
+paper [4], in preparation, run on the same substrate in
+[oee-heuristic-agents](https://github.com/ztes-team/oee-heuristic-agents).
 
 This repository is a minimal realization of the Zero Tier Execution Substrate (ZTES) published in
 *Systems* [3], from which it takes its name. The ZTES execution model is independent of
@@ -13,19 +14,41 @@ infrastructure and design method; this is one possible implementation of it, and
 demonstrate the calculus.
 
 A problem is decomposed into binary relations. Each relation is lifted into an executable
-specification, an **abstraction**. The **zero-tier execution substrate Z₀** executes the
-abstractions: it applies Axiom 0, records every admitted step in one shared record, and is the only
+specification, an **abstraction**. **Z₀**, the fixed admission procedure of the zero-tier execution
+substrate, executes the abstractions: it applies Axiom 0, records every admitted step in one shared record, and is the only
 writer to that record, from which every step can be verified later. The substrate is small on
 purpose: it shows the ideas of the paper, not every case.
 
-New here? [`docs/tour.md`](docs/tour.md) follows one invocation from start to finish, maps the paper
-to the code, and walks through the examples.
+## Start here
+
+| If you … | read |
+|---|---|
+| have read the paper and want to see the calculus run | [`docs/tour.md`](docs/tour.md): one invocation from start to finish, the paper mapped to the code, the examples in order |
+| want to check a result of the paper | [`REPRODUCING.md`](REPRODUCING.md): every result, the command that produces it, its output and its test |
+| meet a term you do not know, or one the paper names differently | [`docs/glossary.md`](docs/glossary.md) |
+| want to write a system of your own | [`docs/writing-a-system.md`](docs/writing-a-system.md) |
+| want to see the examples | [`examples/README.md`](examples/README.md) |
+| want to know what changed between versions | [`CHANGELOG.md`](CHANGELOG.md) |
+
+**The two papers.** This repository is the executable supplement of two papers. The base paper [2]
+defines the calculus, and its Section 8 and Table 8 describe the examples here; every section,
+theorem, corollary and table number in this repository refers to version 4 of [2]. The companion
+paper [4], *Observable, Governable, Cooperative: Execution Analytics and Adaptive Heuristic Agents in
+the OEE Calculus*, is in preparation. It studies heuristic agents executed by this substrate; its
+examples are in oee-heuristic-agents, and the execution indicators (KPI) described below are the
+ones it uses.
 
 ## Theory in brief
 
 **Binary relations as the starting point.** A relation R ⊆ X × Y says which pairs belong together.
 It does not say how a pair is produced, on what grounds it was accepted, or how that acceptance can
 be checked later. The calculus adds exactly this, without changing what R is (§1, §4.3).
+
+**Two relations.** Executing R needs two more answers: what is proposed next from the record, and
+whether it counts. The lifting gives each its own relation over the same record. The ontology
+proposes; the criterion, a Boolean predicate on the preceding prefix and the completed candidate,
+admits. The criterion never reads the event it authorizes, so no admission depends on itself
+(§3.2).
 
 **Scope.** Set theory and number theory can be formalized in the calculus of binary relations [1],
 and higher-arity relations reduce to binary incidence relations (§2.1). Most problems of mathematics
@@ -44,7 +67,7 @@ of universal statements (§8.3).
 **One rule of execution: Axiom 0, applied by Z₀.** Z₀ is the fixed, domain-independent procedure that
 applies Axiom 0 over C: the zeroth tier, presupposed rather than admitted, below every abstraction
 (§3.4.1). For a prefix Cⁿ: if Sω(Cⁿ) is undefined, nothing happens
-(**Not Yet**). Otherwise the candidate ω is judged by Sτ(Cⁿ, ω), and only on `true` is the event
+(**Not Yet**; the paper calls this local outcome Pending, see [`docs/glossary.md`](docs/glossary.md)). Otherwise the candidate ω is judged by Sτ(Cⁿ, ω), and only on `true` is the event
 ⟨coordinate, ω⟩ appended, giving Cⁿ⁺¹. Iterating this rule is **eschatological induction** (§3.4,
 §4.1.3).
 
@@ -52,7 +75,7 @@ applies Axiom 0 over C: the zeroth tier, presupposed rather than admitted, below
 * **D1, contextual resolution.** A relation may allow many y for one x. The substrate never chooses
   among them: the record resolves the ontology to at most one candidate (§3.2.2).
 * **D2, separated admission.** The criterion is an independent object, specified and versioned
-  separately from the ontology, and judged on the same prefix (§3.1.3, Proposition 15).
+  separately from the ontology, and judged on the same prefix (§3.2, Proposition 15).
 
 **The architecture S1 and what it guarantees.** One append-only shared order, a deterministic
 criterion, immutable specification versions activated only through the record, retained evidence,
@@ -68,7 +91,9 @@ that executes over it.
 
 **Termination.** A system is terminal when no abstraction can extend the record (§4.6.5). Each
 abstraction then is either **closed** (it has a candidate, but the criterion refuses it) or in
-**permanent wait** (Not Yet, and nothing it reads can still change).
+**permanent wait** (Not Yet, and nothing it reads can still change). Theorem 4 (§6.2) classifies
+whole executions relative to the goals of a task; the glossary shows how its classes appear in a
+run.
 
 ## Method: from a problem to an execution
 
@@ -83,12 +108,9 @@ abstraction then is either **closed** (it has a candidate, but the criterion ref
 | **Change** | Write a new version and add a `govern` step. | records it as an event; the changed abstraction runs again | plan step `govern` |
 | **Verify** | – | replays the whole record from C alone (R2) and compares the end with `expect` | `substrate/replay.py`, `check_expect` |
 
-This README describes the substrate only. Two separate documents complete it:
-
-* [`docs/writing-a-system.md`](docs/writing-a-system.md): how to write a system, with the full
-  reference of the JSON files (part of the substrate documentation);
-* [`examples/README.md`](examples/README.md): the examples from the paper, each in its own directory,
-  described separately from the substrate.
+This README describes the substrate. How to write a system, with the full reference of the JSON
+files, is in [`docs/writing-a-system.md`](docs/writing-a-system.md); the examples are described
+separately in [`examples/README.md`](examples/README.md).
 
 ## Quick start
 
@@ -108,30 +130,65 @@ python -m ztes run    examples/sqrt2 --redis URL        # distributed record (Re
 python -m pytest -q
 ```
 
-End of `python -m ztes run examples/sqrt2`:
+End of `python -m ztes run examples/sqrt2` (addresses shortened):
 
 ```
    terminal: no abstraction can extend C in this regime
      lower        closed: ω = 181/128, τ false
      upper        permanent wait (Not Yet): its horizon is quiescent
+-- execution indicators, once, at the end
+KPI  execution indicators, on demand
+   profile/criterion.v1   admitted
+   profile/ontology.v1    admitted
+   C^15  profile      → admitted
 
    n  kind    abstraction  value
    0  genesis
-   1  spec    lower        criterion v1   addr …
-   2  spec    upper        criterion v1   addr …
-   3  spec    lower        ontology v1   addr …
-   4  spec    upper        ontology v1   addr …
+   1  spec    lower        criterion v1   addr f6f41984a93f9687…
+   2  spec    upper        criterion v1   addr e094cd05d22fc647…
+   3  spec    lower        ontology v1   addr 6dc5f80b0d7a82fc…
+   4  spec    upper        ontology v1   addr 42edebeb0e6c4ed7…
    5  exec    upper        3/2   ≈ 1.500000
    6  exec    lower        5/4   ≈ 1.250000
-   7  spec    lower        criterion v2   addr …
-   8  spec    upper        criterion v2   addr …
+   7  spec    lower        criterion v2   addr f506fd1339cc692a…
+   8  spec    upper        criterion v2   addr 59cb0614e861458b…
    9  exec    lower        11/8   ≈ 1.375000
   10  exec    upper        23/16   ≈ 1.437500
   11  exec    lower        45/32   ≈ 1.406250
   12  exec    upper        91/64   ≈ 1.421875
+  13  spec    profile      criterion v1   addr 2ebcbbe822691b34…
+  14  spec    profile      ontology v1   addr e300202440294549…
+  15  exec    profile      [{"abstraction": "lower", "I": 5, "A": 3, "U": 1, "H": 0, "F": 1}, …]
 
-R2  replay of 13 events: OK
+Summary  16 events: 8 specifications, 7 admitted results
+   abstraction     invoked  admitted  horizon  body  τ false   end, and the last admitted value
+   lower                 5         3        0     1        1   closed (τ false); 45/32
+   upper                 5         3        0     2        0   waits (Not Yet); 91/64
+
+R2  replay of 16 events: OK
+
+Expect  OK
 ```
+
+### How to read the output
+
+* **`n`** is the position of the event in the record C, numbered from zero; position k here is
+  position k + 1 in the notation of the paper (§4.1.2).
+* **`kind`**: `genesis` opens the record; `spec` records a specification (criterion or ontology,
+  with its version and the address of its content); `exec` records an admitted result of phase 3,
+  and `value` is its payload.
+* **Phase 3 lines** such as `C^13  lower  → false  ω = 181/128` give the prefix on which an
+  invocation was judged and its outcome: `admitted`, `false` (a completed candidate, refused), or
+  `Not Yet` (no completed candidate: Pending in the paper; nothing is appended).
+* **`terminal`** means that no abstraction can extend C in this regime (Terminal_r(C), §4.6.5). Each
+  abstraction then is `closed` (its last candidate was refused) or in `permanent wait`; `waits on
+  external [...]` names a lineage that nothing in the system writes.
+* **The KPI step** at the end records the profile: for each abstraction I invocations, A admitted,
+  U Not Yet (of which H stopped before the body ran), F false. It enters C as three events (two
+  specifications and the profile), which is why the record has 16 events and not 13.
+* **`Summary`** repeats the profile per abstraction, with how each ended and its last admitted value.
+* **`R2  replay of 16 events: OK`**: the whole record was re-derived and re-judged from the empty
+  prefix. **`Expect  OK`**: the end stated in `system.json` holds.
 
 ## How the substrate works
 
@@ -150,7 +207,7 @@ comments use one set of tags:
 | `[C]` | epistemic axis: the record, what is read from it (κ(C)), how it is written | |
 | `[ω]` | ontological axis: Sω, realization, ⊥ (Not Yet) | D1 |
 | `[τ]` | eschatological axis: Sτ, judgment, exactly one Boolean | D2 |
-| `[Z₀]` | the zero-tier execution substrate: Axiom 0, τ_root, the only writer to C | §3.4.1 |
+| `[Z₀]` | Z₀, the fixed admission procedure of the zero-tier execution substrate (S1 together with Z₀): Axiom 0, τ_root, the only writer to C | §3.4.1 |
 | `[A0]` | one application of Axiom 0: an invocation, steps 3a, 3b, 3c | |
 | `[S1.k]`, `[R1]`, `[R2]` | the substrate conditions and what they guarantee | §3.3, §4.2 |
 
@@ -177,9 +234,9 @@ bodies), so that every part of a system says which axis it belongs to.
 | | `service.py` [ω][τ] | one stateless microservice per abstraction: Z₀ asks it for steps 3a and 3b | §3.4.4, §9.1.1 |
 | **system**: tooling | `authoring.py` | step 0: short specification files and shared declarations, expanded into complete specifications | – |
 | | `system.py` | load a system, run its plan, start its services | – |
-| | `agenda.py` [Z₀] | phase 3: the agenda, termination, the final state of each abstraction | §4.6.5, §6.2 |
+| | `agenda.py` [Z₀] | phase 3: the agenda, termination, the final state of each abstraction | §4.6.5, §6.3 |
 | | `checks.py` | the static check of a system, with the same rules as τ_root | – |
-| | `kpi.py` | execution indicators as abstractions above Z₀: `profile` (boundary) and the system's `kpi` | §5.2, §6.3 |
+| | `kpi.py` | execution indicators as abstractions above Z₀: `profile` (boundary) and the system's `kpi` | §5.2, §6.4 |
 | | `report.py` | the record as text, `explain`, `expect`, the R2 report | – |
 | | `scaffold.py` | `new`: a valid starting system with DESIGN.md | – |
 | | `__main__.py` | `new`, `check`, `design`, `run`, `verify`, `explain`, `serve` | – |
@@ -453,73 +510,14 @@ system.save("examples/squares", design="# squares …")     # the same system as
 
 ## Tests
 
-| Test | What it shows |
-|---|---|
-| `test_plan_runs_and_replays` | the √2 plan gives the expected bounds and R2 holds |
-| `test_phase2_requires_phase1` | an ontology cannot be recorded before its criterion |
-| `test_tampering_is_detected` | a value changed outside Z₀ is found at that event, and the next hash link breaks (Theorem C′ in miniature) |
-| `test_concurrent_substrates_do_not_fork` | two instances of Z₀ judge the same prefix; one append succeeds, the other is judged again |
-| `test_redis_backend` | the same system on Redis |
-| `test_the_same_record_under_every_configuration` | every example gives the same events in memory, on disk, on Redis (batch 1 and 7), with services on a replica, and over HTTP |
-| `test_every_example_by_workers_on_every_store`, `test_every_example_under_random_schedules` | phase 3 by one worker per abstraction: every record replays, every abstraction ends the same way, `expect` holds under any schedule |
-| `test_a_lost_race_outside_the_horizon_keeps_the_judgment` | Lemma 6 in Z₀: a judgment stands while its horizon stands |
-| `test_workers_as_separate_processes` | three worker processes and a coordinator on one record |
-| `test_a_service_waits_for_its_replica` | a lagging replica delays the run and does not change the record |
-| `test_an_append_no_replica_confirmed_stops_the_run_and_the_run_continues` | replica confirmation; the run continues from the record |
-| `test_command_line` | `run` with a kept record, then `verify`, and `verify --judgments` |
-| `test_malformed_system_is_refused` | a file whose version does not match its name is refused at load |
-| `test_sqrt2_termination_states` | √2 ends terminal: `lower` closed, `upper` in permanent wait |
-| `test_generic_context_and_external_wait` | `count`, `all` + `where`, record payloads, a wait on an external lineage |
-| `test_tau_root_checks_the_api` | unknown `select`, missing criterion default, unknown type are refused |
-| `test_types_are_strict` | values of the wrong type are rejected |
-| `test_check_accepts_the_shipped_systems` | `check` passes for √2 and for the test system |
-| `test_check_finds_problems` | an undeclared name, a missing file, a criterion refused by τ_root |
-| `test_comprehensions_see_bindings` | regression: generator expressions in a body see the bindings |
-| `test_http_services_carry_json_candidates` | regression: over HTTP, integer and record candidates keep their type |
-| `test_authoring_format_is_expanded` | identity from the path, named types and bindings, `$self`, list context, used constants only; the expanded form runs and replays |
-| `test_select_one_and_where_with_earlier_bindings` | `select: one` and a `where` that uses an earlier binding; more than one match is an error |
-| `test_errors_name_the_specification_and_expression` | a failing body is reported with its specification and expression; `a / b` gives a clear message |
-| `test_expect_reports_differences` | `expect` detects wrong event counts, states and values |
-| `test_a_failing_specification_stops_the_run_with_its_location` | `run` stops with exit code 2 and names the failing expression |
-| `test_function_body_rules` | a function body may not use while, import, `_` attributes, recursion, or undeclared names |
-| `test_tau_root_checks_function_bodies` | τ_root refuses a function body with an undeclared parameter or a while loop |
-| `test_new_creates_a_valid_skeleton` | `new` gives a system that passes `check` and runs to termination |
-| `test_trace_shows_bindings_and_steps` | `--trace` shows bindings, intermediate values and judgments |
-| `test_explain_shows_the_ground_of_an_event` | `explain` re-derives an event from its prefix |
-| `test_separate_microservice_processes` | two `serve` processes and Z₀ in a third share one record |
-| `test_index_gives_the_same_answers_as_a_plain_list` | the record index answers exactly as a scan of the list |
-| `test_large_record_is_linear` | 2,000 admissions run and replay within seconds |
-| `test_python_api_from_dict_and_save` | a system built in code runs, meets `expect`, and is saved in the standard form |
-| `test_library_rules_and_subset` | helper functions: only the used ones (and what they call) are copied; no recursion, no call to a later helper |
-| `test_derived_values_are_computed_once_and_immutable` | a derived value is computed once and cannot be altered by a body |
-| `test_map_binding_is_incremental_read_only_and_prefix_exact` | a map is read-only, exact for every prefix, and refuses duplicate keys |
-| `test_tau_root_refuses_a_map_that_reads_another_binding` | a map may not depend on other bindings, so it can be kept between invocations |
-| `test_model_does_not_import_the_substrate` | no module of `ztes.model` imports `ztes.substrate` or `ztes.system` |
-| `test_validation_gives_located_reasons` | a malformed specification is described by what is wrong and where |
-| `test_refusal_names_the_reason` | τ_root says why it refuses: a version gap, a missing criterion |
-| `test_a_service_reads_its_prefix_without_the_store` | a service evaluating on Cⁿ is served from the cache |
-| `test_notes_are_for_the_reader_only` | `"note"` fields are removed before a specification is recorded |
-| `test_kpi_profile_records_what_the_record_does_not_keep` | the profile of √2: invocations, admissions, ⊥, τ false; A agrees with C |
-| `test_profile_criterion_refuses_an_inconsistent_observation` | a profile whose A differs from C, with I ≠ A + U + F, or with decreasing counts is refused |
-| `test_tampering_with_a_profile_is_detected` | R2 re-judges a boundary occurrence: a changed U is found |
-| `test_tsp_kpi_measures_reuse_on_demand` | the KPI of `tsp`: 448 of 720 subproblems, 272 saved; 230 wake-ups of `tour` |
-| `test_run_writes_metrics_as_json` | `run --metrics FILE` writes the indicators as JSON |
-| `test_the_record_is_the_pinned_one`, `test_every_example_is_pinned` | every example gives, under the agenda, the record pinned in `tests/test_records.py` (number of events and a digest of the whole record): an optimization must leave every record identical |
-| `test_the_cached_filter_gives_what_the_uncached_one_gives` and the other tests of `tests/test_filter_cache.py` | a filter that reads only `x` is decided once per event and kept in the index; it gives what the uncached filter gives for every select, window and prefix, and the same errors; a filter that reads a constant or a binding is not cached |
-| `test_a_sound_record_passes_both_modes`, `test_the_faster_mode_finds_every_defect_but_the_hidden_draw` | the replay that re-judges recorded candidates without re-deriving them passes every sound example and finds seven of the eight defects of Table 5, all at the same event but the overwritten tour (one event later, by the hash link); it misses the hidden draw |
-| `test_the_values_are_those_of_the_plain_binding_frozen` and the other tests of `tests/test_frozen.py` | a frozen binding gives the values of the plain binding, frozen, for every prefix, filter and window; they are shared and immutable; τ_root refuses a frozen binding whose filter reads another binding; a system that reads its history frozen runs and replays to the same values |
-| `test_the_compiled_decoder_gives_what_the_old_decode_gave` and the other tests of `tests/test_decoders.py` | the decoder compiled once per type gives what the recursive decode gave, value for value and error for error, on random types and values |
-| `test_a_carried_ontology_is_active_from_its_event_and_replays` and the other tests of `tests/test_carried.py` | a specification carried by a candidate is active from its event and replays in both modes; a criterion and its ontology carried together bring in a new abstraction, executed by the agenda and by workers; τ_root judges carried specifications in order (version gaps, an ontology without its criterion, two carried fields), and a refused candidate leaves C unchanged; an abstraction that does not read the proposer is evaluated again; a carrying candidate is judged again after a lost race; an interrupted run continues to the same record; the same histories under random schedules; an altered carried specification fails replay at its event; a constant may name the specification files a proposer carries |
-| `test_criterion_v2_accepts_exactly_the_next_prime` and the other tests of `tests/test_prime_criterion.py` | the optional next-prime criterion of `prime-witnesses` and `factorization` admits exactly the next prime at every prefix, where criterion v1 also admits 4 and 5 on an empty lineage; admissions on each side of the change keep their evidence; a sparse lineage [5] continues with 7; the optional plan adds one specification event and keeps the domain payloads; both replay modes across the change |
-| `test_failed_map_extension_matches_fresh_index` (`tests/test_map_recovery.py`) | a map binding whose batch fails (a value that cannot be computed, a key that occurs twice in the recorded prefix or in the new batch) fails again in the same way when read again, and a shorter prefix reads as a fresh evaluation |
+```bash
+python -m pytest -q
+```
 
-These tests concern the model and the substrate and are grouped by package (`tests/test_model.py`,
-`test_substrate.py`, `test_system.py`, `test_cli.py`, and `test_records.py`, `test_filter_cache.py`,
-`test_decoders.py`, `test_frozen.py`, `test_replay_modes.py` for the optimizations, `test_carried.py` for
-specifications carried in execution, `test_prime_criterion.py` for the optional next-prime criterion, `test_map_recovery.py` for a map
-binding after a failed batch); they use `examples/sqrt2` and
-`tests/systems/counter`, a small system written in the same standard form. The examples have their
-own tests (`tests/test_examples.py`), described in [`examples/README.md`](examples/README.md).
+runs every test of the model, the substrate, the tooling and the examples. What each test shows is
+listed in [`docs/tests.md`](docs/tests.md) (model, substrate, tooling) and in
+[`examples/README.md`](examples/README.md#tests-of-the-examples) (examples).
+[`REPRODUCING.md`](REPRODUCING.md) names the test behind each result of the paper.
 
 ## Repository layout
 
@@ -535,9 +533,14 @@ ztes/                     independent of any system
   service.py              an abstraction as a microservice (the boundary between Z₀ and the model)
   config.py               ztes.yaml: store, durability, replica, services
   __main__.py             the command line
+REPRODUCING.md            every result of the paper: command, output, test
+CHANGELOG.md              what changed between versions
 docs/tour.md              a guided walk: one invocation, paper ↔ code, the examples, the defects
+docs/glossary.md          the terms of the papers next to those of the repository
 docs/writing-a-system.md  how to write a system; reference of the JSON files
+docs/specifications-in-execution.md  specifications carried by a candidate: design and mechanism
 docs/distribution.md      local or distributed execution as an option of the configuration
+docs/tests.md             what each test of the model, the substrate and the tooling shows
 examples/README.md        the examples, described separately
 examples/<name>/          one directory per example: system.json, DESIGN.md, abstractions/, lib.py
 ztes.yaml                 the configuration, with its defaults
@@ -556,7 +559,7 @@ method would do, and each is found by the ordinary replay, which reads only the 
 |---|---|---|---|---|
 | 1 | append-only (S1.1) | evaporation overwrites a stored tour | the realization no longer matches the record | R2 |
 | 2 | shared order (S1.1) | a writer that has not seen a governing event admits a tour | criterion version not active | R1 |
-| 3 | recorded inputs (S1.2) | the random generator is kept outside the record | the realization is ⊥, the record has a tour | R2 |
+| 3 | recorded inputs (S1.2) | the random generator is kept outside the record | the realization is ⊥, the record has a tour | S1.2 |
 | 4 | immutable versions (S1.3) | BETA is changed inside a recorded specification | specification address | R2 |
 | 5 | endogenous activation (S1.3) | an operator switches the window, no event | ontology version not active | R1 |
 | 6 | retained evidence (S1.4) | only the length of a tour is stored | the realization no longer matches the record | R2 |
@@ -566,7 +569,10 @@ method would do, and each is found by the ordinary replay, which reads only the 
 The defects are built outside Z₀: each is a record Z₀ would not have written. The last column is
 read from the check that failed (`replay.lost`), not asserted by the defect. In cases 1 and 6 the
 verifier stops because it re-derives every candidate, which is more than R2 requires; the hash
-link (case 1) and the re-judgment of the stored candidate (case 6) would stop it as well.
+link (case 1) and the re-judgment of the stored candidate (case 6) would stop it as well. In case 3
+every stored tour still passes its criterion, so every judgment replays and R2 holds; what fails is
+single-valuedness of the realization (S1.2), which only the full replay finds, because it
+re-derives each candidate (§8.8).
 
 ## Scope and limits
 
@@ -579,14 +585,14 @@ link (case 1) and the re-judgment of the stored candidate (case 6) would stop it
   many machines through one primary; `durability: always` and `replicas: k` bound what a failure
   of the primary can lose, but Redis failover is not consensus. A system that must keep every
   admitted event when nodes fail needs the append to go through consensus (for example etcd). This is a choice of realization, not
-  a new axiom (§4.7, §9.5).
+  a new axiom (§4.7, §9.4).
 * A boundary abstraction (§5.2) is supported through an occurrence bound to its invocation: the
   KPI profile, and abstractions with a declared source (`"sources"` in `system.json`; at present
   one kind, a seeded random source). Lineages read from outside the system are reported by
   `check`, and their readers wait.
 * Every specification is admitted under τ_root, which checks that the new version is well formed
   and continues its lineage, whether the plan records it from a file or a candidate carries it in
-  phase 3. Diagnosis and governing abstractions (§6.4, §8.5) are therefore ordinary abstractions
+  phase 3. Diagnosis and governing abstractions (§6.5, §8.5) are therefore ordinary abstractions
   whose criteria decide what they may change; none is among the examples here. An abstraction
   brought into being by a carried specification is evaluated in process, also when the others are
   served over HTTP, and a KPI profile already recorded does not count it.
@@ -595,7 +601,7 @@ link (case 1) and the re-judgment of the stored candidate (case 6) would stop it
   without re-deriving them: it checks every judgment, and does not pay again for the ontologies
   (the search of a heuristic, for example). It does not check that a candidate follows from the
   record: of the eight defects it finds seven, and misses the third, whose draws were never
-  recorded. The full replay remains the default.
+  recorded; there R2 holds and only S1.2 fails. The full replay remains the default.
 * Not included yet: scheduling and abeyance
   abstractions (§5.2).
 
@@ -605,13 +611,15 @@ link (case 1) and the re-judgment of the stored candidate (case 6) would stop it
    Society Colloquium Publications, Vol. 41; American Mathematical Society: Providence, RI, 1987.
    https://doi.org/10.1090/coll/041
 2. Škarić, M.; Ivanović, A.; Radenković, M.; Prokhorov, S.; Labus, A.; Radenković, B. *A Calculus of
-   Execution for Systems of Interacting Binary Relations: Contextual Resolution, Separated
-   Admission, and an Inseparable Execution Substrate*. Preprint, 2026. DOI to be added.
+   Execution for Interacting Binary Relations*. Preprints **2026**, 2026081545 (version 4).
+   https://doi.org/10.20944/preprints202608.1545.v4
 3. Ivanović, A.; Radenković, M.; Prokhorov, S.; Labus, A.; Radenković, B. Zero Tier Execution
    Substrate for Evolutionary Software Systems. *Systems* **2026**, 14, 547.
    https://doi.org/10.3390/systems14050547
+4. Radenković, M.; Prokhorov, S.; Labus, A.; Radenković, B. *Observable, Governable, Cooperative:
+   Execution Analytics and Adaptive Heuristic Agents in the OEE Calculus*. In preparation.
 
-Section, theorem, and table numbers in this repository refer to [2].
+Section, theorem, corollary and table numbers in this repository refer to version 4 of [2].
 
 ## License
 

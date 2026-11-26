@@ -45,7 +45,7 @@ correctly; only the interface of the realization is wrong.
 * **D2 and §8.4.** `bounds` computes; its criterion checks a² ≤ 2d² < (a + 1)² independently. An
   invocation of `intervals` before its bound is visible is ⊥ (Not Yet), which is different from a
   protective rejection (τ false).
-* **Structural non-progress (§6.2, §8.4).** With v1, `intervals` ends in permanent wait on the
+* **Structural non-progress (§6.3, §8.4; class 𝔓 of Theorem 4, §6.2).** With v1, `intervals` ends in permanent wait on the
   external lineage `bound` while the bounds it needs are already in C. The termination report is
   the diagnosis: the waiting is caused by the interface, not by missing data.
 * **Governed repair (§8.5, R1).** `intervals/ontology.v2` declares the correct lineage. It becomes

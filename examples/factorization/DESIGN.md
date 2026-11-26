@@ -62,7 +62,7 @@ next prime. For the rule, the governed plan and the replay checks, see the
 [optional next-prime criterion](../prime-witnesses/DESIGN.md#optional-next-prime-criterion).
 With this plan the central agenda records 28 events, including the additional
 specification event. The four factorization certificates in Table 7 of
-OEE v167 (§8.7) occur with the same payloads as in the default run.
+the paper (§8.7) occur with the same payloads as in the default run.
 
 ## 6. Expected end
 

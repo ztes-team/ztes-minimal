@@ -34,7 +34,9 @@ authors:
 abstract: >-
   A minimal realization of the Zero Tier Execution Substrate (ZTES) published in Systems 14 (2026)
   547, from which it takes its name, and the executable supplement to "A Calculus of Execution for
-  Systems of Interacting Binary Relations". Its zero-tier execution substrate Z0 applies Axiom 0 to
+  Interacting Binary Relations" and to "Observable, Governable, Cooperative: Execution Analytics and
+  Adaptive Heuristic Agents in the OEE Calculus" (in preparation). Its fixed admission procedure Z0, which with the architecture
+  S1 forms the zero-tier execution substrate, applies Axiom 0 to
   systems of abstractions given as JSON specifications, with nine worked examples, eight defective
   mechanisms for the essential conditions of S1, and replay under R2.
 keywords: [execution calculus, binary relations, append-only record, replay, admission]
@@ -53,7 +55,7 @@ references:
     start: 547
     doi: "10.3390/systems14050547"
   - type: article
-    title: "A Calculus of Execution for Systems of Interacting Binary Relations"
+    title: "A Calculus of Execution for Interacting Binary Relations"
     authors:
       - {family-names: "Škarić", given-names: "Milan"}
       - {family-names: "Ivanović", given-names: "Aleksandar"}
@@ -63,4 +65,13 @@ references:
       - {family-names: "Radenković", given-names: "Božidar"}
     journal: "Preprints"
     year: 2026
-    doi: "10.20944/preprints202608.1545.v3"
+    doi: "10.20944/preprints202608.1545.v4"
+  - type: unpublished
+    title: "Observable, Governable, Cooperative: Execution Analytics and Adaptive Heuristic Agents in the OEE Calculus"
+    authors:
+      - {family-names: "Radenković", given-names: "Miloš"}
+      - {family-names: "Prokhorov", given-names: "Sergei"}
+      - {family-names: "Labus", given-names: "Aleksandra"}
+      - {family-names: "Radenković", given-names: "Božidar"}
+    year: 2026
+    notes: "In preparation"

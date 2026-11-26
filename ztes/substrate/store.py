@@ -11,7 +11,7 @@ meantime, the insert fails and the invocation is judged again on the
 extended prefix (Axiom 0 with S1.5, recording before activation).
 
 Any key-value store with an atomic conditional insert realizes this
-interface (§4.7, §9.5); three backends are given: in memory (for checks and
+interface (§4.7, §9.4); three backends are given: in memory (for checks and
 tests), diskcache (local, the default), and Redis (distributed).
 
 Beside the record a store keeps notes: small values under a name, overwritten freely. They are

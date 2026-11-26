@@ -17,6 +17,11 @@ what breaks. Each defect is something an ordinary implementation of the method w
 Nothing here is part of Z₀: every defect builds a record that Z₀ would not have written, and the
 check is the ordinary replay, which reads only that record.
 
+What is lost is read from the check that fails: R1 or R2, and for case 3 the condition S1.2 alone.
+There the stored tours still pass their criteria, so every judgment replays and R2 holds; only the
+full replay, which re-derives each candidate, finds that the realization is not single-valued
+given the record (Table 5).
+
     python -m ztes defects            the table: defect, where replay stops, why
 """
 import copy
@@ -161,6 +166,9 @@ def report(log=print):
         failures = verify(C)
         first = failures[0] if failures else None
         what = lost(first[1]) if first else None               # read from the failed check, not asserted here
+        if what == "R2" and not verify(C, judgments_only=True):
+            what = "S1.2"                                      # every judgment replays, so R2 holds; what fails is
+                                                               # single-valuedness of the realization (case 3)
         out.append((condition, what, first))
         log(f"{k}  {condition}")
         log(f"   deviation  {defect.__doc__.split('. ', 1)[1]}")

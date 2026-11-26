@@ -1,6 +1,6 @@
 # Ant colony optimization in its natural form: design (step 0)
 
-*Not yet in the paper (planned with §8.8). Tags: [C] epistemic, [ω] ontological, [τ] eschatological (see the README).*
+*Paper: §8.8 and Table 8; this colony is also the sound mechanism against which the eight defects of Table 5 are run (`python -m ztes defects`). Tags: [C] epistemic, [ω] ontological, [τ] eschatological (see the README).*
 
 **What this example adds.** After the exact methods: a heuristic. The trail of the ants is a lineage, evaporation is a window, and a quota read from the record replaces the random draw. The result is measured against the exact optimum.
 

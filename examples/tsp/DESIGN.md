@@ -21,7 +21,7 @@ Eight cities with integer coordinates, Manhattan distances, city 0 the depot. An
 in sequence:
 
 1. the shortest tour through cities 0–6;
-2. city 7 is added: the shortest tour through cities 0–7;
+2. city 7 is added (the eighth city of the paper; cities are numbered from zero here): the shortest tour through cities 0–7;
 3. the shortest tour through cities 0, 1, 2, 3, 5, 7 only.
 
 ## 2. Decomposition into binary relations

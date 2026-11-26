@@ -243,7 +243,7 @@ class System:
         if s["role"] == "criterion":
             r = z0.admit_criterion(s)
         else:
-            # phase 2 binds the ontology to the address of the criterion active in C (lineage, §3.1.4)
+            # phase 2 binds the ontology to the address of the criterion active in C (lineage, §3.1.2)
             s["criterion"] = lookups.active(z0.prefix(), s["abstraction"], "criterion")
             r = z0.admit_ontology(s)
         log(f"   {key:22} {r}")

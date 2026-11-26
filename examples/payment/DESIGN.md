@@ -38,7 +38,7 @@ values, U(e) = U(e′), while e ≠ e′.
 
 * **D2: proposing is not admitting.** The ontology of `transfer` proposes the transfer as soon as a
   check is recorded, whatever its result. Only the criterion decides, so a failed check without an
-  override is a **protective rejection** (τ false), not a missing candidate (§6.2, last paragraph).
+  override is a **protective rejection** (τ false), not a missing candidate (§6.3, last paragraph).
 * **The ground is evidence in the record, not in the payload (S1.4).** Transfers 1 and 2 have the
   same payload. What distinguishes them is the prefix on which each was judged: a passed check for
   the first, a failed check and an override for the second. R2 reproduces both judgments only

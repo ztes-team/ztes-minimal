@@ -14,7 +14,7 @@ of the search tree the recorded bounds let the system skip.
 ## 1. Problem
 
 The same eight cities as `tsp` (Manhattan distances, depot 0). Find the optimal tour through cities
-0–6, prove that it is optimal; then add city 7 and do the same, using what is recorded.
+0–6, prove that it is optimal; then add city 7 (the eighth city in the wording of the paper; cities are numbered from zero here) and do the same, using what is recorded.
 
 ## 2. Decomposition into binary relations
 

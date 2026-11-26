@@ -12,7 +12,7 @@ from ztes.substrate.replay import verify
 
 
 def test_phase2_requires_phase1(system, tmp_path):
-    """τ_root refuses an ontology before its criterion is recorded (§3.1.4)."""
+    """τ_root refuses an ontology before its criterion is recorded (§3.1.2)."""
     store = DiskStore(tmp_path)
     k = Z0(store, system.services(store))
     s = dict(system.specs["lower/ontology.v1"], criterion=None)
@@ -233,7 +233,7 @@ def test_each_of_the_eight_deviations_is_found_by_replay():
     assert len(found) == 8
     for (condition, lost, first), reason in zip(found, expected):
         assert first is not None and reason in first[1], (condition, first)
-    assert [lost for _, lost, _ in found] == ["R2", "R1", "R2", "R2", "R1", "R2", "R2", "R1"]
+    assert [lost for _, lost, _ in found] == ["R2", "R1", "S1.2", "R2", "R1", "R2", "R2", "R1"]
 
 
 def test_lossy_evidence_fails_on_the_stored_candidate_too():
