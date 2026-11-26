@@ -77,7 +77,8 @@ measured, the result, and one sentence.
 * **Link.** Principle R, Theorem K, and what R2 can and cannot see. The control is an executed
   instance of Proposition 10: read from the interleaving, the outcome depends on it.
 * **Result.** In normal form the sum is 39 under the agenda and in every run by workers. The control
-  gives 5 under the agenda (it ends after the first item) and 39 by workers; R2 passes for both.
+  gives 5 under the agenda (it ends after the first item) and by workers a sum that changes with
+  the schedule (for example 16, 17 or 39); R2 passes for every run.
 * **In one sentence.** Silence is not proof of an end: if the end is not a fact in the record, the
   result depends on the schedule, and replay cannot see it, because every judgment was true on its
   own prefix.
@@ -155,8 +156,9 @@ measured, the result, and one sentence.
 
   When p has a root, the witness x = 5/16 is found at depth 3. With short-circuit and abandonment
   ([`split-witness`](e6-decomposition/split-witness/DESIGN.md), variant 3) the verdict is the same in
-  every run, while the abandoned work varies (30 events under the agenda, 15 to 21 in five runs by workers): the
-  nondeterminism is located in the abandoned work, never in the verdict (Corollary 7). Waiting for
+  every run, while the abandoned work varies (30 events under the agenda; by workers a number that
+  changes from run to run): the nondeterminism is located in the abandoned work, never in the
+  verdict (Corollary 7). Waiting for
   both children ([`split-witness-full`](e6-decomposition/split-witness-full/DESIGN.md), variant 1)
   gives the same history of every lineage in every run, at the price of 124 events.
 * **In one sentence.** The shape of the decomposition is set by the criterion: the problem divides

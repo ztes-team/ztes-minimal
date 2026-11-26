@@ -21,7 +21,8 @@ prefix and false on its extension.
 
 * **Principle R.** An absence ("no ninth item is recorded") is read from the interleaving of the
   record. Under one agenda `result` is admitted after the first item, with s = 5. By workers the
-  producer is usually faster and the sum is 39. The history of `result` depends on the schedule:
+  producer is often faster and the sum is 39, but in other runs `result` ends earlier with a
+  smaller sum. The history of `result` depends on the schedule:
   Theorem K does not hold for this design.
 * **R2 cannot see it.** Every judgment was true on its own prefix, so the replay passes in every run.
   The defect is in the design of the criterion, and only Principle R excludes it.
