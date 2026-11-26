@@ -21,9 +21,10 @@ python -m ztes run experiments/e1-loop/while-do     # one system, with its recor
 on the preceding prefix and the completed candidate, is true. Every step of every experiment is one
 such admission, and nothing else changes the record.
 
-**The language of bodies has no loop and no recursion.** A body may use only a bounded `for`, and a
-function may not call itself (`ztes/model/language.py`). Every loop and every recursion below is
-therefore an interaction of abstractions over the record, not a construct of the language.
+**The language of bodies has no `while` and no recursion.** A body may use only a bounded `for`,
+and a function may not call itself (`ztes/model/language.py`). Every unbounded loop and every
+recursion below is therefore an interaction of abstractions over the record, not a construct of the
+language.
 
 **The normal form of a criterion.** A criterion reads other lineages only through **positive
 atoms**: "an event with this content is in the record", combined with and, or and there exists. Its
