@@ -516,8 +516,8 @@ system.save("examples/squares", design="# squares …")     # the same system as
 python -m pytest -q
 ```
 
-runs every test of the model, the substrate, the tooling, the examples and the experiments. What each
-test shows is listed in [`docs/tests.md`](docs/tests.md) (model, substrate, tooling, experiments) and in
+runs every test of the model, the substrate, the tooling, the examples and the experiments. The main
+tests and what each shows are listed in [`docs/tests.md`](docs/tests.md) (model, substrate, tooling, experiments) and in
 [`examples/README.md`](examples/README.md#tests-of-the-examples) (examples).
 [`REPRODUCING.md`](REPRODUCING.md) names the test behind each result of the paper.
 
@@ -542,7 +542,7 @@ docs/glossary.md          the terms of the papers next to those of the repositor
 docs/writing-a-system.md  how to write a system; reference of the JSON files
 docs/specifications-in-execution.md  specifications carried by a candidate: design and mechanism
 docs/distribution.md      local or distributed execution as an option of the configuration
-docs/tests.md             what each test of the model, the substrate and the tooling shows
+docs/tests.md             the main tests of the model, the substrate and the tooling
 examples/README.md        the examples, described separately
 examples/<name>/          one directory per example: system.json, DESIGN.md, abstractions/, lib.py
 experiments/README.md     seven experiments: control as interacting relations, described simply

@@ -1,7 +1,8 @@
 # Tests
 
-`python -m pytest -q` runs every test. This page lists what each test of the model, the substrate
-and the tooling shows. The tests of the examples are listed in
+`python -m pytest -q` runs every test, and `python -m pytest --collect-only -q` lists them. This
+page lists the main tests of the model, the substrate and the tooling and what each shows. The
+tests of the examples are listed in
 [`examples/README.md`](../examples/README.md#tests-of-the-examples), and
 [`REPRODUCING.md`](../REPRODUCING.md) names the test behind each result of the paper.
 Section, theorem and table numbers refer to version 4 of the base paper.
