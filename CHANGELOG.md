@@ -3,7 +3,7 @@
 Section, theorem and table numbers refer to version 4 of the base paper, *A Calculus of Execution
 for Interacting Binary Relations* (https://doi.org/10.20944/preprints202608.1545.v4).
 
-## Unreleased (0.1.1)
+## 0.1.1 (2026-11-26)
 
 The code of Z₀ and every recorded example are unchanged: every record is the same, event for event,
 as in 0.1.0 (`tests/test_records.py`). What changed is the classification of one defect, one race

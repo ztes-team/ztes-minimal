@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ztes"
-version = "0.1.0"
+version = "0.1.1"
 description = "A minimal Zero Tier Execution Substrate for the OEE calculus of execution"
 readme = "README.md"
 license = {text = "MIT"}
