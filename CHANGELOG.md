@@ -5,6 +5,8 @@ for Interacting Binary Relations* (https://doi.org/10.20944/preprints202608.1545
 
 ## 0.1.1 (2026-11-26)
 
+Archived release: https://doi.org/10.5281/zenodo.24563789.
+
 The code of Z₀ and every recorded example are unchanged: every record is the same, event for event,
 as in 0.1.0 (`tests/test_records.py`). What changed is the classification of one defect, one race
 in the coordinator of workers, seven experiments, the references to the paper, and the

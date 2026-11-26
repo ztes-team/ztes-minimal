@@ -12,6 +12,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.24416120"
     description: "Version 0.1.0"
+  - type: doi
+    value: "10.5281/zenodo.24563789"
+    description: "Version 0.1.1"
 license: MIT
 repository-code: "https://github.com/ztes-team/ztes-minimal"
 authors:
