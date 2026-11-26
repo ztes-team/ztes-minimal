@@ -27,7 +27,7 @@ Two papers use this repository:
 | an abstraction A_τ = (R, ω, τ) (§3.2.1) | an abstraction: a directory `abstractions/<name>/` | `system/authoring.py` |
 | what a specification reads: κ(C), the event horizon (Definition 10, §5.1) | bindings and the horizon a specification declares | `model/epistemic.py` |
 | Axiom 0 and the fixed procedure Z₀ (§3.4.1, §3.4.3) | Z₀; phase 3, steps 3a, 3b, 3c | `substrate/z0.py` |
-| the root criterion τ_root (§3.2.1) | τ_root: it admits every specification event | `substrate/governance.py` |
+| the root criterion τ_root (§3.2.1) | τ_root: it admits every specification event and judges every specification a candidate carries | `substrate/governance.py` |
 | a governing event; R1 (§1.3, §4.2.7, Corollary 3) | a governed change: the plan step `govern`, or specifications carried by a candidate | `substrate/governance.py`, `docs/specifications-in-execution.md` |
 | deterministic verification replay; R2 (§1.3, §4.2.6) | `verify --judgments`: the recorded candidates judged again in admission order | `substrate/replay.py` |
 | the default (full) verifier (§8.8) | `verify`: the full replay, which also re-derives every candidate; more than R2 requires | `substrate/replay.py` |
