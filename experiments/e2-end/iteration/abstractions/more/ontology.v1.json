@@ -1,0 +1,10 @@
+{
+  "note": "[ω] is there an item k? one verdict per index",
+  "inputs": {
+    "context": [
+      "k",
+      "items"
+    ]
+  },
+  "returns": "Verdict"
+}

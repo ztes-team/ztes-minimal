@@ -1,0 +1,108 @@
+{
+  "system": "ackermann",
+  "title": "E3. A(3, 4), then A(3, 5) on the same record: recursion as a call relation and a value relation",
+  "abstractions": [
+    "call",
+    "value",
+    "result"
+  ],
+  "types": {
+    "Call": {
+      "record": {
+        "m": "integer",
+        "n": "integer"
+      }
+    },
+    "Val": {
+      "record": {
+        "m": "integer",
+        "n": "integer",
+        "v": "integer"
+      }
+    },
+    "Result": {
+      "record": {
+        "m": "integer",
+        "n": "integer",
+        "v": "integer"
+      }
+    }
+  },
+  "constants": {
+    "M0": 3,
+    "N0": 4
+  },
+  "bindings": {
+    "calls": {
+      "from": "call",
+      "select": "map",
+      "type": "Call",
+      "key": "(x['m'], x['n'])",
+      "value": "x['m']",
+      "note": "the recorded calls (m, n)"
+    },
+    "vals": {
+      "from": "value",
+      "select": "map",
+      "type": "Val",
+      "key": "(x['m'], x['n'])",
+      "value": "x['v']",
+      "note": "(m, n) → A(m, n): the recorded values"
+    },
+    "results": {
+      "from": "result",
+      "select": "map",
+      "type": "Result",
+      "key": "(x['m'], x['n'])",
+      "value": "x['v']",
+      "note": "the roots already answered"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "note": "A(3, 4)"
+    },
+    {
+      "govern": [
+        "call/criterion.v2",
+        "call/ontology.v2",
+        "result/criterion.v2",
+        "result/ontology.v2"
+      ],
+      "note": "the root becomes A(3, 5); the recorded values stay and are not computed again"
+    },
+    {
+      "phase": 3,
+      "note": "A(3, 5)"
+    }
+  ],
+  "expect": {
+    "events": 1285,
+    "states": {
+      "call": "wait",
+      "value": "wait",
+      "result": "wait"
+    },
+    "values": {
+      "result": [
+        {
+          "m": 3,
+          "n": 4,
+          "v": 125
+        },
+        {
+          "m": 3,
+          "n": 5,
+          "v": 253
+        }
+      ]
+    }
+  }
+}

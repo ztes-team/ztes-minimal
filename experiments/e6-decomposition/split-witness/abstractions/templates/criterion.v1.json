@@ -1,0 +1,23 @@
+{
+  "note": "[τ] once, exactly the specifications of the root node",
+  "constants": {
+    "TMPL": {
+      "$specifications": [
+        "n/criterion.v1",
+        "n/ontology.v1"
+      ]
+    }
+  },
+  "inputs": {
+    "context": [
+      "k"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Templates"
+    }
+  },
+  "body": {
+    "result": "k == 0 and w['specs'] == TMPL"
+  }
+}

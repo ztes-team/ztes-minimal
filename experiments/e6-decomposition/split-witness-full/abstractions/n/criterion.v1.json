@@ -1,0 +1,20 @@
+{
+  "note": "[τ] the criterion of a node, p > 0 on [LO, HI]; a child has the same body with its own constants",
+  "constants": {
+    "PATH": "n",
+    "LO": "0",
+    "HI": "1",
+    "ANC": []
+  },
+  "inputs": {
+    "context": [
+      "tmpl",
+      "mine",
+      "kids"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Node"
+    }
+  }
+}

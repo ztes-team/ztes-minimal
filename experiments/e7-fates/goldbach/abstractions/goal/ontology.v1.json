@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the goal: a counterexample to Goldbach's conjecture",
+  "inputs": {
+    "context": [
+      "k",
+      "checks"
+    ]
+  },
+  "returns": "Goal"
+}

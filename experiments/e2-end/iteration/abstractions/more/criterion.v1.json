@@ -1,0 +1,13 @@
+{
+  "note": "[τ] true only of a recorded item; false only where the source admits no item",
+  "inputs": {
+    "context": [
+      "k",
+      "items"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Verdict"
+    }
+  }
+}

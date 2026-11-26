@@ -1,0 +1,11 @@
+{
+  "note": "[ω] the body of the loop: s := s + a",
+  "inputs": {
+    "context": [
+      "k",
+      "items",
+      "acc"
+    ]
+  },
+  "returns": "Acc"
+}

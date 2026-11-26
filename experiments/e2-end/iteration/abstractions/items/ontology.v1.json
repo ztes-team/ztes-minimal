@@ -1,0 +1,9 @@
+{
+  "note": "[ω] the next item of a finite source",
+  "inputs": {
+    "context": [
+      "k"
+    ]
+  },
+  "returns": "Item"
+}

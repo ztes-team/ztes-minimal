@@ -1,0 +1,11 @@
+{
+  "note": "[ω] the sum, once fold has caught up with items",
+  "inputs": {
+    "context": [
+      "k",
+      "items",
+      "acc"
+    ]
+  },
+  "returns": "Result"
+}

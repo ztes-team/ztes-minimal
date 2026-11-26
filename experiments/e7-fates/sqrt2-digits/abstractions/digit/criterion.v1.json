@@ -1,0 +1,12 @@
+{
+  "note": "[τ] the next digit, exactly",
+  "inputs": {
+    "context": [
+      "k"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Digit"
+    }
+  }
+}

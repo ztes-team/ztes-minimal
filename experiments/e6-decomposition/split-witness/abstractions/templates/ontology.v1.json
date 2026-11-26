@@ -1,0 +1,20 @@
+{
+  "note": "[ω] the specifications of a node, recorded once as data",
+  "constants": {
+    "TMPL": {
+      "$specifications": [
+        "n/criterion.v1",
+        "n/ontology.v1"
+      ]
+    }
+  },
+  "inputs": {
+    "context": [
+      "k"
+    ]
+  },
+  "returns": "Templates",
+  "body": {
+    "result": "{'specs': TMPL} if k == 0 else None"
+  }
+}

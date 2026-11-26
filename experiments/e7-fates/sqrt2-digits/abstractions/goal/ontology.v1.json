@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the goal: the first K digits are recorded",
+  "inputs": {
+    "context": [
+      "k",
+      "digits"
+    ]
+  },
+  "returns": "Goal"
+}

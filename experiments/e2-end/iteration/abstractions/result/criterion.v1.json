@@ -1,0 +1,14 @@
+{
+  "note": "[τ] once, on positive atoms only: more(n) = false and fold(n - 1) = s",
+  "inputs": {
+    "context": [
+      "k",
+      "more",
+      "acc"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Result"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "note": "[τ] once; a check with no witness is recorded (a positive atom)",
+  "inputs": {
+    "context": [
+      "k",
+      "checks"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Goal"
+    }
+  }
+}

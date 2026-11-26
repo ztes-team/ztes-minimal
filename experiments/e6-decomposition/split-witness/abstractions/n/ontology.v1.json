@@ -1,0 +1,18 @@
+{
+  "note": "[ω] certify, find a witness, split into two new nodes, or return the verdict of the children",
+  "constants": {
+    "PATH": "n",
+    "LO": "0",
+    "HI": "1",
+    "ANC": []
+  },
+  "inputs": {
+    "context": [
+      "tmpl",
+      "mine",
+      "kids",
+      "anc"
+    ]
+  },
+  "returns": "Node"
+}

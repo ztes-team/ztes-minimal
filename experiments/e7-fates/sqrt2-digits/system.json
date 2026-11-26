@@ -1,0 +1,66 @@
+{
+  "system": "sqrt2-digits",
+  "title": "E7 (class 𝔒). The decimal digits of √2: a stream that never ends; its goal is reached at a finite prefix",
+  "abstractions": [
+    "digit",
+    "goal"
+  ],
+  "types": {
+    "Digit": {
+      "record": {
+        "k": "integer",
+        "d": "integer"
+      }
+    },
+    "Goal": {
+      "record": {
+        "k": "integer"
+      }
+    }
+  },
+  "constants": {
+    "K": 10
+  },
+  "bindings": {
+    "k": {
+      "from": "$self",
+      "select": "count",
+      "note": "how many events this abstraction has: its position"
+    },
+    "digits": {
+      "from": "digit",
+      "select": "map",
+      "type": "Digit",
+      "key": "x['k']",
+      "value": "x['d']",
+      "note": "k → the k-th digit of √2"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "max_admissions": 100,
+      "note": "a window of observation: 100 admissions"
+    }
+  ],
+  "expect": {
+    "events": 105,
+    "states": {
+      "digit": "wait",
+      "goal": "wait"
+    },
+    "values": {
+      "goal": [
+        {
+          "k": 9
+        }
+      ]
+    }
+  }
+}

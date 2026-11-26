@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the exit, at the first state of which the guard said false",
+  "inputs": {
+    "context": [
+      "k",
+      "verdicts"
+    ]
+  },
+  "returns": "Exit"
+}

@@ -174,12 +174,13 @@ class Coordinator:
         self.run, self.step, self.scanned = uuid.uuid4().hex, 0, 0
         self._control(go=False)
 
-    def _adopt(self, system):
-        """Adopt the abstractions that events appended since the last look carry specifications of
-        and the system does not have yet (System.adopt), and start a worker for each if the workers
-        run here. From then on the coordinator waits for its report as for every other worker.
+    def _adopt(self, system, C=None):
+        """Adopt the abstractions that events of C (by default, the record as it is now) appended since
+        the last look carry specifications of and the system does not have yet (System.adopt), and
+        start a worker for each if the workers run here. From then on the coordinator waits for its
+        report as for every other worker.
         """
-        C = read(self.store)
+        C = read(self.store) if C is None else C
         for e in C[self.scanned:]:
             for d in carried(e):
                 if system.adopt(d["abstraction"]) and self.start is not None:
@@ -191,9 +192,9 @@ class Coordinator:
         self.step += 1
         self.store.put_note(CONTROL, {"run": self.run, "step": self.step, **fields})
 
-    def _reports(self, system, accept):
-        """The reports of all workers for the current step at the current length of C, or None."""
-        n, reports = len(read(self.store)), {}
+    def _reports(self, system, accept, n):
+        """The reports of all workers for the current step at length n of C, or None."""
+        reports = {}
         for a in system.abstractions:
             r = self.store.get_note(f"worker|{a}")
             if r and r.get("state") == "failed":
@@ -209,8 +210,13 @@ class Coordinator:
         """
         end = time.monotonic() + self.timeout
         while True:
-            self._adopt(system)                          # an abstraction brought in since: its worker reports too
-            reports = self._reports(system, accept)
+            # One reading of C for both: the abstractions brought in by C are adopted, and every worker,
+            # adopted ones included, must report at the length of that same C. Reading C twice would let
+            # an event that brings in an abstraction fall between the two, and the run would be judged
+            # terminal while the new abstraction has not yet been invoked.
+            C = read(self.store)
+            self._adopt(system, C)                       # an abstraction brought in since: its worker reports too
+            reports = self._reports(system, accept, len(C))
             if reports is not None:
                 return reports
             if time.monotonic() > end:

@@ -1,0 +1,89 @@
+{
+  "system": "split-witness-full",
+  "title": "E6 (control). The same, without short-circuit: every node waits for both children",
+  "abstractions": [
+    "templates",
+    "n"
+  ],
+  "types": {
+    "Node": {
+      "record": {
+        "path": "text",
+        "kind": "text",
+        "v": "boolean",
+        "x": "rational",
+        "bound": "rational",
+        "specifications": {
+          "list": "specification"
+        }
+      }
+    },
+    "Templates": {
+      "record": {
+        "specs": "json"
+      }
+    }
+  },
+  "constants": {
+    "COEF": [
+      991,
+      -6000,
+      9000
+    ],
+    "EPS": "1/1048576",
+    "SHORT": false
+  },
+  "bindings": {
+    "k": {
+      "from": "$self",
+      "select": "count",
+      "note": "how many events this abstraction has: its position"
+    },
+    "tmpl": {
+      "from": "templates",
+      "select": "last",
+      "type": "Templates",
+      "default": {
+        "specs": []
+      },
+      "note": "the specifications of a node, which every node specializes for its children"
+    },
+    "mine": {
+      "from": "n",
+      "select": "all",
+      "type": "Node",
+      "note": "the events of this node (own lineage)"
+    },
+    "kids": {
+      "from": [
+        "n0",
+        "n1"
+      ],
+      "select": "all",
+      "type": "Node",
+      "note": "the events of its two children"
+    },
+    "anc": {
+      "from": [
+        "n"
+      ],
+      "select": "all",
+      "type": "Node",
+      "note": "the events of its ancestors"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3
+    }
+  ],
+  "expect": {
+    "events": 124
+  }
+}

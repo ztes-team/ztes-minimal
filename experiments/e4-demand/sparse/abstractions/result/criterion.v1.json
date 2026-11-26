@@ -1,0 +1,13 @@
+{
+  "note": "[τ] the value of the root, once",
+  "inputs": {
+    "context": [
+      "k",
+      "vals"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Result"
+    }
+  }
+}

@@ -73,3 +73,20 @@ specifications carried in execution, `test_prime_criterion.py` for the optional 
 binding after a failed batch); they use `examples/sqrt2` and
 `tests/systems/counter`, a small system written in the same standard form. The examples have their
 own tests (`tests/test_examples.py`), described in [`examples/README.md`](../examples/README.md).
+
+## Experiments (`tests/test_experiments.py`)
+
+| Test | What it shows |
+|---|---|
+| `test_experiment_system_meets_its_expected_end_and_replays`, `…_e6_e7_…` | every system of the experiments passes `check`, meets its `expect` and replays (R2) |
+| `test_normal_form_gives_the_same_history_of_every_lineage` | Theorem K, executed: E1–E4 by workers under random schedules give the history of every lineage of the agenda |
+| `test_e1_the_loop_ends_on_a_recorded_no` | the loop ends on guard(111) = false, an admitted event |
+| `test_e2_an_end_read_from_an_absence_depends_on_the_schedule_and_replays_anyway` | Principle R: the control admits on an absence; R2 passes, and the schedule changes the result |
+| `test_e3_values_are_recorded_once_and_a_later_root_continues_the_record` | 315 values for A(3, 4), 321 more for A(3, 5) on the same record; the unfolded justification and its depth |
+| `test_e3_depth_without_a_stack` | A(3, 7) at depth 1023 in the record, where naive recursion raises `RecursionError` |
+| `test_e4_only_demanded_arguments_and_a_quiescent_cycle` | 242 values for f(10⁹); the cycle ends with two calls and every abstraction in permanent wait |
+| `test_e5_the_record_of_a_recursion_contains_itself` | substructures equal to the records run alone; one record the prefix of the next |
+| `test_e6_decomposition_returns_upward_and_its_front_has_the_predicted_exponent` | 183 nodes brought in during the run, exponent 0.50; the same history by workers, one per node |
+| `test_e6_contact_of_order_four_gives_the_exponent_three_quarters` | the prediction 1 − 1/k for k = 4 (about a minute) |
+| `test_e6_short_circuit_fixes_the_verdict_and_waiting_fixes_every_lineage` | variant 3: the same verdict under every schedule; variant 1: the same history of every lineage in five runs. It is also the regression test of the coordinator of workers, which once judged a run terminal before abstractions brought in by the last event had been invoked |
+| `test_e7_four_fates` | the four classes of Theorem 4, each read from its record |

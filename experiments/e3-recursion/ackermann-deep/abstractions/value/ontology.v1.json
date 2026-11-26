@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the value of the first recorded call whose values are all recorded",
+  "inputs": {
+    "context": [
+      "calls",
+      "vals"
+    ]
+  },
+  "returns": "Val"
+}

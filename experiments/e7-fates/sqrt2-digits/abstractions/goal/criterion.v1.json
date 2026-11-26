@@ -1,0 +1,13 @@
+{
+  "note": "[τ] once; the K-th digit is recorded (a positive atom)",
+  "inputs": {
+    "context": [
+      "k",
+      "digits"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Goal"
+    }
+  }
+}

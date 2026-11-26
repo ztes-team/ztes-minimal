@@ -1,0 +1,14 @@
+{
+  "note": "[τ] once, when fold has caught up with items: this reads that no further item is recorded yet",
+  "inputs": {
+    "context": [
+      "k",
+      "items",
+      "acc"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Result"
+    }
+  }
+}

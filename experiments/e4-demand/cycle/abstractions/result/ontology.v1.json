@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the value of the root, when it is recorded",
+  "inputs": {
+    "context": [
+      "k",
+      "vals"
+    ]
+  },
+  "returns": "Result"
+}

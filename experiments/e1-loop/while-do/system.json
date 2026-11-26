@@ -1,0 +1,80 @@
+{
+  "system": "while-do",
+  "title": "E1. while x ≠ 1 do x := (x even ? x/2 : 3x + 1), from x = 27, as three interacting relations",
+  "abstractions": [
+    "state",
+    "guard",
+    "exit"
+  ],
+  "types": {
+    "State": {
+      "record": {
+        "k": "integer",
+        "x": "integer"
+      }
+    },
+    "Verdict": {
+      "record": {
+        "k": "integer",
+        "v": "boolean"
+      }
+    },
+    "Exit": {
+      "record": {
+        "k": "integer"
+      }
+    }
+  },
+  "constants": {
+    "X0": 27
+  },
+  "bindings": {
+    "k": {
+      "from": "$self",
+      "select": "count",
+      "note": "how many events this abstraction has: its position"
+    },
+    "states": {
+      "from": "state",
+      "select": "map",
+      "type": "State",
+      "key": "x['k']",
+      "value": "x['x']",
+      "note": "k → x: the recorded states"
+    },
+    "verdicts": {
+      "from": "guard",
+      "select": "map",
+      "type": "Verdict",
+      "key": "x['k']",
+      "value": "x['v']",
+      "note": "k → v: the recorded verdicts of the guard"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3
+    }
+  ],
+  "expect": {
+    "events": 232,
+    "states": {
+      "state": "wait",
+      "guard": "wait",
+      "exit": "wait"
+    },
+    "values": {
+      "exit": [
+        {
+          "k": 111
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "note": "[τ] the value of the root, once; one positive atom",
+  "inputs": {
+    "context": [
+      "vals",
+      "results"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Result"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "note": "[ω] v2: the same ontology for the root A(3, 5)",
+  "constants": {
+    "N0": 5
+  },
+  "body_file": "ontology.v1.py",
+  "inputs": {
+    "context": [
+      "calls",
+      "vals"
+    ]
+  },
+  "returns": "Call"
+}

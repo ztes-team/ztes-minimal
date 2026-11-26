@@ -1,0 +1,13 @@
+{
+  "note": "[τ] a call, recorded once: the root, or an argument of a recorded call",
+  "inputs": {
+    "context": [
+      "k",
+      "calls"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Call"
+    }
+  }
+}

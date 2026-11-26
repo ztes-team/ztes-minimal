@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the root first, then the first call that a recorded call demands and that is not recorded",
+  "inputs": {
+    "context": [
+      "calls",
+      "vals"
+    ]
+  },
+  "returns": "Call"
+}

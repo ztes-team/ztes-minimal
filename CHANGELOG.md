@@ -6,8 +6,9 @@ for Interacting Binary Relations* (https://doi.org/10.20944/preprints202608.1545
 ## Unreleased (0.1.1)
 
 The code of Z₀ and every recorded example are unchanged: every record is the same, event for event,
-as in 0.1.0 (`tests/test_records.py`). What changed is the classification of one defect, the
-references to the paper, and the documentation.
+as in 0.1.0 (`tests/test_records.py`). What changed is the classification of one defect, one race
+in the coordinator of workers, seven experiments, the references to the paper, and the
+documentation.
 
 **The paper**
 * The base paper is cited by its new title, *A Calculus of Execution for Interacting Binary
@@ -31,6 +32,21 @@ references to the paper, and the documentation.
   replays and R2 holds; what fails is single-valuedness of the realization, which only the full
   replay finds (§8.8, Table 5). `ztes/defects.py` reads this from the judgments-only replay; the
   test `test_each_of_the_eight_deviations_is_found_by_replay` expects it.
+
+**Workers**
+* The coordinator of workers (`ztes/system/workers.py`) now adopts the abstractions brought in by
+  carried specifications and checks the reports of the workers on one and the same reading of the
+  record. Before, it read the record twice; an event that brought in an abstraction could fall
+  between the two readings, and the run was judged terminal before the new abstraction had been
+  invoked. The decomposition of experiment E6, which brings in dozens of abstractions, showed it in
+  one of three runs; the test `test_e6_short_circuit_fixes_the_verdict_and_waiting_fixes_every_lineage`
+  now runs it five times. Records under the agenda are unaffected.
+
+**Experiments**
+* `experiments/`: seven experiments on control as interacting relations (loops, the end of a stream,
+  recursion, demand and cycles, self-similarity, decomposition by specializing the criterion, the
+  four fates of Theorem 4), with `experiments/run.py` and `tests/test_experiments.py`. They add no
+  code to the model or to Z₀.
 
 **Documentation**
 * `REPRODUCING.md`: every result of the paper that comes from this repository, with its command,

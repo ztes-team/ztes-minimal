@@ -1,0 +1,11 @@
+{
+  "note": "[ω] the body of the loop: the next state, once the guard is true of the last one",
+  "inputs": {
+    "context": [
+      "k",
+      "states",
+      "verdicts"
+    ]
+  },
+  "returns": "State"
+}

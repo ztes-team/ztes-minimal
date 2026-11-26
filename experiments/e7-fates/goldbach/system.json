@@ -1,0 +1,58 @@
+{
+  "system": "goldbach",
+  "title": "E7 (class 𝔚). The search for an even number that is not a sum of two primes: never found, never excluded",
+  "abstractions": [
+    "check",
+    "goal"
+  ],
+  "types": {
+    "Check": {
+      "record": {
+        "n": "integer",
+        "p": "integer"
+      }
+    },
+    "Goal": {
+      "record": {
+        "n": "integer"
+      }
+    }
+  },
+  "constants": {},
+  "bindings": {
+    "k": {
+      "from": "$self",
+      "select": "count",
+      "note": "how many events this abstraction has: its position"
+    },
+    "checks": {
+      "from": "check",
+      "select": "map",
+      "type": "Check",
+      "key": "x['n']",
+      "value": "x['p']",
+      "note": "n → the smallest prime p with n − p prime, or 0 if there is none"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "max_admissions": 100,
+      "note": "a window of observation: 100 admissions"
+    }
+  ],
+  "expect": {
+    "events": 105,
+    "states": {
+      "check": "wait",
+      "goal": "wait"
+    },
+    "values": {}
+  }
+}

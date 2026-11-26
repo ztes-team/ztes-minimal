@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the guard x ≠ 1 of the next recorded state",
+  "inputs": {
+    "context": [
+      "k",
+      "states"
+    ]
+  },
+  "returns": "Verdict"
+}

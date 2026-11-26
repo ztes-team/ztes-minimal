@@ -1,0 +1,12 @@
+{
+  "note": "[τ] the next item of the source; none beyond the source, which makes the end final",
+  "inputs": {
+    "context": [
+      "k"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Item"
+    }
+  }
+}

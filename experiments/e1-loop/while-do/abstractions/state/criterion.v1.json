@@ -1,0 +1,14 @@
+{
+  "note": "[τ] the next state: one step of the body, only after the guard said true of the last state",
+  "inputs": {
+    "context": [
+      "k",
+      "states",
+      "verdicts"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "State"
+    }
+  }
+}

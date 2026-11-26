@@ -1,0 +1,12 @@
+{
+  "note": "[τ] the next even number, with a correct witness, or a complete check that there is none",
+  "inputs": {
+    "context": [
+      "k"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Check"
+    }
+  }
+}

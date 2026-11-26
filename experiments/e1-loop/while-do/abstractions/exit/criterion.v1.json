@@ -1,0 +1,13 @@
+{
+  "note": "[τ] once, and only on a recorded fact: guard(k) = false",
+  "inputs": {
+    "context": [
+      "k",
+      "verdicts"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Exit"
+    }
+  }
+}

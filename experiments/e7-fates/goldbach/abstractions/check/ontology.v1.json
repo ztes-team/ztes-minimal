@@ -1,0 +1,9 @@
+{
+  "note": "[ω] the next even number n ≥ 4 and the smallest prime p with n − p prime (0: none)",
+  "inputs": {
+    "context": [
+      "k"
+    ]
+  },
+  "returns": "Check"
+}

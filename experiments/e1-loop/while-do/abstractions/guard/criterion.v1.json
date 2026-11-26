@@ -1,0 +1,13 @@
+{
+  "note": "[τ] one verdict per recorded state, true exactly when x ≠ 1",
+  "inputs": {
+    "context": [
+      "k",
+      "states"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Verdict"
+    }
+  }
+}

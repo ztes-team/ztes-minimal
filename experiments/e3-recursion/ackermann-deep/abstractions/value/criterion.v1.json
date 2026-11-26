@@ -1,0 +1,13 @@
+{
+  "note": "[τ] the value of a recorded call, from recorded values only",
+  "inputs": {
+    "context": [
+      "calls",
+      "vals"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Val"
+    }
+  }
+}

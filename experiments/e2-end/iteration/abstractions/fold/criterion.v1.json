@@ -1,0 +1,14 @@
+{
+  "note": "[τ] the running sum: own lineage, and one positive atom, item k",
+  "inputs": {
+    "context": [
+      "k",
+      "items",
+      "acc"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Acc"
+    }
+  }
+}

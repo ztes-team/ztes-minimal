@@ -1,0 +1,9 @@
+{
+  "note": "[ω] the next digit of √2, always defined: the stream never ends",
+  "inputs": {
+    "context": [
+      "k"
+    ]
+  },
+  "returns": "Digit"
+}

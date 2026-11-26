@@ -1,0 +1,11 @@
+{
+  "note": "[ω] the sum, once the end is recorded",
+  "inputs": {
+    "context": [
+      "k",
+      "more",
+      "acc"
+    ]
+  },
+  "returns": "Result"
+}

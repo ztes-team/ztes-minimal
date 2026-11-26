@@ -101,3 +101,18 @@ oee-heuristic-agents.
 
 [`docs/glossary.md`](docs/glossary.md) gives the terms of the paper next to those of the output,
 in particular Pending in the paper and Not Yet in the output.
+
+## Experiments (not in version 4 of the paper)
+
+[`experiments/README.md`](experiments/README.md) describes seven experiments on control as
+interacting relations. Each is run by one command and checked by `tests/test_experiments.py`.
+
+| Experiment | Command | What it prints |
+|---|---|---|
+| E1 a loop without a loop | `python experiments/run.py e1` | 111 steps, 232 events, the exit on guard(111) = false |
+| E2 the end is recorded | `python experiments/run.py e2` | sum 39 in normal form; the control gives 5 under the agenda and 39 by workers, and R2 passes for both |
+| E3 the record is the memo and the stack | `python experiments/run.py e3` | A(3, 4): 315 values against 10 307 naive calls; A(3, 5) adds 321; A(3, 7) = 1021 at depth 1023 |
+| E4 only what is demanded; a cycle | `python experiments/run.py e4` | f(10⁹) from 242 values; the cycle ends quiescent after 9 events |
+| E5 self-similarity | `python experiments/run.py e5` | nine substructures equal to their own records; prefixes that double; exponents 1 and 2 |
+| E6 decomposition | `python experiments/run.py e6` | 183 new abstractions; exponents 0.50 and 0.75 against the predicted 1 − 1/k |
+| E7 four fates | `python experiments/run.py e7` | 𝔗, 𝔒, 𝔓 and 𝔚, each read from its record |

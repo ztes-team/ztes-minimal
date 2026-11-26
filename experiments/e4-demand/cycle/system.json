@@ -1,0 +1,81 @@
+{
+  "system": "cycle",
+  "title": "E4. f(0) = f(1) + 1, f(1) = f(0) + 1: a cyclic recursion ends in a quiescent record",
+  "abstractions": [
+    "call",
+    "value",
+    "result"
+  ],
+  "types": {
+    "Call": {
+      "record": {
+        "n": "integer"
+      }
+    },
+    "Val": {
+      "record": {
+        "n": "integer",
+        "v": "integer"
+      }
+    },
+    "Result": {
+      "record": {
+        "v": "integer"
+      }
+    }
+  },
+  "constants": {
+    "ROOT": 0,
+    "DEPS": [
+      [
+        1
+      ],
+      [
+        0
+      ]
+    ]
+  },
+  "bindings": {
+    "k": {
+      "from": "$self",
+      "select": "count",
+      "note": "how many events this abstraction has: its position"
+    },
+    "calls": {
+      "from": "call",
+      "select": "map",
+      "type": "Call",
+      "key": "x['n']",
+      "value": "x['n']",
+      "note": "the recorded calls"
+    },
+    "vals": {
+      "from": "value",
+      "select": "map",
+      "type": "Val",
+      "key": "x['n']",
+      "value": "x['v']",
+      "note": "n → f(n): the recorded values"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3
+    }
+  ],
+  "expect": {
+    "events": 9,
+    "states": {
+      "call": "wait",
+      "value": "wait",
+      "result": "wait"
+    },
+    "values": {}
+  }
+}

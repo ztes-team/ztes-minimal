@@ -1,0 +1,107 @@
+{
+  "system": "iteration",
+  "title": "E2. for a in items do s := s + a, with the end of the stream recorded as a fact",
+  "abstractions": [
+    "items",
+    "more",
+    "fold",
+    "result"
+  ],
+  "types": {
+    "Item": {
+      "record": {
+        "k": "integer",
+        "a": "integer"
+      }
+    },
+    "Verdict": {
+      "record": {
+        "k": "integer",
+        "v": "boolean"
+      }
+    },
+    "Acc": {
+      "record": {
+        "k": "integer",
+        "s": "integer"
+      }
+    },
+    "Result": {
+      "record": {
+        "n": "integer",
+        "s": "integer"
+      }
+    }
+  },
+  "constants": {
+    "ITEMS": [
+      5,
+      3,
+      8,
+      1,
+      9,
+      2,
+      7,
+      4
+    ]
+  },
+  "bindings": {
+    "k": {
+      "from": "$self",
+      "select": "count",
+      "note": "how many events this abstraction has: its position"
+    },
+    "items": {
+      "from": "items",
+      "select": "map",
+      "type": "Item",
+      "key": "x['k']",
+      "value": "x['a']",
+      "note": "k → a: the recorded items"
+    },
+    "more": {
+      "from": "more",
+      "select": "map",
+      "type": "Verdict",
+      "key": "x['k']",
+      "value": "x['v']",
+      "note": "k → v: is there an item k?"
+    },
+    "acc": {
+      "from": "fold",
+      "select": "map",
+      "type": "Acc",
+      "key": "x['k']",
+      "value": "x['s']",
+      "note": "k → s: the running sums"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3
+    }
+  ],
+  "expect": {
+    "events": 35,
+    "states": {
+      "items": "wait",
+      "more": "wait",
+      "fold": "wait",
+      "result": "wait"
+    },
+    "values": {
+      "result": [
+        {
+          "n": 8,
+          "s": 39
+        }
+      ]
+    }
+  }
+}
