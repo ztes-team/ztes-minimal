@@ -29,7 +29,8 @@ Two papers use this repository:
 | Axiom 0 and the fixed procedure Z₀ (§3.4.1, §3.4.3) | Z₀; phase 3, steps 3a, 3b, 3c | `substrate/z0.py` |
 | the root criterion τ_root (§3.2.1) | τ_root: it admits every specification event | `substrate/governance.py` |
 | a governing event; R1 (§1.3, §4.2.7, Corollary 3) | a governed change: the plan step `govern`, or specifications carried by a candidate | `substrate/governance.py`, `docs/specifications-in-execution.md` |
-| deterministic verification replay; R2 (§1.3, §4.2.6) | `verify`; the full replay, or `--judgments` | `substrate/replay.py` |
+| deterministic verification replay; R2 (§1.3, §4.2.6) | `verify --judgments`: the recorded candidates judged again in admission order | `substrate/replay.py` |
+| the default (full) verifier (§8.8) | `verify`: the full replay, which also re-derives every candidate; more than R2 requires | `substrate/replay.py` |
 | the self-certifying record (S1.5) | the hash link to the previous event | `substrate/events.py` |
 | a boundary abstraction (§5.2) | `"boundary": true`; an occurrence from a declared source | `system/sources.py` |
 
