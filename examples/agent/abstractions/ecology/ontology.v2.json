@@ -1,0 +1,18 @@
+{
+  "note": "[ω] v2: the same ontology with the budget of v2",
+  "constants": {
+    "WATER_BUDGET": 60
+  },
+  "body_file": "ontology.v1.py",
+  "inputs": {
+    "context": [
+      "proposals",
+      "ecology_v",
+      "energy_v",
+      "facts",
+      "decisions",
+      "comps"
+    ]
+  },
+  "returns": "Ecology"
+}

@@ -12,7 +12,7 @@ from ztes.substrate.replay import verify
 
 EXAMPLES = Path(__file__).parent.parent / "examples"
 NAMES = ["sqrt2", "dedekind-cut", "prime-witnesses", "factorization", "payment", "tsp", "tsp-bnb",
-         "aco", "aco-draw"]
+         "aco", "aco-draw", "agent"]
 quiet = lambda *_: None
 
 
@@ -44,7 +44,8 @@ def test_example_meets_its_expected_end(name, tmp_path):
 
 @pytest.mark.parametrize("name,events", [("sqrt2", 16), ("dedekind-cut", 26), ("prime-witnesses", 26),
                                          ("factorization", 27), ("payment", 21), ("tsp", 468),
-                                         ("tsp-bnb", 71), ("aco", 73), ("aco-draw", 138)])
+                                         ("tsp-bnb", 71), ("aco", 73), ("aco-draw", 138),
+                                         ("agent", 85)])
 def test_every_example_replays(name, events, tmp_path):
     """R2 for every example, in-process and over HTTP (the candidate travels as JSON)."""
     from fastapi.testclient import TestClient
@@ -232,3 +233,24 @@ def test_a_source_is_declared_for_a_boundary_abstraction_only():
     found = "\n".join(System.from_dict(defn).check(log=quiet))
     assert "tour has a source but its ontology is not a boundary ontology" in found
     assert "nobody is not an abstraction of the system" in found
+
+
+def test_agent_decides_on_three_recorded_verdicts(tmp_path):
+    """Definition 14 executed: ethics, ecology and energy judge every proposal as abstractions of
+    their own; a task is executed only on their three recorded verdicts (§9.2), and a measured
+    overrun is compensated before the next ecological verdict (§9.3)."""
+    _, C = run("agent", tmp_path)
+    exec_ = [e for e in C if e["coord"]["kind"] == "exec"]
+    by = lambda a: {e["payload"]["t"]: e for e in exec_ if e["coord"]["abstraction"] == a}
+    decide, ethics, energy, ecology = by("decide"), by("ethics"), by("energy"), by("ecology")
+    assert {t: e["payload"]["executed"] for t, e in decide.items()} == \
+        {1: True, 2: True, 3: True, 4: True, 5: False, 6: False, 7: False}
+    assert not ethics[5]["payload"]["v"]                         # N2 objected
+    assert not ethics[7]["payload"]["v"]                         # N3 did not answer: silence is not consent
+    assert not any(f["kind"] == "answer" and f["t"] == 7 for f in values(C, "world"))
+    assert ecology[6]["payload"] == {"t": 6, "v": False, "water": 70, "co2": 0}   # 70 > 60 under v2, ≤ 100 under v1
+    assert energy[2]["payload"]["diesel"] == 2 and ecology[2]["payload"]["co2"] == 52   # the diesel enters the CO₂
+    assert values(C, "compensate") == [{"t": 3, "m3": 15}]
+    assert by("compensate")[3]["coord"]["n"] < ecology[4]["coord"]["n"]   # the consequence is settled first
+    crit = {t: e["coord"]["criterion"] for t, e in ecology.items()}
+    assert crit[1] == crit[2] == crit[3] != crit[4] == crit[5] == crit[6] == crit[7]   # v1 on day 1, v2 on day 2

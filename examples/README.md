@@ -1,9 +1,11 @@
 # Examples
 
-Nine systems, the executable counterparts of the examples in the base paper *A Calculus of
+Ten systems, the executable counterparts of the examples in the base paper *A Calculus of
 Execution for Interacting Binary Relations* (version 4, https://doi.org/10.20944/preprints202608.1545.v4),
 Section 8 and Table 8. Seven come from its worked examples; two (`aco`, `aco-draw`) apply the same
 method to a heuristic, and `aco` is also the colony of the eight defective mechanisms of Table 5.
+The tenth, `agent`, executes the conjunctive system criterion of §9.2 (Definition 14), with ethics,
+ecology and energy as criteria of their own, and the compensation of §9.3.
 [`REPRODUCING.md`](../REPRODUCING.md) gives for each result of the paper the command and the
 expected output. Each is a directory of JSON specifications with a `DESIGN.md` that records
 the design step by step: the problem, its decomposition into binary relations, the lifting into
@@ -39,8 +41,9 @@ Each example adds one thing to the one before it; the first line of every `DESIG
 | 7 | [`tsp-bnb`](tsp-bnb/DESIGN.md) | §8.8 | C6 | 3 | 71 | exact TSP by branch and bound; recorded bounds prune; optimality as a recorded proof |
 | 8 | [`aco`](aco/DESIGN.md) | §8.8, Table 5 | C2 | 2 | 73 | a heuristic: the trail is a lineage, evaporation a window, a quota replaces the draw |
 | 9 | [`aco-draw`](aco-draw/DESIGN.md) | §8.8 | C2 | 3 | 138 | the same colony with a random draw, recorded as a boundary event |
+| 10 | [`agent`](agent/DESIGN.md) | §9.2, §9.3 | C1, C2 | 7 | 85 | where ethics is: ethics, ecology and energy judge every proposal of an agent as abstractions of their own; silence is not consent; compensation; a governed norm |
 
-The event counts include the KPI step with which every plan ends. The column Table 10 names the contributions of the paper that the example confirms; one Z₀ executes all nine (C5).
+The event counts include the KPI step with which every plan ends. The column Table 10 names the contributions of the paper that the example confirms; one Z₀ executes all ten (C5).
 
 ## Where to look
 
@@ -58,6 +61,9 @@ The event counts include the KPI step with which every plan ends. The column Tab
 | a datum that is not computed from the record | `aco-draw` (`draw`), and the KPI `profile` in every example |
 | forgetting without changing the record | `aco` (the window of `trail`) |
 | indicators computed from the record (KPI) | `tsp`, `tsp-bnb`, `aco` |
+| an ethical criterion: consent before a deadline, silence is not consent | `agent` (`ethics`) |
+| a system criterion composed of several criteria of their own (Definition 14) | `agent` (`decide`) |
+| a consequence measured after an admission, and its compensation (§9.3) | `agent` (`compensate`) |
 | what breaks when a condition of S1 is dropped | `python -m ztes defects` |
 
 ## What each example shows
@@ -184,5 +190,6 @@ and adds the checks that need more than the final record:
 | `test_aco_tours_are_valid_and_measured_against_the_exact_optimum` | every tour is valid; `best` is the earliest shortest; the optimum constant equals an independent Held–Karp |
 | `test_aco_quota_needs_no_draw_and_is_a_function_of_the_record` | two runs of `aco` give the same record; it declares no source |
 | `test_aco_draws_are_recorded_and_replay_never_asks_the_source` | sixty admitted draws; replay from C alone; another seed gives another record |
+| `test_agent_decides_on_three_recorded_verdicts` | four tasks executed, three refused (an objection, the drought budget, silence); the diesel enters the CO₂; the compensation precedes the next ecological verdict; day 1 judged by ecology v1, day 2 by v2 |
 | `test_an_interrupted_run_continues_to_the_same_record` (test_system) | a run cut after any event and started again gives the record of an uninterrupted run |
 | `test_each_of_the_eight_deviations_is_found_by_replay` (test_substrate) | the ant colony on eight defective mechanisms |

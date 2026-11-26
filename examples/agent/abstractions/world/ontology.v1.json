@@ -1,0 +1,11 @@
+{
+  "note": "[ω] the next outside fact: sun, an answer, a deadline, or the measurement of a decided task",
+  "inputs": {
+    "context": [
+      "k",
+      "facts",
+      "decisions"
+    ]
+  },
+  "returns": "Fact"
+}

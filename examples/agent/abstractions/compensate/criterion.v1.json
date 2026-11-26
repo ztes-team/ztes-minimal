@@ -1,0 +1,13 @@
+{
+  "note": "[τ] once per overrun, of exactly the measured excess of water over the plan",
+  "inputs": {
+    "context": [
+      "facts",
+      "comps"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Compensation"
+    }
+  }
+}

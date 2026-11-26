@@ -6,7 +6,8 @@ https://doi.org/10.20944/preprints202608.1545.v4). They show loops, recursion an
 executed as relations that read each other through one record, what this gives without any added
 mechanism, the self-similar structure that a recursion leaves in the record, and the four ways an
 execution can end. Every experiment is a set of specifications, like the [examples](../examples/README.md);
-none adds code to the model or to Z₀.
+none adds code to the model or to Z₀. A criterion composed of several normative relations, such
+as ethics, ecology and energy, is the example [`agent`](../examples/agent/DESIGN.md).
 
 ```bash
 python experiments/run.py e1          # one experiment: e1 … e7
@@ -30,7 +31,14 @@ own lineage it reads for its position and for uniqueness (an event is recorded o
 relation is its own characteristic predicate, so the output of any abstraction may stand in a
 horizon. What is not a positive atom (an absence, a negation, "all so far", a count, a last value)
 enters only as a recorded event, as Principle R (§5.2) requires. A judgment in this form stays true
-on every extension of the record, so it does not depend on when it was made.
+on every extension of the record, so it does not depend on when it was made. Such judgments are
+the persistent propositions of §4.4.8, for which the evaluation on a prefix and the forcing
+relation agree.
+
+The examples of the paper do not all use this form: the criterion of `lower` in `sqrt2`, for
+instance, reads the last value of `upper`. They rely instead on complete horizons, the hypothesis
+of Theorem K: an ontology waits until every event it needs is recorded. The normal form is a
+stronger discipline, a sufficient condition and not a necessary one.
 
 **The protocol.** For each system, `run.py`:
 
@@ -65,7 +73,8 @@ measured, the result, and one sentence.
   fact: `more(8) = false`, admissible only because the source admits no ninth item. The control
   ([`e2-end/iteration-absence`](e2-end/iteration-absence/DESIGN.md)) ends when the running sum has
   caught up with the items recorded so far, which reads an absence.
-* **Link.** Principle R, Theorem K, and what R2 can and cannot see.
+* **Link.** Principle R, Theorem K, and what R2 can and cannot see. The control is an executed
+  instance of Proposition 10: read from the interleaving, the outcome depends on it.
 * **Result.** In normal form the sum is 39 under the agenda and in every run by workers. The control
   gives 5 under the agenda (it ends after the first item) and 39 by workers; R2 passes for both.
 * **In one sentence.** Silence is not proof of an end: if the end is not a fact in the record, the

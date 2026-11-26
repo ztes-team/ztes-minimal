@@ -1,0 +1,10 @@
+{
+  "note": "[ω] an offset for the first measured overrun not yet compensated",
+  "inputs": {
+    "context": [
+      "facts",
+      "comps"
+    ]
+  },
+  "returns": "Compensation"
+}

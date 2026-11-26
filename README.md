@@ -400,9 +400,10 @@ and the same plan are executed.
 The order of invocations is then decided by a race, which Axiom 0 allows. Every record so
 obtained replays under R2 and every abstraction ends in the same state. A result determined by
 its inputs has the same history as under the agenda; a result resolved against the context it
-finds (D1) may take another valid course. All nine examples were run under 360 random schedules
+finds (D1) may take another valid course. All ten examples were run under 400 random schedules
 without a replay failure. A worker that fails is started again and continues from the record:
-it holds no state of its own, so a failure is a delay (180 runs with 6,270 injected failures).
+it holds no state of its own, so a failure is a delay (for the nine examples of 0.1.0, 180 runs
+with 6,270 injected failures).
 
 This is a demonstration that the execution can be distributed as an option of the configuration.
 It is one possible distribution, kept small, and not the widest or the fastest one.

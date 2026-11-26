@@ -37,8 +37,8 @@ abstract: >-
   Interacting Binary Relations" and to "Observable, Governable, Cooperative: Execution Analytics and
   Adaptive Heuristic Agents in the OEE Calculus" (in preparation). Its fixed admission procedure Z0, which with the architecture
   S1 forms the zero-tier execution substrate, applies Axiom 0 to
-  systems of abstractions given as JSON specifications, with nine worked examples, eight defective
-  mechanisms for the essential conditions of S1, and replay under R2.
+  systems of abstractions given as JSON specifications, with ten worked examples, seven experiments,
+  eight defective mechanisms for the essential conditions of S1, and replay under R2.
 keywords: [execution calculus, binary relations, append-only record, replay, admission]
 references:
   - type: article

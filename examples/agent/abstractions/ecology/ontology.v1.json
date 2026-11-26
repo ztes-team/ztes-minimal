@@ -1,0 +1,14 @@
+{
+  "note": "[ω] the ecological verdict on the first proposal without one, once its energy verdict, the use before it and every compensation are recorded",
+  "inputs": {
+    "context": [
+      "proposals",
+      "ecology_v",
+      "energy_v",
+      "facts",
+      "decisions",
+      "comps"
+    ]
+  },
+  "returns": "Ecology"
+}

@@ -1,0 +1,13 @@
+{
+  "note": "[ω] the decision on the first proposal whose three verdicts are recorded",
+  "inputs": {
+    "context": [
+      "proposals",
+      "decisions",
+      "ethics_v",
+      "energy_v",
+      "ecology_v"
+    ]
+  },
+  "returns": "Decision"
+}

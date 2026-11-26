@@ -1,0 +1,14 @@
+{
+  "note": "[τ] one verdict per proposal, after its deadline: every affected party said yes and none said no",
+  "inputs": {
+    "context": [
+      "proposals",
+      "ethics_v",
+      "facts"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Verdict"
+    }
+  }
+}

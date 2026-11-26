@@ -1,0 +1,14 @@
+{
+  "note": "[τ] the next fact of the script; no answer about a task after its deadline; a measurement only on a recorded decision",
+  "inputs": {
+    "context": [
+      "k",
+      "facts",
+      "decisions"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Fact"
+    }
+  }
+}

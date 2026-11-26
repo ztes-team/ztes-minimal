@@ -1,0 +1,14 @@
+{
+  "note": "[ω] v2: the agent turns to day 2",
+  "constants": {
+    "DAY": 2
+  },
+  "body_file": "ontology.v1.py",
+  "inputs": {
+    "context": [
+      "proposals",
+      "decisions"
+    ]
+  },
+  "returns": "Proposal"
+}

@@ -1,0 +1,13 @@
+{
+  "note": "[τ] the next task of the day, once every proposed task is decided",
+  "inputs": {
+    "context": [
+      "proposals",
+      "decisions"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Proposal"
+    }
+  }
+}

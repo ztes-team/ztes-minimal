@@ -142,6 +142,11 @@ Each adds one thing; `examples/README.md` has the table and a guide by question.
 8. **`aco`** is a heuristic with no random number in it: the trail is the record, evaporation is a
    window over it, and a quota replaces the draw.
 9. **`aco-draw`** is the same colony with real draws, each admitted as a boundary event.
+10. **`agent`** answers the question where ethics is in the calculus. An agent proposes tasks;
+    ethics, ecology and energy each judge every proposal as an abstraction of its own, and a task is
+    executed only on their three recorded verdicts (Definition 14, §9.2). Silence is not consent,
+    an overrun measured after a task must be compensated before the next one is judged (§9.3), and
+    a drought changes the water budget by governance between two days.
 
 Every run ends with a summary: for each abstraction how often it was invoked and admitted, how
 often it was at Not Yet because its horizon was incomplete (nothing computed) or because its body

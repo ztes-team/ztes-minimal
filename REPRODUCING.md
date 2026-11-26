@@ -41,6 +41,7 @@ make no claim of speed. Where an execution shows an infinite object, it shows a 
 | §8.8: Ant System with a quota | `python -m ztes run examples/aco --metrics` | 60 tours, best 52 against the optimum 50; 73 events | `test_aco_tours_are_valid_and_measured_against_the_exact_optimum` |
 | §8.8: Ant System with recorded draws | `python -m ztes run examples/aco-draw --metrics` | 60 admitted draws, best 54 with seed 1; 138 events | `test_aco_draws_are_recorded_and_replay_never_asks_the_source` |
 | §1.1, Table 2: two payments, equal payloads | `python -m ztes run examples/payment` then `python -m ztes explain DIR N` | transfers 1 and 2 have equal payloads and different grounds; the third is refused; 21 events | `test_payment_grounds_are_in_the_evidence` |
+| §9.2 (Definition 14), §9.3: ethics, ecology and energy as criteria of their own | `python -m ztes run examples/agent` | T1–T4 executed; T5 refused (an objection), T6 (the drought budget, 70 > 60 m³), T7 (no answer before the deadline); 15 m³ compensated for T3; 85 events | `test_agent_decides_on_three_recorded_verdicts` |
 
 `--record DIR` keeps the record; `python -m ztes explain DIR N` shows the ground of event N, and
 `python -m ztes verify DIR` replays a kept record. Positions are numbered from zero here and from one
@@ -81,20 +82,20 @@ python -m pytest -q tests/test_workers.py               # random schedules and k
 
 Under every schedule every record replays and every abstraction ends in the same state. A result
 determined by its inputs has the same history of every lineage as under the agenda; a result
-resolved against the context it finds (D1) may take another valid course. All nine examples were
-run under 40 random schedules each (360 runs) without a replay failure, and with workers killed
-and started again; `docs/distribution.md` gives the details and the limits.
+resolved against the context it finds (D1) may take another valid course. All ten examples were
+run under 40 random schedules each (400 runs) without a replay failure, and the nine of 0.1.0 also
+with workers killed and started again; `docs/distribution.md` gives the details and the limits.
 
 ## The contributions of Table 10
 
 | Contribution | Confirmed here by |
 |---|---|
-| C1 Two interacting relations | `prime-witnesses` (the record resolves 10), `factorization` (certificates checked without search), `payment` (equal payloads, different grounds) |
-| C2 Inseparable substrate | R2 for every example; `python -m ztes defects`; governed changes in `sqrt2`, `dedekind-cut` and `tsp` |
-| C3 Taxonomy of non-termination | `sqrt2` (a finite prefix of the unbounded bisection, class 𝔒), `dedekind-cut` (class 𝔓 and its governed repair) |
-| C4 Nondeterminism in the record | `tests/test_workers.py`: the same histories under random schedules |
-| C5 Agnosticism | one Z₀ for all nine examples, with no code specific to any of them; `tests/test_config.py`: the same record in memory, on disk, on Redis, in process and over HTTP |
-| C6 Reuse and pruning | `tsp` (448 of 720 subproblems), `tsp-bnb` (34 of 1,237 and 14 of 8,660 nodes), the 224 of 227 Pending evaluations of `tour` that stop before the body runs |
+| C1 Two interacting relations | `prime-witnesses` (the record resolves 10), `factorization` (certificates checked without search), `payment` (equal payloads, different grounds), `agent` (one proposal, three criteria of its own: ethics, ecology, energy) |
+| C2 Inseparable substrate | R2 for every example; `python -m ztes defects`; governed changes in `sqrt2`, `dedekind-cut` and `tsp`; experiment E2: R2 holds even where the history depends on the schedule, which only Principle R excludes |
+| C3 Taxonomy of non-termination | `sqrt2` (a finite prefix of the unbounded bisection, class 𝔒), `dedekind-cut` (class 𝔓 and its governed repair); experiment E7: all four classes, each read from its record (𝔓 also in E4) |
+| C4 Nondeterminism in the record | `tests/test_workers.py`: the same histories under random schedules; experiment E6: a verdict fixed under every schedule while the abandoned work varies (Corollary 7) |
+| C5 Agnosticism | one Z₀ for all ten examples, with no code specific to any of them; `tests/test_config.py`: the same record in memory, on disk, on Redis, in process and over HTTP |
+| C6 Reuse and pruning | `tsp` (448 of 720 subproblems), `tsp-bnb` (34 of 1,237 and 14 of 8,660 nodes), the 224 of 227 Pending evaluations of `tour` that stop before the body runs; experiments E3 (each value once, a new root continues the record) and E4 (only demanded arguments: 242 values for f(10⁹)) |
 
 The remaining rows of Table 10 (learned clauses, the adaptive agent, k-SAT) come from
 oee-heuristic-agents.

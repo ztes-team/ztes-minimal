@@ -17,6 +17,7 @@ from ztes.system.system import System
 PINNED = {                      # example: (events, digest of the record)
     "aco":             (73,  "449255bb3c29dce2"),
     "aco-draw":        (138, "de75462c47bef7af"),
+    "agent":           (85,  "275977ab65c077bd"),   # added in 0.1.1
     "dedekind-cut":    (26,  "cb2a10ba074ba456"),
     "factorization":   (27,  "7412db70b15c9f13"),
     "payment":         (21,  "93eab31cd4750c1f"),

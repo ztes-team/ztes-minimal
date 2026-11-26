@@ -1,0 +1,16 @@
+{
+  "note": "[τ] once per proposal, on three recorded verdicts: executed exactly when all three are true",
+  "inputs": {
+    "context": [
+      "proposals",
+      "decisions",
+      "ethics_v",
+      "energy_v",
+      "ecology_v"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Decision"
+    }
+  }
+}

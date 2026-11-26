@@ -1,0 +1,15 @@
+{
+  "note": "[τ] one verdict per proposal: the battery from the recorded sun and the measured use, and diesel up to DIESEL_MAX",
+  "inputs": {
+    "context": [
+      "proposals",
+      "energy_v",
+      "facts",
+      "decisions"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Energy"
+    }
+  }
+}

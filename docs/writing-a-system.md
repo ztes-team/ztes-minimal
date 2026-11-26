@@ -225,6 +225,26 @@ be found by computing. The agenda repeats them only when a lineage of the horizo
 Use `requires` for every condition that is a matter of existence; a large "body" column in the
 summary shows where one may be missing.
 
+### A criterion that does not depend on the schedule
+
+Under one agenda every criterion is judged on the prefix the agenda gives it. By workers the
+prefix depends on a race, and a criterion that reads the record in the wrong way can then give
+another history under another schedule. R2 cannot see this: each judgment was true on its own
+prefix. Two designs avoid it.
+
+* **A complete horizon.** The ontology waits (`requires`, or a binding without a default) until
+  every event its result depends on is recorded. This is the hypothesis of Theorem K, and the
+  examples use it.
+* **Positive atoms.** The criterion reads other lineages only as "an event with this content is
+  recorded" (`exists`, a lookup in a `map`, `any(…)` over `all`), combined with and, or and there
+  exists, and its own lineage only for its position and for uniqueness. A judgment of this form
+  stays true on every extension of the record.
+
+What is neither, a count, a last value or an absence read from another lineage, is the case of
+Principle R (§5.2): make it a recorded event first. An end of a stream, for example, is a verdict
+"no item k" that the source makes final by admitting no item at k or beyond. Experiment E2
+([`experiments/README.md`](../experiments/README.md)) shows both designs and what goes wrong without them.
+
 ### Map bindings: the record as a lookup table
 
 When a body needs to look up recorded values by a key, as a memo table does, declare a map instead

@@ -1,0 +1,17 @@
+{
+  "note": "[τ] one verdict per proposal: water and CO₂ of the day within budget, with the diesel of the energy verdict; every earlier overrun compensated",
+  "inputs": {
+    "context": [
+      "proposals",
+      "ecology_v",
+      "energy_v",
+      "facts",
+      "decisions",
+      "comps"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Ecology"
+    }
+  }
+}

@@ -33,6 +33,13 @@ documentation.
   replay finds (§8.8, Table 5). `ztes/defects.py` reads this from the judgments-only replay; the
   test `test_each_of_the_eight_deviations_is_found_by_replay` expects it.
 
+**A tenth example**
+* `examples/agent`: an agent whose proposals are judged by ethics, ecology and energy, each an
+  abstraction with its own criterion; a task is executed only on the three recorded verdicts. It
+  executes the conjunctive system criterion of §9.2 (Definition 14) and the compensation of §9.3:
+  silence is not consent, a measured overrun is compensated before the next task is judged, and a
+  drought changes the water budget by governance. Its record is pinned in `tests/test_records.py`.
+
 **Workers**
 * The coordinator of workers (`ztes/system/workers.py`) now adopts the abstractions brought in by
   carried specifications and checks the reports of the workers on one and the same reading of the

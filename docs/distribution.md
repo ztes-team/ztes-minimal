@@ -63,7 +63,10 @@ mode:
    event stands it derives the same candidate.
 3. **Termination is exact.** A worker that has nothing to add on Cⁿ says so. When all workers say
    it for the same n and n is the length of C, no invocation can extend C. This is the same
-   Terminal_r(C) the agenda establishes, and it is not found by waiting for silence.
+   Terminal_r(C) the agenda establishes, and it is not found by waiting for silence. "All"
+   includes the workers of abstractions brought in by carried specifications: the coordinator
+   adopts them from the same reading of C on which it checks the reports, so a run is never judged
+   terminal before an abstraction brought in by its last event has been invoked.
 
 So two runs may give two records. What holds for all of them:
 
@@ -144,8 +147,8 @@ replay ignores them.
 
 | Configuration | Result |
 |---|---|
-| all nine examples, workers as threads, on memory, diskcache and Redis (fakeredis, batch 5) | R2 holds, states as under the agenda, `expect` holds |
-| all nine examples, each under 40 schedules made by random pauses (360 runs) | no replay failure; the order differed from the agenda's in 256 runs, and in none for `sqrt2` and `tsp`, whose abstractions strictly alternate |
+| all ten examples, workers as threads, on memory, diskcache and Redis (fakeredis, batch 5) | R2 holds, states as under the agenda, `expect` holds |
+| all ten examples, each under 40 schedules made by random pauses (400 runs) | no replay failure; the order differed from the agenda's in 296 runs (all 40 of `agent`), and in none for `sqrt2` and `tsp`, whose abstractions strictly alternate; the history of every lineage of `agent` was the agenda's in all 40 |
 | `factorization` with three worker processes and a coordinator process on one diskcache record | the 27 events of the agenda, R2 holds, the workers stop when told |
 | a race lost to an event outside the horizon | appended one position later, the ontology evaluated once |
 | a race lost to an event inside the horizon | judged again, the ontology evaluated twice |

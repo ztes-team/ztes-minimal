@@ -1,0 +1,11 @@
+{
+  "note": "[ω] the ethical verdict on the first proposal without one, once its deadline is recorded",
+  "inputs": {
+    "context": [
+      "proposals",
+      "ethics_v",
+      "facts"
+    ]
+  },
+  "returns": "Verdict"
+}

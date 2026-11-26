@@ -1,0 +1,21 @@
+{
+  "note": "[τ] v2 (governed change, a drought): the same criterion with a water budget of 60 m³ a day",
+  "constants": {
+    "WATER_BUDGET": 60
+  },
+  "body_file": "criterion.v1.py",
+  "inputs": {
+    "context": [
+      "proposals",
+      "ecology_v",
+      "energy_v",
+      "facts",
+      "decisions",
+      "comps"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Ecology"
+    }
+  }
+}

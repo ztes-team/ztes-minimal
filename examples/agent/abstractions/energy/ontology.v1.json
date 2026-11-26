@@ -1,0 +1,12 @@
+{
+  "note": "[ω] the energy verdict on the first proposal without one, once its sun and the use before it are recorded",
+  "inputs": {
+    "context": [
+      "proposals",
+      "energy_v",
+      "facts",
+      "decisions"
+    ]
+  },
+  "returns": "Energy"
+}

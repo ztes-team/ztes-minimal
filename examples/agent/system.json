@@ -1,0 +1,435 @@
+{
+  "system": "agent",
+  "title": "An agent under a composite criterion: ethics, ecology and energy as separate abstractions (§9.2, §9.3)",
+  "abstractions": [
+    "world",
+    "propose",
+    "ethics",
+    "energy",
+    "ecology",
+    "decide",
+    "compensate"
+  ],
+  "types": {
+    "Fact": {
+      "record": {
+        "i": "integer",
+        "kind": "text",
+        "t": "integer",
+        "party": "text",
+        "yes": "boolean",
+        "kwh": "integer",
+        "diesel": "integer",
+        "water": "integer",
+        "executed": "boolean"
+      }
+    },
+    "Proposal": {
+      "record": {
+        "t": "integer"
+      }
+    },
+    "Verdict": {
+      "record": {
+        "t": "integer",
+        "v": "boolean"
+      }
+    },
+    "Energy": {
+      "record": {
+        "t": "integer",
+        "v": "boolean",
+        "battery": "integer",
+        "diesel": "integer"
+      }
+    },
+    "Ecology": {
+      "record": {
+        "t": "integer",
+        "v": "boolean",
+        "water": "integer",
+        "co2": "integer"
+      }
+    },
+    "Decision": {
+      "record": {
+        "t": "integer",
+        "executed": "boolean"
+      }
+    },
+    "Compensation": {
+      "record": {
+        "t": "integer",
+        "m3": "integer"
+      }
+    }
+  },
+  "constants": {
+    "TASKS": [
+      {
+        "id": 1,
+        "day": 1,
+        "name": "irrigate field A",
+        "kwh": 4,
+        "water": 30,
+        "parties": [
+          "A"
+        ]
+      },
+      {
+        "id": 2,
+        "day": 1,
+        "name": "run the grain dryer",
+        "kwh": 6,
+        "water": 0,
+        "parties": [
+          "N1"
+        ]
+      },
+      {
+        "id": 3,
+        "day": 1,
+        "name": "irrigate field B",
+        "kwh": 3,
+        "water": 40,
+        "parties": [
+          "B"
+        ]
+      },
+      {
+        "id": 4,
+        "day": 2,
+        "name": "charge the vehicle",
+        "kwh": 5,
+        "water": 0,
+        "parties": []
+      },
+      {
+        "id": 5,
+        "day": 2,
+        "name": "pump water to the tank",
+        "kwh": 2,
+        "water": 50,
+        "parties": [
+          "N1",
+          "N2"
+        ]
+      },
+      {
+        "id": 6,
+        "day": 2,
+        "name": "irrigate field A",
+        "kwh": 4,
+        "water": 70,
+        "parties": [
+          "A"
+        ]
+      },
+      {
+        "id": 7,
+        "day": 2,
+        "name": "run the grain dryer",
+        "kwh": 6,
+        "water": 0,
+        "parties": [
+          "N3"
+        ]
+      }
+    ],
+    "SCRIPT": [
+      {
+        "kind": "sun",
+        "t": 1,
+        "kwh": 3
+      },
+      {
+        "kind": "answer",
+        "t": 1,
+        "party": "A",
+        "yes": true
+      },
+      {
+        "kind": "deadline",
+        "t": 1
+      },
+      {
+        "kind": "measure",
+        "t": 1,
+        "kwh": 4,
+        "diesel": 0,
+        "water": 30
+      },
+      {
+        "kind": "sun",
+        "t": 2,
+        "kwh": 0
+      },
+      {
+        "kind": "answer",
+        "t": 2,
+        "party": "N1",
+        "yes": true
+      },
+      {
+        "kind": "deadline",
+        "t": 2
+      },
+      {
+        "kind": "measure",
+        "t": 2,
+        "kwh": 4,
+        "diesel": 2,
+        "water": 0
+      },
+      {
+        "kind": "sun",
+        "t": 3,
+        "kwh": 5
+      },
+      {
+        "kind": "answer",
+        "t": 3,
+        "party": "B",
+        "yes": true
+      },
+      {
+        "kind": "deadline",
+        "t": 3
+      },
+      {
+        "kind": "measure",
+        "t": 3,
+        "kwh": 3,
+        "diesel": 0,
+        "water": 55
+      },
+      {
+        "kind": "sun",
+        "t": 4,
+        "kwh": 6
+      },
+      {
+        "kind": "deadline",
+        "t": 4
+      },
+      {
+        "kind": "measure",
+        "t": 4,
+        "kwh": 5,
+        "diesel": 0,
+        "water": 0
+      },
+      {
+        "kind": "sun",
+        "t": 5,
+        "kwh": 1
+      },
+      {
+        "kind": "answer",
+        "t": 5,
+        "party": "N1",
+        "yes": true
+      },
+      {
+        "kind": "answer",
+        "t": 5,
+        "party": "N2",
+        "yes": false
+      },
+      {
+        "kind": "deadline",
+        "t": 5
+      },
+      {
+        "kind": "measure",
+        "t": 5,
+        "kwh": 2,
+        "diesel": 0,
+        "water": 50
+      },
+      {
+        "kind": "sun",
+        "t": 6,
+        "kwh": 2
+      },
+      {
+        "kind": "answer",
+        "t": 6,
+        "party": "A",
+        "yes": true
+      },
+      {
+        "kind": "deadline",
+        "t": 6
+      },
+      {
+        "kind": "measure",
+        "t": 6,
+        "kwh": 4,
+        "diesel": 0,
+        "water": 70
+      },
+      {
+        "kind": "sun",
+        "t": 7,
+        "kwh": 0
+      },
+      {
+        "kind": "deadline",
+        "t": 7
+      },
+      {
+        "kind": "measure",
+        "t": 7,
+        "kwh": 6,
+        "diesel": 0,
+        "water": 0
+      }
+    ],
+    "BATTERY0": 5,
+    "CAPACITY": 10,
+    "DIESEL_MAX": 3,
+    "CO2_PER_KWH": 26,
+    "CO2_BUDGET": 100,
+    "WATER_BUDGET": 100,
+    "DAY": 1
+  },
+  "bindings": {
+    "k": {
+      "from": "$self",
+      "select": "count",
+      "note": "how many events this abstraction has"
+    },
+    "facts": {
+      "from": "world",
+      "select": "all",
+      "type": "Fact",
+      "note": "the recorded outside facts, in order"
+    },
+    "proposals": {
+      "from": "propose",
+      "select": "map",
+      "type": "Proposal",
+      "key": "x['t']",
+      "value": "x['t']",
+      "note": "the proposed tasks"
+    },
+    "ethics_v": {
+      "from": "ethics",
+      "select": "map",
+      "type": "Verdict",
+      "key": "x['t']",
+      "value": "x['v']",
+      "note": "task → the ethical verdict"
+    },
+    "energy_v": {
+      "from": "energy",
+      "select": "map",
+      "type": "Energy",
+      "key": "x['t']",
+      "note": "task → the energy verdict, with the battery and the diesel it needs"
+    },
+    "ecology_v": {
+      "from": "ecology",
+      "select": "map",
+      "type": "Ecology",
+      "key": "x['t']",
+      "note": "task → the ecological verdict, with the water and CO₂ of the day"
+    },
+    "decisions": {
+      "from": "decide",
+      "select": "map",
+      "type": "Decision",
+      "key": "x['t']",
+      "value": "x['executed']",
+      "note": "task → executed or not"
+    },
+    "comps": {
+      "from": "compensate",
+      "select": "map",
+      "type": "Compensation",
+      "key": "x['t']",
+      "value": "x['m3']",
+      "note": "task → the compensated overrun of water"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "note": "day 1, until terminal: no task of day 1 is left"
+    },
+    {
+      "govern": [
+        "ecology/criterion.v2",
+        "ecology/ontology.v2",
+        "propose/criterion.v2",
+        "propose/ontology.v2"
+      ],
+      "note": "a drought: the water budget becomes 60 m³ a day; the agent turns to day 2"
+    },
+    {
+      "phase": 3,
+      "note": "day 2, until terminal"
+    },
+    {
+      "kpi": true,
+      "note": "execution indicators, once, at the end"
+    }
+  ],
+  "expect": {
+    "events": 85,
+    "states": {
+      "world": "wait",
+      "propose": "wait",
+      "ethics": "wait",
+      "energy": "wait",
+      "ecology": "wait",
+      "decide": "wait",
+      "compensate": "wait"
+    },
+    "values": {
+      "decide": [
+        {
+          "t": 1,
+          "executed": true
+        },
+        {
+          "t": 2,
+          "executed": true
+        },
+        {
+          "t": 3,
+          "executed": true
+        },
+        {
+          "t": 4,
+          "executed": true
+        },
+        {
+          "t": 5,
+          "executed": false
+        },
+        {
+          "t": 6,
+          "executed": false
+        },
+        {
+          "t": 7,
+          "executed": false
+        }
+      ],
+      "compensate": [
+        {
+          "t": 3,
+          "m3": 15
+        }
+      ]
+    }
+  }
+}

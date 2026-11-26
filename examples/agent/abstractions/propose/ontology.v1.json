@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the agent: the next task of the day, once the previous one is decided",
+  "inputs": {
+    "context": [
+      "proposals",
+      "decisions"
+    ]
+  },
+  "returns": "Proposal"
+}
