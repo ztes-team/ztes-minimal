@@ -5,6 +5,8 @@ for Interacting Binary Relations* (https://doi.org/10.20944/preprints202608.1545
 
 ## 0.1.2 (2026-11-27)
 
+Archived release: https://doi.org/10.5281/zenodo.24608321.
+
 The code of Z₀, every example and every record are unchanged. What changed is what experiment E7
 claims, and the wording of two kinds of claims, to agree with the revised text of the base paper.
 
