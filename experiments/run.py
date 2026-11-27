@@ -312,8 +312,11 @@ def e6(seeds):
 
 
 def e7(seeds):
-    title("E7. Four fates of an execution (Theorem 4), each read from its record")
+    title("E7. What a finite record shows about Theorem 4")
     rows = []
+    open_ended = {"e7-fates/sqrt2-digits": ("𝔒 correct infinite execution",
+                                            "the record for the goal; the specification for the unbounded stream"),
+                  "e7-fates/goldbach": ("𝔓 if Goldbach's conjecture holds, 𝔒 otherwise", "nothing in the window")}
     for path, goal, what in [("e1-loop/while-do", "exit", "the loop has ended"),
                              ("e7-fates/sqrt2-digits", "goal", "the first 10 digits of √2 are recorded"),
                              ("e4-demand/cycle", "result", "f(0) has a value"),
@@ -323,15 +326,18 @@ def e7(seeds):
         admitted = sum(1 for e in C if e["coord"]["kind"] == "exec")
         terminal = admitted < window                             # the run ended before its window of observation
         at = next((p for p, e in enumerate(C) if e["coord"]["kind"] == "exec" and e["coord"]["abstraction"] == goal), None)
-        status = "True" if at is not None else ("False" if terminal else "Not Yet")
-        fate = {("True", True): "𝔗 terminating solution", ("True", False): "𝔒 ontological infinity",
-                ("False", True): "𝔓 pathological non-progress", ("Not Yet", False): "𝔚 perpetual Not Yet"}[(status, terminal)]
+        status = "True" if at is not None else ("False" if terminal else "not recorded")
+        if terminal:
+            fate, shown = ("𝔗 terminating solution" if at is not None else "𝔓 pathological non-progress"), "the record"
+        else:
+            fate, shown = open_ended[path]
         rows.append([Path(path).name, what, status + ("" if at is None else f" at C^{at}"),
-                     "yes" if terminal else f"no: {window} admissions observed", fate,
+                     "yes" if terminal else f"no: {window} admissions observed", fate, shown,
                      "OK" if verify(C) == [] else "FAILED"])
-    table(rows, ["system", "goal", "status of the goal", "terminal", "class", "R2"])
-    print("  True: the goal is a recorded fact; False: the record is terminal and the goal is not in it;")
-    print("  Not Yet: neither, and nothing recorded excludes it. Infinity is never admitted, only continued.")
+    table(rows, ["system", "goal", "in the record", "terminal", "class", "shown by", "R2"])
+    print("  A terminal record shows 𝔗 or 𝔓 (Definition 6: False when no extension records the goal).")
+    print("  𝔒 needs the specification as well, and no window shows 𝔚: that class needs a branch that keeps")
+    print("  the goal reachable and is never taken (§6.2). Infinity is never admitted, only continued.")
 
 
 EXPERIMENTS = {"e1": e1, "e2": e2, "e3": e3, "e4": e4, "e5": e5, "e6": e6, "e7": e7}

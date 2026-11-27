@@ -89,5 +89,5 @@ own tests (`tests/test_examples.py`), described in [`examples/README.md`](../exa
 | `test_e5_the_record_of_a_recursion_contains_itself` | substructures equal to the records run alone; one record the prefix of the next |
 | `test_e6_decomposition_returns_upward_and_its_front_has_the_predicted_exponent` | 183 nodes brought in during the run, exponent 0.50; the same history by workers, one per node |
 | `test_e6_contact_of_order_four_gives_the_exponent_three_quarters` | the prediction 1 − 1/k for k = 4 (about a minute) |
-| `test_e6_short_circuit_fixes_the_verdict_and_waiting_fixes_every_lineage` | variant 3: the same verdict under every schedule; variant 1: the same history of every lineage in five runs. It is also the regression test of the coordinator of workers, which once judged a run terminal before abstractions brought in by the last event had been invoked |
-| `test_e7_four_fates` | the four classes of Theorem 4, each read from its record |
+| `test_e6_short_circuit_fixes_the_verdict_and_waiting_fixes_every_lineage` | variant 3: the same verdict in every schedule tested; variant 1: the same history of every lineage in five runs. It is also the regression test of the coordinator of workers, which once judged a run terminal before abstractions brought in by the last event had been invoked |
+| `test_e7_what_a_finite_record_shows` | 𝔗 and 𝔓 read from terminal records; the goal of `sqrt2-digits` recorded in a run that goes on; `goldbach` decided by no window |

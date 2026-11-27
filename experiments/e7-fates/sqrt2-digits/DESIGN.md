@@ -12,8 +12,9 @@ the stream never ends. `goal` admits once, on a positive atom: the tenth digit i
 | `goal` | the goal, once the K-th digit is recorded | once; digit K − 1 is recorded | own, `digit` |
 
 The plan observes a window of 100 admissions. The goal is True at C^16, and the stream is still going
-when the window closes: class 𝔒. Infinity belongs to the ontology; it is never admitted, only
-continued.
+when the window closes. The class 𝔒 needs the specification as well: `digit` is always defined, so
+the stream never ends, which no window can show. Infinity belongs to the ontology; it is never
+admitted, only continued.
 
 ## Expected end
 

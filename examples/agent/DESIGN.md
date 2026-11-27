@@ -78,7 +78,7 @@ The bodies are functions next to the JSON; their shared helpers are in `lib.py`.
 * **Positive atoms only.** Every criterion reads other lineages only as "this event is recorded".
   "Every earlier task is decided and measured" is a finite conjunction of such atoms, so once true
   it stays true. Every ontology waits for a complete horizon. Hence every lineage has the same
-  history under every schedule (Theorem K).
+  history under every fair schedule (Theorem K), as every schedule tested shows.
 * **Silence is not consent.** After deadline(T) the criterion of `world` admits no answer about T,
   so the answers about T are final and a missing answer counts as no. The absence is made final by
   the interaction of two relations, not read from the interleaving.

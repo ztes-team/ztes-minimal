@@ -9,7 +9,7 @@ decided stops: its work is abandoned. This is variant 3 of the design.
 
 ## What it shows
 
-* **The verdict is fixed.** Under every schedule the root returns False with a witness.
+* **The verdict is fixed.** In every schedule tested the root returns False with a witness.
 * **The abandoned work is not.** A node stops when it sees a decided ancestor, that is, on the
   absence of a decision a moment earlier: an absence read from the interleaving (Principle R). How
   far the other branches got before they stopped depends on the schedule, so the number of events

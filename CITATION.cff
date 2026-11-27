@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "ZTES: a minimal Zero Tier Execution Substrate for the OEE calculus"
 type: software
-version: 0.1.1
-date-released: 2026-11-26
+version: 0.1.2
+date-released: 2026-11-27
 doi: "10.5281/zenodo.24416119"
 identifiers:
   - type: doi

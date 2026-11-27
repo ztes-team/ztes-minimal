@@ -80,7 +80,7 @@ python -m ztes run examples/factorization --workers     # one worker per abstrac
 python -m pytest -q tests/test_workers.py               # random schedules and killed workers
 ```
 
-Under every schedule every record replays and every abstraction ends in the same state. A result
+Under every schedule tested, every record replays and every abstraction ends in the same state. A result
 determined by its inputs has the same history of every lineage as under the agenda; a result
 resolved against the context it finds (D1) may take another valid course. All ten examples were
 run under 40 random schedules each (400 runs) without a replay failure, and the nine of 0.1.0 also
@@ -92,8 +92,8 @@ with workers killed and started again; `docs/distribution.md` gives the details 
 |---|---|
 | C1 Two interacting relations | `prime-witnesses` (the record resolves 10), `factorization` (certificates checked without search), `payment` (equal payloads, different grounds), `agent` (one proposal, three criteria of its own: ethics, ecology, energy) |
 | C2 Inseparable substrate | R2 for every example; `python -m ztes defects`; governed changes in `sqrt2`, `dedekind-cut` and `tsp`; experiment E2: R2 holds even where the history depends on the schedule, which only Principle R excludes |
-| C3 Taxonomy of non-termination | `sqrt2` (a finite prefix of the unbounded bisection, class 𝔒), `dedekind-cut` (class 𝔓 and its governed repair); experiment E7: all four classes, each read from its record (𝔓 also in E4) |
-| C4 Nondeterminism in the record | `tests/test_workers.py`: the same histories under random schedules; experiment E6: a verdict fixed under every schedule while the abandoned work varies (Corollary 7) |
+| C3 Taxonomy of execution outcomes | `sqrt2` (a finite prefix of the unbounded bisection, class 𝔒), `dedekind-cut` (class 𝔓 and its governed repair); experiment E7: what a finite record shows, 𝔗 and 𝔓 from terminal records (𝔓 also in E4) |
+| C4 Nondeterminism in the record | `tests/test_workers.py`: the same histories under random schedules; experiment E6: the same verdict in every tested schedule while the abandoned work varies (Corollary 7) |
 | C5 Agnosticism | one Z₀ for all ten examples, with no code specific to any of them; `tests/test_config.py`: the same record in memory, on disk, on Redis, in process and over HTTP |
 | C6 Reuse and pruning | `tsp` (448 of 720 subproblems), `tsp-bnb` (34 of 1,237 and 14 of 8,660 nodes), the 224 of 227 Pending evaluations of `tour` that stop before the body runs; experiments E3 (each value once, a new root continues the record) and E4 (only demanded arguments: 242 values for f(10⁹)) |
 
@@ -116,4 +116,4 @@ interacting relations. Each is run by one command and checked by `tests/test_exp
 | E4 only what is demanded; a cycle | `python experiments/run.py e4` | f(10⁹) from 242 values; the cycle ends quiescent after 9 events |
 | E5 self-similarity | `python experiments/run.py e5` | nine substructures equal to their own records; prefixes that double; exponents 1 and 2 |
 | E6 decomposition | `python experiments/run.py e6` | 183 new abstractions; exponents 0.50 and 0.75 against the predicted 1 − 1/k |
-| E7 four fates | `python experiments/run.py e7` | 𝔗, 𝔒, 𝔓 and 𝔚, each read from its record |
+| E7 what a finite record shows | `python experiments/run.py e7` | 𝔗 and 𝔓 from terminal records; 𝔒 of `sqrt2-digits` with its specification; `goldbach` undecided: 𝔓 if Goldbach's conjecture holds, 𝔒 otherwise |

@@ -111,7 +111,7 @@ false: the lineage is closed.
 | boundary abstraction (§5.2) | `"boundary": true`; `system/sources.py` | `test_aco_draws_are_recorded_and_replay_never_asks_the_source` |
 | recorded merges; scheduling is not fixed by Axiom 0 (§5.3) | `system/agenda.py`, `system/resume.py` | `test_an_interrupted_run_continues_to_the_same_record` |
 | Theorem K and Corollary 7: nondeterminism is located in the record (§5.3) | `system/workers.py`: one worker per abstraction | `test_every_example_under_random_schedules` |
-| non-termination: the classes of Theorem 4 (§6.2) | the termination report of `agenda.py`: terminal, closed, permanent wait, the admission limit | `test_sqrt2_termination_states` |
+| execution outcomes: the classes of Theorem 4 (§6.2) | the termination report of `agenda.py`: terminal, closed, permanent wait, the admission limit | `test_sqrt2_termination_states` |
 | structural non-progress and governed repair (§6.3, §6.5, Corollary 9, §8.5) | the diagnosis in the termination report; a `govern` step | `test_dedekind_cut_repair` |
 | execution indicators (§6.4, §8.8) | `system/kpi.py`: `profile`, and a `kpi` abstraction per problem | `test_kpi_profile_records_what_the_record_does_not_keep` |
 | distributed realization (§9.1.1) | `service.py`: one service per abstraction | `test_separate_microservice_processes` |

@@ -168,7 +168,7 @@ def test_e6_short_circuit_fixes_the_verdict_and_waiting_fixes_every_lineage():
         assert experiments.histories(R) == experiments.histories(F)
 
 
-def test_e7_four_fates():
+def test_e7_what_a_finite_record_shows():
     fates = {}
     for path, goal in [("e1-loop/while-do", "exit"), ("e7-fates/sqrt2-digits", "goal"),
                        ("e4-demand/cycle", "result"), ("e7-fates/goldbach", "goal")]:

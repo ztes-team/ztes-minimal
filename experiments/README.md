@@ -164,24 +164,28 @@ measured, the result, and one sentence.
 * **In one sentence.** The shape of the decomposition is set by the criterion: the problem divides
   where it cannot yet be certified, by a law that can be predicted in advance.
 
-## E7. Four fates of an execution
+## E7. What a finite record shows about Theorem 4
 
-* **Question.** How can an execution end?
-* **Setup.** Four systems, each with a goal recorded as an event, observed for a window of
-  admissions where the execution does not stop by itself.
-* **Link.** Theorem 4 and Definition 6: the status of a goal is True when it is a recorded fact,
-  False when the record is terminal and the goal is not in it, Not Yet otherwise.
+* **Question.** What can a finite record say about the class of an execution?
+* **Setup.** Four systems, each with a goal recorded as an event. The two that do not stop by
+  themselves are observed for a window of 100 admissions.
+* **Link.** Theorem 4 and Definition 6. At a prefix, the status of a goal is True when the goal is
+  recorded, False when no admissible extension records it, and Not Yet otherwise. A finite record
+  shows True directly, and False when it is terminal without the goal. When it is neither, the
+  status depends on its extensions: it needs an argument, not a longer window.
 * **Result.**
 
-  | system | goal | status | terminal | class |
-  |---|---|---|---|---|
-  | [`while-do`](e1-loop/while-do/DESIGN.md) | the loop has ended | True | yes | 𝔗 terminating solution |
-  | [`sqrt2-digits`](e7-fates/sqrt2-digits/DESIGN.md) | 10 digits of √2 recorded | True at C^16 | no (100 admissions observed) | 𝔒 ontological infinity |
-  | [`cycle`](e4-demand/cycle/DESIGN.md) | f(0) has a value | False | yes | 𝔓 pathological non-progress |
-  | [`goldbach`](e7-fates/goldbach/DESIGN.md) | a counterexample to Goldbach | Not Yet | no (100 admissions observed) | 𝔚 perpetual Not Yet |
+  | system | goal | in the record | terminal | class | shown by |
+  |---|---|---|---|---|---|
+  | [`while-do`](e1-loop/while-do/DESIGN.md) | the loop has ended | True at C^231 | yes | 𝔗 terminating solution | the record |
+  | [`sqrt2-digits`](e7-fates/sqrt2-digits/DESIGN.md) | 10 digits of √2 recorded | True at C^16 | no (100 admissions observed) | 𝔒 correct infinite execution | the record for the goal; the specification for the unbounded stream (`digit` is always defined) |
+  | [`cycle`](e4-demand/cycle/DESIGN.md) | f(0) has a value | False | yes | 𝔓 pathological non-progress | the record |
+  | [`goldbach`](e7-fates/goldbach/DESIGN.md) | a counterexample to Goldbach | not recorded | no (100 admissions observed) | 𝔓 if Goldbach's conjecture holds, 𝔒 otherwise | nothing in the window |
 
-* **In one sentence.** An execution does not just stop or not stop: it has one of four fates, and
-  each can be read from its record. Infinity is never admitted, only continued.
+* **In one sentence.** A terminal record shows 𝔗 or 𝔓, class 𝔒 needs the specification as well,
+  and no window shows 𝔚: that class needs a branch that keeps the goal reachable and is never
+  taken, as the infinite run of tick events in §6.2 of the paper, so a single order of checks such
+  as `goldbach` is never in it.
 
 ## Map: claim of the calculus → experiment
 
@@ -192,7 +196,7 @@ measured, the result, and one sentence.
 | Theorem K: the same history of every lineage | E1–E4, E6 by workers; E2 and E6 show where it ends |
 | R2, and what it cannot see | all; E2 |
 | Definition 6: True, False, Not Yet | E1, E6, E7 |
-| Theorem 4 and Corollary 8 | E4, E7 |
+| Theorem 4: what a finite record shows | E4, E7 |
 | Corollary 7: the location of nondeterminism | E6 |
 | R1: new specifications under the same rule | E3 (governed root), E6 (new abstractions) |
 | Optimization with no added mechanism | E3 (memo, no stack, continuation), E4 (pruning by demand, cycles), E6 (abandonment) |
@@ -205,5 +209,7 @@ measured, the result, and one sentence.
   prediction of E6 stated before its measurement for k = 4; they are not proved.
 * The control of E2 and variant 3 of E6 depend on the schedule by design; their runs by workers are
   reported, not required to agree.
+* E7 reads 𝔗 and 𝔓 only from terminal records. Class 𝔒 of `sqrt2-digits` rests on its
+  specification, no window decides `goldbach`, and no experiment exhibits 𝔚.
 * Running times are not results: the specifications are written for clarity (the ontology of
   `call` scans the recorded calls), and the larger systems take up to a minute.

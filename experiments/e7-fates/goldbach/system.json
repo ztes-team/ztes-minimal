@@ -1,6 +1,6 @@
 {
   "system": "goldbach",
-  "title": "E7 (class 𝔚). The search for an even number that is not a sum of two primes: never found, never excluded",
+  "title": "E7. The search for an even number that is not a sum of two primes: a window that decides no class",
   "abstractions": [
     "check",
     "goal"

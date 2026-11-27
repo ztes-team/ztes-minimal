@@ -45,7 +45,7 @@ Phase 1, phase 2, phase 3 until terminal.
 ## 6. Expected end
 
 112 states (k = 0 … 111, the last x = 1), 112 verdicts (111 true, one false), one exit at k = 111:
-232 events. R2 replays them. Under workers, with every schedule, each lineage has the same history.
+232 events. R2 replays them. Under workers, in every schedule tested, each lineage has the same history, as Theorem K gives for every fair schedule.
 
 ## 7. Run
 

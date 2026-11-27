@@ -2,7 +2,7 @@
   "title": "ZTES: a minimal Zero Tier Execution Substrate for the OEE calculus",
   "upload_type": "software",
   "license": "mit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A minimal realization of the Zero Tier Execution Substrate (ZTES) published in Systems 14 (2026) 547, from which it takes its name, and the executable supplement to \"A Calculus of Execution for Interacting Binary Relations\" and to \"Observable, Governable, Cooperative: Execution Analytics and Adaptive Heuristic Agents in the OEE Calculus\" (in preparation). Its fixed admission procedure Z0, which with the architecture S1 forms the zero-tier execution substrate, applies Axiom 0 to systems of abstractions given as JSON specifications. Ten worked examples (the square root of two, a computable Dedekind cut, a payment with protective refusal, prime witnesses, certified factorization, exact TSP by Held-Karp and by branch and bound, an ant colony with and without a recorded draw, and an agent under ethical, ecological and energy criteria), seven experiments on control as interacting relations, eight defective mechanisms for the essential conditions of S1, and replay under R2 in full and judgments-only modes. Specifications are loaded from files or carried by a candidate during execution; execution in one process or by one worker per abstraction is an option of the configuration.",
   "creators": [
     {"name": "Radenković, Miloš", "affiliation": "School of Computing, Union University, Belgrade", "orcid": "0000-0002-1708-9799"},

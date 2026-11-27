@@ -5,7 +5,7 @@
 **What this system shows.** The system [`split-witness`](../split-witness/DESIGN.md) with SHORT =
 false (variant 1). A node returns only when both children have returned, and then False with the
 witness of its leftmost false child. No node reads the absence of a decision, and every node reads a
-complete horizon, so every lineage has the same history under every schedule (Theorem K). The price
+complete horizon, so every lineage has the same history under every fair schedule (Theorem K). The price
 is the work that variant 3 abandons.
 
 ## Expected end

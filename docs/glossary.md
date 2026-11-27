@@ -59,7 +59,7 @@ The name stays, because it is part of recorded payloads. Read it as Pending.
 | Terminal_r(C): no admissible one-step extension (§4.6.5) | `terminal: no abstraction can extend C in this regime` | established exactly, from the declared horizons |
 | a run that does not reach Terminal_r | `admission_limit` reached: not terminal | a guard of the realization, not a theorem |
 | Lemma 6: a judgment stands while its horizon stands (§5.1) | a lost race outside the horizon is appended one position later | `Z0._stands`, `test_a_lost_race_outside_the_horizon_keeps_the_judgment` |
-| Theorem K and Corollary 7: fair executions differ only in recorded merges, boundaries and governing events (§5.3) | the same history of every lineage under every schedule, for results determined by their inputs | `test_every_example_under_random_schedules`; see `docs/distribution.md` for results resolved by context |
+| Theorem K and Corollary 7: fair executions differ only in recorded merges, boundaries and governing events (§5.3) | the same history of every lineage under every fair schedule, for results determined by their inputs; observed in every schedule tested | `test_every_example_under_random_schedules`; see `docs/distribution.md` for results resolved by context |
 | the profile counts n_I, n_A, n_U, n_H, n_F (§8.8) | the `profile` columns I, A, U, H, F | I = A + U + F and 0 ≤ H ≤ U; checked by the criterion of `profile` |
 
 ## Terms of the experiments
@@ -70,7 +70,7 @@ The name stays, because it is part of recorded payloads. Read it as Pending.
 | normal form of a criterion | a criterion that reads other lineages only through positive atoms (and, or, there exists), and its own lineage only for its position and uniqueness | `experiments/README.md`; `docs/writing-a-system.md` |
 | justification of a value | the recorded events on which its criterion was true, followed back | experiment E5 |
 
-## The classes of non-termination (Theorem 4, §6.2) in a run
+## The classes of execution outcomes (Theorem 4, §6.2) in a run
 
 Theorem 4 classifies whole executions relative to the goals of a task. A run of the substrate is
 finite, so it shows a finite prefix of an execution, and the classes appear as follows.
@@ -78,9 +78,9 @@ finite, so it shows a finite prefix of an execution, and the classes appear as f
 | Class | In the base paper | How it appears here |
 |---|---|---|
 | 𝔗 | terminating solution | the run is terminal and every goal stated in `"expect"` holds |
-| 𝔒 | ontological infinity: infinite, and every goal is reached at a finite prefix | an ontology that never refuses, such as the bisection of √2 (§8.2). `sqrt2` executes a finite prefix of it: criterion v2 stops the refinement at width 1/64; `experiments/e7-fates/sqrt2-digits`: a stream of digits whose goal is reached at C^16 |
+| 𝔒 | correct infinite execution (ontological infinity): infinite, and every goal is reached at a finite prefix | an ontology that never refuses, such as the bisection of √2 (§8.2). `sqrt2` executes a finite prefix of it: criterion v2 stops the refinement at width 1/64; `experiments/e7-fates/sqrt2-digits`: a stream of digits whose goal is reached at C^16 |
 | 𝔓 | pathological non-progress: a goal has status False at some prefix | `dedekind-cut` with ontology v1 of `intervals`: the run is terminal and `intervals` waits on a lineage nobody writes. A governed change repairs the horizon (Corollary 9, §8.5); `experiments/e4-demand/cycle`: a circular recursion ends quiescent with no value |
-| 𝔚 | perpetual Not Yet: no False, and some goal never reached | depends on the schedule and fairness (§5.3); `experiments/e7-fates/goldbach` shows it in a window of observation: a search for a counterexample that no recorded prefix establishes or excludes |
+| 𝔚 | perpetual Not Yet: no False, and some goal never reached | needs a branch that keeps the goal reachable and is never taken, as the infinite run of tick events in §6.2; no finite run shows it. A single order of checks is never in 𝔚: `experiments/e7-fates/goldbach` is in 𝔓 if Goldbach's conjecture holds and in 𝔒 otherwise |
 
 ## Tags in the code and in the specifications
 

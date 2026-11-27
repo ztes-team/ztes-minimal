@@ -3,6 +3,25 @@
 Section, theorem and table numbers refer to version 4 of the base paper, *A Calculus of Execution
 for Interacting Binary Relations* (https://doi.org/10.20944/preprints202608.1545.v4).
 
+## 0.1.2 (2026-11-27)
+
+The code of Z₀, every example and every record are unchanged. What changed is what experiment E7
+claims, and the wording of two kinds of claims, to agree with the revised text of the base paper.
+
+**Experiment E7**
+* E7 is now *What a finite record shows about Theorem 4*. A terminal record shows class 𝔗 or 𝔓.
+  Class 𝔒 of `sqrt2-digits` rests on its specification as well, since no window shows that a
+  stream never ends. The search of `goldbach` follows one order of checks, so it is in 𝔓 if
+  Goldbach's conjecture holds and in 𝔒 otherwise, and never in 𝔚; its window decides neither case.
+  0.1.1 read the four classes from the records and placed `goldbach` in 𝔚, which Definition 6 does
+  not support. `experiments/run.py e7` prints what each record shows and what it does not; the test
+  is now `test_e7_what_a_finite_record_shows`, with the same checks.
+
+**Documentation**
+* Theorem 4 classifies execution outcomes (§6.2), and 𝔒 is the correct infinite execution.
+* A claim that every lineage has the same history names the fair schedules of Theorem K, and a
+  claim from runs names the schedules tested.
+
 ## 0.1.1 (2026-11-26)
 
 Archived release: https://doi.org/10.5281/zenodo.24563789.
