@@ -39,5 +39,5 @@ The class is a property of the regime, the specifications of `policy`, not of th
 
 ## 3. Files
 
-As in `finish-fair`, with `abstractions/policy/ontology.v1.json` an ordinary ontology
+As in `finish-unfair`, with `abstractions/policy/ontology.v1.json` an ordinary ontology
 (`"result": "[0] if finishes == 0 else None"`) and no source.

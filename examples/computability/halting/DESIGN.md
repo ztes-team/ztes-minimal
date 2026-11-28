@@ -58,7 +58,7 @@ arXiv:2509.12337; https://bbchallenge.org/antihydra.
 | `machines` | a halting configuration of M is recorded; five machines, each a governed question | 𝔗 for the three champions; 𝔓 for the other two. For the goal "a verdict is recorded" the same task terminates, 𝔗 | the halting configuration, or a certificate checked by the criterion |
 | `collatz` | n reaches 1, for every n ≥ 1, a countable family of goals | 𝔒 if the Collatz conjecture holds, otherwise 𝔓; the specification has no bound | a window of 1,000 admissions: a recorded induction, each n checked only until it falls below n |
 | `antihydra` | b = −1 is recorded | 𝔗 or 𝔓, never 𝔚; unknown which | a window of 1,000 iterations of the recurrence (not steps of the machine), no verdict |
-| `finish-fair` | finish is recorded; a fair boundary scheduler | 𝔗 | the whole execution: finish after an even number of ticks |
+| `finish-fair` | finish is recorded; a fair scheduler computed from a recorded seed | 𝔗 | the whole execution: finish after an even number of ticks |
 | `finish-unfair` | the same; the scheduler never chooses finish | 𝔚, for the unbounded run with this source | a window: ticks only; finish reachable at every prefix |
 | `finish-unreachable` | the same; a deterministic scheduler that never chooses finish | 𝔓 | a window: the same execution payloads as `finish-unfair`, a different specification of `policy` |
 
@@ -154,12 +154,12 @@ This is the tick/finish example of §6.2, with the scheduler made explicit, as P
 order. A `policy` lineage records which abstraction acts next: "tick" or "finish".
 * **`tick`** records a tick when the latest decision is "tick".
 * **`finish`** records finish when the latest decision is "finish" and the number of ticks is even.
-  A decision for finish at an odd count is refused, and the policy decides again.
+  A decision for finish at an odd count is void, and the next decision is acted on.
 
 | System | `policy` | Every prefix | The unbounded run |
 |---|---|---|---|
-| `finish-fair` | a boundary abstraction (§5.2), its occurrences drawn from a seeded source | finish is reachable, so the status is Not Yet until it is taken | 𝔗: finish is taken after an even number of ticks |
-| `finish-unfair` | the same boundary abstraction; the source always gives "tick" | finish is reachable: a different occurrence is admissible at every decision, so the status is Not Yet | 𝔚 |
+| `finish-fair` | a fair scheduler computed from the recorded seed 6, one decision at a time, each after the one before it is acted on | finish is reachable, so the status is Not Yet until it is taken | 𝔗: finish is taken after an even number of ticks |
+| `finish-unfair` | a boundary abstraction (§5.2) whose source always gives "tick" | finish is reachable: a different occurrence is admissible at every decision, so the status is Not Yet | 𝔚 |
 | `finish-unreachable` | an ordinary abstraction whose ontology always proposes "tick" | finish is unreachable, and the status is False; certificate: every admissible decision is "tick" | 𝔓 |
 
 The records of `finish-unfair` and `finish-unreachable` carry the same execution payloads, decisions
@@ -167,13 +167,19 @@ and ticks, and their classes differ; the recorded specification of `policy` diff
 `policy`, not of the events recorded so far. The two unbounded runs are windows: the record of 40
 admissions is paused, not terminal, as in E7.
 
-**The decisions do not depend on the schedule.** A source gives one occurrence per invocation of
-`policy`, also when the occurrence is refused. The criterion of `policy` therefore admits every
-well-formed decision while finish is not recorded, and `tick` and `finish` act on the recorded
-decisions in order. The decisions are the occurrences of the source in order, under the agenda and
-under workers. With seed 6 they are 0, 1, 0, 0, 1, 0, 0, 0, 1: two decisions for finish come after
-an odd number of ticks and are void, and finish is taken after 6 ticks (26 events). Under workers
-`policy` may record more decisions before finish is recorded; the finish is the same.
+**The decisions do not depend on the schedule.** In `finish-fair` decision k is computed from the
+recorded seed, `draw(SEED, k)`: the k-th output of SplitMix64, the generator of
+`ztes/system/sources.py`, modulo 2. `policy` proposes it only when every recorded decision has been
+acted on, and its criterion admits a decision only then, so each decision is followed by the tick or
+finish it calls for before the next one. With seed 6 the decisions are 0, 1, 0, 0, 1, 0, 0, 0, 1:
+two decisions for finish come after an odd number of ticks and are void, and finish is taken after
+6 ticks (26 events). The record is the same under the agenda and under workers.
+
+An earlier version drew the decisions from a boundary source and admitted every decision while
+finish was not recorded. Under workers `policy` could then record decisions faster than `tick` acted
+on them, up to the admission limit of 10,000 before finish, which a test under workers found. In
+`finish-unfair` the boundary source stays: its window of 40 admissions bounds the run, and its
+decisions are all 0.
 
 ## 7. Relation to other approaches
 

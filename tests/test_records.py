@@ -20,7 +20,7 @@ PINNED = {                      # example: (events, digest of the record)
     "agent":           (85,  "275977ab65c077bd"),   # added in 0.1.1
     "computability/halting/antihydra":             (1012, "91db8f046e3e1a14"),   # added after 0.1.2
     "computability/halting/collatz":               (1009, "0c534871d6cb5392"),   # added after 0.1.2
-    "computability/halting/finish-fair":           (26,   "31a2c4d81d473c38"),   # added after 0.1.2
+    "computability/halting/finish-fair":           (26,   "1768734bf6acabc2"),   # added after 0.1.2
     "computability/halting/finish-unfair":         (50,   "2f1ca06deb972113"),   # added after 0.1.2
     "computability/halting/finish-unreachable":    (50,   "bbcf4291e6688799"),   # added after 0.1.2
     "computability/halting/machines":              (183,  "b34659e7f8958d8b"),   # added after 0.1.2

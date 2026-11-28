@@ -39,7 +39,7 @@ The model design is in [`halting/DESIGN.md`](halting/DESIGN.md).
 | [`machines`](halting/machines/DESIGN.md) | three Busy Beaver champions halt; two machines never halt, each with a checked certificate | a halting configuration of M is recorded | champions 𝔗; certified machines 𝔓. For the goal "a verdict is recorded" the same task terminates, 𝔗 | 183 |
 | [`collatz`](halting/collatz/DESIGN.md) | each number reaches 1 by an induction over the record (5,379 steps recorded instead of 59,542 for n ≤ 1,000) | n reaches 1, for every n ≥ 1 | 𝔒 if the conjecture holds, otherwise 𝔓; the specification has no bound, and the record is a window of 1,000 admissions | 1,009 |
 | [`antihydra`](halting/antihydra/DESIGN.md) | the recurrence of a six-state machine whose halting no one has decided | b = −1 is recorded | 𝔗 or 𝔓, unknown, never 𝔚; the window is 1,000 iterations of the recurrence, not steps of the machine | 1,012 |
-| [`finish-fair`](halting/finish-fair/DESIGN.md) | tick/finish of §6.2 with a recorded, fair scheduler | finish is recorded | 𝔗; the record is the whole execution | 26 |
+| [`finish-fair`](halting/finish-fair/DESIGN.md) | tick/finish of §6.2 with a fair scheduler computed from a recorded seed, one decision at a time | finish is recorded | 𝔗; the record is the whole execution | 26 |
 | [`finish-unfair`](halting/finish-unfair/DESIGN.md) | the same, with a scheduler that never chooses finish: reachable at every prefix | the same | 𝔚 for the unbounded run; the source that always gives 0 is the environment of this run, not part of the regime; a window of 40 admissions | 50 |
 | [`finish-unreachable`](halting/finish-unreachable/DESIGN.md) | a deterministic scheduler that never proposes finish | the same | 𝔓; the same execution payloads as `finish-unfair`, a different specification of `policy` | 50 |
 
@@ -64,6 +64,7 @@ at its certificate.
 | `test_collatz_short_pieces_add_up_and_a_piece_has_at_most_L_steps` | with L = 2 the indicator adds every piece of a number (8 steps to 1 for n ≤ 3), and a piece longer than L is refused |
 | `test_antihydra_follows_the_rules_and_records_no_verdict` | every iteration equals the recurrence of bbchallenge; no goal; b never below 0 |
 | `test_the_fair_scheduler_finishes_after_an_even_number_of_ticks` | decisions 0, 1, 0, 0, 1, 0, 0, 0, 1; finish after 6 ticks |
+| `test_the_fair_scheduler_is_the_seeded_source_one_decision_at_a_time` | `draw(6, k)` equals the k-th occurrence of the source of `sources.py`; no decision is proposed while another waits; the record is that of the agenda under every schedule |
 | `test_unfair_and_unreachable_have_the_same_payloads_and_different_classes` | the same execution payloads, decisions and ticks; at every prefix of the window a decision for finish is admissible in `finish-unfair`, and finish follows it after an even number of ticks, while in `finish-unreachable` the decision is computed and is always tick. The window shows the pattern; the claim for every prefix rests on the specifications |
 
 The general tests of the examples also cover these systems:

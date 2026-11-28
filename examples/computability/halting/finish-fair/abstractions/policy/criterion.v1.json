@@ -1,7 +1,9 @@
 {
-  "note": "[τ] any decision, 0 (tick) or 1 (finish), while finish is not recorded",
+  "note": "[τ] any decision, 0 (tick) or 1 (finish), while finish is not recorded and once every recorded decision has been acted on",
   "inputs": {
     "context": [
+      "decisions",
+      "ticks",
       "finishes"
     ],
     "candidate": {
@@ -10,6 +12,6 @@
     }
   },
   "body": {
-    "result": "finishes == 0 and len(w) == 1 and 0 <= w[0] <= 1"
+    "result": "finishes == 0 and next_tick(decisions, ticks) is None and next_finish(decisions, ticks, finishes) is None and len(w) == 1 and 0 <= w[0] <= 1"
   }
 }

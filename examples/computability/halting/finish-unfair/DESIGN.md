@@ -2,9 +2,9 @@
 
 *Not an example of the paper; the model is described in [`../DESIGN.md`](../DESIGN.md), and the abstractions in [`../finish-fair/DESIGN.md`](../finish-fair/DESIGN.md). Base paper: §6.2, Theorem 4, §5.2. Tags: [C] epistemic, [ω] ontological, [τ] eschatological.*
 
-**What this example adds.** A goal that is reachable at every prefix and never taken, class 𝔚. The
-specifications are those of `finish-fair`. Only the source differs: `{"seed": 1, "size": 1,
-"below": 1}` always gives 0, a scheduler that never chooses finish.
+**What this example adds.** A goal that is reachable at every prefix and never taken, class 𝔚.
+`tick` and `finish` are those of `finish-fair`. `policy` is a boundary abstraction whose source,
+`{"seed": 1, "size": 1, "below": 1}`, always gives 0: a scheduler that never chooses finish.
 
 ## 1. What every prefix shows
 
@@ -43,5 +43,5 @@ admits a decision for finish whenever finish is not recorded.
 
 ## 3. Files
 
-As in `finish-fair`: `system.json` (the source differs), `lib.py`, `DESIGN.md` and
-`abstractions/{policy, tick, finish}`.
+As in `finish-fair`, with a source in `system.json` and a boundary ontology for `policy`:
+`system.json`, `lib.py`, `DESIGN.md` and `abstractions/{policy, tick, finish}`.

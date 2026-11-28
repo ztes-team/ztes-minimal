@@ -193,6 +193,26 @@ def test_the_fair_scheduler_finishes_after_an_even_number_of_ticks():
     assert values(C, "tick") == [{"k": k} for k in range(1, 7)] and values(C, "finish") == [{"ticks": 6}]
 
 
+def test_the_fair_scheduler_is_the_seeded_source_one_decision_at_a_time():
+    """draw(SEED, k) equals the k-th occurrence of the source of sources.py, computed from k alone;
+    policy proposes a decision only after every recorded decision has been acted on, so at most one
+    decision waits at any prefix, and the record is the same under every schedule."""
+    from ztes.model.language import SAFE, library
+    from ztes.system.sources import RandomSource
+    _, C = run("finish-fair")
+    n, e = execs(C, "policy")[0]
+    draw = library(lookups.load(C[:n], e["coord"]["ontology"])["library"], SAFE)["draw"]
+    source = RandomSource(6, 1, 2)
+    assert [draw(6, k) for k in range(200)] == [source.next()[0] for _ in range(200)]
+    tick = lookups.load(C, lookups.active(C, "tick", "ontology"))
+    helpers = library(tick["library"], SAFE)
+    for n, e in execs(C, "policy"):
+        P = C[:n]
+        decisions, ticks = values(P, "policy"), len(values(P, "tick"))
+        assert helpers["next_tick"](decisions, ticks) is None                     # nothing waits for a tick
+    assert len(C) == 26 and values(C, "finish") == [{"ticks": 6}]
+
+
 def test_unfair_and_unreachable_have_the_same_payloads_and_different_classes():
     """The same record, two regimes. In finish-unfair the decision is a boundary occurrence: at every
     prefix a decision for finish is admissible, and after an even number of recorded ticks finish

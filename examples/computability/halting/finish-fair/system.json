@@ -6,15 +6,6 @@
     "tick",
     "finish"
   ],
-  "sources": {
-    "policy": {
-      "random": {
-        "seed": 6,
-        "size": 1,
-        "below": 2
-      }
-    }
-  },
   "types": {
     "Decision": {
       "list": "integer"
@@ -67,11 +58,40 @@
   "expect": {
     "events": 26,
     "states": {
-      "policy": "closed",
+      "policy": "wait",
       "tick": "wait",
       "finish": "wait"
     },
     "values": {
+      "policy": [
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          1
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ],
       "finish": [
         {
           "ticks": 6
@@ -79,12 +99,46 @@
       ]
     },
     "any_schedule": {
-      "note": "the policy may record more decisions before finish is recorded; the finish is the same",
-      "last": {
-        "finish": {
-          "ticks": 6
-        }
+      "note": "policy waits until its last decision is acted on, so every abstraction has the history of the agenda under every schedule",
+      "values": {
+        "policy": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ]
+        ],
+        "finish": [
+          {
+            "ticks": 6
+          }
+        ]
       }
     }
+  },
+  "constants": {
+    "SEED": 6
   }
 }

@@ -1,8 +1,11 @@
 {
-  "note": "[ω] boundary (§5.2): the decision is an occurrence of the scheduler, not computed from C",
-  "boundary": true,
-  "returns": "Decision",
+  "note": "[ω] the fair scheduler: decision k = draw(SEED, k), once every recorded decision has been acted on and while finish is not recorded",
   "inputs": {
-    "context": {}
-  }
+    "context": [
+      "decisions",
+      "ticks",
+      "finishes"
+    ]
+  },
+  "returns": "Decision"
 }
