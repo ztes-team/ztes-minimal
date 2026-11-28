@@ -13,6 +13,8 @@ def tau(L, last, w):
         return False
     if any(p[q] < n for q in range(1, len(p) - 1)):
         return False                                   # it stops at the first value below n
+    if len(p) > L + 1:
+        return False                                   # at most L steps
     if w["below"]:
         return p[-1] < n
     return p[-1] >= n and len(p) == L + 1

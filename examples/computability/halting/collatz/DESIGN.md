@@ -42,6 +42,11 @@ Payload: `{"n": 27, "path": [27, 82, 41, …, 23], "below": true}`.
   * The unbounded run is in 𝔒 if the Collatz conjecture holds. If some n never falls below itself,
     every piece of it stays above n, its goal is False, and the run is in 𝔓.
   * No window decides which, as with `goldbach` in E7.
+* **What R2 shows, and what it does not.** R2 replays the judgments the specification made; it does
+  not show that the specification is right. An independent arithmetic check found that the
+  indicator undercounted when a number needs several pieces (L = 2), and that the criterion did not
+  bound a piece that falls below its number. Both were corrected, and the window of 1,000 numbers
+  was not affected (`test_collatz_short_pieces_add_up_and_a_piece_has_at_most_L_steps`).
 
 ## 5. Plan
 

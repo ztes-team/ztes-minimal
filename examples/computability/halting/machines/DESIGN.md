@@ -60,9 +60,13 @@ transitions is the derived value TRANS = table(MACHINE).
   evolutive change ends a regime, so each machine is classified in its own regime. For the goal "a
   halting configuration of M is recorded" the champions are in 𝔗 and the certified machines in 𝔓.
   For the goal "a verdict is recorded" the same task terminates for every machine, 𝔗.
-* **The class depends on the family of goals.** For machine 5 and the goal "halts" the run is in
-  𝔓. For the countable family "cell k holds a 1", k = 0, 1, 2, …, the same run is in 𝔒: each cell
-  is written at a finite step and stays 1.
+* **The class depends on the family of goals and on the regime.** For machine 5 and the goal
+  "halts" the run is in 𝔓. Consider instead its unbounded simulation, a regime whose `run` records
+  every configuration and never stops at a certificate, with the countable family "the record
+  contains a configuration in which cell k holds a 1", k = 0, 1, 2, … . Each goal is persistent,
+  since the record only grows, and each is established at a finite step, so that execution is in 𝔒.
+  Here `run` stops at the first certificate: the execution is terminal, attains these goals only
+  for k ≤ 2, and for this family is in 𝔓. An executable 𝔒 is `sqrt2-digits` (E7).
 
 ## 5. Plan
 

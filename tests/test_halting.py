@@ -7,6 +7,9 @@ The record shows each verdict and its evidence. The tests check what it cannot s
 * finish-unfair and finish-unreachable carry the same payloads, while finish is reachable at every
   prefix of the first and at none of the second.
 """
+import json
+import shutil
+
 import pytest
 
 from conftest import ROOT, quiet
@@ -143,6 +146,30 @@ def test_collatz_a_piece_must_stop_at_the_first_value_below_its_number():
     longer = good["path"] + [good["path"][-1] * 3 + 1 if good["path"][-1] % 2 else good["path"][-1] // 2]
     assert not evaluation.judge(P, tau, dict(good, path=longer))
     assert not evaluation.judge(P, tau, dict(good, path=good["path"][:-1]))
+
+
+def test_collatz_short_pieces_add_up_and_a_piece_has_at_most_L_steps(tmp_path):
+    """With L = 2 a number may need several pieces. The indicator adds all of them: for 1, 2 and 3,
+    0 + 1 + 7 = 8 steps to 1. A piece that falls below its number in six steps is refused under
+    L = 2. (R2 replays the judgments a specification made; it does not show that the specification
+    is right. Before this test the indicator counted only the last piece of a number.)"""
+    short = tmp_path / "collatz"
+    shutil.copytree(HALTING / "collatz", short)
+    m = json.loads((short / "system.json").read_text())
+    m["constants"]["L"] = 2
+    m["plan"][2]["max_admissions"] = 5
+    m.pop("expect")
+    (short / "system.json").write_text(json.dumps(m))
+    system, store = System(short), MemoryStore()
+    system.run(store, log=quiet)
+    C = list(read(store))
+    pieces = values(C, "segment")
+    assert [p["path"] for p in pieces] == [[1], [2, 1], [3, 10, 5], [5, 16, 8], [8, 4, 2]]
+    assert values(C, "kpi")[-1]["steps_to_1"] == 8 and verify(C) == []
+    n, e = execs(C, "segment")[2]
+    P = C[:n]
+    tau = lookups.load(P, e["coord"]["criterion"])
+    assert not evaluation.judge(P, tau, {"n": 3, "path": [3, 10, 5, 16, 8, 4, 2], "below": True})
 
 
 # ---- antihydra -------------------------------------------------------------------------------------

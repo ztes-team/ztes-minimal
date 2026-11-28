@@ -14,6 +14,11 @@ for finish, so `finish` is never due. Its criterion would admit finish after an 
 ticks, but no candidate for it ever arises. The goal is unreachable, so its status is False
 (Definition 6), at every prefix.
 
+**The obstacle is in the proposal.** The criteria are those of `finish-unfair`: `policy` would admit
+a decision for finish, and `finish` would admit finish after an even number of ticks. Only the
+ontology of `policy` differs, and it never proposes 1. Reachability depends on what can be proposed
+(D1) as well as on what would be admitted (D2), which is why the two are separate.
+
 The certificate is an inductive invariant in the sense of Proposition 14: "every recorded decision
 is 0 and finish is not recorded". It holds at the first prefix, every admitted step keeps it, and it
 excludes the goal.

@@ -16,6 +16,13 @@ number of recorded ticks finish follows it. The goal is reachable, so its status
 The scheduler never takes that branch. An unbounded run of this kind establishes the goal at no
 prefix and has no False prefix: class 𝔚 of Theorem 4.
 
+**What is fixed.** The regime is the recorded specifications. The criterion of `policy` names both
+choices, 0 and 1, and its boundary ontology takes either as an occurrence. The source
+`{"seed": 1, "size": 1, "below": 1}` is the environment of this run, one observed path of zeros
+among the executions of the regime; it is not a specification and is not recorded
+(`ztes/system/sources.py`). A regime that could only give 0 would make finish unreachable at every
+prefix, class 𝔓: that is `finish-unreachable`.
+
 ## 2. Plan and expected end
 
 ```

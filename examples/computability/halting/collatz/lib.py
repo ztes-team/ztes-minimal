@@ -44,8 +44,9 @@ def next_piece(L, last):
 
 def measure(pieces, profile, profiles):
     """The indicators of the collatz execution (KPI abstraction). The number of steps from each n to
-    1 is read from the record: the steps of its piece plus those of the number it falls to."""
+    1 is read from the record: the steps of all its pieces plus those of the number it falls to."""
     to1 = {1: 0}
+    steps = {}
     recorded = 0
     longest = [0, 1]
     for p in pieces:
@@ -53,8 +54,9 @@ def measure(pieces, profile, profiles):
         recorded += s
         if s > longest[0]:
             longest = [s, p["n"]]
+        steps[p["n"]] = steps.get(p["n"], 0) + s
         if p["below"] and p["n"] > 1:
-            to1[p["n"]] = s + to1[p["path"][-1]]
+            to1[p["n"]] = steps[p["n"]] + to1[p["path"][-1]]
     total = sum(to1.values())
     return {"profile": profiles, "numbers": len(to1), "recorded_steps": recorded, "steps_to_1": total,
             "saved_permille": floor(1000 * (total - recorded) / total) if total > 0 else 0,

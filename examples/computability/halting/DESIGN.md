@@ -96,9 +96,14 @@ The two machines that never halt have a halting transition (C1 → 1RZ) that the
 * **Governed questions.** Each machine is a new version of `run` and `verdict` (M = 1 … 5). An
   evolutive change ends a regime, so each machine is classified in its own regime.
 
-**The class depends on the family of goals.** For the translated cycler and the goal H_M the run is
-in 𝔓. For the countable family "cell k holds a 1" (k = 0, 1, 2, …) the same run is in 𝔒, since each
-cell is written at a finite step and stays 1. The record is the same; Theorem 4 is relative to 𝒢.
+**The class depends on the family of goals and on the regime.** For the translated cycler and the
+goal H_M the run is in 𝔓. Consider instead its unbounded simulation, a regime whose `run` records
+every configuration and never stops at a certificate, with the countable family "the record contains
+a configuration in which cell k holds a 1" (k = 0, 1, 2, …). Each goal is persistent, since the
+record only grows, and each is established at a finite step, so that execution is in 𝔒. Here `run`
+stops at the first certificate: the execution is terminal, attains these goals only for k ≤ 2, and
+for this family is in 𝔓. An executable 𝔒 is `sqrt2-digits` (E7). Theorem 4 is relative to 𝒢 and
+to the regime.
 
 **Expected end:** 151 configurations and 5 verdicts, 183 events with the KPI step.
 
@@ -179,8 +184,11 @@ over.
   (AG ¬goal). A strong fairness condition on finish separates `finish-fair` from `finish-unfair`,
   where finish is enabled infinitely often and never taken. The classes of Theorem 4 belong to this
   tradition (Alpern and Schneider). Here the tree is that of a regime whose specifications are
-  events of the same append-only record. It changes by governed admission (R1), and the status of a
-  recorded prefix is re-derived by replay (R2). In a model checker the specification is an input to
+  events of the same append-only record. It changes by governed admission (R1), and replay verifies
+  each recorded admission at its original prefix under the versions then in force (R2). That a goal
+  is unreachable is a claim about all admissible continuations and needs its own argument; when the
+  argument is admitted as a certificate, as the verdicts of `machines` are, its admission is
+  replayed too. In a model checker the specification is an input to
   the tool, and a change of rules has to be encoded in the state of the model.
 * **Event sourcing and ledgers.** They keep an append-only log and often validate each entry
   deterministically, close to the criterion (D2). The log records what was admitted, usually not
