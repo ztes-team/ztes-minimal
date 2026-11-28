@@ -32,6 +32,10 @@ paths is computed one time slice at a time, by the distributive law. It adds no 
 Time in these systems is the step of the walk, a value in the record; ZTES itself has no time
 ([`path-sums/DESIGN.md`](path-sums/DESIGN.md), §1).
 
+The walk is also a bridge between Feynman's path integral and the theory of algorithms: quantum
+walks underlie quantum search algorithms and, in another form, models of energy transfer in
+photosynthesis. The model design gives the references.
+
 The model design, and what this does not claim, is in [`path-sums/DESIGN.md`](path-sums/DESIGN.md).
 
 | System | What it adds | Events | Record |

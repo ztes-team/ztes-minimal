@@ -10,6 +10,14 @@ Feynman's sum over paths for a relativistic particle on a lattice, in three cano
 * two slits, with and without a which-path detector;
 * tunnelling through a barrier.
 
+**A bridge to the theory of algorithms.** The discrete-time quantum walk computed here is also a
+bridge between Feynman's path integral and the theory of algorithms. Quantum walks with a coin are
+the basis of quantum search algorithms, which find a marked item among N in O(√N) steps (Shenvi,
+Kempe and Whaley, Phys. Rev. A 67, 052307, 2003). In a continuous-time, open-system form they model
+energy transfer in photosynthetic complexes (Mohseni, Rebentrost, Lloyd and Aspuru-Guzik, J. Chem.
+Phys. 129, 174106, 2008). How much quantum coherence contributes to that transfer is still debated
+(for example Duan et al., PNAS 2017, https://doi.org/10.1073/pnas.1702261114).
+
 **What it does not claim.** The lifting adds no computational power (§4.5 of the paper). The
 systems execute the standard exact method for a discretized path integral: the sum over all paths
 is computed slice by slice. This is how Feynman related the path integral to the wave equation. It
@@ -25,7 +33,7 @@ What the record adds is the subject of this design:
 2. **Pruning by an argument only.** A contribution is left out only where it provably cannot
    matter, never because it is small.
 3. **Governed changes of the experiment reuse what stays valid.** Examples are a new question about
-   a longer time, or a detector after the screen.
+   a longer time, or a detector at the slits.
 4. **Exact arithmetic, replayed bit for bit by R2.** Z₀ accepts no floats in C (`ztes/model/types.py`).
 5. **Conservation of probability is part of the admission criterion.**
 
@@ -53,7 +61,7 @@ exact rational. Expanded over paths, the amplitude at (x, T) is
 This is Feynman's sum (iεm)^R over paths with R turns, normalized by aᵀ.
 
 A barrier is a region where the coin has a smaller a, which is a larger mass. A barrier of
-electrostatic type, which is a phase, would let a Dirac particle through (Klein tunnelling), so the
+electrostatic type, which is a phase, can let a Dirac particle through (Klein tunnelling), so the
 barrier of `barrier` is of mass type.
 
 **Time is a value of the model, not a concept of ZTES.** ZTES has no time. The record is ordered by
@@ -77,7 +85,7 @@ and never changes the record.
 ## 2. Decomposition into binary relations
 
     Step    = { ((t, ψₜ), (t+1, ψₜ₊₁)) : ψₜ₊₁ = S·C·ψₜ, on the sites the question needs }
-    Observe = { ((T, ψ_T), answer) :  probabilities at T, or the transmitted probability }
+    Observe = { ((T, ψ_T), answer) :  probabilities at T, or the probability beyond a barrier }
 
 Both are single-valued: there is no D1 choice in these systems. The extensional relation computed
 is the path sum of §1. Step has the same reduct by the distributive law, and the tests check the
@@ -116,9 +124,9 @@ platform, which `math.cos` would not guarantee.
 
 ## 4. Pruning by an argument only
 
-Outside the forward light cone of the source every amplitude is zero, and a site cannot influence
-another site that is more than one site per step away. Both facts are inductive invariants of the
-step, in the sense of Proposition 14:
+Outside the forward light cone of the source every amplitude is zero, and an amplitude moves at most
+one site per step, so a site cannot influence a site farther away than the number of steps left.
+Both facts are inductive invariants of the step, in the sense of Proposition 14:
 * **`checkerboard`.** For a question about one amplitude K(X, T), the sites outside the backward
   light cone of (X, T) are cut off.
 * **`barrier`.** Only the probability beyond the barrier is asked for, so the sites that cannot
@@ -138,7 +146,7 @@ tests check that every observed value equals that of the walk without any cut.
   transfer step and the conservation of probability against the record. The equality with the
   path sum is a theorem (distributivity), checked by enumeration in the tests.
 * **Not Yet (⊥).** An observer is ⊥ until slice T is recorded (`"requires"`), and `step` is ⊥ once
-  its question is answered.
+  every slice of its question is recorded.
 * **Pruning only by an invariant (§4)**, never by magnitude.
 * **Governed changes.** Every question or experiment is a new version of `step` and of the observer:
   * a question about a longer time keeps the recorded slices it needs;
