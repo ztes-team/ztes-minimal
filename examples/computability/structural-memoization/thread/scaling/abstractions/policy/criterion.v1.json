@@ -1,0 +1,13 @@
+{
+  "note": "[τ] the local authority of a funded case: routes it covers, balances per tier, and the earlier cases it accepts as precedents",
+  "inputs": {
+    "context": [
+      "fundings",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Policy"
+    }
+  }
+}

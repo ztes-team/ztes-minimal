@@ -1,0 +1,13 @@
+{
+  "note": "[ω] reuse a visible pattern of the same signature and versions, else check one of other versions again, else search; K tiers may pay",
+  "inputs": {
+    "context": [
+      "fundings",
+      "diagnoses",
+      "snapshots",
+      "catalogue",
+      "prior"
+    ]
+  },
+  "returns": "Plan"
+}

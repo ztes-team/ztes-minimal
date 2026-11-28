@@ -1,0 +1,6 @@
+{
+  "bindings": {
+    "kpis": {"from": "$self", "select": "count", "note": "measurements already recorded"},
+    "closures": {"from": "closure", "select": "all", "type": "Closure", "note": "every closure of a compensation"}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "note": "[ω] a certificate for the case at the head of the series that the rules in force cannot pay in full",
+  "inputs": {
+    "context": [
+      "fundings",
+      "snapshots",
+      "plans",
+      "prior"
+    ]
+  },
+  "returns": "Certificate"
+}

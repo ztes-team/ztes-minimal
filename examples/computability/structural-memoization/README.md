@@ -50,6 +50,16 @@ The archived target-only comparison used 60 matched batches. Warm execution was 
 
 For one target, avoided search did not consistently recover the cost of publication. At four and eight targets the median saving over the whole workload was positive. In the archived series every pair at four and eight targets was faster; in three runs on a second machine (Linux, Python 3.13) 15 to 22 of 24 pairs were faster at four targets and 18 to 23 of 24 at eight. The number of complete plans the targets did not test, 4 per target and 32 for eight targets, does not depend on the machine. These measurements include creating, serializing and hashing the longer fresh-search trace. They describe one machine, one structural signature, a four-operation graph and synthetic, case-specific balances. The experiment leaves open how to discover new common abstractions and how large a catalogue can grow before retrieval dominates. [Raw measurements and control outcomes](results/results.json) · [Archived records](results/records.json.gz)
 
+## One thread: reuse under governed change
+
+The [thread](thread/DESIGN.md) puts reuse and governance in one record of ordinary systems. The observations are declared constants, so `python -m ztes run` executes each system, under the agenda and under workers. A case may draw on ordered tiers of payment, and the rules in force let the first K pay.
+
+* **Cost.** For k = 2 … 5 tiers a fresh derivation tests 4, 15, 64 and 325 complete plans under a planner that leaves the priority rule to the checker, and 3, 6, 10 and 15 under one that drops refused plans. The plan criterion checks these counts. A reuse costs one proof in the ontology and one in the criterion under either planner.
+* **Visibility.** A case reads only the publications of the precedents its policy declares. A control that declares none derives its plan although a matching pattern exists.
+* **Governance.** A pattern carries the versions under which it was derived. After a certified obstruction, a decision of the review board and a governed change of the rules, a pattern of the earlier rules is used only after a new proof under the new versions. Refunds link each affected party to its earlier debits, and the closure needs all of them.
+
+Each claim has its test. [Regions](thread/regions/system.json) · [Scaling](thread/scaling/system.json) · [Scaling, pruned](thread/scaling-pruned/system.json) · [Governed](thread/governed/system.json)
+
 ## Reproduce from the repository root
 
 Use Python 3.12 or later. The archival timings and records above were produced with ZTES revision `d49981a3`. This repository integration targets `f7b6de7`; a fresh run on it regenerates the archived records exactly, on Windows and on Linux (`test_published_executions_replay_and_can_be_reproduced`). The archive retains the specifications used to produce each event. The first verification below replays that archive using the installed checkout. The final two commands generate and verify a fresh run in a separate output directory.

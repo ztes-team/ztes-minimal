@@ -1,0 +1,11 @@
+{
+  "note": "[ω] publish a derived or revalidated plan once it is settled, unless its signature and versions are listed",
+  "inputs": {
+    "context": [
+      "plans",
+      "settlements",
+      "prior"
+    ]
+  },
+  "returns": "Publication"
+}

@@ -1,0 +1,473 @@
+{
+  "system": "regions",
+  "title": "Reuse only where it is sound: a series under the rules r1 with targets in two regions of the funding signature, a control that declares no precedent, and a case above the bound",
+  "abstractions": [
+    "funding",
+    "policy",
+    "evidence",
+    "transport",
+    "cold_chain",
+    "snapshot",
+    "plan",
+    "settle",
+    "catalogue"
+  ],
+  "kpi": "kpi",
+  "types": {
+    "Funding": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "route": "text",
+        "owed": "integer",
+        "limits": {"list": "integer"},
+        "payers": {"list": "text"},
+        "beneficiary": "text",
+        "authority": "text"
+      }
+    },
+    "Policy": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "covers": {"list": "text"},
+        "approved": "boolean",
+        "available": {"list": "integer"},
+        "precedents": {"list": "text"}
+      }
+    },
+    "Evidence": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "kind": "text",
+        "issuer": "text",
+        "finding": "text",
+        "value": "integer"
+      }
+    },
+    "Diagnosis": {
+      "record": {"case": "text", "ref": "text", "route": "text", "funding_ref": "text", "evidence": {"list": "text"}}
+    },
+    "Snapshot": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "diag_ref": "text",
+        "precedents": {"list": "text"},
+        "visible": {"list": "integer"}
+      }
+    },
+    "Signature": {"record": {"tiers": "integer", "region": "integer"}},
+    "Versions": {"record": {"rules": "text", "planner": "text", "checker": "text"}},
+    "Node": {"record": {"op": "text", "tier": "integer", "inputs": {"list": "text"}, "out": "text"}},
+    "Try": {"record": {"order": {"list": "integer"}, "reason": "text"}},
+    "Metrics": {"record": {"expansions": "integer", "tested": "integer", "proofs": "integer", "inspected": "integer"}},
+    "Plan": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "diag_ref": "text",
+        "snapshot_ref": "text",
+        "signature": "Signature",
+        "versions": "Versions",
+        "graph": {"list": "Node"},
+        "trace": {"list": "Try"},
+        "origin": "text",
+        "publication": "integer",
+        "draws": {"list": "integer"},
+        "metrics": "Metrics"
+      }
+    },
+    "Settlement": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "plan_ref": "text",
+        "policy_ref": "text",
+        "diag_ref": "text",
+        "beneficiary": "text",
+        "payers": {"list": "text"},
+        "draws": {"list": "integer"},
+        "credit": "integer",
+        "origin": "text",
+        "publication": "integer"
+      }
+    },
+    "Publication": {
+      "record": {
+        "ordinal": "integer",
+        "ref": "text",
+        "case": "text",
+        "signature": "Signature",
+        "versions": "Versions",
+        "graph": {"list": "Node"},
+        "origin": "text",
+        "revalidates": "integer",
+        "plan_ref": "text",
+        "settlement_ref": "text"
+      }
+    },
+    "Target": {
+      "record": {
+        "case": "text",
+        "rules": "text",
+        "tiers": "integer",
+        "region": "integer",
+        "origin": "text",
+        "publication": "integer",
+        "tested": "integer",
+        "expansions": "integer",
+        "proofs": "integer",
+        "inspected": "integer"
+      }
+    },
+    "Pattern": {
+      "record": {
+        "ordinal": "integer",
+        "case": "text",
+        "rules": "text",
+        "tiers": "integer",
+        "region": "integer",
+        "origin": "text",
+        "revalidates": "integer",
+        "users": {"list": "text"}
+      }
+    },
+    "Kpi": {"record": {"targets": {"list": "Target"}, "patterns": {"list": "Pattern"}, "waiting": {"list": "text"}}}
+  },
+  "constants": {
+    "K": 2,
+    "RULES": "r1",
+    "PLANNER": "breadth-first:v1",
+    "FUNDINGS": [
+      {
+        "case": "A",
+        "ref": "funding/A",
+        "route": "transport",
+        "owed": 90,
+        "limits": [60, 40],
+        "payers": ["carrier/A", "guarantor/A"],
+        "beneficiary": "buyer/A",
+        "authority": "review-board"
+      },
+      {
+        "case": "B",
+        "ref": "funding/B",
+        "route": "cold_chain",
+        "owed": 65,
+        "limits": [45, 30],
+        "payers": ["carrier/B", "guarantor/B"],
+        "beneficiary": "buyer/B",
+        "authority": "review-board"
+      },
+      {
+        "case": "C",
+        "ref": "funding/C",
+        "route": "transport",
+        "owed": 50,
+        "limits": [60, 40],
+        "payers": ["carrier/C", "guarantor/C"],
+        "beneficiary": "buyer/C",
+        "authority": "review-board"
+      },
+      {
+        "case": "D",
+        "ref": "funding/D",
+        "route": "cold_chain",
+        "owed": 75,
+        "limits": [50, 40],
+        "payers": ["carrier/D", "guarantor/D"],
+        "beneficiary": "buyer/D",
+        "authority": "review-board"
+      },
+      {
+        "case": "E",
+        "ref": "funding/E",
+        "route": "cold_chain",
+        "owed": 30,
+        "limits": [45, 30],
+        "payers": ["carrier/E", "guarantor/E"],
+        "beneficiary": "buyer/E",
+        "authority": "review-board"
+      },
+      {
+        "case": "X",
+        "ref": "funding/X",
+        "route": "transport",
+        "owed": 110,
+        "limits": [60, 40, 50],
+        "payers": ["carrier/X", "guarantor/X", "reserve/X"],
+        "beneficiary": "buyer/X",
+        "authority": "review-board"
+      }
+    ],
+    "POLICIES": [
+      {
+        "case": "A",
+        "ref": "policy/A",
+        "covers": ["transport"],
+        "approved": true,
+        "available": [60, 40],
+        "precedents": []
+      },
+      {
+        "case": "B",
+        "ref": "policy/B",
+        "covers": ["cold_chain"],
+        "approved": true,
+        "available": [45, 30],
+        "precedents": ["A"]
+      },
+      {
+        "case": "C",
+        "ref": "policy/C",
+        "covers": ["transport"],
+        "approved": true,
+        "available": [60, 40],
+        "precedents": ["A", "B"]
+      },
+      {
+        "case": "D",
+        "ref": "policy/D",
+        "covers": ["cold_chain"],
+        "approved": true,
+        "available": [50, 40],
+        "precedents": []
+      },
+      {
+        "case": "E",
+        "ref": "policy/E",
+        "covers": ["cold_chain"],
+        "approved": true,
+        "available": [45, 30],
+        "precedents": ["A", "B", "C", "D"]
+      },
+      {
+        "case": "X",
+        "ref": "policy/X",
+        "covers": ["transport"],
+        "approved": true,
+        "available": [60, 40, 50],
+        "precedents": ["A", "B", "C", "D", "E"]
+      }
+    ],
+    "EVIDENCE": [
+      {
+        "case": "A",
+        "ref": "A/inspection",
+        "kind": "inspection",
+        "issuer": "inspector",
+        "finding": "damaged",
+        "value": 90
+      },
+      {
+        "case": "B",
+        "ref": "B/temperature",
+        "kind": "temperature",
+        "issuer": "logger",
+        "finding": "measured",
+        "value": 12
+      },
+      {
+        "case": "B",
+        "ref": "B/quality",
+        "kind": "quality",
+        "issuer": "quality-office",
+        "finding": "breach",
+        "value": 65
+      },
+      {
+        "case": "C",
+        "ref": "C/inspection",
+        "kind": "inspection",
+        "issuer": "inspector",
+        "finding": "damaged",
+        "value": 50
+      },
+      {
+        "case": "D",
+        "ref": "D/temperature",
+        "kind": "temperature",
+        "issuer": "logger",
+        "finding": "measured",
+        "value": 12
+      },
+      {
+        "case": "D",
+        "ref": "D/quality",
+        "kind": "quality",
+        "issuer": "quality-office",
+        "finding": "breach",
+        "value": 75
+      },
+      {
+        "case": "E",
+        "ref": "E/temperature",
+        "kind": "temperature",
+        "issuer": "logger",
+        "finding": "measured",
+        "value": 12
+      },
+      {
+        "case": "E",
+        "ref": "E/quality",
+        "kind": "quality",
+        "issuer": "quality-office",
+        "finding": "breach",
+        "value": 30
+      },
+      {
+        "case": "X",
+        "ref": "X/inspection",
+        "kind": "inspection",
+        "issuer": "inspector",
+        "finding": "damaged",
+        "value": 110
+      }
+    ]
+  },
+  "bindings": {
+    "prior": {"from": "$self", "select": "all", "type": "json", "note": "every value of this abstraction"},
+    "fundings": {
+      "from": "funding",
+      "select": "all",
+      "type": "Funding",
+      "note": "every recorded funding, in the order of the cases"
+    },
+    "policies": {"from": "policy", "select": "all", "type": "Policy", "note": "every recorded policy"},
+    "evidence": {
+      "from": "evidence",
+      "select": "all",
+      "type": "Evidence",
+      "note": "every recorded observation of evidence"
+    },
+    "diagnoses": {
+      "from": ["transport", "cold_chain"],
+      "select": "all",
+      "type": "Diagnosis",
+      "note": "every diagnosis of either route"
+    },
+    "snapshots": {
+      "from": "snapshot",
+      "select": "all",
+      "type": "Snapshot",
+      "note": "every declared cut of the catalogue"
+    },
+    "plans": {"from": "plan", "select": "all", "type": "Plan", "note": "every admitted plan"},
+    "settlements": {"from": "settle", "select": "all", "type": "Settlement", "note": "every admitted settlement"},
+    "catalogue": {
+      "from": "catalogue",
+      "select": "all",
+      "type": "Publication",
+      "note": "every published pattern, in the order of its ordinal"
+    }
+  },
+  "plan": [{"phase": 1}, {"phase": 2}, {"phase": 3}, {"kpi": true, "note": "the indicators, once, at the end"}],
+  "expect": {
+    "events": 70,
+    "states": {
+      "funding": "wait",
+      "policy": "wait",
+      "evidence": "wait",
+      "transport": "wait",
+      "cold_chain": "wait",
+      "snapshot": "wait",
+      "plan": "wait",
+      "settle": "wait",
+      "catalogue": "wait"
+    },
+    "last": {"snapshot": {"case": "X"}},
+    "values": {
+      "kpi": [
+        {
+          "targets": [
+            {
+              "case": "A",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 2,
+              "origin": "fresh",
+              "publication": 0,
+              "tested": 4,
+              "expansions": 3,
+              "proofs": 4,
+              "inspected": 0
+            },
+            {
+              "case": "B",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 2,
+              "origin": "reuse",
+              "publication": 1,
+              "tested": 0,
+              "expansions": 0,
+              "proofs": 1,
+              "inspected": 1
+            },
+            {
+              "case": "C",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 1,
+              "origin": "fresh",
+              "publication": 0,
+              "tested": 2,
+              "expansions": 1,
+              "proofs": 2,
+              "inspected": 1
+            },
+            {
+              "case": "D",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 2,
+              "origin": "fresh",
+              "publication": 0,
+              "tested": 4,
+              "expansions": 3,
+              "proofs": 4,
+              "inspected": 0
+            },
+            {
+              "case": "E",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 1,
+              "origin": "reuse",
+              "publication": 2,
+              "tested": 0,
+              "expansions": 0,
+              "proofs": 1,
+              "inspected": 2
+            }
+          ],
+          "patterns": [
+            {
+              "ordinal": 1,
+              "case": "A",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 2,
+              "origin": "fresh",
+              "revalidates": 0,
+              "users": ["B"]
+            },
+            {
+              "ordinal": 2,
+              "case": "C",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 1,
+              "origin": "fresh",
+              "revalidates": 0,
+              "users": ["E"]
+            }
+          ],
+          "waiting": ["X"]
+        }
+      ]
+    }
+  }
+}

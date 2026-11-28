@@ -1,0 +1,17 @@
+{
+  "note": "[ω] the body of v1 under the rules r2; carried by mandate",
+  "inputs": {
+    "context": [
+      "fundings",
+      "snapshots",
+      "plans",
+      "prior"
+    ]
+  },
+  "returns": "Certificate",
+  "constants": {
+    "K": 3,
+    "RULES": "r2"
+  },
+  "body_file": "ontology.v1.py"
+}

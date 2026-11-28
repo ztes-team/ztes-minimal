@@ -1,0 +1,15 @@
+{
+  "note": "[ω] the declared cut for the next case: the publications of its precedents, once every earlier case is done",
+  "inputs": {
+    "context": [
+      "fundings",
+      "diagnoses",
+      "policies",
+      "plans",
+      "settlements",
+      "catalogue",
+      "prior"
+    ]
+  },
+  "returns": "Snapshot"
+}

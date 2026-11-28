@@ -1,0 +1,12 @@
+{
+  "note": "[τ] a well-formed funding, one per case; the fixture table is not read",
+  "inputs": {
+    "context": [
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Funding"
+    }
+  }
+}

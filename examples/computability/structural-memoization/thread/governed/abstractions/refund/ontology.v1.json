@@ -1,0 +1,11 @@
+{
+  "note": "[ω] after the mandate, the refund of the next affected party, linked to its debits",
+  "inputs": {
+    "context": [
+      "mandates",
+      "fees",
+      "prior"
+    ]
+  },
+  "returns": "Refund"
+}

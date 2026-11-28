@@ -1,0 +1,14 @@
+{
+  "note": "[τ] the diagnosis follows from the funding and the evidence of its case",
+  "inputs": {
+    "context": [
+      "fundings",
+      "evidence",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Diagnosis"
+    }
+  }
+}

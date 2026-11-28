@@ -1,0 +1,14 @@
+{
+  "note": "[τ] a settled derived or revalidated plan, of a signature and versions not yet listed, with the next ordinal; the graph is proved again",
+  "inputs": {
+    "context": [
+      "plans",
+      "settlements",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Publication"
+    }
+  }
+}

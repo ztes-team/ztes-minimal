@@ -26,6 +26,10 @@ PINNED = {                      # example: (events, digest of the record)
     "computability/halting/machines":              (183,  "b34659e7f8958d8b"),   # added after 0.1.2
     "computability/structural-memoization/native/governance": (23, "b87ed66c8af6807d"),
     "computability/structural-memoization/native/reuse":      (21, "d5671f0f2120839b"),
+    "computability/structural-memoization/thread/governed":       (118, "2815939ce84aa8db"),   # added after 0.1.2
+    "computability/structural-memoization/thread/regions":        (70,  "810568ff4fd36f9e"),   # added after 0.1.2
+    "computability/structural-memoization/thread/scaling":        (89,  "3c1e3192eec355c5"),   # added after 0.1.2
+    "computability/structural-memoization/thread/scaling-pruned": (89,  "b5bf4d7115548bc2"),   # added after 0.1.2
     "dedekind-cut":    (26,  "cb2a10ba074ba456"),
     "factorization":   (27,  "7412db70b15c9f13"),
     "payment":         (21,  "93eab31cd4750c1f"),

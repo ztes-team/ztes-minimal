@@ -1,0 +1,15 @@
+{
+  "note": "[τ] the authority in force: one change, only on a certificate and a decision of the board; it carries exactly plan, settle and certificate, with more tiers, enough to pay the certified loss",
+  "inputs": {
+    "context": [
+      "fundings",
+      "certificates",
+      "decisions",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Mandate"
+    }
+  }
+}

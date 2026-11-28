@@ -1,0 +1,20 @@
+{
+  "note": "[τ] the body of v1 under the rules r2; carried by mandate",
+  "inputs": {
+    "context": [
+      "fundings",
+      "snapshots",
+      "plans",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Certificate"
+    }
+  },
+  "constants": {
+    "K": 3,
+    "RULES": "r2"
+  },
+  "body_file": "criterion.v1.py"
+}

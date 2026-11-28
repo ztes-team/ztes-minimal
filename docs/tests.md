@@ -78,7 +78,9 @@ and so do the physics examples (`tests/test_physics.py` and `tests/test_absorbin
 [`examples/physics/README.md`](../examples/physics/README.md), and the halting examples
 (`tests/test_halting.py`), described in [`examples/computability/README.md`](../examples/computability/README.md),
 and the structural-memoization experiment (`tests/test_structural_memoization.py`), described in
-[`examples/computability/structural-memoization/README.md`](../examples/computability/structural-memoization/README.md).
+[`examples/computability/structural-memoization/README.md`](../examples/computability/structural-memoization/README.md),
+and its thread (`tests/test_structural_memoization_thread.py`), described in
+[`examples/computability/structural-memoization/thread/DESIGN.md`](../examples/computability/structural-memoization/thread/DESIGN.md).
 
 ## Experiments (`tests/test_experiments.py`)
 

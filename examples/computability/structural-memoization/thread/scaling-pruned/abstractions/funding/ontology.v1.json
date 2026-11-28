@@ -1,0 +1,9 @@
+{
+  "note": "[ω] intake: the next declared funding, in order",
+  "inputs": {
+    "context": [
+      "prior"
+    ]
+  },
+  "returns": "Funding"
+}

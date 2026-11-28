@@ -1,0 +1,16 @@
+{
+  "note": "[τ] local judgment under the rules in force: K tiers may pay, in order, within the target's own policy",
+  "inputs": {
+    "context": [
+      "fundings",
+      "diagnoses",
+      "policies",
+      "plans",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Settlement"
+    }
+  }
+}

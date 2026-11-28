@@ -1,0 +1,15 @@
+{
+  "note": "[τ] one cut per diagnosed case: the publications of its precedents recorded before it",
+  "inputs": {
+    "context": [
+      "diagnoses",
+      "policies",
+      "catalogue",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Snapshot"
+    }
+  }
+}

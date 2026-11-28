@@ -1,0 +1,13 @@
+{
+  "note": "[ω] the settlement that the plan of the next case binds to its amounts",
+  "inputs": {
+    "context": [
+      "fundings",
+      "diagnoses",
+      "policies",
+      "plans",
+      "prior"
+    ]
+  },
+  "returns": "Settlement"
+}

@@ -1,0 +1,588 @@
+{
+  "system": "scaling-pruned",
+  "title": "The same cases with a planner that drops a plan the checker refused: the derivation is cheaper, the reuse costs the same",
+  "abstractions": [
+    "funding",
+    "policy",
+    "evidence",
+    "transport",
+    "cold_chain",
+    "snapshot",
+    "plan",
+    "settle",
+    "catalogue"
+  ],
+  "kpi": "kpi",
+  "types": {
+    "Funding": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "route": "text",
+        "owed": "integer",
+        "limits": {"list": "integer"},
+        "payers": {"list": "text"},
+        "beneficiary": "text",
+        "authority": "text"
+      }
+    },
+    "Policy": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "covers": {"list": "text"},
+        "approved": "boolean",
+        "available": {"list": "integer"},
+        "precedents": {"list": "text"}
+      }
+    },
+    "Evidence": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "kind": "text",
+        "issuer": "text",
+        "finding": "text",
+        "value": "integer"
+      }
+    },
+    "Diagnosis": {
+      "record": {"case": "text", "ref": "text", "route": "text", "funding_ref": "text", "evidence": {"list": "text"}}
+    },
+    "Snapshot": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "diag_ref": "text",
+        "precedents": {"list": "text"},
+        "visible": {"list": "integer"}
+      }
+    },
+    "Signature": {"record": {"tiers": "integer", "region": "integer"}},
+    "Versions": {"record": {"rules": "text", "planner": "text", "checker": "text"}},
+    "Node": {"record": {"op": "text", "tier": "integer", "inputs": {"list": "text"}, "out": "text"}},
+    "Try": {"record": {"order": {"list": "integer"}, "reason": "text"}},
+    "Metrics": {"record": {"expansions": "integer", "tested": "integer", "proofs": "integer", "inspected": "integer"}},
+    "Plan": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "diag_ref": "text",
+        "snapshot_ref": "text",
+        "signature": "Signature",
+        "versions": "Versions",
+        "graph": {"list": "Node"},
+        "trace": {"list": "Try"},
+        "origin": "text",
+        "publication": "integer",
+        "draws": {"list": "integer"},
+        "metrics": "Metrics"
+      }
+    },
+    "Settlement": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "plan_ref": "text",
+        "policy_ref": "text",
+        "diag_ref": "text",
+        "beneficiary": "text",
+        "payers": {"list": "text"},
+        "draws": {"list": "integer"},
+        "credit": "integer",
+        "origin": "text",
+        "publication": "integer"
+      }
+    },
+    "Publication": {
+      "record": {
+        "ordinal": "integer",
+        "ref": "text",
+        "case": "text",
+        "signature": "Signature",
+        "versions": "Versions",
+        "graph": {"list": "Node"},
+        "origin": "text",
+        "revalidates": "integer",
+        "plan_ref": "text",
+        "settlement_ref": "text"
+      }
+    },
+    "Target": {
+      "record": {
+        "case": "text",
+        "rules": "text",
+        "tiers": "integer",
+        "region": "integer",
+        "origin": "text",
+        "publication": "integer",
+        "tested": "integer",
+        "expansions": "integer",
+        "proofs": "integer",
+        "inspected": "integer"
+      }
+    },
+    "Pattern": {
+      "record": {
+        "ordinal": "integer",
+        "case": "text",
+        "rules": "text",
+        "tiers": "integer",
+        "region": "integer",
+        "origin": "text",
+        "revalidates": "integer",
+        "users": {"list": "text"}
+      }
+    },
+    "Kpi": {"record": {"targets": {"list": "Target"}, "patterns": {"list": "Pattern"}, "waiting": {"list": "text"}}}
+  },
+  "constants": {
+    "K": 5,
+    "RULES": "r1",
+    "PLANNER": "breadth-first-pruned:v1",
+    "FUNDINGS": [
+      {
+        "case": "S2",
+        "ref": "funding/S2",
+        "route": "transport",
+        "owed": 90,
+        "limits": [60, 40],
+        "payers": ["carrier/S2", "guarantor/S2"],
+        "beneficiary": "buyer/S2",
+        "authority": "review-board"
+      },
+      {
+        "case": "T2",
+        "ref": "funding/T2",
+        "route": "cold_chain",
+        "owed": 65,
+        "limits": [45, 30],
+        "payers": ["carrier/T2", "guarantor/T2"],
+        "beneficiary": "buyer/T2",
+        "authority": "review-board"
+      },
+      {
+        "case": "S3",
+        "ref": "funding/S3",
+        "route": "transport",
+        "owed": 140,
+        "limits": [60, 40, 50],
+        "payers": ["carrier/S3", "guarantor/S3", "reserve/S3"],
+        "beneficiary": "buyer/S3",
+        "authority": "review-board"
+      },
+      {
+        "case": "T3",
+        "ref": "funding/T3",
+        "route": "cold_chain",
+        "owed": 100,
+        "limits": [45, 30, 40],
+        "payers": ["carrier/T3", "guarantor/T3", "reserve/T3"],
+        "beneficiary": "buyer/T3",
+        "authority": "review-board"
+      },
+      {
+        "case": "S4",
+        "ref": "funding/S4",
+        "route": "transport",
+        "owed": 190,
+        "limits": [60, 40, 50, 45],
+        "payers": ["carrier/S4", "guarantor/S4", "reserve/S4", "fund4/S4"],
+        "beneficiary": "buyer/S4",
+        "authority": "review-board"
+      },
+      {
+        "case": "T4",
+        "ref": "funding/T4",
+        "route": "cold_chain",
+        "owed": 140,
+        "limits": [45, 30, 40, 35],
+        "payers": ["carrier/T4", "guarantor/T4", "reserve/T4", "fund4/T4"],
+        "beneficiary": "buyer/T4",
+        "authority": "review-board"
+      },
+      {
+        "case": "S5",
+        "ref": "funding/S5",
+        "route": "transport",
+        "owed": 230,
+        "limits": [60, 40, 50, 45, 40],
+        "payers": ["carrier/S5", "guarantor/S5", "reserve/S5", "fund4/S5", "fund5/S5"],
+        "beneficiary": "buyer/S5",
+        "authority": "review-board"
+      },
+      {
+        "case": "T5",
+        "ref": "funding/T5",
+        "route": "cold_chain",
+        "owed": 170,
+        "limits": [45, 30, 40, 35, 25],
+        "payers": ["carrier/T5", "guarantor/T5", "reserve/T5", "fund4/T5", "fund5/T5"],
+        "beneficiary": "buyer/T5",
+        "authority": "review-board"
+      }
+    ],
+    "POLICIES": [
+      {
+        "case": "S2",
+        "ref": "policy/S2",
+        "covers": ["transport"],
+        "approved": true,
+        "available": [60, 40],
+        "precedents": []
+      },
+      {
+        "case": "T2",
+        "ref": "policy/T2",
+        "covers": ["cold_chain"],
+        "approved": true,
+        "available": [45, 30],
+        "precedents": ["S2"]
+      },
+      {
+        "case": "S3",
+        "ref": "policy/S3",
+        "covers": ["transport"],
+        "approved": true,
+        "available": [60, 40, 50],
+        "precedents": ["S2", "T2"]
+      },
+      {
+        "case": "T3",
+        "ref": "policy/T3",
+        "covers": ["cold_chain"],
+        "approved": true,
+        "available": [45, 30, 40],
+        "precedents": ["S2", "T2", "S3"]
+      },
+      {
+        "case": "S4",
+        "ref": "policy/S4",
+        "covers": ["transport"],
+        "approved": true,
+        "available": [60, 40, 50, 45],
+        "precedents": ["S2", "T2", "S3", "T3"]
+      },
+      {
+        "case": "T4",
+        "ref": "policy/T4",
+        "covers": ["cold_chain"],
+        "approved": true,
+        "available": [45, 30, 40, 35],
+        "precedents": ["S2", "T2", "S3", "T3", "S4"]
+      },
+      {
+        "case": "S5",
+        "ref": "policy/S5",
+        "covers": ["transport"],
+        "approved": true,
+        "available": [60, 40, 50, 45, 40],
+        "precedents": ["S2", "T2", "S3", "T3", "S4", "T4"]
+      },
+      {
+        "case": "T5",
+        "ref": "policy/T5",
+        "covers": ["cold_chain"],
+        "approved": true,
+        "available": [45, 30, 40, 35, 25],
+        "precedents": ["S2", "T2", "S3", "T3", "S4", "T4", "S5"]
+      }
+    ],
+    "EVIDENCE": [
+      {
+        "case": "S2",
+        "ref": "S2/inspection",
+        "kind": "inspection",
+        "issuer": "inspector",
+        "finding": "damaged",
+        "value": 90
+      },
+      {
+        "case": "T2",
+        "ref": "T2/temperature",
+        "kind": "temperature",
+        "issuer": "logger",
+        "finding": "measured",
+        "value": 12
+      },
+      {
+        "case": "T2",
+        "ref": "T2/quality",
+        "kind": "quality",
+        "issuer": "quality-office",
+        "finding": "breach",
+        "value": 65
+      },
+      {
+        "case": "S3",
+        "ref": "S3/inspection",
+        "kind": "inspection",
+        "issuer": "inspector",
+        "finding": "damaged",
+        "value": 140
+      },
+      {
+        "case": "T3",
+        "ref": "T3/temperature",
+        "kind": "temperature",
+        "issuer": "logger",
+        "finding": "measured",
+        "value": 12
+      },
+      {
+        "case": "T3",
+        "ref": "T3/quality",
+        "kind": "quality",
+        "issuer": "quality-office",
+        "finding": "breach",
+        "value": 100
+      },
+      {
+        "case": "S4",
+        "ref": "S4/inspection",
+        "kind": "inspection",
+        "issuer": "inspector",
+        "finding": "damaged",
+        "value": 190
+      },
+      {
+        "case": "T4",
+        "ref": "T4/temperature",
+        "kind": "temperature",
+        "issuer": "logger",
+        "finding": "measured",
+        "value": 12
+      },
+      {
+        "case": "T4",
+        "ref": "T4/quality",
+        "kind": "quality",
+        "issuer": "quality-office",
+        "finding": "breach",
+        "value": 140
+      },
+      {
+        "case": "S5",
+        "ref": "S5/inspection",
+        "kind": "inspection",
+        "issuer": "inspector",
+        "finding": "damaged",
+        "value": 230
+      },
+      {
+        "case": "T5",
+        "ref": "T5/temperature",
+        "kind": "temperature",
+        "issuer": "logger",
+        "finding": "measured",
+        "value": 12
+      },
+      {
+        "case": "T5",
+        "ref": "T5/quality",
+        "kind": "quality",
+        "issuer": "quality-office",
+        "finding": "breach",
+        "value": 170
+      }
+    ]
+  },
+  "bindings": {
+    "prior": {"from": "$self", "select": "all", "type": "json", "note": "every value of this abstraction"},
+    "fundings": {
+      "from": "funding",
+      "select": "all",
+      "type": "Funding",
+      "note": "every recorded funding, in the order of the cases"
+    },
+    "policies": {"from": "policy", "select": "all", "type": "Policy", "note": "every recorded policy"},
+    "evidence": {
+      "from": "evidence",
+      "select": "all",
+      "type": "Evidence",
+      "note": "every recorded observation of evidence"
+    },
+    "diagnoses": {
+      "from": ["transport", "cold_chain"],
+      "select": "all",
+      "type": "Diagnosis",
+      "note": "every diagnosis of either route"
+    },
+    "snapshots": {
+      "from": "snapshot",
+      "select": "all",
+      "type": "Snapshot",
+      "note": "every declared cut of the catalogue"
+    },
+    "plans": {"from": "plan", "select": "all", "type": "Plan", "note": "every admitted plan"},
+    "settlements": {"from": "settle", "select": "all", "type": "Settlement", "note": "every admitted settlement"},
+    "catalogue": {
+      "from": "catalogue",
+      "select": "all",
+      "type": "Publication",
+      "note": "every published pattern, in the order of its ordinal"
+    }
+  },
+  "plan": [{"phase": 1}, {"phase": 2}, {"phase": 3}, {"kpi": true, "note": "the indicators, once, at the end"}],
+  "expect": {
+    "events": 89,
+    "states": {
+      "funding": "wait",
+      "policy": "wait",
+      "evidence": "wait",
+      "transport": "wait",
+      "cold_chain": "wait",
+      "snapshot": "wait",
+      "plan": "wait",
+      "settle": "wait",
+      "catalogue": "wait"
+    },
+    "values": {
+      "kpi": [
+        {
+          "targets": [
+            {
+              "case": "S2",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 2,
+              "origin": "fresh",
+              "publication": 0,
+              "tested": 3,
+              "expansions": 2,
+              "proofs": 3,
+              "inspected": 0
+            },
+            {
+              "case": "T2",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 2,
+              "origin": "reuse",
+              "publication": 1,
+              "tested": 0,
+              "expansions": 0,
+              "proofs": 1,
+              "inspected": 1
+            },
+            {
+              "case": "S3",
+              "rules": "r1",
+              "tiers": 3,
+              "region": 3,
+              "origin": "fresh",
+              "publication": 0,
+              "tested": 6,
+              "expansions": 3,
+              "proofs": 6,
+              "inspected": 1
+            },
+            {
+              "case": "T3",
+              "rules": "r1",
+              "tiers": 3,
+              "region": 3,
+              "origin": "reuse",
+              "publication": 2,
+              "tested": 0,
+              "expansions": 0,
+              "proofs": 1,
+              "inspected": 2
+            },
+            {
+              "case": "S4",
+              "rules": "r1",
+              "tiers": 4,
+              "region": 4,
+              "origin": "fresh",
+              "publication": 0,
+              "tested": 10,
+              "expansions": 4,
+              "proofs": 10,
+              "inspected": 2
+            },
+            {
+              "case": "T4",
+              "rules": "r1",
+              "tiers": 4,
+              "region": 4,
+              "origin": "reuse",
+              "publication": 3,
+              "tested": 0,
+              "expansions": 0,
+              "proofs": 1,
+              "inspected": 3
+            },
+            {
+              "case": "S5",
+              "rules": "r1",
+              "tiers": 5,
+              "region": 5,
+              "origin": "fresh",
+              "publication": 0,
+              "tested": 15,
+              "expansions": 5,
+              "proofs": 15,
+              "inspected": 3
+            },
+            {
+              "case": "T5",
+              "rules": "r1",
+              "tiers": 5,
+              "region": 5,
+              "origin": "reuse",
+              "publication": 4,
+              "tested": 0,
+              "expansions": 0,
+              "proofs": 1,
+              "inspected": 4
+            }
+          ],
+          "patterns": [
+            {
+              "ordinal": 1,
+              "case": "S2",
+              "rules": "r1",
+              "tiers": 2,
+              "region": 2,
+              "origin": "fresh",
+              "revalidates": 0,
+              "users": ["T2"]
+            },
+            {
+              "ordinal": 2,
+              "case": "S3",
+              "rules": "r1",
+              "tiers": 3,
+              "region": 3,
+              "origin": "fresh",
+              "revalidates": 0,
+              "users": ["T3"]
+            },
+            {
+              "ordinal": 3,
+              "case": "S4",
+              "rules": "r1",
+              "tiers": 4,
+              "region": 4,
+              "origin": "fresh",
+              "revalidates": 0,
+              "users": ["T4"]
+            },
+            {
+              "ordinal": 4,
+              "case": "S5",
+              "rules": "r1",
+              "tiers": 5,
+              "region": 5,
+              "origin": "fresh",
+              "revalidates": 0,
+              "users": ["T5"]
+            }
+          ],
+          "waiting": []
+        }
+      ]
+    }
+  }
+}

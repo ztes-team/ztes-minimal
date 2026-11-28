@@ -1,0 +1,3 @@
+# Reuse only where it is sound
+
+Under the rules r1 two tiers may pay. A (transport, 90 of 60 + 40) and B (cold chain, 65 of 45 + 30) are in region 2 of the funding signature, and C (50) and E (30) in region 1. A derives and publishes P1, and B reuses it. C has another signature, so it derives and publishes P2, and E reuses that. D (cold chain, 75 of 50 + 40) is in region 2, but its policy accepts no precedent. It derives its plan although P1 exists, and the catalogue lists no second pattern of that kind. X (transport, 110 of 60 + 40) is above the bound of two tiers. It has a snapshot and no plan, and nothing in this system can change that. [Design of the thread](../DESIGN.md)

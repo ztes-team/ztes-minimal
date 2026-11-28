@@ -1,0 +1,4 @@
+{
+  "note": "[τ] one measurement per profile, every indicator equal to its definition",
+  "inputs": {"context": ["snapshots", "plans", "catalogue", "profiles", "kpis"], "candidate": {"name": "w", "type": "Kpi"}}
+}

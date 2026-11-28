@@ -1,0 +1,15 @@
+{
+  "note": "[τ] a fee debited from a party of an unsettled case, before any governed change of that case",
+  "inputs": {
+    "context": [
+      "fundings",
+      "settlements",
+      "mandates",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Fee"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "note": "[ω] the indicators of the thread, computed on demand over the read-only record",
+  "inputs": {"context": ["snapshots", "plans", "catalogue", "certificates", "fees", "refunds", "closures", "profiles", "kpis"]},
+  "returns": "Kpi"
+}

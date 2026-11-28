@@ -1,0 +1,15 @@
+{
+  "note": "[τ] §9.3: closure only when every affected party is refunded, for the sum of the debits",
+  "inputs": {
+    "context": [
+      "mandates",
+      "fees",
+      "refunds",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Closure"
+    }
+  }
+}

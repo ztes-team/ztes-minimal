@@ -1,0 +1,10 @@
+{
+  "note": "[ω] intake: the next declared decision of the review board, once the certificate it decides on is recorded",
+  "inputs": {
+    "context": [
+      "certificates",
+      "prior"
+    ]
+  },
+  "returns": "Decision"
+}

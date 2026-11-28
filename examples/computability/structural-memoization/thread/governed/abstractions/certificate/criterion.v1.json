@@ -1,0 +1,15 @@
+{
+  "note": "[τ] Proposition 14: under the rules in force a settlement credits at most the first K limits",
+  "inputs": {
+    "context": [
+      "fundings",
+      "snapshots",
+      "plans",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Certificate"
+    }
+  }
+}

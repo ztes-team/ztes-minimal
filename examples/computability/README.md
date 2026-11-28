@@ -8,6 +8,7 @@ model, and each model has several systems.
 |---|---|---|
 | [`halting`](halting/DESIGN.md) | `machines`, `collatz`, `antihydra`, `finish-fair`, `finish-unfair`, `finish-unreachable` | the modalities of halting, all four classes of Theorem 4, with the evidence for every verdict |
 | [Structural memoization](structural-memoization/README.md) | `native/reuse`, `native/governance` | Two distinct diagnoses reduce to a common funding structure. A later case reuses the published plan and decides payment under its own criterion. |
+| [Structural memoization: the thread](structural-memoization/thread/DESIGN.md) | `thread/regions`, `thread/scaling`, `thread/scaling-pruned`, `thread/governed` | Reuse only within a region of the signature and a declared cut; the work of a derivation under two planners against one proof for a reuse; a certificate, a decision of the review board, a governed change of the rules, revalidation across it, refunds and closure in one record |
 
 ```bash
 python -m ztes run examples/computability/halting/machines
@@ -27,6 +28,18 @@ include the cost of publishing the pattern once and using it across several case
 ```bash
 python examples/computability/structural-memoization/experiment.py --pairs 1 --series-pairs 1 --output build/structural-memoization
 python -m pytest -q tests/test_structural_memoization.py
+```
+
+The [thread](structural-memoization/thread/DESIGN.md) runs as ordinary systems: the observations
+are declared constants, and every abstraction has the same history under the agenda and under
+workers.
+
+```bash
+python -m ztes run examples/computability/structural-memoization/thread/regions
+python -m ztes run examples/computability/structural-memoization/thread/scaling
+python -m ztes run examples/computability/structural-memoization/thread/scaling-pruned
+python -m ztes run examples/computability/structural-memoization/thread/governed
+python -m pytest -q tests/test_structural_memoization_thread.py
 ```
 
 ## halting

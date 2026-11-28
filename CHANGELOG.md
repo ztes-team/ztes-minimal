@@ -55,6 +55,20 @@ for event (`tests/test_records.py`).
   and an unpublished catalogue. A second system governs a settlement whose fixed cap cannot cover
   the loss and closes the compensation with refunds. The driver `experiment.py` regenerates the
   13 archived records exactly; `tests/test_structural_memoization.py`.
+* Its thread, `structural-memoization/thread`: four ordinary systems that share their helpers and
+  specifications.
+  * `regions`: reuse only within a region of the funding signature and within the precedents that a
+    case's policy declares; a control that declares none derives its plan although a matching pattern
+    exists; a case above the bound of the rules has no plan.
+  * `scaling` and `scaling-pruned`: for k = 2 … 5 tiers a fresh derivation tests 4, 15, 64 and 325
+    complete plans (blind planner) or 3, 6, 10 and 15 (pruning planner), and the plan criterion
+    checks these counts; a reuse costs one proof in the ontology and one in the criterion.
+  * `governed`: a certificate (Proposition 14); a decision of the review board, a separate
+    abstraction; a mandate judged by the criterion in force that carries the rules r2 (R1,
+    Corollary 9); a pattern of r1 used after the change only by a new proof (revalidation); refunds
+    linked to the earlier debits and a closure that needs all of them (§9.3).
+  * The history of every abstraction is the same under workers. Each claim of `thread/DESIGN.md` has
+    its test in `tests/test_structural_memoization_thread.py`.
 
 **Tooling**
 * `python -m ztes run` shows a value longer than 600 characters by its beginning and its length; the

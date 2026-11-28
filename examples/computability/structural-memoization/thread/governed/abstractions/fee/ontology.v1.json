@@ -1,0 +1,10 @@
+{
+  "note": "[ω] intake: the next declared fee, once its case is funded",
+  "inputs": {
+    "context": [
+      "fundings",
+      "prior"
+    ]
+  },
+  "returns": "Fee"
+}

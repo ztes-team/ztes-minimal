@@ -1,0 +1,16 @@
+{
+  "note": "[τ] the graph is proved for the signature under the rules in force; a reused one is visible and compatible, a revalidated one visible and of other versions, a derived one the search with its trace",
+  "inputs": {
+    "context": [
+      "fundings",
+      "diagnoses",
+      "snapshots",
+      "catalogue",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Plan"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "note": "[ω] the diagnosis of the next cold_chain case whose evidence is complete (a temperature breach and a quality breach)",
+  "inputs": {
+    "context": [
+      "fundings",
+      "evidence",
+      "prior"
+    ]
+  },
+  "returns": "Diagnosis"
+}

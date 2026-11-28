@@ -1,0 +1,12 @@
+{
+  "note": "[ω] close the compensation once every affected party is refunded",
+  "inputs": {
+    "context": [
+      "mandates",
+      "fees",
+      "refunds",
+      "prior"
+    ]
+  },
+  "returns": "Closure"
+}

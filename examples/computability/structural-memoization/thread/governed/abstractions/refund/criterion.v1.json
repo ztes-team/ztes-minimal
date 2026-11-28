@@ -1,0 +1,14 @@
+{
+  "note": "[τ] one refund per affected party, equal to the sum of its earlier debits",
+  "inputs": {
+    "context": [
+      "mandates",
+      "fees",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Refund"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "note": "[τ] a decision of the authority named in the contract, on a certified case, once",
+  "inputs": {
+    "context": [
+      "fundings",
+      "certificates",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Decision"
+    }
+  }
+}

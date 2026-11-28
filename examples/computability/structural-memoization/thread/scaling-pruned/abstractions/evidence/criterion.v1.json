@@ -1,0 +1,13 @@
+{
+  "note": "[τ] a well-formed observation of a funded case, recorded once",
+  "inputs": {
+    "context": [
+      "fundings",
+      "prior"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Evidence"
+    }
+  }
+}

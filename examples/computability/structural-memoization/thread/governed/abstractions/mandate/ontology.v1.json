@@ -1,0 +1,12 @@
+{
+  "note": "[ω] once the board has decided on a certificate and the fees of its case are debited: change the rules to r2 (a reserve tier), carrying plan, settle and certificate v2",
+  "inputs": {
+    "context": [
+      "certificates",
+      "decisions",
+      "fees",
+      "prior"
+    ]
+  },
+  "returns": "Mandate"
+}
