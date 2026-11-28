@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "context": [
+      "catalogs",
+      "rights",
+      "changes"
+    ]
+  },
+  "returns": "Source",
+  "body": {
+    "result": "source_candidate(catalogs, rights, changes, 'right', 2, CAP)"
+  }
+}

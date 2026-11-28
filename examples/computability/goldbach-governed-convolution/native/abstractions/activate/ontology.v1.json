@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "context": [
+      "queries",
+      "answers",
+      "rights",
+      "changes"
+    ]
+  },
+  "returns": "Change",
+  "body": {
+    "result": "change_candidate(queries, answers, rights, changes, CAP, SUCCESSOR)"
+  }
+}

@@ -25,6 +25,7 @@ PINNED = {                      # example: (events, digest of the record)
     "computability/halting/finish-unfair":         (50,   "2f1ca06deb972113"),   # added after 0.1.2
     "computability/halting/finish-unreachable":    (50,   "bbcf4291e6688799"),   # added after 0.1.2
     "computability/halting/machines":              (183,  "b34659e7f8958d8b"),   # added after 0.1.2
+    "computability/goldbach-governed-convolution/native":  (17,   "52b5fc3c8031881e"),   # added after 0.1.2
     "computability/structural-memoization/native/governance": (23, "b87ed66c8af6807d"),
     "computability/structural-memoization/native/reuse":      (21, "d5671f0f2120839b"),
     "computability/structural-memoization/thread/governed":       (118, "2815939ce84aa8db"),   # added after 0.1.2

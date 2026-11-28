@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "queries",
+      "products",
+      "lefts",
+      "rights",
+      "spectra"
+    ]
+  },
+  "returns": "Spectrum",
+  "body": {
+    "result": "spectrum_candidate(queries, products, lefts, rights, spectra, LENGTH, MODULUS, ROOT)"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "inputs": {
+    "context": [
+      "queries",
+      "answers",
+      "rights",
+      "changes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Change"
+    }
+  },
+  "body": {
+    "result": "valid_change(w, queries, answers, rights, changes, CAP, SUCCESSOR)"
+  }
+}

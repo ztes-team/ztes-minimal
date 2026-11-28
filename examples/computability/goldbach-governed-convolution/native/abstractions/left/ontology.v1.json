@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "context": [
+      "catalogs",
+      "lefts"
+    ]
+  },
+  "returns": "Source",
+  "body": {
+    "result": "source_candidate(catalogs, lefts, [], 'left', 1, HORIZON)"
+  }
+}

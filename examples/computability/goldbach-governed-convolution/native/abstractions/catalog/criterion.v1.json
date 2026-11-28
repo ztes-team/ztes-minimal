@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "context": [
+      "catalogs"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "integer"
+    }
+  },
+  "body": {
+    "result": "not catalogs and w == HORIZON and valid_grid(w, LENGTH, MODULUS, ROOT)"
+  }
+}

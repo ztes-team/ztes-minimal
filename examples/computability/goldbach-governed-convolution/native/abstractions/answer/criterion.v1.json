@@ -1,0 +1,18 @@
+{
+  "inputs": {
+    "context": [
+      "queries",
+      "products",
+      "lefts",
+      "rights",
+      "answers"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Answer"
+    }
+  },
+  "body": {
+    "result": "valid_answer(w, queries, products, lefts, rights, answers)"
+  }
+}

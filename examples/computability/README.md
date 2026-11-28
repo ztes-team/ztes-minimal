@@ -8,6 +8,7 @@ model, and each model has several systems.
 |---|---|---|
 | [`halting`](halting/DESIGN.md) | `machines`, `collatz`, `antihydra`, `finish-fair`, `finish-unfair`, `finish-unreachable` | the modalities of halting, all four classes of Theorem 4, with the evidence for every verdict |
 | [Factorization patterns](factorization-patterns/README.md) | `native` | Traces a residue filter from its discovery to activation and reuse, with a parity-search control. |
+| [Goldbach governed convolution](goldbach-governed-convolution/README.md) | `native` | Ordered prime pairs for a sum, counted by a number-theoretic transform and checked by enumeration; a governed change of one operand, reuse of the unchanged transform, and every earlier answer verifiable under its own rules. |
 | [Structural memoization](structural-memoization/README.md) | `native/reuse`, `native/governance` | Two distinct diagnoses reduce to a common funding structure. A later case reuses the published plan and decides payment under its own criterion. |
 | [Structural memoization: the thread](structural-memoization/thread/DESIGN.md) | `thread/regions`, `thread/scaling`, `thread/scaling-pruned`, `thread/governed` | Reuse only within a region of the signature and a declared cut; the work of a derivation under two planners against one proof for a reuse; a certificate, a decision of the review board, a governed change of the rules, revalidation across it, refunds and closure in one record |
 
@@ -42,6 +43,12 @@ python -m ztes run examples/computability/structural-memoization/thread/scaling-
 python -m ztes run examples/computability/structural-memoization/thread/governed
 python -m pytest -q tests/test_structural_memoization_thread.py
 ```
+
+## Governed Goldbach representations
+
+The [Goldbach convolution experiment](goldbach-governed-convolution/README.md) records the
+representations of a sum in a bounded domain. It compares a governed change of one operand,
+reuse of an unchanged transform and fresh computation under the same active rules.
 
 ## halting
 

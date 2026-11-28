@@ -1,0 +1,18 @@
+{
+  "inputs": {
+    "context": [
+      "queries",
+      "answers",
+      "lefts",
+      "rights",
+      "changes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Query"
+    }
+  },
+  "body": {
+    "result": "valid_query(w, queries, answers, lefts, rights, changes, HORIZON)"
+  }
+}

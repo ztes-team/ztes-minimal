@@ -74,6 +74,10 @@ for event (`tests/test_records.py`).
   Fermat search policy under prior authority. Its records show which centers were tested, the
   evidence for each factor and the behavior of a paired control without activation.
 
+* The goldbach-governed-convolution example records every ordered prime pair for a queried sum.
+  A governed change restricts one input. Later queries can reuse the unchanged input transform,
+  and each result remains verifiable under the rules that produced it.
+
 **Tooling**
 * `python -m ztes run` shows a value longer than 600 characters by its beginning and its length; the
   record keeps it whole, and `explain` shows it. The record display of the ten examples is unchanged.

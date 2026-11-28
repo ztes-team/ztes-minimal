@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "context": [
+      "catalogs",
+      "rights",
+      "changes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Source"
+    }
+  },
+  "body": {
+    "result": "valid_source(w, catalogs, rights, changes, 'right', 2, CAP)"
+  }
+}

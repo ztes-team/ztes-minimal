@@ -1,0 +1,18 @@
+{
+  "inputs": {
+    "context": [
+      "queries",
+      "products",
+      "lefts",
+      "rights",
+      "spectra"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Product"
+    }
+  },
+  "body": {
+    "result": "valid_product(w, queries, products, lefts, rights, spectra, LENGTH, MODULUS, ROOT)"
+  }
+}

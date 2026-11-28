@@ -106,6 +106,9 @@ the smallest p among the primes visible at that moment: 10 = 5 + 5 (7 was not ye
 14 = 7 + 7, 20 = 3 + 17. `twins` admits (3, 5), (5, 7), (11, 13), (17, 19). Finite witnesses
 establish no universal statement; the final permanent wait of `twins` is relative to the bound.
 
+The [governed Goldbach example](computability/goldbach-governed-convolution/README.md) counts
+ordered representations in a finite domain and tracks which source revisions support each one.
+
 The [optional next-prime criterion](prime-witnesses/DESIGN.md#optional-next-prime-criterion)
 reproduces the governed variant in §8.3 of the paper for both prime witnesses and
 factorization. The optional plans record 27 and 28 events respectively.

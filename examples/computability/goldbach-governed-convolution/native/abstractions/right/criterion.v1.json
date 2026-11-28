@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "catalogs",
+      "rights"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Source"
+    }
+  },
+  "body": {
+    "result": "valid_source(w, catalogs, rights, [], 'right', 1, HORIZON)"
+  }
+}

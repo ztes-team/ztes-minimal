@@ -1,0 +1,143 @@
+{
+  "system": "goldbach-governed-convolution",
+  "abstractions": [
+    "catalog",
+    "left",
+    "right",
+    "query",
+    "spectrum",
+    "product",
+    "answer",
+    "activate"
+  ],
+  "types": {
+    "Source": {
+      "record": {
+        "ref": "text",
+        "side": "text",
+        "version": "integer",
+        "bound": "integer",
+        "primes": {
+          "list": "integer"
+        }
+      }
+    },
+    "Query": {
+      "record": {
+        "id": "integer",
+        "total": "integer",
+        "policy": "text"
+      }
+    },
+    "Spectrum": {
+      "record": {
+        "ref": "text",
+        "query_id": "integer",
+        "side": "text",
+        "source_ref": "text",
+        "length": "integer",
+        "modulus": "integer",
+        "root": "integer",
+        "values": {
+          "list": "integer"
+        }
+      }
+    },
+    "Product": {
+      "record": {
+        "ref": "text",
+        "query_id": "integer",
+        "left_ref": "text",
+        "right_ref": "text",
+        "left_spectrum": "text",
+        "right_spectrum": "text",
+        "counts": {
+          "list": "integer"
+        }
+      }
+    },
+    "Answer": {
+      "record": {
+        "ref": "text",
+        "query_id": "integer",
+        "total": "integer",
+        "product_ref": "text",
+        "count": "integer",
+        "pairs": {
+          "list": {
+            "list": "integer"
+          }
+        }
+      }
+    },
+    "Change": {
+      "record": {
+        "ref": "text",
+        "answer_ref": "text",
+        "old_right_ref": "text",
+        "cap": "integer",
+        "specifications": {
+          "list": "specification"
+        }
+      }
+    }
+  },
+  "constants": {
+    "HORIZON": 20,
+    "CAP": 13,
+    "LENGTH": 64,
+    "MODULUS": 257,
+    "ROOT": 3,
+    "SUCCESSOR": {
+      "$specifications": [
+        "right/criterion.v2",
+        "right/ontology.v2"
+      ]
+    }
+  },
+  "bindings": {
+    "catalogs": {
+      "from": "catalog",
+      "select": "all"
+    },
+    "lefts": {
+      "from": "left",
+      "select": "all"
+    },
+    "rights": {
+      "from": "right",
+      "select": "all"
+    },
+    "queries": {
+      "from": "query",
+      "select": "all"
+    },
+    "spectra": {
+      "from": "spectrum",
+      "select": "all"
+    },
+    "products": {
+      "from": "product",
+      "select": "all"
+    },
+    "answers": {
+      "from": "answer",
+      "select": "all"
+    },
+    "changes": {
+      "from": "activate",
+      "select": "all"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3
+    }
+  ]
+}

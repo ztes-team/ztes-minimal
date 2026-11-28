@@ -1,0 +1,514 @@
+{
+  "runs": {
+    "unchanged": {
+      "queries": [
+        {
+          "id": 1,
+          "total": 20,
+          "count": 4,
+          "pairs": [
+            [
+              3,
+              17
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              17,
+              3
+            ]
+          ],
+          "left_ref": "left/1",
+          "right_ref": "right/1",
+          "left_spectrum": "spectrum/1/left",
+          "right_spectrum": "spectrum/1/right",
+          "reused_sides": [],
+          "generator_forwards": 2,
+          "generator_inverses": 1,
+          "spectrum_criterion_monomial_terms": 1024,
+          "product_criterion_pair_enumerations": 64,
+          "coefficients_checked": 64,
+          "ordered_pairs_in_grid": 64,
+          "attainable_totals": 25,
+          "positions": {
+            "query": 20,
+            "product": 23,
+            "answer": 24,
+            "left_snapshot": 18,
+            "left_spectrum": 21,
+            "right_snapshot": 19,
+            "right_spectrum": 22
+          },
+          "answer_criterion": "ecddcc71269f4ce2e91cbaecff89b35fe4f9a270ede5f20a020501b0c54249dd"
+        },
+        {
+          "id": 2,
+          "total": 20,
+          "count": 4,
+          "pairs": [
+            [
+              3,
+              17
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              17,
+              3
+            ]
+          ],
+          "left_ref": "left/1",
+          "right_ref": "right/1",
+          "left_spectrum": "spectrum/1/left",
+          "right_spectrum": "spectrum/1/right",
+          "reused_sides": [
+            "left",
+            "right"
+          ],
+          "generator_forwards": 0,
+          "generator_inverses": 1,
+          "spectrum_criterion_monomial_terms": 0,
+          "product_criterion_pair_enumerations": 64,
+          "coefficients_checked": 64,
+          "ordered_pairs_in_grid": 64,
+          "attainable_totals": 25,
+          "positions": {
+            "query": 25,
+            "product": 26,
+            "answer": 27,
+            "left_snapshot": 18,
+            "left_spectrum": 21,
+            "right_snapshot": 19,
+            "right_spectrum": 22
+          },
+          "answer_criterion": "ecddcc71269f4ce2e91cbaecff89b35fe4f9a270ede5f20a020501b0c54249dd"
+        }
+      ],
+      "governance": null,
+      "replay": {
+        "events": 28,
+        "judgments_verified": 28,
+        "fully_verified": 28,
+        "tip": "1da5cd16049b3ca762e711ccd06fbd03822af2e4c52199c1232200234eab40ed"
+      }
+    },
+    "governed_reuse": {
+      "queries": [
+        {
+          "id": 1,
+          "total": 20,
+          "count": 4,
+          "pairs": [
+            [
+              3,
+              17
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              17,
+              3
+            ]
+          ],
+          "left_ref": "left/1",
+          "right_ref": "right/1",
+          "left_spectrum": "spectrum/1/left",
+          "right_spectrum": "spectrum/1/right",
+          "reused_sides": [],
+          "generator_forwards": 2,
+          "generator_inverses": 1,
+          "spectrum_criterion_monomial_terms": 1024,
+          "product_criterion_pair_enumerations": 64,
+          "coefficients_checked": 64,
+          "ordered_pairs_in_grid": 64,
+          "attainable_totals": 25,
+          "positions": {
+            "query": 20,
+            "product": 23,
+            "answer": 24,
+            "left_snapshot": 18,
+            "left_spectrum": 21,
+            "right_snapshot": 19,
+            "right_spectrum": 22
+          },
+          "answer_criterion": "ecddcc71269f4ce2e91cbaecff89b35fe4f9a270ede5f20a020501b0c54249dd"
+        },
+        {
+          "id": 2,
+          "total": 20,
+          "count": 3,
+          "pairs": [
+            [
+              7,
+              13
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              17,
+              3
+            ]
+          ],
+          "left_ref": "left/1",
+          "right_ref": "right/2",
+          "left_spectrum": "spectrum/1/left",
+          "right_spectrum": "spectrum/2/right",
+          "reused_sides": [
+            "left"
+          ],
+          "generator_forwards": 1,
+          "generator_inverses": 1,
+          "spectrum_criterion_monomial_terms": 384,
+          "product_criterion_pair_enumerations": 48,
+          "coefficients_checked": 64,
+          "ordered_pairs_in_grid": 48,
+          "attainable_totals": 22,
+          "positions": {
+            "query": 27,
+            "product": 29,
+            "answer": 30,
+            "left_snapshot": 18,
+            "left_spectrum": 21,
+            "right_snapshot": 26,
+            "right_spectrum": 28
+          },
+          "answer_criterion": "ecddcc71269f4ce2e91cbaecff89b35fe4f9a270ede5f20a020501b0c54249dd"
+        }
+      ],
+      "governance": {
+        "position": 25,
+        "prior_authority": "a8cfce7fd9155b5a095c638fb1de4180346458be8feb16d986270eb04a14bf24",
+        "old_right_versions": {
+          "criterion": "004a584929428431db33badfe2241a30ecaaa0b6edd0b9f0ef4f3fa146431c6c",
+          "ontology": "17c13c3aed2d7fe1bd2f7b618c2bb08d5d7db9e0ebf28885b32e6ae2a0ea2eb3"
+        },
+        "new_right_versions": {
+          "criterion": "83fa90dda187b16330903b6ee01a17efccacca2f377b7eef97c7aa023b3e8d74",
+          "ontology": "3a600ad424ad808ddaaa5cd5a059a1b81a0540f16eed1844e616440a501eee63"
+        },
+        "prior_answer": "answer/1",
+        "old_right_ref": "right/1"
+      },
+      "replay": {
+        "events": 31,
+        "judgments_verified": 31,
+        "fully_verified": 31,
+        "tip": "c66f6b2862bfdc5e06b91840b6c74bf09ca0e1e50f8200db65975263c4dde650"
+      }
+    },
+    "governed_fresh": {
+      "queries": [
+        {
+          "id": 1,
+          "total": 20,
+          "count": 4,
+          "pairs": [
+            [
+              3,
+              17
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              17,
+              3
+            ]
+          ],
+          "left_ref": "left/1",
+          "right_ref": "right/1",
+          "left_spectrum": "spectrum/1/left",
+          "right_spectrum": "spectrum/1/right",
+          "reused_sides": [],
+          "generator_forwards": 2,
+          "generator_inverses": 1,
+          "spectrum_criterion_monomial_terms": 1024,
+          "product_criterion_pair_enumerations": 64,
+          "coefficients_checked": 64,
+          "ordered_pairs_in_grid": 64,
+          "attainable_totals": 25,
+          "positions": {
+            "query": 20,
+            "product": 23,
+            "answer": 24,
+            "left_snapshot": 18,
+            "left_spectrum": 21,
+            "right_snapshot": 19,
+            "right_spectrum": 22
+          },
+          "answer_criterion": "ecddcc71269f4ce2e91cbaecff89b35fe4f9a270ede5f20a020501b0c54249dd"
+        },
+        {
+          "id": 2,
+          "total": 20,
+          "count": 3,
+          "pairs": [
+            [
+              7,
+              13
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              17,
+              3
+            ]
+          ],
+          "left_ref": "left/1",
+          "right_ref": "right/2",
+          "left_spectrum": "spectrum/2/left",
+          "right_spectrum": "spectrum/2/right",
+          "reused_sides": [],
+          "generator_forwards": 2,
+          "generator_inverses": 1,
+          "spectrum_criterion_monomial_terms": 896,
+          "product_criterion_pair_enumerations": 48,
+          "coefficients_checked": 64,
+          "ordered_pairs_in_grid": 48,
+          "attainable_totals": 22,
+          "positions": {
+            "query": 27,
+            "product": 30,
+            "answer": 31,
+            "left_snapshot": 18,
+            "left_spectrum": 28,
+            "right_snapshot": 26,
+            "right_spectrum": 29
+          },
+          "answer_criterion": "ecddcc71269f4ce2e91cbaecff89b35fe4f9a270ede5f20a020501b0c54249dd"
+        }
+      ],
+      "governance": {
+        "position": 25,
+        "prior_authority": "a8cfce7fd9155b5a095c638fb1de4180346458be8feb16d986270eb04a14bf24",
+        "old_right_versions": {
+          "criterion": "004a584929428431db33badfe2241a30ecaaa0b6edd0b9f0ef4f3fa146431c6c",
+          "ontology": "17c13c3aed2d7fe1bd2f7b618c2bb08d5d7db9e0ebf28885b32e6ae2a0ea2eb3"
+        },
+        "new_right_versions": {
+          "criterion": "83fa90dda187b16330903b6ee01a17efccacca2f377b7eef97c7aa023b3e8d74",
+          "ontology": "3a600ad424ad808ddaaa5cd5a059a1b81a0540f16eed1844e616440a501eee63"
+        },
+        "prior_answer": "answer/1",
+        "old_right_ref": "right/1"
+      },
+      "replay": {
+        "events": 32,
+        "judgments_verified": 32,
+        "fully_verified": 32,
+        "tip": "4c0eb8ebe8358b0364411bbcb34e059eddf2d6395c826ba4baa69f6334c93bd3"
+      }
+    },
+    "no_trigger": {
+      "queries": [
+        {
+          "id": 1,
+          "total": 4,
+          "count": 1,
+          "pairs": [
+            [
+              2,
+              2
+            ]
+          ],
+          "left_ref": "left/1",
+          "right_ref": "right/1",
+          "left_spectrum": "spectrum/1/left",
+          "right_spectrum": "spectrum/1/right",
+          "reused_sides": [],
+          "generator_forwards": 2,
+          "generator_inverses": 1,
+          "spectrum_criterion_monomial_terms": 1024,
+          "product_criterion_pair_enumerations": 64,
+          "coefficients_checked": 64,
+          "ordered_pairs_in_grid": 64,
+          "attainable_totals": 25,
+          "positions": {
+            "query": 20,
+            "product": 23,
+            "answer": 24,
+            "left_snapshot": 18,
+            "left_spectrum": 21,
+            "right_snapshot": 19,
+            "right_spectrum": 22
+          },
+          "answer_criterion": "ecddcc71269f4ce2e91cbaecff89b35fe4f9a270ede5f20a020501b0c54249dd"
+        },
+        {
+          "id": 2,
+          "total": 20,
+          "count": 4,
+          "pairs": [
+            [
+              3,
+              17
+            ],
+            [
+              7,
+              13
+            ],
+            [
+              13,
+              7
+            ],
+            [
+              17,
+              3
+            ]
+          ],
+          "left_ref": "left/1",
+          "right_ref": "right/1",
+          "left_spectrum": "spectrum/1/left",
+          "right_spectrum": "spectrum/1/right",
+          "reused_sides": [
+            "left",
+            "right"
+          ],
+          "generator_forwards": 0,
+          "generator_inverses": 1,
+          "spectrum_criterion_monomial_terms": 0,
+          "product_criterion_pair_enumerations": 64,
+          "coefficients_checked": 64,
+          "ordered_pairs_in_grid": 64,
+          "attainable_totals": 25,
+          "positions": {
+            "query": 25,
+            "product": 26,
+            "answer": 27,
+            "left_snapshot": 18,
+            "left_spectrum": 21,
+            "right_snapshot": 19,
+            "right_spectrum": 22
+          },
+          "answer_criterion": "ecddcc71269f4ce2e91cbaecff89b35fe4f9a270ede5f20a020501b0c54249dd"
+        }
+      ],
+      "governance": null,
+      "replay": {
+        "events": 28,
+        "judgments_verified": 28,
+        "fully_verified": 28,
+        "tip": "534d3311df96bd1bb3f3f70b4b6e46ae01cf933bbd4c0017d9e29de69626dd20"
+      },
+      "activation_attempt": {
+        "lineage": "activate",
+        "prefix_length": 25,
+        "tip": "0665214dd74fe2b857fefc72564674308c2d20ff01893eb659d380507bb87bfc",
+        "outcome": "Not Yet",
+        "events_added": 0
+      },
+      "activation_after_evidence": {
+        "lineage": "activate",
+        "prefix_length": 28,
+        "tip": "534d3311df96bd1bb3f3f70b4b6e46ae01cf933bbd4c0017d9e29de69626dd20",
+        "answer_ref": "answer/2",
+        "admissible": true,
+        "events_added": 0
+      }
+    }
+  },
+  "shared_prefixes": {
+    "unchanged_and_governed": 25,
+    "fresh_and_reuse": 27
+  },
+  "effect_of_right_restriction": {
+    "totals_with_changed_counts": [
+      19,
+      20,
+      21,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32,
+      34,
+      36,
+      38
+    ],
+    "totals_losing_all_witnesses": [
+      34,
+      36,
+      38
+    ],
+    "ordered_pairs_removed": 16
+  },
+  "faults": {
+    "stale_right_spectrum": {
+      "position": 29,
+      "replacement_fields": {
+        "right_spectrum": "spectrum/1/right"
+      },
+      "judgment_error": "S1.2 criterion is false on replay"
+    },
+    "revoked_ordered_witness": {
+      "position": 30,
+      "replacement_fields": {
+        "count": 4,
+        "pairs": [
+          [
+            3,
+            17
+          ],
+          [
+            7,
+            13
+          ],
+          [
+            13,
+            7
+          ],
+          [
+            17,
+            3
+          ]
+        ]
+      },
+      "judgment_error": "S1.2 criterion is false on replay"
+    },
+    "incomplete_valid_witnesses": {
+      "position": 30,
+      "replacement_fields": {
+        "count": 2,
+        "pairs": [
+          [
+            7,
+            13
+          ],
+          [
+            13,
+            7
+          ]
+        ]
+      },
+      "judgment_error": "S1.2 criterion is false on replay"
+    }
+  }
+}

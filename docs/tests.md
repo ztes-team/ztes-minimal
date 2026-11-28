@@ -86,6 +86,9 @@ The [factorization-patterns tests](../tests/test_factorization_patterns.py) rege
 executions, including a source that produces no failed probes and leaves the old policy active.
 They also check that a missing probe is detected even when the recorded factors are correct.
 
+The [Goldbach experiment tests](../tests/test_goldbach_governed_convolution.py) reproduce
+the finite convolution records and check the admitted evidence under a change of one operand.
+
 ## Experiments (`tests/test_experiments.py`)
 
 | Test | What it shows |

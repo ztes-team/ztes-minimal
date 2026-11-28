@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "queries",
+      "products",
+      "lefts",
+      "rights",
+      "answers"
+    ]
+  },
+  "returns": "Answer",
+  "body": {
+    "result": "answer_candidate(queries, products, lefts, rights, answers)"
+  }
+}
