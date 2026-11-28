@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "context": [
+      "changes",
+      "refunds",
+      "closures"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Closure"
+    }
+  },
+  "body": {
+    "result": "covered(w, changes, refunds, closures)"
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "system": "governed-shipment",
+  "abstractions": [
+    "order",
+    "inspection",
+    "fee-notice",
+    "fee-debit",
+    "guarantee",
+    "mandate",
+    "case-credit",
+    "obstruction",
+    "reform",
+    "refund",
+    "closure"
+  ],
+  "types": {
+    "Order": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "cap": "integer",
+        "beneficiary": "text",
+        "inspector": "text",
+        "authority": "text",
+        "guarantor": "text",
+        "fee_issuer": "text",
+        "fee_parties": {
+          "list": "text"
+        }
+      }
+    },
+    "Report": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "issuer": "text",
+        "loss": "integer"
+      }
+    },
+    "Charge": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "issuer": "text",
+        "actor": "text",
+        "amount": "integer"
+      }
+    },
+    "Guarantee": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "claim": "text",
+        "issuer": "text",
+        "limit": "integer",
+        "beneficiary": "text"
+      }
+    },
+    "Mandate": {
+      "record": {
+        "case": "text",
+        "ref": "text",
+        "claim": "text",
+        "issuer": "text",
+        "action": "text"
+      }
+    },
+    "Credit": {
+      "record": {
+        "case": "text",
+        "claim": "text",
+        "beneficiary": "text",
+        "primary": "integer",
+        "guarantee": "integer",
+        "total": "integer",
+        "instrument": "text"
+      }
+    },
+    "Obstruction": {
+      "record": {
+        "case": "text",
+        "claim": "text",
+        "regime": "text",
+        "fixed_loss": "integer",
+        "max_total": "integer"
+      }
+    },
+    "Horizon": {
+      "record": {
+        "actor": "text",
+        "order": "text",
+        "inspection": "text",
+        "debits": {
+          "list": "Charge"
+        }
+      }
+    },
+    "Refund": {
+      "record": {
+        "case": "text",
+        "mandate": "text",
+        "actor": "text",
+        "order": "text",
+        "inspection": "text",
+        "debit_refs": {
+          "list": "text"
+        },
+        "refund": "integer"
+      }
+    },
+    "Closure": {
+      "record": {
+        "mandate": "text",
+        "witnesses": {
+          "list": "Refund"
+        }
+      }
+    },
+    "Change": {
+      "record": {
+        "case": "text",
+        "mandate": "text",
+        "obstruction": "Obstruction",
+        "affected": {
+          "list": "Horizon"
+        },
+        "specifications": {
+          "list": "specification"
+        }
+      }
+    }
+  },
+  "bindings": {
+    "orders": {
+      "from": "order",
+      "select": "all"
+    },
+    "reports": {
+      "from": "inspection",
+      "select": "all"
+    },
+    "charges": {
+      "from": "fee-notice",
+      "select": "all"
+    },
+    "debits": {
+      "from": "fee-debit",
+      "select": "all"
+    },
+    "guarantees": {
+      "from": "guarantee",
+      "select": "all"
+    },
+    "mandates": {
+      "from": "mandate",
+      "select": "all"
+    },
+    "paid": {
+      "from": "case-credit",
+      "select": "all"
+    },
+    "blocks": {
+      "from": "obstruction",
+      "select": "all"
+    },
+    "changes": {
+      "from": "reform",
+      "select": "all"
+    },
+    "refunds": {
+      "from": "refund",
+      "select": "all"
+    },
+    "closures": {
+      "from": "closure",
+      "select": "all"
+    }
+  },
+  "constants": {
+    "REFORM": {
+      "$specifications": [
+        "case-credit/criterion.v2",
+        "case-credit/ontology.v2"
+      ]
+    }
+  }
+}

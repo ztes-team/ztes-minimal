@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "reports",
+      "guarantees"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Guarantee"
+    }
+  },
+  "body": {
+    "result": "len(orders) == 1 and len(reports) == 1 and not guarantees and w['case'] == orders[0]['case'] and w['claim'] == reports[0]['ref'] and w['issuer'] == orders[0]['guarantor'] and w['beneficiary'] == orders[0]['beneficiary'] and w['limit'] >= 0 and w['ref'] != ''"
+  }
+}

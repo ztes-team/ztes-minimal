@@ -1,0 +1,34 @@
+{
+  "abstraction": "evidence",
+  "version": 1,
+  "role": "criterion",
+  "inputs": {
+    "context": {
+      "prior": {
+        "from": "evidence",
+        "select": "all",
+        "type": "json"
+      }
+    },
+    "candidate": {
+      "name": "w",
+      "type": {
+        "record": {
+          "case": "text",
+          "ref": "text",
+          "lot": "text",
+          "kind": "text",
+          "issuer": "text",
+          "finding": "text",
+          "sensor": "text",
+          "value": "integer"
+        }
+      }
+    }
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {
+    "result": "w['ref'] == w['case'] + '/' + w['kind'] and w['kind'] in ['delivery','inspection','temperature','calibration','quality','review'] and all([w['case'],w['lot'],w['issuer']]) and all(e['ref'] != w['ref'] for e in prior)"
+  }
+}

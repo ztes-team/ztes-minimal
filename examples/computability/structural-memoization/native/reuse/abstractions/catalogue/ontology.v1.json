@@ -1,0 +1,68 @@
+{
+  "abstraction": "catalogue",
+  "version": 1,
+  "role": "ontology",
+  "inputs": {
+    "context": {
+      "plans": {
+        "from": "plan",
+        "select": "all",
+        "type": "json"
+      },
+      "payments": {
+        "from": "settle",
+        "select": "all",
+        "type": "json"
+      },
+      "prior": {
+        "from": "catalogue",
+        "select": "all",
+        "type": "json"
+      }
+    }
+  },
+  "returns": {
+    "record": {
+      "ordinal": "integer",
+      "ref": "text",
+      "case": "text",
+      "signature": {
+        "list": "text"
+      },
+      "versions": {
+        "record": {
+          "interface": "text",
+          "reduction": "text",
+          "planner": "text",
+          "primitives": "text",
+          "checker": "text",
+          "certification": "text"
+        }
+      },
+      "graph": {
+        "list": {
+          "record": {
+            "op": "text",
+            "role": "text",
+            "inputs": {
+              "list": "text"
+            },
+            "out": "text"
+          }
+        }
+      },
+      "diag_ref": "text",
+      "plan_ref": "text",
+      "payment_ref": "text",
+      "obligations": {
+        "list": "text"
+      }
+    }
+  },
+  "partial": true,
+  "body": {
+    "result": "next_publication(plans,payments,prior)"
+  },
+  "library": "def find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef published(ordinal, plan, pay):\n    return {\"ordinal\": ordinal, \"ref\": f\"catalogue/{ordinal}\", \"case\": plan[\"case\"],\n            \"signature\": plan[\"signature\"], \"versions\": plan[\"versions\"], \"graph\": plan[\"graph\"],\n            \"diag_ref\": plan[\"diag_ref\"], \"plan_ref\": plan[\"ref\"], \"payment_ref\": pay[\"ref\"],\n            \"obligations\": [\"coverage\", \"available balances\", \"beneficiary\", \"local authority\"]}\n\ndef next_publication(plans, payments, prior):\n    for pay in payments:\n        plan = find_case(plans, pay[\"case\"])\n        if (plan is not None and plan[\"origin\"] == \"fresh\" and pay[\"plan_ref\"] == plan[\"ref\"]\n                and find_case(prior, pay[\"case\"]) is None):\n            return published(len(prior) + 1, plan, pay)\n    return None",
+  "criterion": "d0317633f72950476b19d6ccb07b24faefd5c4da073b31288c5dfc966520178d"
+}

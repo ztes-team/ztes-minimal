@@ -7,6 +7,7 @@ model, and each model has several systems.
 | Model | Systems | What it shows |
 |---|---|---|
 | [`halting`](halting/DESIGN.md) | `machines`, `collatz`, `antihydra`, `finish-fair`, `finish-unfair`, `finish-unreachable` | the modalities of halting, all four classes of Theorem 4, with the evidence for every verdict |
+| [Structural memoization](structural-memoization/README.md) | `native/reuse`, `native/governance` | Two distinct diagnoses reduce to a common funding structure. A later case reuses the published plan and decides payment under its own criterion. |
 
 ```bash
 python -m ztes run examples/computability/halting/machines
@@ -16,6 +17,16 @@ python -m ztes run examples/computability/halting/finish-fair
 python -m ztes run examples/computability/halting/finish-unfair
 python -m ztes run examples/computability/halting/finish-unreachable
 python -m pytest -q tests/test_halting.py
+```
+
+The [structural memoization experiment](structural-memoization/README.md) supplies named
+observations to the native systems and compares cold and warm execution, contractual exclusion
+and governed rule changes. Its [measured results](structural-memoization/results/RESULTS.md)
+include the cost of publishing the pattern once and using it across several cases.
+
+```bash
+python examples/computability/structural-memoization/experiment.py --pairs 1 --series-pairs 1 --output build/structural-memoization
+python -m pytest -q tests/test_structural_memoization.py
 ```
 
 ## halting

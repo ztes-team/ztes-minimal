@@ -1,0 +1,46 @@
+{
+  "abstraction": "snapshot",
+  "version": 1,
+  "role": "criterion",
+  "inputs": {
+    "context": {
+      "diagnoses": {
+        "from": [
+          "transport",
+          "cold_chain"
+        ],
+        "select": "all",
+        "type": "json"
+      },
+      "catalogue": {
+        "from": "catalogue",
+        "select": "all",
+        "type": "json"
+      },
+      "prior": {
+        "from": "snapshot",
+        "select": "all",
+        "type": "json"
+      }
+    },
+    "candidate": {
+      "name": "w",
+      "type": {
+        "record": {
+          "case": "text",
+          "ref": "text",
+          "diag_ref": "text",
+          "visible": {
+            "list": "integer"
+          }
+        }
+      }
+    }
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {
+    "result": "find_case(prior,w['case']) is None and any(w == snapshot_for(d,catalogue) for d in diagnoses)"
+  },
+  "library": "def find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef snapshot_for(diag, catalogue):\n    refs = [p[\"ordinal\"] for p in catalogue]\n    return {\"case\": diag[\"case\"], \"ref\": f\"snapshot/{diag['case']}/{len(refs)}\",\n            \"diag_ref\": diag[\"ref\"], \"visible\": refs}"
+}

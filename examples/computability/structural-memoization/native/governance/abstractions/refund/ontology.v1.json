@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "context": [
+      "changes",
+      "refunds"
+    ]
+  },
+  "returns": "Refund",
+  "body": {
+    "result": "next_refund(changes, refunds)"
+  }
+}

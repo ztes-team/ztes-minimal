@@ -1,0 +1,18 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "reports",
+      "paid",
+      "blocks",
+      "changes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Obstruction"
+    }
+  },
+  "body": {
+    "result": "not blocks and not changes and w is not None and w == obstruction(orders, reports, paid)"
+  }
+}

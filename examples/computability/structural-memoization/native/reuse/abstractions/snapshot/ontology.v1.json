@@ -1,0 +1,43 @@
+{
+  "abstraction": "snapshot",
+  "version": 1,
+  "role": "ontology",
+  "inputs": {
+    "context": {
+      "diagnoses": {
+        "from": [
+          "transport",
+          "cold_chain"
+        ],
+        "select": "all",
+        "type": "json"
+      },
+      "catalogue": {
+        "from": "catalogue",
+        "select": "all",
+        "type": "json"
+      },
+      "prior": {
+        "from": "snapshot",
+        "select": "all",
+        "type": "json"
+      }
+    }
+  },
+  "returns": {
+    "record": {
+      "case": "text",
+      "ref": "text",
+      "diag_ref": "text",
+      "visible": {
+        "list": "integer"
+      }
+    }
+  },
+  "partial": true,
+  "body": {
+    "result": "next_snapshot(diagnoses,catalogue,prior)"
+  },
+  "library": "def find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef snapshot_for(diag, catalogue):\n    refs = [p[\"ordinal\"] for p in catalogue]\n    return {\"case\": diag[\"case\"], \"ref\": f\"snapshot/{diag['case']}/{len(refs)}\",\n            \"diag_ref\": diag[\"ref\"], \"visible\": refs}\n\ndef next_snapshot(diagnoses, catalogue, prior):\n    for diag in diagnoses:\n        if find_case(prior, diag[\"case\"]) is None:\n            return snapshot_for(diag, catalogue)\n    return None",
+  "criterion": "a96067b478c298eb1f6244508be5cb819b6c13306d3734f2a9d1b9563b39d233"
+}

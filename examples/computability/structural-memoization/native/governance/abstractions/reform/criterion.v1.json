@@ -1,0 +1,20 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "reports",
+      "blocks",
+      "mandates",
+      "charges",
+      "debits",
+      "changes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Change"
+    }
+  },
+  "body": {
+    "result": "lawful_transition(w, orders, reports, blocks, mandates, charges, debits, changes, REFORM)"
+  }
+}

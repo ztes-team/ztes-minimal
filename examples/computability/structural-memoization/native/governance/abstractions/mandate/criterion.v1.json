@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "blocks",
+      "mandates"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Mandate"
+    }
+  },
+  "body": {
+    "result": "len(orders) == 1 and len(blocks) == 1 and not mandates and w['case'] == orders[0]['case'] and w['claim'] == blocks[0]['claim'] and w['issuer'] == orders[0]['authority'] and w['action'] == 'activate-risk-sharing' and w['ref'] != ''"
+  }
+}

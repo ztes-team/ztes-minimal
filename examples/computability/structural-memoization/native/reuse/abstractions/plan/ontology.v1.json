@@ -1,0 +1,119 @@
+{
+  "abstraction": "plan",
+  "version": 1,
+  "role": "ontology",
+  "inputs": {
+    "context": {
+      "fundings": {
+        "from": "funding",
+        "select": "all",
+        "type": "json"
+      },
+      "diagnoses": {
+        "from": [
+          "transport",
+          "cold_chain"
+        ],
+        "select": "all",
+        "type": "json"
+      },
+      "snapshots": {
+        "from": "snapshot",
+        "select": "all",
+        "type": "json"
+      },
+      "catalogue": {
+        "from": "catalogue",
+        "select": "all",
+        "type": "json"
+      },
+      "evidence": {
+        "from": "evidence",
+        "select": "all",
+        "type": "json"
+      },
+      "prior": {
+        "from": "plan",
+        "select": "all",
+        "type": "json"
+      }
+    }
+  },
+  "returns": {
+    "record": {
+      "case": "text",
+      "ref": "text",
+      "diag_ref": "text",
+      "snapshot_ref": "text",
+      "signature": {
+        "list": "text"
+      },
+      "versions": {
+        "record": {
+          "interface": "text",
+          "reduction": "text",
+          "planner": "text",
+          "primitives": "text",
+          "checker": "text",
+          "certification": "text"
+        }
+      },
+      "review_ref": "text",
+      "graph": {
+        "list": {
+          "record": {
+            "op": "text",
+            "role": "text",
+            "inputs": {
+              "list": "text"
+            },
+            "out": "text"
+          }
+        }
+      },
+      "trace": {
+        "list": {
+          "record": {
+            "graph": {
+              "list": {
+                "record": {
+                  "op": "text",
+                  "role": "text",
+                  "inputs": {
+                    "list": "text"
+                  },
+                  "out": "text"
+                }
+              }
+            },
+            "reason": "text"
+          }
+        }
+      },
+      "origin": "text",
+      "publication": "integer",
+      "allocation": {
+        "record": {
+          "primary": "integer",
+          "supplemental": "integer",
+          "credit": "integer"
+        }
+      },
+      "metrics": {
+        "record": {
+          "expansions": "integer",
+          "tested": "integer",
+          "inspected": "integer",
+          "validated": "integer",
+          "bindings": "integer"
+        }
+      }
+    }
+  },
+  "partial": true,
+  "body": {
+    "result": "next_plan(fundings,diagnoses,snapshots,catalogue,evidence,prior)"
+  },
+  "library": "def split_signature():\n    return [\n        \"funding:v1\", \"recognized-obligation\", \"primary-first\",\n        \"nominated-supplemental\", \"compatible-units\", \"0<S<D<=S+G\",\n    ]\n\ndef funding_signature(d, s, g):\n    \"\"\"Reduction on admitted diagnoses whose amounts and local asset have been validated.\"\"\"\n    if 0 < s < d <= s + g:\n        return split_signature()\n    return None\n\ndef construction_versions():\n    return {\n        \"interface\": \"funding:v1\", \"reduction\": \"funding-reduction:v1\",\n        \"planner\": \"breadth-first:v1\", \"primitives\": \"funding-primitives:v1\",\n        \"checker\": \"cone:v1\",\n    }\n\ndef compatible_pattern(publication, signature, versions):\n    return (signature == split_signature() and publication.get(\"signature\") == signature\n            and publication.get(\"versions\") == versions)\n\ndef allocation_node(role, balance):\n    return {\"op\": \"allocate\", \"role\": role, \"inputs\": [balance, role + \"_limit\"],\n            \"out\": role + \"_draw\"}\n\ndef residual_node(role, balance):\n    return {\"op\": \"residual\", \"role\": role, \"inputs\": [balance, role + \"_draw\"],\n            \"out\": \"after_\" + role}\n\ndef credit_node(roles):\n    ports = [role + \"_draw\" for role in [\"primary\", \"supplemental\"] if role in roles]\n    return {\"op\": \"credit\", \"role\": \"beneficiary\", \"inputs\": ports, \"out\": \"credit\"}\n\ndef wiring_error(graph):\n    \"\"\"Check ports in definition order and require each allocation to feed the credit.\"\"\"\n    if not graph or len(graph) > 4:\n        return \"a closed graph needs between one and four nodes\"\n    roles = []\n    balance = \"owed\"\n    unused_draw = \"\"\n    for i in range(len(graph)):\n        node = graph[i]\n        op = node.get(\"op\")\n        role = node.get(\"role\")\n        if op == \"allocate\":\n            if role not in [\"primary\", \"supplemental\"] or role in roles or unused_draw:\n                return \"an allocation needs a fresh role and the current obligation\"\n            if node != allocation_node(role, balance):\n                return \"allocation ports or role limit do not match\"\n            roles.append(role)\n            unused_draw = role\n        elif op == \"residual\":\n            if len(roles) != 1 or role != unused_draw or node != residual_node(role, balance):\n                return \"residual must consume the outstanding obligation and its draw\"\n            balance = node[\"out\"]\n            unused_draw = \"\"\n        elif op == \"credit\":\n            if not unused_draw or i != len(graph) - 1 or node != credit_node(roles):\n                return \"terminal credit must cite every allocation exactly once\"\n            return \"\"\n        else:\n            return \"unrecognized operation\"\n    return \"missing terminal credit\"\n\ndef cone_min(left, right):\n    \"\"\"A coefficientwise smaller form is smaller throughout the nonnegative orthant.\"\"\"\n    if all(left[i] <= right[i] for i in range(3)):\n        return left\n    if all(right[i] <= left[i] for i in range(3)):\n        return right\n    return None\n\ndef proof_error(signature, graph):\n    \"\"\"Check a graph symbolically on the whole signature using S, r=D-S, h=G-r.\n\n    Each value is an affine homogeneous form in these three nonnegative parameters.\n    A minimum of incomparable forms has no uniform branch in this checker.\n    \"\"\"\n    if signature != split_signature():\n        return \"unsupported signature\"\n    error = wiring_error(graph)\n    if error:\n        return error\n    values = {\"owed\": [1, 1, 0], \"primary_limit\": [1, 0, 0],\n              \"supplemental_limit\": [0, 1, 1]}\n    for node in graph:\n        ports = node[\"inputs\"]\n        if node[\"op\"] == \"credit\":\n            total = [sum(values[port][i] for port in ports) for i in range(3)]\n            if total != values[\"owed\"]:\n                return \"credit does not cover the obligation throughout the signature\"\n            if values.get(\"primary_draw\") != values[\"primary_limit\"]:\n                return \"priority requires exhaustion of the primary limit\"\n            return \"\"\n        left, right = values[ports[0]], values[ports[1]]\n        if node[\"op\"] == \"allocate\":\n            value = cone_min(left, right)\n            if value is None:\n                return \"draw depends on an unresolved comparison in the signature\"\n        else:\n            value = [left[i] - right[i] for i in range(3)]\n        if min(value) < 0:\n            return \"nonnegativity cannot be proved throughout the signature\"\n        values[node[\"out\"]] = value\n    return \"missing proof of credit\"\n\ndef verify_graph(signature, graph):\n    \"\"\"Independent of the search procedure and of the source case's numeric bindings.\"\"\"\n    return proof_error(signature, graph) == \"\"\n\ndef extensions(graph, primary_first):\n    \"\"\"Construct the next typed operations; enumeration order is part of the version.\"\"\"\n    ordered_roles = [\"primary\", \"supplemental\"] if primary_first else [\"supplemental\", \"primary\"]\n    if not graph:\n        return [allocation_node(role, \"owed\") for role in ordered_roles]\n    last = graph[-1]\n    roles = [node[\"role\"] for node in graph if node[\"op\"] == \"allocate\"]\n    if last[\"op\"] == \"residual\":\n        return [allocation_node(role, last[\"out\"]) for role in ordered_roles if role not in roles]\n    choices = [credit_node(roles)]\n    if len(roles) == 1:\n        choices.append(residual_node(last[\"role\"], last[\"inputs\"][0]))\n    return choices\n\ndef search_graph_avoiding(signature, skipped_graphs, primary_first):\n    \"\"\"BFS over partial DAGs. A rejected cached graph can be excluded from fresh checks.\"\"\"\n    result = {\"graph\": [], \"trace\": [], \"expansions\": 0, \"tested\": 0}\n    if signature != split_signature():\n        return result\n    frontier = [[]]\n    for depth in range(4):\n        following = []\n        for partial in frontier:\n            result[\"expansions\"] += 1\n            for node in extensions(partial, primary_first):\n                graph = partial + [node]\n                if node[\"op\"] != \"credit\":\n                    following.append(graph)\n                    continue\n                if graph in skipped_graphs:\n                    continue\n                result[\"tested\"] += 1\n                error = proof_error(signature, graph)\n                result[\"trace\"].append({\"graph\": graph, \"reason\": error or \"verified\"})\n                if not error:\n                    result[\"graph\"] = graph\n                    return result\n        frontier = following\n    return result\n\ndef bind_graph(graph, d, s, g):\n    \"\"\"Execute the typed DAG on target amounts; local policy is judged by the caller.\"\"\"\n    if funding_signature(d, s, g) is None or wiring_error(graph):\n        return None\n    values = {\"owed\": d, \"primary_limit\": s, \"supplemental_limit\": g}\n    for node in graph:\n        amounts = [values[port] for port in node[\"inputs\"]]\n        if node[\"op\"] == \"allocate\":\n            amount = min(amounts)\n        elif node[\"op\"] == \"residual\":\n            amount = amounts[0] - amounts[1]\n        else:\n            amount = sum(amounts)\n        values[node[\"out\"]] = amount\n    primary = values.get(\"primary_draw\", 0)\n    supplemental = values.get(\"supplemental_draw\", 0)\n    if primary != s or supplemental > g or values[\"credit\"] != d:\n        return None\n    return {\"primary\": primary, \"supplemental\": supplemental, \"credit\": values[\"credit\"]}\n\ndef find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef evidence_of(evidence, f, kind):\n    for e in evidence:\n        if e[\"case\"] == f[\"case\"] and e[\"lot\"] == f[\"lot\"] and e[\"kind\"] == kind:\n            return e\n    return None\n\ndef versions_for(f):\n    versions = construction_versions()\n    if f[\"search_order\"] == \"primary-first\":\n        versions[\"planner\"] = \"breadth-first-primary-first:v2\"\n    versions[\"certification\"] = f[\"certification\"]\n    return versions\n\ndef review_ref(f, evidence):\n    if f[\"certification\"] == \"standard\":\n        return \"\"\n    review = evidence_of(evidence, f, \"review\")\n    if review is not None and review[\"issuer\"] == \"review-panel\" and review[\"finding\"] == \"approved\":\n        return review[\"ref\"]\n    return None\n\ndef make_plan(f, diag, snap, catalogue, evidence):\n    signature = diag[\"signature\"]\n    review = review_ref(f, evidence)\n    if not signature or review is None:\n        return None\n    versions = versions_for(f)\n    trace = []\n    skipped = []\n    graph = []\n    publication = 0\n    inspected = 0\n    validated = 0\n    expansions = 0\n    tested = 0\n    bindings = 0\n    allocation = None\n    for p in catalogue:\n        if p[\"ordinal\"] not in snap[\"visible\"]:\n            continue\n        inspected += 1\n        if compatible_pattern(p, signature, versions):\n            validated += 1\n            if verify_graph(signature, p[\"graph\"]):\n                bindings += 1\n                allocation = bind_graph(p[\"graph\"], f[\"obligation\"], f[\"primary_limit\"], f[\"guarantee_limit\"])\n                if allocation is not None:\n                    graph = p[\"graph\"]\n                    publication = p[\"ordinal\"]\n                    break\n            skipped.append(p[\"graph\"])\n    if not publication:\n        search = search_graph_avoiding(signature, skipped, f[\"search_order\"] == \"primary-first\")\n        graph = search[\"graph\"]\n        trace = search[\"trace\"]\n        expansions = search[\"expansions\"]\n        tested = search[\"tested\"]\n        if not graph:\n            return None\n        bindings += 1\n        allocation = bind_graph(graph, f[\"obligation\"], f[\"primary_limit\"], f[\"guarantee_limit\"])\n        if allocation is None:\n            return None\n    return {\"case\": f[\"case\"], \"ref\": \"plan/\" + f[\"case\"], \"diag_ref\": diag[\"ref\"],\n            \"signature\": signature, \"versions\": versions, \"review_ref\": review,\n            \"snapshot_ref\": snap[\"ref\"], \"graph\": graph, \"trace\": trace,\n            \"origin\": \"reuse\" if publication else \"fresh\", \"publication\": publication,\n            \"allocation\": allocation, \"metrics\": {\"expansions\": expansions, \"tested\": tested,\n            \"inspected\": inspected, \"validated\": validated, \"bindings\": bindings}}\n\ndef next_plan(fundings, diagnoses, snapshots, catalogue, evidence, prior):\n    for snap in snapshots:\n        case = snap[\"case\"]\n        if find_case(prior, case) is None:\n            f = find_case(fundings, case)\n            diag = find_case(diagnoses, case)\n            if f is not None and diag is not None and diag[\"ref\"] == snap[\"diag_ref\"]:\n                plan = make_plan(f, diag, snap, catalogue, evidence)\n                if plan is not None:\n                    return plan\n    return None",
+  "criterion": "79963377194ce4f233d01400577253b0dcb688d91bf1beee09dcc5d6d2129b5f"
+}

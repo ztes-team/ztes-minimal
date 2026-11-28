@@ -1,0 +1,17 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "reports",
+      "paid",
+      "guarantees"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Credit"
+    }
+  },
+  "body": {
+    "result": "valid_credit(w, orders, reports, paid, guarantees, False)"
+  }
+}

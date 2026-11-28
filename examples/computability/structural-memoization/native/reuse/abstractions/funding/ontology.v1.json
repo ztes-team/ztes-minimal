@@ -1,0 +1,33 @@
+{
+  "abstraction": "funding",
+  "version": 1,
+  "role": "ontology",
+  "inputs": {
+    "context": {}
+  },
+  "returns": {
+    "record": {
+      "case": "text",
+      "ref": "text",
+      "contract": "text",
+      "lot": "text",
+      "route": "text",
+      "asset": "text",
+      "primary_asset": "text",
+      "supplemental_asset": "text",
+      "beneficiary": "text",
+      "primary_payer": "text",
+      "guarantor": "text",
+      "instrument": "text",
+      "obligation": "integer",
+      "primary_limit": "integer",
+      "guarantee_limit": "integer",
+      "priority": "text",
+      "certification": "text",
+      "search_order": "text"
+    }
+  },
+  "partial": true,
+  "boundary": true,
+  "criterion": "6409b2f362242ded05aa4a87d4fd6fa2218ff98964bc12d073758c25bb16fe2f"
+}

@@ -204,6 +204,11 @@ execution of a fixed regime and a named family of goals; together the systems sh
 
 Its tests are in `tests/test_halting.py`, listed in [`computability/README.md`](computability/README.md#tests-teststest_haltingpy).
 
+The [structural memoization model](computability/structural-memoization/README.md) follows a
+settlement graph from its construction in a transport dispute to its use in a different claim.
+The experiment measures the search avoided when the second case can read the graph, tests when
+the cost of its publication is recovered, and replays the evidence for each admission.
+
 ## Tests of the examples
 
 Every example states its expected end in `system.json` (`"expect"`); `python -m ztes run` compares

@@ -1,0 +1,65 @@
+{
+  "abstraction": "settle",
+  "version": 1,
+  "role": "ontology",
+  "inputs": {
+    "context": {
+      "plans": {
+        "from": "plan",
+        "select": "all",
+        "type": "json"
+      },
+      "fundings": {
+        "from": "funding",
+        "select": "all",
+        "type": "json"
+      },
+      "diagnoses": {
+        "from": [
+          "transport",
+          "cold_chain"
+        ],
+        "select": "all",
+        "type": "json"
+      },
+      "policies": {
+        "from": "policy",
+        "select": "all",
+        "type": "json"
+      },
+      "prior": {
+        "from": "settle",
+        "select": "all",
+        "type": "json"
+      }
+    }
+  },
+  "returns": {
+    "record": {
+      "case": "text",
+      "ref": "text",
+      "plan_ref": "text",
+      "policy_ref": "text",
+      "diag_ref": "text",
+      "evidence": {
+        "list": "text"
+      },
+      "contract": "text",
+      "asset": "text",
+      "beneficiary": "text",
+      "primary_payer": "text",
+      "guarantor": "text",
+      "primary": "integer",
+      "supplemental": "integer",
+      "credit": "integer",
+      "origin": "text",
+      "publication": "integer"
+    }
+  },
+  "partial": true,
+  "body": {
+    "result": "next_settlement(plans,fundings,diagnoses,policies,prior)"
+  },
+  "library": "def find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef settlement_for(f, diag, policy, plan):\n    return {\"case\": f[\"case\"], \"ref\": \"settlement/\" + f[\"case\"], \"plan_ref\": plan[\"ref\"],\n            \"policy_ref\": policy[\"ref\"], \"diag_ref\": diag[\"ref\"], \"evidence\": diag[\"evidence\"],\n            \"contract\": f[\"contract\"], \"asset\": f[\"asset\"], \"beneficiary\": f[\"beneficiary\"],\n            \"primary_payer\": f[\"primary_payer\"], \"guarantor\": f[\"guarantor\"],\n            \"primary\": plan[\"allocation\"][\"primary\"], \"supplemental\": plan[\"allocation\"][\"supplemental\"],\n            \"credit\": plan[\"allocation\"][\"credit\"], \"origin\": plan[\"origin\"], \"publication\": plan[\"publication\"]}\n\ndef next_settlement(plans, fundings, diagnoses, policies, prior):\n    candidate = None\n    for plan in plans:\n        case = plan[\"case\"]\n        if find_case(prior, case) is None:\n            f = find_case(fundings, case)\n            diag = find_case(diagnoses, case)\n            policy = find_case(policies, case)\n            if f is not None and diag is not None and policy is not None:\n                proposed = settlement_for(f, diag, policy, plan)\n                if diag[\"route\"] in policy[\"covers\"]:\n                    return proposed\n                if candidate is None:\n                    candidate = proposed\n    return candidate",
+  "criterion": "8986a163b56dc1ce0e14661e163854c7bdc1626b06f2fdd5ca4c6dd4f70f9b89"
+}

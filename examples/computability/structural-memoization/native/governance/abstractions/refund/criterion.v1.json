@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "changes",
+      "refunds"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Refund"
+    }
+  },
+  "body": {
+    "result": "w is not None and w == next_refund(changes, refunds)"
+  }
+}

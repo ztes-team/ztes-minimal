@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "context": [
+      "debits",
+      "charges",
+      "changes"
+    ]
+  },
+  "returns": "Charge",
+  "body": {
+    "result": "charges[len(debits)] if not changes and len(debits) < len(charges) else None"
+  }
+}

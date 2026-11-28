@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "reports",
+      "paid"
+    ]
+  },
+  "returns": "Credit",
+  "body": {
+    "result": "credit(orders[0], reports[0], min(orders[0]['cap'], reports[0]['loss']), 0, []) if orders and reports and not paid else None"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "abstraction": "policy",
+  "version": 1,
+  "role": "criterion",
+  "inputs": {
+    "context": {
+      "prior": {
+        "from": "policy",
+        "select": "all",
+        "type": "json"
+      }
+    },
+    "candidate": {
+      "name": "w",
+      "type": {
+        "record": {
+          "case": "text",
+          "ref": "text",
+          "contract": "text",
+          "instrument": "text",
+          "asset": "text",
+          "beneficiary": "text",
+          "guarantor": "text",
+          "covers": {
+            "list": "text"
+          },
+          "approved": "boolean",
+          "primary_available": "integer",
+          "guarantee_available": "integer"
+        }
+      }
+    }
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {
+    "result": "w['ref'] == 'policy/' + w['case'] and w['case'] != '' and min(w['primary_available'], w['guarantee_available']) >= 0 and find_case(prior,w['case']) is None"
+  },
+  "library": "def find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None"
+}

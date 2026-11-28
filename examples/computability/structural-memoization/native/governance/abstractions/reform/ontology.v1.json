@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "reports",
+      "blocks",
+      "changes",
+      "mandates",
+      "debits"
+    ]
+  },
+  "returns": "Change",
+  "body": {
+    "result": "{'case': orders[0]['case'], 'obstruction': blocks[0], 'mandate': mandates[0]['ref'] if mandates else '', 'affected': affected_horizons(orders[0], reports[0], debits), 'specifications': REFORM} if orders and reports and blocks and not changes else None"
+  }
+}

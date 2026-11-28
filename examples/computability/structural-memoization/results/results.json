@@ -1,0 +1,5408 @@
+{
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "cases": {
+    "cold": {
+      "source_diagnosis": {
+        "case": "A",
+        "ref": "transport/A",
+        "route": "transport",
+        "base_ref": "base/A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ]
+      },
+      "target_diagnosis": {
+        "case": "B",
+        "ref": "cold_chain/B",
+        "route": "cold_chain",
+        "base_ref": "base/B",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ]
+      },
+      "source_plan": {
+        "case": "A",
+        "ref": "plan/A",
+        "diag_ref": "transport/A",
+        "snapshot_ref": "snapshot/A/0",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 60,
+          "supplemental": 30,
+          "credit": 90
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 0,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "source_payment": {
+        "case": "A",
+        "ref": "settlement/A",
+        "plan_ref": "plan/A",
+        "policy_ref": "policy/A",
+        "diag_ref": "transport/A",
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ],
+        "contract": "order/A",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/A",
+        "primary_payer": "carrier/A",
+        "guarantor": "guarantor/A",
+        "primary": 60,
+        "supplemental": 30,
+        "credit": 90,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "publication": {
+        "ordinal": 1,
+        "ref": "catalogue/1",
+        "case": "A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "diag_ref": "transport/A",
+        "plan_ref": "plan/A",
+        "payment_ref": "settlement/A",
+        "obligations": [
+          "coverage",
+          "available balances",
+          "beneficiary",
+          "local authority"
+        ]
+      },
+      "snapshot": {
+        "case": "B",
+        "ref": "snapshot/B/0",
+        "diag_ref": "cold_chain/B",
+        "visible": []
+      },
+      "target_plan": {
+        "case": "B",
+        "ref": "plan/B",
+        "diag_ref": "cold_chain/B",
+        "snapshot_ref": "snapshot/B/0",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 45,
+          "supplemental": 20,
+          "credit": 65
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 0,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "settlement_status": "admitted",
+      "target_candidate": {
+        "case": "B",
+        "ref": "settlement/B",
+        "plan_ref": "plan/B",
+        "policy_ref": "policy/B",
+        "diag_ref": "cold_chain/B",
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ],
+        "contract": "order/B",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/B",
+        "primary_payer": "carrier/B",
+        "guarantor": "guarantor/B",
+        "primary": 45,
+        "supplemental": 20,
+        "credit": 65,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "local_checks": {
+        "local_criterion_accepts_candidate": true,
+        "dangling_reference_refused": true,
+        "duplicate_refused": true
+      },
+      "helper_calls_in_target_plan_and_settlement": {
+        "extensions": 7,
+        "proof_error": 5,
+        "bind_graph": 2,
+        "compatible_pattern": 0,
+        "plan_valid": 1,
+        "settlement_valid": 1
+      },
+      "settlement_prefix_length": 40
+    },
+    "warm": {
+      "source_diagnosis": {
+        "case": "A",
+        "ref": "transport/A",
+        "route": "transport",
+        "base_ref": "base/A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ]
+      },
+      "target_diagnosis": {
+        "case": "B",
+        "ref": "cold_chain/B",
+        "route": "cold_chain",
+        "base_ref": "base/B",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ]
+      },
+      "source_plan": {
+        "case": "A",
+        "ref": "plan/A",
+        "diag_ref": "transport/A",
+        "snapshot_ref": "snapshot/A/0",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 60,
+          "supplemental": 30,
+          "credit": 90
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 0,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "source_payment": {
+        "case": "A",
+        "ref": "settlement/A",
+        "plan_ref": "plan/A",
+        "policy_ref": "policy/A",
+        "diag_ref": "transport/A",
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ],
+        "contract": "order/A",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/A",
+        "primary_payer": "carrier/A",
+        "guarantor": "guarantor/A",
+        "primary": 60,
+        "supplemental": 30,
+        "credit": 90,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "publication": {
+        "ordinal": 1,
+        "ref": "catalogue/1",
+        "case": "A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "diag_ref": "transport/A",
+        "plan_ref": "plan/A",
+        "payment_ref": "settlement/A",
+        "obligations": [
+          "coverage",
+          "available balances",
+          "beneficiary",
+          "local authority"
+        ]
+      },
+      "snapshot": {
+        "case": "B",
+        "ref": "snapshot/B/1",
+        "diag_ref": "cold_chain/B",
+        "visible": [
+          1
+        ]
+      },
+      "target_plan": {
+        "case": "B",
+        "ref": "plan/B",
+        "diag_ref": "cold_chain/B",
+        "snapshot_ref": "snapshot/B/1",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [],
+        "origin": "reuse",
+        "publication": 1,
+        "allocation": {
+          "primary": 45,
+          "supplemental": 20,
+          "credit": 65
+        },
+        "metrics": {
+          "expansions": 0,
+          "tested": 0,
+          "inspected": 1,
+          "validated": 1,
+          "bindings": 1
+        }
+      },
+      "settlement_status": "admitted",
+      "target_candidate": {
+        "case": "B",
+        "ref": "settlement/B",
+        "plan_ref": "plan/B",
+        "policy_ref": "policy/B",
+        "diag_ref": "cold_chain/B",
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ],
+        "contract": "order/B",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/B",
+        "primary_payer": "carrier/B",
+        "guarantor": "guarantor/B",
+        "primary": 45,
+        "supplemental": 20,
+        "credit": 65,
+        "origin": "reuse",
+        "publication": 1
+      },
+      "local_checks": {
+        "local_criterion_accepts_candidate": true,
+        "dangling_reference_refused": true,
+        "duplicate_refused": true
+      },
+      "helper_calls_in_target_plan_and_settlement": {
+        "extensions": 0,
+        "proof_error": 2,
+        "bind_graph": 2,
+        "compatible_pattern": 2,
+        "plan_valid": 1,
+        "settlement_valid": 1
+      },
+      "settlement_prefix_length": 40
+    },
+    "exclusion": {
+      "source_diagnosis": {
+        "case": "A",
+        "ref": "transport/A",
+        "route": "transport",
+        "base_ref": "base/A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ]
+      },
+      "target_diagnosis": {
+        "case": "B",
+        "ref": "cold_chain/B",
+        "route": "cold_chain",
+        "base_ref": "base/B",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ]
+      },
+      "source_plan": {
+        "case": "A",
+        "ref": "plan/A",
+        "diag_ref": "transport/A",
+        "snapshot_ref": "snapshot/A/0",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 60,
+          "supplemental": 30,
+          "credit": 90
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 0,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "source_payment": {
+        "case": "A",
+        "ref": "settlement/A",
+        "plan_ref": "plan/A",
+        "policy_ref": "policy/A",
+        "diag_ref": "transport/A",
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ],
+        "contract": "order/A",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/A",
+        "primary_payer": "carrier/A",
+        "guarantor": "guarantor/A",
+        "primary": 60,
+        "supplemental": 30,
+        "credit": 90,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "publication": {
+        "ordinal": 1,
+        "ref": "catalogue/1",
+        "case": "A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "diag_ref": "transport/A",
+        "plan_ref": "plan/A",
+        "payment_ref": "settlement/A",
+        "obligations": [
+          "coverage",
+          "available balances",
+          "beneficiary",
+          "local authority"
+        ]
+      },
+      "snapshot": {
+        "case": "B",
+        "ref": "snapshot/B/1",
+        "diag_ref": "cold_chain/B",
+        "visible": [
+          1
+        ]
+      },
+      "target_plan": {
+        "case": "B",
+        "ref": "plan/B",
+        "diag_ref": "cold_chain/B",
+        "snapshot_ref": "snapshot/B/1",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [],
+        "origin": "reuse",
+        "publication": 1,
+        "allocation": {
+          "primary": 45,
+          "supplemental": 20,
+          "credit": 65
+        },
+        "metrics": {
+          "expansions": 0,
+          "tested": 0,
+          "inspected": 1,
+          "validated": 1,
+          "bindings": 1
+        }
+      },
+      "settlement_status": "false",
+      "target_candidate": {
+        "case": "B",
+        "ref": "settlement/B",
+        "plan_ref": "plan/B",
+        "policy_ref": "policy/B",
+        "diag_ref": "cold_chain/B",
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ],
+        "contract": "order/B",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/B",
+        "primary_payer": "carrier/B",
+        "guarantor": "guarantor/B",
+        "primary": 45,
+        "supplemental": 20,
+        "credit": 65,
+        "origin": "reuse",
+        "publication": 1
+      },
+      "local_checks": {
+        "local_criterion_accepts_candidate": false,
+        "dangling_reference_refused": true,
+        "attempt_appended_nothing": true
+      },
+      "helper_calls_in_target_plan_and_settlement": {
+        "extensions": 0,
+        "proof_error": 2,
+        "bind_graph": 2,
+        "compatible_pattern": 2,
+        "plan_valid": 1,
+        "settlement_valid": 1
+      },
+      "settlement_prefix_length": 40
+    },
+    "stricter": {
+      "source_diagnosis": {
+        "case": "A",
+        "ref": "transport/A",
+        "route": "transport",
+        "base_ref": "base/A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ]
+      },
+      "target_diagnosis": {
+        "case": "B",
+        "ref": "cold_chain/B",
+        "route": "cold_chain",
+        "base_ref": "base/B",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ]
+      },
+      "source_plan": {
+        "case": "A",
+        "ref": "plan/A",
+        "diag_ref": "transport/A",
+        "snapshot_ref": "snapshot/A/0",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 60,
+          "supplemental": 30,
+          "credit": 90
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 0,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "source_payment": {
+        "case": "A",
+        "ref": "settlement/A",
+        "plan_ref": "plan/A",
+        "policy_ref": "policy/A",
+        "diag_ref": "transport/A",
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ],
+        "contract": "order/A",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/A",
+        "primary_payer": "carrier/A",
+        "guarantor": "guarantor/A",
+        "primary": 60,
+        "supplemental": 30,
+        "credit": 90,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "publication": {
+        "ordinal": 1,
+        "ref": "catalogue/1",
+        "case": "A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "diag_ref": "transport/A",
+        "plan_ref": "plan/A",
+        "payment_ref": "settlement/A",
+        "obligations": [
+          "coverage",
+          "available balances",
+          "beneficiary",
+          "local authority"
+        ]
+      },
+      "snapshot": {
+        "case": "B",
+        "ref": "snapshot/B/1",
+        "diag_ref": "cold_chain/B",
+        "visible": [
+          1
+        ]
+      },
+      "target_plan": {
+        "case": "B",
+        "ref": "plan/B",
+        "diag_ref": "cold_chain/B",
+        "snapshot_ref": "snapshot/B/1",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "independent-review"
+        },
+        "review_ref": "B/review",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 45,
+          "supplemental": 20,
+          "credit": 65
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 1,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "settlement_status": "admitted",
+      "target_candidate": {
+        "case": "B",
+        "ref": "settlement/B",
+        "plan_ref": "plan/B",
+        "policy_ref": "policy/B",
+        "diag_ref": "cold_chain/B",
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ],
+        "contract": "order/B",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/B",
+        "primary_payer": "carrier/B",
+        "guarantor": "guarantor/B",
+        "primary": 45,
+        "supplemental": 20,
+        "credit": 65,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "local_checks": {
+        "local_criterion_accepts_candidate": true,
+        "dangling_reference_refused": true,
+        "duplicate_refused": true
+      },
+      "helper_calls_in_target_plan_and_settlement": {
+        "extensions": 7,
+        "proof_error": 5,
+        "bind_graph": 2,
+        "compatible_pattern": 1,
+        "plan_valid": 1,
+        "settlement_valid": 1
+      },
+      "settlement_prefix_length": 41
+    },
+    "version_change": {
+      "source_diagnosis": {
+        "case": "A",
+        "ref": "transport/A",
+        "route": "transport",
+        "base_ref": "base/A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ]
+      },
+      "target_diagnosis": {
+        "case": "B",
+        "ref": "cold_chain/B",
+        "route": "cold_chain",
+        "base_ref": "base/B",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ]
+      },
+      "source_plan": {
+        "case": "A",
+        "ref": "plan/A",
+        "diag_ref": "transport/A",
+        "snapshot_ref": "snapshot/A/0",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 60,
+          "supplemental": 30,
+          "credit": 90
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 0,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "source_payment": {
+        "case": "A",
+        "ref": "settlement/A",
+        "plan_ref": "plan/A",
+        "policy_ref": "policy/A",
+        "diag_ref": "transport/A",
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ],
+        "contract": "order/A",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/A",
+        "primary_payer": "carrier/A",
+        "guarantor": "guarantor/A",
+        "primary": 60,
+        "supplemental": 30,
+        "credit": 90,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "publication": {
+        "ordinal": 1,
+        "ref": "catalogue/1",
+        "case": "A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "diag_ref": "transport/A",
+        "plan_ref": "plan/A",
+        "payment_ref": "settlement/A",
+        "obligations": [
+          "coverage",
+          "available balances",
+          "beneficiary",
+          "local authority"
+        ]
+      },
+      "snapshot": {
+        "case": "B",
+        "ref": "snapshot/B/1",
+        "diag_ref": "cold_chain/B",
+        "visible": [
+          1
+        ]
+      },
+      "target_plan": {
+        "case": "B",
+        "ref": "plan/B",
+        "diag_ref": "cold_chain/B",
+        "snapshot_ref": "snapshot/B/1",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first-primary-first:v2",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 45,
+          "supplemental": 20,
+          "credit": 65
+        },
+        "metrics": {
+          "expansions": 6,
+          "tested": 3,
+          "inspected": 1,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "settlement_status": "admitted",
+      "target_candidate": {
+        "case": "B",
+        "ref": "settlement/B",
+        "plan_ref": "plan/B",
+        "policy_ref": "policy/B",
+        "diag_ref": "cold_chain/B",
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ],
+        "contract": "order/B",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/B",
+        "primary_payer": "carrier/B",
+        "guarantor": "guarantor/B",
+        "primary": 45,
+        "supplemental": 20,
+        "credit": 65,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "local_checks": {
+        "local_criterion_accepts_candidate": true,
+        "dangling_reference_refused": true,
+        "duplicate_refused": true
+      },
+      "helper_calls_in_target_plan_and_settlement": {
+        "extensions": 6,
+        "proof_error": 4,
+        "bind_graph": 2,
+        "compatible_pattern": 1,
+        "plan_valid": 1,
+        "settlement_valid": 1
+      },
+      "settlement_prefix_length": 40
+    },
+    "unpublished": {
+      "source_diagnosis": {
+        "case": "A",
+        "ref": "transport/A",
+        "route": "transport",
+        "base_ref": "base/A",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ]
+      },
+      "target_diagnosis": {
+        "case": "B",
+        "ref": "cold_chain/B",
+        "route": "cold_chain",
+        "base_ref": "base/B",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ]
+      },
+      "source_plan": {
+        "case": "A",
+        "ref": "plan/A",
+        "diag_ref": "transport/A",
+        "snapshot_ref": "snapshot/A/0",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 60,
+          "supplemental": 30,
+          "credit": 90
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 0,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "source_payment": {
+        "case": "A",
+        "ref": "settlement/A",
+        "plan_ref": "plan/A",
+        "policy_ref": "policy/A",
+        "diag_ref": "transport/A",
+        "evidence": [
+          "A/delivery",
+          "A/inspection"
+        ],
+        "contract": "order/A",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/A",
+        "primary_payer": "carrier/A",
+        "guarantor": "guarantor/A",
+        "primary": 60,
+        "supplemental": 30,
+        "credit": 90,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "publication": null,
+      "snapshot": {
+        "case": "B",
+        "ref": "snapshot/B/0",
+        "diag_ref": "cold_chain/B",
+        "visible": []
+      },
+      "target_plan": {
+        "case": "B",
+        "ref": "plan/B",
+        "diag_ref": "cold_chain/B",
+        "snapshot_ref": "snapshot/B/0",
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ],
+        "versions": {
+          "interface": "funding:v1",
+          "reduction": "funding-reduction:v1",
+          "planner": "breadth-first:v1",
+          "primitives": "funding-primitives:v1",
+          "checker": "cone:v1",
+          "certification": "standard"
+        },
+        "review_ref": "",
+        "graph": [
+          {
+            "op": "allocate",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_limit"
+            ],
+            "out": "primary_draw"
+          },
+          {
+            "op": "residual",
+            "role": "primary",
+            "inputs": [
+              "owed",
+              "primary_draw"
+            ],
+            "out": "after_primary"
+          },
+          {
+            "op": "allocate",
+            "role": "supplemental",
+            "inputs": [
+              "after_primary",
+              "supplemental_limit"
+            ],
+            "out": "supplemental_draw"
+          },
+          {
+            "op": "credit",
+            "role": "beneficiary",
+            "inputs": [
+              "primary_draw",
+              "supplemental_draw"
+            ],
+            "out": "credit"
+          }
+        ],
+        "trace": [
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "credit does not cover the obligation throughout the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "residual",
+                "role": "supplemental",
+                "inputs": [
+                  "owed",
+                  "supplemental_draw"
+                ],
+                "out": "after_supplemental"
+              },
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "after_supplemental",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "draw depends on an unresolved comparison in the signature"
+          },
+          {
+            "graph": [
+              {
+                "op": "allocate",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_limit"
+                ],
+                "out": "primary_draw"
+              },
+              {
+                "op": "residual",
+                "role": "primary",
+                "inputs": [
+                  "owed",
+                  "primary_draw"
+                ],
+                "out": "after_primary"
+              },
+              {
+                "op": "allocate",
+                "role": "supplemental",
+                "inputs": [
+                  "after_primary",
+                  "supplemental_limit"
+                ],
+                "out": "supplemental_draw"
+              },
+              {
+                "op": "credit",
+                "role": "beneficiary",
+                "inputs": [
+                  "primary_draw",
+                  "supplemental_draw"
+                ],
+                "out": "credit"
+              }
+            ],
+            "reason": "verified"
+          }
+        ],
+        "origin": "fresh",
+        "publication": 0,
+        "allocation": {
+          "primary": 45,
+          "supplemental": 20,
+          "credit": 65
+        },
+        "metrics": {
+          "expansions": 7,
+          "tested": 4,
+          "inspected": 0,
+          "validated": 0,
+          "bindings": 1
+        }
+      },
+      "settlement_status": "admitted",
+      "target_candidate": {
+        "case": "B",
+        "ref": "settlement/B",
+        "plan_ref": "plan/B",
+        "policy_ref": "policy/B",
+        "diag_ref": "cold_chain/B",
+        "evidence": [
+          "B/temperature",
+          "B/calibration",
+          "B/quality"
+        ],
+        "contract": "order/B",
+        "asset": "settlement-unit",
+        "beneficiary": "buyer/B",
+        "primary_payer": "carrier/B",
+        "guarantor": "guarantor/B",
+        "primary": 45,
+        "supplemental": 20,
+        "credit": 65,
+        "origin": "fresh",
+        "publication": 0
+      },
+      "local_checks": {
+        "local_criterion_accepts_candidate": true,
+        "dangling_reference_refused": true,
+        "duplicate_refused": true
+      },
+      "helper_calls_in_target_plan_and_settlement": {
+        "extensions": 7,
+        "proof_error": 5,
+        "bind_graph": 2,
+        "compatible_pattern": 0,
+        "plan_valid": 1,
+        "settlement_valid": 1
+      },
+      "settlement_prefix_length": 39
+    }
+  },
+  "comparison": {
+    "reductions": {
+      "transport": {
+        "case": "A",
+        "base_event": 25,
+        "diagnosis_event": 26,
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ]
+      },
+      "cold_chain": {
+        "case": "B",
+        "base_event": 36,
+        "diagnosis_event": 37,
+        "signature": [
+          "funding:v1",
+          "recognized-obligation",
+          "primary-first",
+          "nominated-supplemental",
+          "compatible-units",
+          "0<S<D<=S+G"
+        ]
+      }
+    },
+    "identical_local_observations": 5,
+    "identical_specs": true,
+    "same_target_settlement": true,
+    "same_plan_graph": true,
+    "tampered_event": 40,
+    "replay_rejection": "S1.2/S1.4 realization gives {'case': 'B', 'ref': 'settlement/B', 'plan_ref': 'plan/B', 'policy_ref': 'policy/B', 'diag_ref': 'cold_chain/B', 'evidence': ['B/temperature', 'B/calibration', 'B/quality'], 'contract': 'order/B', 'asset': 'settlement-unit', 'beneficiary': 'buyer/B', 'primary_payer': 'carrier/B', 'guarantor': 'guarantor/B', 'primary': 45, 'supplemental': 20, 'credit': 65, 'origin': 'reuse', 'publication': 1}, record has {'case': 'B', 'ref': 'settlement/B', 'plan_ref': 'plan/B', 'policy_ref': 'policy/B', 'diag_ref': 'cold_chain/B', 'evidence': ['B/temperature', 'B/calibration', 'B/quality'], 'contract': 'order/B', 'asset': 'settlement-unit', 'beneficiary': 'buyer/B', 'primary_payer': 'carrier/B', 'guarantor': 'guarantor/B', 'primary': 45, 'supplemental': 20, 'credit': 65, 'origin': 'reuse', 'publication': 1001}",
+    "refinement_witnesses": {
+      "transport": {
+        "base_ref": "base/A",
+        "base_event": 22,
+        "higher_status": "Not Yet",
+        "prefix_length": 23
+      },
+      "cold_chain": {
+        "base_ref": "base/B",
+        "base_event": 24,
+        "higher_status": "Not Yet",
+        "prefix_length": 25
+      }
+    }
+  },
+  "governance": {
+    "case": "governed-shipment",
+    "goal": "beneficiary credited full admitted loss",
+    "pending": {
+      "prefix_length": 24,
+      "witness": [
+        "inspection",
+        "case-credit"
+      ],
+      "same_regime_payment": {
+        "case": "governed-shipment",
+        "claim": "inspection-7",
+        "beneficiary": "receiver",
+        "primary": 90,
+        "guarantee": 0,
+        "total": 90,
+        "instrument": ""
+      }
+    },
+    "obstruction": {
+      "certificate": {
+        "case": "governed-shipment",
+        "claim": "inspection-7",
+        "regime": "primary-only",
+        "fixed_loss": 90,
+        "max_total": 60
+      },
+      "rejected_credit": {
+        "case": "governed-shipment",
+        "claim": "inspection-7",
+        "beneficiary": "receiver",
+        "primary": 60,
+        "guarantee": 0,
+        "total": 60,
+        "instrument": ""
+      },
+      "assessment_and_cap_revisions_rejected": true
+    },
+    "transition": {
+      "unauthorized_transition_rejected": true,
+      "trigger_event": 33,
+      "governing_criterion": "26599c83d9cc9d8e92d89f0fa28673463da864f52db9827e5712e797786fb814",
+      "old_versions": {
+        "criterion": "e229d2fea84f6fc7824e56f57e87e36b813b102613af5e3897a67bfd334cc614",
+        "ontology": "eec35d18439a389723f2c7d0d1b282f10e4b250a381b7b5f34586a78ed777019"
+      },
+      "new_versions": {
+        "criterion": "1af7e9d76dc845103199221cad5c46a50b0ecb34e5bc426a654cac2b343af2a9",
+        "ontology": "6a09d8d9beafac0b41fb464d4d1880648dee5e72d346489da743a6a13beb5ec6"
+      },
+      "unfunded_payment_rejected": true,
+      "funded_payment_event": 35,
+      "funded_payment": {
+        "case": "governed-shipment",
+        "claim": "inspection-7",
+        "beneficiary": "receiver",
+        "primary": 60,
+        "guarantee": 30,
+        "total": 90,
+        "instrument": "guarantee-1"
+      }
+    },
+    "compensation": {
+      "scope": "refundable ledger fees posted for contract parties before the trigger",
+      "noncompensability_authorized": false,
+      "prior_actor_horizons": [
+        {
+          "actor": "carrier",
+          "order": "contract-9",
+          "inspection": "inspection-7",
+          "debits": [
+            {
+              "case": "governed-shipment",
+              "ref": "fee-2",
+              "issuer": "fee-office",
+              "actor": "carrier",
+              "amount": 2
+            }
+          ]
+        },
+        {
+          "actor": "supplier",
+          "order": "contract-9",
+          "inspection": "inspection-7",
+          "debits": [
+            {
+              "case": "governed-shipment",
+              "ref": "fee-1",
+              "issuer": "fee-office",
+              "actor": "supplier",
+              "amount": 4
+            },
+            {
+              "case": "governed-shipment",
+              "ref": "fee-3",
+              "issuer": "fee-office",
+              "actor": "supplier",
+              "amount": 3
+            }
+          ]
+        }
+      ],
+      "refunds": [
+        {
+          "case": "governed-shipment",
+          "mandate": "mandate-2",
+          "actor": "carrier",
+          "order": "contract-9",
+          "inspection": "inspection-7",
+          "debit_refs": [
+            "fee-2"
+          ],
+          "refund": 2
+        },
+        {
+          "case": "governed-shipment",
+          "mandate": "mandate-2",
+          "actor": "supplier",
+          "order": "contract-9",
+          "inspection": "inspection-7",
+          "debit_refs": [
+            "fee-1",
+            "fee-3"
+          ],
+          "refund": 7
+        }
+      ],
+      "partial_closure_rejected": true,
+      "closure_event": 38,
+      "coverage": {
+        "mandate": "mandate-2",
+        "witnesses": [
+          {
+            "case": "governed-shipment",
+            "mandate": "mandate-2",
+            "actor": "carrier",
+            "order": "contract-9",
+            "inspection": "inspection-7",
+            "debit_refs": [
+              "fee-2"
+            ],
+            "refund": 2
+          },
+          {
+            "case": "governed-shipment",
+            "mandate": "mandate-2",
+            "actor": "supplier",
+            "order": "contract-9",
+            "inspection": "inspection-7",
+            "debit_refs": [
+              "fee-1",
+              "fee-3"
+            ],
+            "refund": 7
+          }
+        ]
+      }
+    },
+    "full_replay_errors": {
+      "governance_waiting": [],
+      "governance_fixed": [],
+      "governance_incomplete": [],
+      "governance_complete": []
+    }
+  },
+  "full_replay": {
+    "cold": {
+      "events": 41,
+      "full_replay_ms": 70.5544,
+      "errors": 0,
+      "tip": "b3198044db10e4275138c62ad4f7c28923472f7cc411dbbef268dd4833eb7472"
+    },
+    "warm": {
+      "events": 41,
+      "full_replay_ms": 70.2679,
+      "errors": 0,
+      "tip": "a013c40e585dc743922f4b6f28ffe7246bfca6a3f88d95ca87d900a5712f5487"
+    },
+    "exclusion": {
+      "events": 40,
+      "full_replay_ms": 69.8629,
+      "errors": 0,
+      "tip": "cf5fbaa06eb88d61e149187a50b0c56d4720957d5608c6435976d9f97eb1438c"
+    },
+    "stricter": {
+      "events": 42,
+      "full_replay_ms": 71.7075,
+      "errors": 0,
+      "tip": "585a35383eab6760a18670a11f14a0ed132201ebb9ce2884edcfd0662414787e"
+    },
+    "version_change": {
+      "events": 41,
+      "full_replay_ms": 72.1963,
+      "errors": 0,
+      "tip": "86d3d0fd4fbb0a838415c61f82f2af40d7f0917f78e3e2cb4023711f6a74a6cd"
+    },
+    "unpublished": {
+      "events": 40,
+      "full_replay_ms": 75.1183,
+      "errors": 0,
+      "tip": "fce606fde7b7dd9665fd13ebd92ec3cf6a3d1f36b0f2358843bfec580d5b5c56"
+    },
+    "funding_only": {
+      "events": 25,
+      "full_replay_ms": 82.5005,
+      "errors": 0,
+      "tip": "f09f0d8de0285cfee9d188059ea5bba8568cd13be2d367ef673cfe8170bcf285"
+    },
+    "governance_waiting": {
+      "events": 26,
+      "full_replay_ms": 17.9544,
+      "errors": 0,
+      "tip": "1118b45cebbec55de2305dd41e75b63139e011920c311b97a52634a1664e565a"
+    },
+    "governance_fixed": {
+      "events": 33,
+      "full_replay_ms": 18.1118,
+      "errors": 0,
+      "tip": "41288bd3bb376ddfa5398fc07082695ec53f85d5e538ffb5314deefc1fa7e26d"
+    },
+    "governance_incomplete": {
+      "events": 37,
+      "full_replay_ms": 25.3446,
+      "errors": 0,
+      "tip": "bc31d7dbb804decd6bdabcb4c2df595455fb0ef778c21834250311891a185db7"
+    },
+    "governance_complete": {
+      "events": 39,
+      "full_replay_ms": 24.1511,
+      "errors": 0,
+      "tip": "5ef6f3f3c346fbd4e2258993998ff59cb52b649b04c02c148034324c785668fc"
+    },
+    "series_cold_8": {
+      "events": 110,
+      "full_replay_ms": 88.1261,
+      "errors": 0,
+      "tip": "4fed6b7e9e1c2c8684e416ee580823ade53d8f84ca600a045bfdea2bea8ffb25"
+    },
+    "series_warm_8": {
+      "events": 111,
+      "full_replay_ms": 86.6128,
+      "errors": 0,
+      "tip": "4b0f38bbe52609227dcb349a68e223e7a581a636a0c4038860b762f350fc6756"
+    }
+  },
+  "timing": {
+    "pairs": 60,
+    "clock": "perf_counter_ns",
+    "unit": "ms",
+    "medians": {
+      "cold": {
+        "source_plan_ms": 0.59805,
+        "publication_ms": 0.2439,
+        "target_snapshot_ms": 0.14645000000000002,
+        "target_plan_ms": 0.5947,
+        "target_admission_ms": 0.20265,
+        "target_path_ms": 0.9479000000000001,
+        "workload_ms": 3.8399
+      },
+      "warm": {
+        "source_plan_ms": 0.5998,
+        "publication_ms": 0.2514,
+        "target_snapshot_ms": 0.14775,
+        "target_plan_ms": 0.38865,
+        "target_admission_ms": 0.1956,
+        "target_path_ms": 0.7352000000000001,
+        "workload_ms": 3.6155
+      },
+      "unpublished": {
+        "source_plan_ms": 0.5971500000000001,
+        "publication_ms": 0.0,
+        "target_snapshot_ms": 0.14595,
+        "target_plan_ms": 0.59285,
+        "target_admission_ms": 0.2033,
+        "target_path_ms": 0.9434,
+        "workload_ms": 3.58885
+      }
+    },
+    "paired_target_saving_median_ms": 0.21004999999999996,
+    "paired_two_case_saving_median_ms": -0.053300000000000125,
+    "batches_with_lower_warm_workload_time": 26,
+    "pairs_with_lower_warm_target_time": 57,
+    "samples": {
+      "cold": [
+        {
+          "source_plan_ms": 0.544,
+          "publication_ms": 0.1835,
+          "target_snapshot_ms": 0.1118,
+          "target_plan_ms": 0.4617,
+          "target_admission_ms": 0.1445,
+          "target_path_ms": 0.718,
+          "workload_ms": 3.2268
+        },
+        {
+          "source_plan_ms": 0.4438,
+          "publication_ms": 0.175,
+          "target_snapshot_ms": 0.1042,
+          "target_plan_ms": 0.4264,
+          "target_admission_ms": 0.1455,
+          "target_path_ms": 0.6760999999999999,
+          "workload_ms": 2.7645
+        },
+        {
+          "source_plan_ms": 0.5463,
+          "publication_ms": 0.2032,
+          "target_snapshot_ms": 0.1223,
+          "target_plan_ms": 0.6031,
+          "target_admission_ms": 0.1566,
+          "target_path_ms": 0.8819999999999999,
+          "workload_ms": 3.4872
+        },
+        {
+          "source_plan_ms": 0.9247,
+          "publication_ms": 0.3088,
+          "target_snapshot_ms": 0.2162,
+          "target_plan_ms": 0.5872,
+          "target_admission_ms": 0.1995,
+          "target_path_ms": 1.0029000000000001,
+          "workload_ms": 5.1641
+        },
+        {
+          "source_plan_ms": 0.4925,
+          "publication_ms": 0.1954,
+          "target_snapshot_ms": 0.1165,
+          "target_plan_ms": 0.4755,
+          "target_admission_ms": 0.1815,
+          "target_path_ms": 0.7735,
+          "workload_ms": 3.1004
+        },
+        {
+          "source_plan_ms": 0.4911,
+          "publication_ms": 0.2081,
+          "target_snapshot_ms": 0.1255,
+          "target_plan_ms": 0.5038,
+          "target_admission_ms": 0.1689,
+          "target_path_ms": 0.7982,
+          "workload_ms": 3.1818
+        },
+        {
+          "source_plan_ms": 0.5141,
+          "publication_ms": 0.2016,
+          "target_snapshot_ms": 0.119,
+          "target_plan_ms": 0.4892,
+          "target_admission_ms": 0.1667,
+          "target_path_ms": 0.7749,
+          "workload_ms": 3.2008
+        },
+        {
+          "source_plan_ms": 0.538,
+          "publication_ms": 0.2152,
+          "target_snapshot_ms": 0.1294,
+          "target_plan_ms": 0.525,
+          "target_admission_ms": 0.1783,
+          "target_path_ms": 0.8327,
+          "workload_ms": 3.3633
+        },
+        {
+          "source_plan_ms": 0.5484,
+          "publication_ms": 0.2214,
+          "target_snapshot_ms": 0.1333,
+          "target_plan_ms": 0.537,
+          "target_admission_ms": 0.1821,
+          "target_path_ms": 0.8524,
+          "workload_ms": 3.4588
+        },
+        {
+          "source_plan_ms": 0.645,
+          "publication_ms": 0.2448,
+          "target_snapshot_ms": 0.1476,
+          "target_plan_ms": 0.5917,
+          "target_admission_ms": 0.201,
+          "target_path_ms": 0.9403000000000001,
+          "workload_ms": 3.8743
+        },
+        {
+          "source_plan_ms": 0.6302,
+          "publication_ms": 0.2546,
+          "target_snapshot_ms": 0.1501,
+          "target_plan_ms": 0.6088,
+          "target_admission_ms": 0.2073,
+          "target_path_ms": 0.9662000000000001,
+          "workload_ms": 3.9885
+        },
+        {
+          "source_plan_ms": 0.6102,
+          "publication_ms": 0.2461,
+          "target_snapshot_ms": 0.1443,
+          "target_plan_ms": 0.6016,
+          "target_admission_ms": 0.2015,
+          "target_path_ms": 0.9474,
+          "workload_ms": 3.8196
+        },
+        {
+          "source_plan_ms": 0.623,
+          "publication_ms": 0.244,
+          "target_snapshot_ms": 0.146,
+          "target_plan_ms": 0.5949,
+          "target_admission_ms": 0.2021,
+          "target_path_ms": 0.9430000000000001,
+          "workload_ms": 3.9239
+        },
+        {
+          "source_plan_ms": 0.5849,
+          "publication_ms": 0.2404,
+          "target_snapshot_ms": 0.1404,
+          "target_plan_ms": 0.5812,
+          "target_admission_ms": 0.1965,
+          "target_path_ms": 0.9181,
+          "workload_ms": 3.7876
+        },
+        {
+          "source_plan_ms": 0.6923,
+          "publication_ms": 0.2464,
+          "target_snapshot_ms": 0.1479,
+          "target_plan_ms": 0.5938,
+          "target_admission_ms": 0.2023,
+          "target_path_ms": 0.9440000000000001,
+          "workload_ms": 3.9471
+        },
+        {
+          "source_plan_ms": 0.5986,
+          "publication_ms": 0.2424,
+          "target_snapshot_ms": 0.1456,
+          "target_plan_ms": 0.6015,
+          "target_admission_ms": 0.201,
+          "target_path_ms": 0.9481000000000002,
+          "workload_ms": 3.7883
+        },
+        {
+          "source_plan_ms": 0.6177,
+          "publication_ms": 0.252,
+          "target_snapshot_ms": 0.1499,
+          "target_plan_ms": 0.6031,
+          "target_admission_ms": 0.2051,
+          "target_path_ms": 0.9581,
+          "workload_ms": 3.9046
+        },
+        {
+          "source_plan_ms": 0.6167,
+          "publication_ms": 0.2536,
+          "target_snapshot_ms": 0.1511,
+          "target_plan_ms": 0.614,
+          "target_admission_ms": 0.2077,
+          "target_path_ms": 0.9728,
+          "workload_ms": 3.9062
+        },
+        {
+          "source_plan_ms": 0.6489,
+          "publication_ms": 0.2636,
+          "target_snapshot_ms": 0.155,
+          "target_plan_ms": 0.718,
+          "target_admission_ms": 0.2181,
+          "target_path_ms": 1.0911,
+          "workload_ms": 4.1899
+        },
+        {
+          "source_plan_ms": 0.5914,
+          "publication_ms": 0.2682,
+          "target_snapshot_ms": 0.146,
+          "target_plan_ms": 0.5933,
+          "target_admission_ms": 0.2009,
+          "target_path_ms": 0.9402,
+          "workload_ms": 3.7831
+        },
+        {
+          "source_plan_ms": 0.6243,
+          "publication_ms": 0.2438,
+          "target_snapshot_ms": 0.1467,
+          "target_plan_ms": 0.5975,
+          "target_admission_ms": 0.2028,
+          "target_path_ms": 0.947,
+          "workload_ms": 3.8482
+        },
+        {
+          "source_plan_ms": 0.6028,
+          "publication_ms": 0.2437,
+          "target_snapshot_ms": 0.1458,
+          "target_plan_ms": 0.6012,
+          "target_admission_ms": 0.2021,
+          "target_path_ms": 0.9491,
+          "workload_ms": 3.8259
+        },
+        {
+          "source_plan_ms": 0.6157,
+          "publication_ms": 0.2595,
+          "target_snapshot_ms": 0.1996,
+          "target_plan_ms": 0.6829,
+          "target_admission_ms": 0.2116,
+          "target_path_ms": 1.0941,
+          "workload_ms": 4.1533
+        },
+        {
+          "source_plan_ms": 0.6022,
+          "publication_ms": 0.2456,
+          "target_snapshot_ms": 0.1433,
+          "target_plan_ms": 0.6733,
+          "target_admission_ms": 0.2052,
+          "target_path_ms": 1.0218,
+          "workload_ms": 3.8885
+        },
+        {
+          "source_plan_ms": 0.5818,
+          "publication_ms": 0.2361,
+          "target_snapshot_ms": 0.1486,
+          "target_plan_ms": 0.573,
+          "target_admission_ms": 0.2036,
+          "target_path_ms": 0.9252,
+          "workload_ms": 3.7219
+        },
+        {
+          "source_plan_ms": 0.5952,
+          "publication_ms": 0.2557,
+          "target_snapshot_ms": 0.1625,
+          "target_plan_ms": 0.6008,
+          "target_admission_ms": 0.2017,
+          "target_path_ms": 0.965,
+          "workload_ms": 3.9436
+        },
+        {
+          "source_plan_ms": 0.6116,
+          "publication_ms": 0.2482,
+          "target_snapshot_ms": 0.1478,
+          "target_plan_ms": 0.5945,
+          "target_admission_ms": 0.2034,
+          "target_path_ms": 0.9457,
+          "workload_ms": 3.8595
+        },
+        {
+          "source_plan_ms": 0.5955,
+          "publication_ms": 0.2576,
+          "target_snapshot_ms": 0.1577,
+          "target_plan_ms": 0.6037,
+          "target_admission_ms": 0.2091,
+          "target_path_ms": 0.9705000000000001,
+          "workload_ms": 3.8949
+        },
+        {
+          "source_plan_ms": 0.5955,
+          "publication_ms": 0.2576,
+          "target_snapshot_ms": 0.1508,
+          "target_plan_ms": 0.5995,
+          "target_admission_ms": 0.2015,
+          "target_path_ms": 0.9518,
+          "workload_ms": 3.8591
+        },
+        {
+          "source_plan_ms": 0.6164,
+          "publication_ms": 0.2536,
+          "target_snapshot_ms": 0.1493,
+          "target_plan_ms": 0.6193,
+          "target_admission_ms": 0.2053,
+          "target_path_ms": 0.9739,
+          "workload_ms": 4.0114
+        },
+        {
+          "source_plan_ms": 0.5975,
+          "publication_ms": 0.2455,
+          "target_snapshot_ms": 0.1587,
+          "target_plan_ms": 0.585,
+          "target_admission_ms": 0.2058,
+          "target_path_ms": 0.9495,
+          "workload_ms": 3.7821
+        },
+        {
+          "source_plan_ms": 0.5696,
+          "publication_ms": 0.2348,
+          "target_snapshot_ms": 0.1392,
+          "target_plan_ms": 0.5748,
+          "target_admission_ms": 0.2014,
+          "target_path_ms": 0.9154,
+          "workload_ms": 3.6546
+        },
+        {
+          "source_plan_ms": 0.6097,
+          "publication_ms": 0.2513,
+          "target_snapshot_ms": 0.1481,
+          "target_plan_ms": 0.6133,
+          "target_admission_ms": 0.2101,
+          "target_path_ms": 0.9715,
+          "workload_ms": 3.8845
+        },
+        {
+          "source_plan_ms": 0.6344,
+          "publication_ms": 0.2549,
+          "target_snapshot_ms": 0.152,
+          "target_plan_ms": 0.622,
+          "target_admission_ms": 0.2121,
+          "target_path_ms": 0.9861,
+          "workload_ms": 4.0198
+        },
+        {
+          "source_plan_ms": 0.6117,
+          "publication_ms": 0.2643,
+          "target_snapshot_ms": 0.1595,
+          "target_plan_ms": 0.6466,
+          "target_admission_ms": 0.2168,
+          "target_path_ms": 1.0229,
+          "workload_ms": 4.348
+        },
+        {
+          "source_plan_ms": 0.616,
+          "publication_ms": 0.2539,
+          "target_snapshot_ms": 0.1505,
+          "target_plan_ms": 0.7121,
+          "target_admission_ms": 0.2188,
+          "target_path_ms": 1.0814,
+          "workload_ms": 4.0137
+        },
+        {
+          "source_plan_ms": 0.6048,
+          "publication_ms": 0.2452,
+          "target_snapshot_ms": 0.1466,
+          "target_plan_ms": 0.6839,
+          "target_admission_ms": 0.2038,
+          "target_path_ms": 1.0343,
+          "workload_ms": 3.9074
+        },
+        {
+          "source_plan_ms": 0.6026,
+          "publication_ms": 0.2435,
+          "target_snapshot_ms": 0.1454,
+          "target_plan_ms": 0.5982,
+          "target_admission_ms": 0.2077,
+          "target_path_ms": 0.9512999999999999,
+          "workload_ms": 3.9009
+        },
+        {
+          "source_plan_ms": 0.5876,
+          "publication_ms": 0.2414,
+          "target_snapshot_ms": 0.1449,
+          "target_plan_ms": 0.5898,
+          "target_admission_ms": 0.213,
+          "target_path_ms": 0.9477,
+          "workload_ms": 3.7631
+        },
+        {
+          "source_plan_ms": 0.5944,
+          "publication_ms": 0.241,
+          "target_snapshot_ms": 0.1458,
+          "target_plan_ms": 0.5884,
+          "target_admission_ms": 0.2004,
+          "target_path_ms": 0.9346000000000001,
+          "workload_ms": 3.8316
+        },
+        {
+          "source_plan_ms": 0.839,
+          "publication_ms": 0.2547,
+          "target_snapshot_ms": 0.1536,
+          "target_plan_ms": 0.6161,
+          "target_admission_ms": 0.2089,
+          "target_path_ms": 0.9785999999999999,
+          "workload_ms": 4.5857
+        },
+        {
+          "source_plan_ms": 0.5834,
+          "publication_ms": 0.2387,
+          "target_snapshot_ms": 0.1435,
+          "target_plan_ms": 0.5723,
+          "target_admission_ms": 0.1983,
+          "target_path_ms": 0.9141,
+          "workload_ms": 3.7192
+        },
+        {
+          "source_plan_ms": 0.6559,
+          "publication_ms": 0.2375,
+          "target_snapshot_ms": 0.143,
+          "target_plan_ms": 0.6098,
+          "target_admission_ms": 0.2055,
+          "target_path_ms": 0.9583,
+          "workload_ms": 3.8748
+        },
+        {
+          "source_plan_ms": 0.5682,
+          "publication_ms": 0.2339,
+          "target_snapshot_ms": 0.1402,
+          "target_plan_ms": 0.5669,
+          "target_admission_ms": 0.193,
+          "target_path_ms": 0.9000999999999999,
+          "workload_ms": 3.625
+        },
+        {
+          "source_plan_ms": 0.5671,
+          "publication_ms": 0.2314,
+          "target_snapshot_ms": 0.1463,
+          "target_plan_ms": 0.5529,
+          "target_admission_ms": 0.1939,
+          "target_path_ms": 0.8930999999999999,
+          "workload_ms": 3.611
+        },
+        {
+          "source_plan_ms": 0.594,
+          "publication_ms": 0.2404,
+          "target_snapshot_ms": 0.1496,
+          "target_plan_ms": 0.5746,
+          "target_admission_ms": 0.2051,
+          "target_path_ms": 0.9293,
+          "workload_ms": 3.797
+        },
+        {
+          "source_plan_ms": 0.5773,
+          "publication_ms": 0.233,
+          "target_snapshot_ms": 0.14,
+          "target_plan_ms": 0.5682,
+          "target_admission_ms": 0.1952,
+          "target_path_ms": 0.9034000000000001,
+          "workload_ms": 3.6806
+        },
+        {
+          "source_plan_ms": 0.5819,
+          "publication_ms": 0.2376,
+          "target_snapshot_ms": 0.1402,
+          "target_plan_ms": 0.5787,
+          "target_admission_ms": 0.1947,
+          "target_path_ms": 0.9136,
+          "workload_ms": 3.6867
+        },
+        {
+          "source_plan_ms": 0.5713,
+          "publication_ms": 0.2352,
+          "target_snapshot_ms": 0.1433,
+          "target_plan_ms": 0.5805,
+          "target_admission_ms": 0.1973,
+          "target_path_ms": 0.9211,
+          "workload_ms": 3.7689
+        },
+        {
+          "source_plan_ms": 0.6031,
+          "publication_ms": 0.2569,
+          "target_snapshot_ms": 0.1479,
+          "target_plan_ms": 0.6094,
+          "target_admission_ms": 0.2089,
+          "target_path_ms": 0.9662000000000001,
+          "workload_ms": 3.9278
+        },
+        {
+          "source_plan_ms": 0.5777,
+          "publication_ms": 0.2367,
+          "target_snapshot_ms": 0.1414,
+          "target_plan_ms": 0.5728,
+          "target_admission_ms": 0.2773,
+          "target_path_ms": 0.9914999999999999,
+          "workload_ms": 3.7967
+        },
+        {
+          "source_plan_ms": 0.5933,
+          "publication_ms": 0.2422,
+          "target_snapshot_ms": 0.1445,
+          "target_plan_ms": 0.5891,
+          "target_admission_ms": 0.2006,
+          "target_path_ms": 0.9341999999999999,
+          "workload_ms": 3.7635
+        },
+        {
+          "source_plan_ms": 0.618,
+          "publication_ms": 0.2642,
+          "target_snapshot_ms": 0.1574,
+          "target_plan_ms": 0.6382,
+          "target_admission_ms": 0.2183,
+          "target_path_ms": 1.0139,
+          "workload_ms": 4.2045
+        },
+        {
+          "source_plan_ms": 0.6327,
+          "publication_ms": 0.2522,
+          "target_snapshot_ms": 0.1487,
+          "target_plan_ms": 0.6133,
+          "target_admission_ms": 0.2093,
+          "target_path_ms": 0.9713,
+          "workload_ms": 3.959
+        },
+        {
+          "source_plan_ms": 0.6047,
+          "publication_ms": 0.2623,
+          "target_snapshot_ms": 0.153,
+          "target_plan_ms": 0.6425,
+          "target_admission_ms": 0.213,
+          "target_path_ms": 1.0085,
+          "workload_ms": 4.0431
+        },
+        {
+          "source_plan_ms": 0.6238,
+          "publication_ms": 0.2461,
+          "target_snapshot_ms": 0.147,
+          "target_plan_ms": 0.6028,
+          "target_admission_ms": 0.2057,
+          "target_path_ms": 0.9555,
+          "workload_ms": 3.9605
+        },
+        {
+          "source_plan_ms": 0.5696,
+          "publication_ms": 0.2396,
+          "target_snapshot_ms": 0.1403,
+          "target_plan_ms": 0.569,
+          "target_admission_ms": 0.193,
+          "target_path_ms": 0.9022999999999999,
+          "workload_ms": 3.6466
+        },
+        {
+          "source_plan_ms": 0.5918,
+          "publication_ms": 0.2414,
+          "target_snapshot_ms": 0.1436,
+          "target_plan_ms": 0.5935,
+          "target_admission_ms": 0.2025,
+          "target_path_ms": 0.9396000000000001,
+          "workload_ms": 3.7611
+        },
+        {
+          "source_plan_ms": 0.6053,
+          "publication_ms": 0.2497,
+          "target_snapshot_ms": 0.1477,
+          "target_plan_ms": 0.6302,
+          "target_admission_ms": 0.2104,
+          "target_path_ms": 0.9883000000000001,
+          "workload_ms": 3.8987
+        },
+        {
+          "source_plan_ms": 0.5729,
+          "publication_ms": 0.2436,
+          "target_snapshot_ms": 0.1475,
+          "target_plan_ms": 0.5926,
+          "target_admission_ms": 0.2095,
+          "target_path_ms": 0.9496,
+          "workload_ms": 3.744
+        }
+      ],
+      "warm": [
+        {
+          "source_plan_ms": 0.5301,
+          "publication_ms": 0.221,
+          "target_snapshot_ms": 0.1296,
+          "target_plan_ms": 0.3411,
+          "target_admission_ms": 0.1702,
+          "target_path_ms": 0.6409,
+          "workload_ms": 3.1736
+        },
+        {
+          "source_plan_ms": 0.5298,
+          "publication_ms": 0.2221,
+          "target_snapshot_ms": 0.1278,
+          "target_plan_ms": 0.3405,
+          "target_admission_ms": 0.174,
+          "target_path_ms": 0.6423000000000001,
+          "workload_ms": 3.2655
+        },
+        {
+          "source_plan_ms": 0.5459,
+          "publication_ms": 0.2367,
+          "target_snapshot_ms": 0.1358,
+          "target_plan_ms": 0.3401,
+          "target_admission_ms": 0.1673,
+          "target_path_ms": 0.6432,
+          "workload_ms": 3.2383
+        },
+        {
+          "source_plan_ms": 0.522,
+          "publication_ms": 0.2103,
+          "target_snapshot_ms": 0.1131,
+          "target_plan_ms": 0.324,
+          "target_admission_ms": 0.1641,
+          "target_path_ms": 0.6012000000000001,
+          "workload_ms": 3.0262
+        },
+        {
+          "source_plan_ms": 0.5155,
+          "publication_ms": 0.2416,
+          "target_snapshot_ms": 0.1097,
+          "target_plan_ms": 0.289,
+          "target_admission_ms": 0.1435,
+          "target_path_ms": 0.5422,
+          "workload_ms": 3.1556
+        },
+        {
+          "source_plan_ms": 0.4819,
+          "publication_ms": 0.1966,
+          "target_snapshot_ms": 0.1141,
+          "target_plan_ms": 0.3318,
+          "target_admission_ms": 0.1504,
+          "target_path_ms": 0.5962999999999999,
+          "workload_ms": 2.87
+        },
+        {
+          "source_plan_ms": 0.5473,
+          "publication_ms": 0.2187,
+          "target_snapshot_ms": 0.1178,
+          "target_plan_ms": 0.3153,
+          "target_admission_ms": 0.1963,
+          "target_path_ms": 0.6294000000000001,
+          "workload_ms": 3.1881
+        },
+        {
+          "source_plan_ms": 0.5522,
+          "publication_ms": 0.2145,
+          "target_snapshot_ms": 0.1264,
+          "target_plan_ms": 0.3304,
+          "target_admission_ms": 0.1658,
+          "target_path_ms": 0.6226,
+          "workload_ms": 3.1395
+        },
+        {
+          "source_plan_ms": 0.5554,
+          "publication_ms": 0.2969,
+          "target_snapshot_ms": 0.2059,
+          "target_plan_ms": 0.5657,
+          "target_admission_ms": 0.2786,
+          "target_path_ms": 1.0502,
+          "workload_ms": 4.1976
+        },
+        {
+          "source_plan_ms": 0.5593,
+          "publication_ms": 0.2354,
+          "target_snapshot_ms": 0.1388,
+          "target_plan_ms": 0.361,
+          "target_admission_ms": 0.186,
+          "target_path_ms": 0.6858,
+          "workload_ms": 3.4123
+        },
+        {
+          "source_plan_ms": 0.7018,
+          "publication_ms": 0.2668,
+          "target_snapshot_ms": 0.1588,
+          "target_plan_ms": 0.4192,
+          "target_admission_ms": 0.2066,
+          "target_path_ms": 0.7846000000000001,
+          "workload_ms": 3.921
+        },
+        {
+          "source_plan_ms": 0.5999,
+          "publication_ms": 0.2536,
+          "target_snapshot_ms": 0.1472,
+          "target_plan_ms": 0.3888,
+          "target_admission_ms": 0.2002,
+          "target_path_ms": 0.7362,
+          "workload_ms": 3.631
+        },
+        {
+          "source_plan_ms": 0.606,
+          "publication_ms": 0.255,
+          "target_snapshot_ms": 0.1495,
+          "target_plan_ms": 0.3921,
+          "target_admission_ms": 0.1968,
+          "target_path_ms": 0.7384,
+          "workload_ms": 3.7153
+        },
+        {
+          "source_plan_ms": 0.6017,
+          "publication_ms": 0.2463,
+          "target_snapshot_ms": 0.1453,
+          "target_plan_ms": 0.3754,
+          "target_admission_ms": 0.1872,
+          "target_path_ms": 0.7079000000000001,
+          "workload_ms": 3.5709
+        },
+        {
+          "source_plan_ms": 0.6149,
+          "publication_ms": 0.272,
+          "target_snapshot_ms": 0.1523,
+          "target_plan_ms": 0.4108,
+          "target_admission_ms": 0.1972,
+          "target_path_ms": 0.7603,
+          "workload_ms": 3.7348
+        },
+        {
+          "source_plan_ms": 0.6057,
+          "publication_ms": 0.2524,
+          "target_snapshot_ms": 0.1479,
+          "target_plan_ms": 0.3885,
+          "target_admission_ms": 0.1937,
+          "target_path_ms": 0.7301,
+          "workload_ms": 3.6109
+        },
+        {
+          "source_plan_ms": 0.6029,
+          "publication_ms": 0.2493,
+          "target_snapshot_ms": 0.1475,
+          "target_plan_ms": 0.3857,
+          "target_admission_ms": 0.193,
+          "target_path_ms": 0.7262,
+          "workload_ms": 3.5726
+        },
+        {
+          "source_plan_ms": 0.6197,
+          "publication_ms": 0.2541,
+          "target_snapshot_ms": 0.1473,
+          "target_plan_ms": 0.3898,
+          "target_admission_ms": 0.1941,
+          "target_path_ms": 0.7311999999999999,
+          "workload_ms": 3.6627
+        },
+        {
+          "source_plan_ms": 0.6531,
+          "publication_ms": 0.2628,
+          "target_snapshot_ms": 0.1588,
+          "target_plan_ms": 0.4105,
+          "target_admission_ms": 0.2024,
+          "target_path_ms": 0.7716999999999999,
+          "workload_ms": 3.8256
+        },
+        {
+          "source_plan_ms": 0.592,
+          "publication_ms": 0.2514,
+          "target_snapshot_ms": 0.1484,
+          "target_plan_ms": 0.3884,
+          "target_admission_ms": 0.1955,
+          "target_path_ms": 0.7323000000000001,
+          "workload_ms": 3.6
+        },
+        {
+          "source_plan_ms": 0.6187,
+          "publication_ms": 0.2641,
+          "target_snapshot_ms": 0.1499,
+          "target_plan_ms": 0.3917,
+          "target_admission_ms": 0.1975,
+          "target_path_ms": 0.7391,
+          "workload_ms": 3.6905
+        },
+        {
+          "source_plan_ms": 0.604,
+          "publication_ms": 0.2514,
+          "target_snapshot_ms": 0.148,
+          "target_plan_ms": 0.3987,
+          "target_admission_ms": 0.1957,
+          "target_path_ms": 0.7424,
+          "workload_ms": 3.6201
+        },
+        {
+          "source_plan_ms": 0.6386,
+          "publication_ms": 0.2542,
+          "target_snapshot_ms": 0.1532,
+          "target_plan_ms": 0.4276,
+          "target_admission_ms": 0.1983,
+          "target_path_ms": 0.7791,
+          "workload_ms": 3.7482
+        },
+        {
+          "source_plan_ms": 0.5929,
+          "publication_ms": 0.2528,
+          "target_snapshot_ms": 0.1476,
+          "target_plan_ms": 0.3895,
+          "target_admission_ms": 0.1948,
+          "target_path_ms": 0.7319,
+          "workload_ms": 3.5812
+        },
+        {
+          "source_plan_ms": 0.587,
+          "publication_ms": 0.2459,
+          "target_snapshot_ms": 0.1433,
+          "target_plan_ms": 0.3761,
+          "target_admission_ms": 0.2343,
+          "target_path_ms": 0.7537,
+          "workload_ms": 3.5556
+        },
+        {
+          "source_plan_ms": 0.9921,
+          "publication_ms": 0.398,
+          "target_snapshot_ms": 0.2624,
+          "target_plan_ms": 0.6704,
+          "target_admission_ms": 0.3364,
+          "target_path_ms": 1.2692,
+          "workload_ms": 6.0245
+        },
+        {
+          "source_plan_ms": 0.6327,
+          "publication_ms": 0.2637,
+          "target_snapshot_ms": 0.1515,
+          "target_plan_ms": 0.4126,
+          "target_admission_ms": 0.2012,
+          "target_path_ms": 0.7653000000000001,
+          "workload_ms": 3.7776
+        },
+        {
+          "source_plan_ms": 0.6019,
+          "publication_ms": 0.2515,
+          "target_snapshot_ms": 0.1472,
+          "target_plan_ms": 0.3915,
+          "target_admission_ms": 0.1967,
+          "target_path_ms": 0.7353999999999999,
+          "workload_ms": 3.5999
+        },
+        {
+          "source_plan_ms": 0.5923,
+          "publication_ms": 0.2502,
+          "target_snapshot_ms": 0.1518,
+          "target_plan_ms": 0.397,
+          "target_admission_ms": 0.2015,
+          "target_path_ms": 0.7503,
+          "workload_ms": 3.6694
+        },
+        {
+          "source_plan_ms": 0.6362,
+          "publication_ms": 0.2526,
+          "target_snapshot_ms": 0.1472,
+          "target_plan_ms": 0.3878,
+          "target_admission_ms": 0.1969,
+          "target_path_ms": 0.7318999999999999,
+          "workload_ms": 3.6318
+        },
+        {
+          "source_plan_ms": 0.5985,
+          "publication_ms": 0.2514,
+          "target_snapshot_ms": 0.1486,
+          "target_plan_ms": 0.3931,
+          "target_admission_ms": 0.1935,
+          "target_path_ms": 0.7352000000000001,
+          "workload_ms": 3.6072
+        },
+        {
+          "source_plan_ms": 0.5948,
+          "publication_ms": 0.2492,
+          "target_snapshot_ms": 0.148,
+          "target_plan_ms": 0.3883,
+          "target_admission_ms": 0.1939,
+          "target_path_ms": 0.7302,
+          "workload_ms": 3.572
+        },
+        {
+          "source_plan_ms": 0.6174,
+          "publication_ms": 0.2591,
+          "target_snapshot_ms": 0.1537,
+          "target_plan_ms": 0.4061,
+          "target_admission_ms": 0.2036,
+          "target_path_ms": 0.7634000000000001,
+          "workload_ms": 3.7044
+        },
+        {
+          "source_plan_ms": 0.6395,
+          "publication_ms": 0.2628,
+          "target_snapshot_ms": 0.1527,
+          "target_plan_ms": 0.4052,
+          "target_admission_ms": 0.203,
+          "target_path_ms": 0.7609000000000001,
+          "workload_ms": 3.8426
+        },
+        {
+          "source_plan_ms": 0.6074,
+          "publication_ms": 0.2533,
+          "target_snapshot_ms": 0.1507,
+          "target_plan_ms": 0.3871,
+          "target_admission_ms": 0.1936,
+          "target_path_ms": 0.7314,
+          "workload_ms": 3.6439
+        },
+        {
+          "source_plan_ms": 0.6092,
+          "publication_ms": 0.2544,
+          "target_snapshot_ms": 0.1521,
+          "target_plan_ms": 0.4003,
+          "target_admission_ms": 0.2368,
+          "target_path_ms": 0.7892,
+          "workload_ms": 3.7669
+        },
+        {
+          "source_plan_ms": 0.6056,
+          "publication_ms": 0.26,
+          "target_snapshot_ms": 0.1481,
+          "target_plan_ms": 0.3866,
+          "target_admission_ms": 0.2028,
+          "target_path_ms": 0.7374999999999999,
+          "workload_ms": 3.7199
+        },
+        {
+          "source_plan_ms": 0.6138,
+          "publication_ms": 0.2559,
+          "target_snapshot_ms": 0.1497,
+          "target_plan_ms": 0.3879,
+          "target_admission_ms": 0.1941,
+          "target_path_ms": 0.7317,
+          "workload_ms": 3.6858
+        },
+        {
+          "source_plan_ms": 0.6084,
+          "publication_ms": 0.2602,
+          "target_snapshot_ms": 0.1492,
+          "target_plan_ms": 0.3915,
+          "target_admission_ms": 0.197,
+          "target_path_ms": 0.7377,
+          "workload_ms": 3.8144
+        },
+        {
+          "source_plan_ms": 0.5949,
+          "publication_ms": 0.2583,
+          "target_snapshot_ms": 0.1854,
+          "target_plan_ms": 0.6482,
+          "target_admission_ms": 0.2805,
+          "target_path_ms": 1.1141,
+          "workload_ms": 3.9784
+        },
+        {
+          "source_plan_ms": 0.6005,
+          "publication_ms": 0.245,
+          "target_snapshot_ms": 0.1427,
+          "target_plan_ms": 0.3792,
+          "target_admission_ms": 0.1866,
+          "target_path_ms": 0.7085,
+          "workload_ms": 3.5123
+        },
+        {
+          "source_plan_ms": 0.5735,
+          "publication_ms": 0.2397,
+          "target_snapshot_ms": 0.146,
+          "target_plan_ms": 0.3744,
+          "target_admission_ms": 0.1865,
+          "target_path_ms": 0.7069,
+          "workload_ms": 3.4793
+        },
+        {
+          "source_plan_ms": 0.5838,
+          "publication_ms": 0.2449,
+          "target_snapshot_ms": 0.1416,
+          "target_plan_ms": 0.3737,
+          "target_admission_ms": 0.2231,
+          "target_path_ms": 0.7384,
+          "workload_ms": 3.5344
+        },
+        {
+          "source_plan_ms": 0.5649,
+          "publication_ms": 0.2419,
+          "target_snapshot_ms": 0.1426,
+          "target_plan_ms": 0.3767,
+          "target_admission_ms": 0.1875,
+          "target_path_ms": 0.7068,
+          "workload_ms": 3.4211
+        },
+        {
+          "source_plan_ms": 0.5543,
+          "publication_ms": 0.234,
+          "target_snapshot_ms": 0.1372,
+          "target_plan_ms": 0.363,
+          "target_admission_ms": 0.1912,
+          "target_path_ms": 0.6914,
+          "workload_ms": 3.3679
+        },
+        {
+          "source_plan_ms": 0.5956,
+          "publication_ms": 0.2436,
+          "target_snapshot_ms": 0.1446,
+          "target_plan_ms": 0.3785,
+          "target_admission_ms": 0.1903,
+          "target_path_ms": 0.7134,
+          "workload_ms": 3.5286
+        },
+        {
+          "source_plan_ms": 0.6199,
+          "publication_ms": 0.2422,
+          "target_snapshot_ms": 0.1428,
+          "target_plan_ms": 0.4323,
+          "target_admission_ms": 0.1879,
+          "target_path_ms": 0.7630000000000001,
+          "workload_ms": 3.5703
+        },
+        {
+          "source_plan_ms": 0.5917,
+          "publication_ms": 0.2471,
+          "target_snapshot_ms": 0.1467,
+          "target_plan_ms": 0.3777,
+          "target_admission_ms": 0.1974,
+          "target_path_ms": 0.7218,
+          "workload_ms": 3.5685
+        },
+        {
+          "source_plan_ms": 0.5746,
+          "publication_ms": 0.2401,
+          "target_snapshot_ms": 0.1409,
+          "target_plan_ms": 0.3707,
+          "target_admission_ms": 0.1855,
+          "target_path_ms": 0.6970999999999999,
+          "workload_ms": 3.5173
+        },
+        {
+          "source_plan_ms": 0.5824,
+          "publication_ms": 0.2442,
+          "target_snapshot_ms": 0.1736,
+          "target_plan_ms": 0.447,
+          "target_admission_ms": 0.2045,
+          "target_path_ms": 0.8251000000000001,
+          "workload_ms": 3.7812
+        },
+        {
+          "source_plan_ms": 0.6065,
+          "publication_ms": 0.2447,
+          "target_snapshot_ms": 0.1522,
+          "target_plan_ms": 0.3957,
+          "target_admission_ms": 0.1924,
+          "target_path_ms": 0.7403000000000001,
+          "workload_ms": 3.6272
+        },
+        {
+          "source_plan_ms": 0.6146,
+          "publication_ms": 0.256,
+          "target_snapshot_ms": 0.1901,
+          "target_plan_ms": 0.4279,
+          "target_admission_ms": 0.2082,
+          "target_path_ms": 0.8262,
+          "workload_ms": 3.928
+        },
+        {
+          "source_plan_ms": 0.7951,
+          "publication_ms": 0.2906,
+          "target_snapshot_ms": 0.1648,
+          "target_plan_ms": 0.4389,
+          "target_admission_ms": 0.2133,
+          "target_path_ms": 0.817,
+          "workload_ms": 4.1064
+        },
+        {
+          "source_plan_ms": 0.6147,
+          "publication_ms": 0.2597,
+          "target_snapshot_ms": 0.1515,
+          "target_plan_ms": 0.4009,
+          "target_admission_ms": 0.2041,
+          "target_path_ms": 0.7565,
+          "workload_ms": 3.7023
+        },
+        {
+          "source_plan_ms": 0.5907,
+          "publication_ms": 0.252,
+          "target_snapshot_ms": 0.1451,
+          "target_plan_ms": 0.4143,
+          "target_admission_ms": 0.1953,
+          "target_path_ms": 0.7547,
+          "workload_ms": 3.5946
+        },
+        {
+          "source_plan_ms": 0.6497,
+          "publication_ms": 0.252,
+          "target_snapshot_ms": 0.1485,
+          "target_plan_ms": 0.3863,
+          "target_admission_ms": 0.1925,
+          "target_path_ms": 0.7273,
+          "workload_ms": 3.689
+        },
+        {
+          "source_plan_ms": 0.5837,
+          "publication_ms": 0.2419,
+          "target_snapshot_ms": 0.1407,
+          "target_plan_ms": 0.3745,
+          "target_admission_ms": 0.1875,
+          "target_path_ms": 0.7027,
+          "workload_ms": 3.4573
+        },
+        {
+          "source_plan_ms": 0.5997,
+          "publication_ms": 0.2508,
+          "target_snapshot_ms": 0.1473,
+          "target_plan_ms": 0.391,
+          "target_admission_ms": 0.1969,
+          "target_path_ms": 0.7352,
+          "workload_ms": 3.6528
+        },
+        {
+          "source_plan_ms": 0.5876,
+          "publication_ms": 0.2485,
+          "target_snapshot_ms": 0.1977,
+          "target_plan_ms": 0.3895,
+          "target_admission_ms": 0.2227,
+          "target_path_ms": 0.8099,
+          "workload_ms": 3.7135
+        },
+        {
+          "source_plan_ms": 0.5892,
+          "publication_ms": 0.2424,
+          "target_snapshot_ms": 0.1425,
+          "target_plan_ms": 0.3851,
+          "target_admission_ms": 0.1893,
+          "target_path_ms": 0.7169,
+          "workload_ms": 3.4958
+        }
+      ],
+      "unpublished": [
+        {
+          "source_plan_ms": 0.4011,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.0999,
+          "target_plan_ms": 0.4064,
+          "target_admission_ms": 0.1375,
+          "target_path_ms": 0.6437999999999999,
+          "workload_ms": 2.4547
+        },
+        {
+          "source_plan_ms": 0.5399,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1259,
+          "target_plan_ms": 0.5151,
+          "target_admission_ms": 0.1787,
+          "target_path_ms": 0.8197,
+          "workload_ms": 3.1945
+        },
+        {
+          "source_plan_ms": 0.5253,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1489,
+          "target_plan_ms": 0.5018,
+          "target_admission_ms": 0.1748,
+          "target_path_ms": 0.8255000000000001,
+          "workload_ms": 3.1729
+        },
+        {
+          "source_plan_ms": 0.4759,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.105,
+          "target_plan_ms": 0.4459,
+          "target_admission_ms": 0.1568,
+          "target_path_ms": 0.7077,
+          "workload_ms": 2.7519
+        },
+        {
+          "source_plan_ms": 0.4664,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.113,
+          "target_plan_ms": 0.458,
+          "target_admission_ms": 0.1577,
+          "target_path_ms": 0.7287000000000001,
+          "workload_ms": 2.7828
+        },
+        {
+          "source_plan_ms": 0.5068,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1227,
+          "target_plan_ms": 0.5298,
+          "target_admission_ms": 0.1727,
+          "target_path_ms": 0.8252,
+          "workload_ms": 3.0698
+        },
+        {
+          "source_plan_ms": 0.4954,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1182,
+          "target_plan_ms": 0.4907,
+          "target_admission_ms": 0.1668,
+          "target_path_ms": 0.7757000000000001,
+          "workload_ms": 2.9192
+        },
+        {
+          "source_plan_ms": 0.5412,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1301,
+          "target_plan_ms": 0.5226,
+          "target_admission_ms": 0.1786,
+          "target_path_ms": 0.8312999999999999,
+          "workload_ms": 3.1735
+        },
+        {
+          "source_plan_ms": 0.54,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.131,
+          "target_plan_ms": 0.5407,
+          "target_admission_ms": 0.1839,
+          "target_path_ms": 0.8555999999999999,
+          "workload_ms": 3.2129
+        },
+        {
+          "source_plan_ms": 0.5959,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.14,
+          "target_plan_ms": 0.6019,
+          "target_admission_ms": 0.1928,
+          "target_path_ms": 0.9347,
+          "workload_ms": 3.5249
+        },
+        {
+          "source_plan_ms": 0.6237,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1569,
+          "target_plan_ms": 0.6156,
+          "target_admission_ms": 0.2113,
+          "target_path_ms": 0.9838,
+          "workload_ms": 3.7149
+        },
+        {
+          "source_plan_ms": 0.7193,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1602,
+          "target_plan_ms": 0.7053,
+          "target_admission_ms": 0.2084,
+          "target_path_ms": 1.0739,
+          "workload_ms": 3.9987
+        },
+        {
+          "source_plan_ms": 0.5879,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1791,
+          "target_plan_ms": 0.5701,
+          "target_admission_ms": 0.1955,
+          "target_path_ms": 0.9447000000000001,
+          "workload_ms": 3.4965
+        },
+        {
+          "source_plan_ms": 0.5911,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1424,
+          "target_plan_ms": 0.5712,
+          "target_admission_ms": 0.2292,
+          "target_path_ms": 0.9428,
+          "workload_ms": 3.483
+        },
+        {
+          "source_plan_ms": 0.6217,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1412,
+          "target_plan_ms": 0.5704,
+          "target_admission_ms": 0.248,
+          "target_path_ms": 0.9596,
+          "workload_ms": 3.561
+        },
+        {
+          "source_plan_ms": 0.5922,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1486,
+          "target_plan_ms": 0.6214,
+          "target_admission_ms": 0.204,
+          "target_path_ms": 0.974,
+          "workload_ms": 3.5981
+        },
+        {
+          "source_plan_ms": 0.7831,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1503,
+          "target_plan_ms": 0.6056,
+          "target_admission_ms": 0.2075,
+          "target_path_ms": 0.9634,
+          "workload_ms": 3.8793
+        },
+        {
+          "source_plan_ms": 0.6186,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.15,
+          "target_plan_ms": 0.6128,
+          "target_admission_ms": 0.2095,
+          "target_path_ms": 0.9723,
+          "workload_ms": 3.6921
+        },
+        {
+          "source_plan_ms": 0.6139,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1539,
+          "target_plan_ms": 0.6794,
+          "target_admission_ms": 0.2464,
+          "target_path_ms": 1.0797,
+          "workload_ms": 3.7903
+        },
+        {
+          "source_plan_ms": 0.6099,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1452,
+          "target_plan_ms": 0.5988,
+          "target_admission_ms": 0.2029,
+          "target_path_ms": 0.9469,
+          "workload_ms": 3.6044
+        },
+        {
+          "source_plan_ms": 0.6096,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1475,
+          "target_plan_ms": 0.5947,
+          "target_admission_ms": 0.2034,
+          "target_path_ms": 0.9456,
+          "workload_ms": 3.6694
+        },
+        {
+          "source_plan_ms": 0.6057,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1441,
+          "target_plan_ms": 0.5953,
+          "target_admission_ms": 0.2031,
+          "target_path_ms": 0.9425000000000001,
+          "workload_ms": 3.5789
+        },
+        {
+          "source_plan_ms": 0.592,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.146,
+          "target_plan_ms": 0.6537,
+          "target_admission_ms": 0.2094,
+          "target_path_ms": 1.0090999999999999,
+          "workload_ms": 3.6194
+        },
+        {
+          "source_plan_ms": 0.6,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1474,
+          "target_plan_ms": 0.5919,
+          "target_admission_ms": 0.2033,
+          "target_path_ms": 0.9426,
+          "workload_ms": 3.6204
+        },
+        {
+          "source_plan_ms": 0.5804,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.2405,
+          "target_plan_ms": 0.854,
+          "target_admission_ms": 0.2032,
+          "target_path_ms": 1.2977,
+          "workload_ms": 3.9654
+        },
+        {
+          "source_plan_ms": 0.6174,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1453,
+          "target_plan_ms": 0.5967,
+          "target_admission_ms": 0.2059,
+          "target_path_ms": 0.9479,
+          "workload_ms": 3.615
+        },
+        {
+          "source_plan_ms": 0.5943,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1437,
+          "target_plan_ms": 0.587,
+          "target_admission_ms": 0.2043,
+          "target_path_ms": 0.9349999999999999,
+          "workload_ms": 3.518
+        },
+        {
+          "source_plan_ms": 0.6258,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.152,
+          "target_plan_ms": 0.6203,
+          "target_admission_ms": 0.2105,
+          "target_path_ms": 0.9828,
+          "workload_ms": 3.7155
+        },
+        {
+          "source_plan_ms": 0.6016,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1881,
+          "target_plan_ms": 1.1415,
+          "target_admission_ms": 0.2033,
+          "target_path_ms": 1.5329,
+          "workload_ms": 4.164
+        },
+        {
+          "source_plan_ms": 0.5758,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1406,
+          "target_plan_ms": 0.5707,
+          "target_admission_ms": 0.1954,
+          "target_path_ms": 0.9067000000000001,
+          "workload_ms": 3.4073
+        },
+        {
+          "source_plan_ms": 0.6095,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1466,
+          "target_plan_ms": 0.5956,
+          "target_admission_ms": 0.2033,
+          "target_path_ms": 0.9455,
+          "workload_ms": 3.6185
+        },
+        {
+          "source_plan_ms": 0.5882,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1399,
+          "target_plan_ms": 0.5702,
+          "target_admission_ms": 0.1957,
+          "target_path_ms": 0.9058,
+          "workload_ms": 3.449
+        },
+        {
+          "source_plan_ms": 0.6069,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1472,
+          "target_plan_ms": 0.606,
+          "target_admission_ms": 0.2054,
+          "target_path_ms": 0.9586,
+          "workload_ms": 3.6064
+        },
+        {
+          "source_plan_ms": 0.6149,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1499,
+          "target_plan_ms": 0.6092,
+          "target_admission_ms": 0.2091,
+          "target_path_ms": 0.9682,
+          "workload_ms": 3.6376
+        },
+        {
+          "source_plan_ms": 0.6134,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1513,
+          "target_plan_ms": 0.6429,
+          "target_admission_ms": 0.2126,
+          "target_path_ms": 1.0068000000000001,
+          "workload_ms": 3.6828
+        },
+        {
+          "source_plan_ms": 0.5906,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1463,
+          "target_plan_ms": 0.5928,
+          "target_admission_ms": 0.2026,
+          "target_path_ms": 0.9417,
+          "workload_ms": 3.5372
+        },
+        {
+          "source_plan_ms": 0.5911,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1451,
+          "target_plan_ms": 0.5887,
+          "target_admission_ms": 0.2023,
+          "target_path_ms": 0.9361,
+          "workload_ms": 3.516
+        },
+        {
+          "source_plan_ms": 0.5989,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1532,
+          "target_plan_ms": 0.6451,
+          "target_admission_ms": 0.2119,
+          "target_path_ms": 1.0102,
+          "workload_ms": 3.788
+        },
+        {
+          "source_plan_ms": 0.6248,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1456,
+          "target_plan_ms": 0.5938,
+          "target_admission_ms": 0.2051,
+          "target_path_ms": 0.9445000000000001,
+          "workload_ms": 3.6506
+        },
+        {
+          "source_plan_ms": 0.6185,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.2057,
+          "target_plan_ms": 0.616,
+          "target_admission_ms": 0.2105,
+          "target_path_ms": 1.0322,
+          "workload_ms": 3.7866
+        },
+        {
+          "source_plan_ms": 0.592,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1448,
+          "target_plan_ms": 0.5858,
+          "target_admission_ms": 0.1993,
+          "target_path_ms": 0.9299000000000001,
+          "workload_ms": 3.5143
+        },
+        {
+          "source_plan_ms": 0.6184,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1413,
+          "target_plan_ms": 0.5731,
+          "target_admission_ms": 0.1952,
+          "target_path_ms": 0.9096000000000001,
+          "workload_ms": 3.4799
+        },
+        {
+          "source_plan_ms": 0.6008,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1403,
+          "target_plan_ms": 0.5929,
+          "target_admission_ms": 0.1971,
+          "target_path_ms": 0.9302999999999999,
+          "workload_ms": 3.6168
+        },
+        {
+          "source_plan_ms": 0.5962,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1422,
+          "target_plan_ms": 0.5719,
+          "target_admission_ms": 0.1941,
+          "target_path_ms": 0.9081999999999999,
+          "workload_ms": 3.5402
+        },
+        {
+          "source_plan_ms": 0.5707,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1929,
+          "target_plan_ms": 0.569,
+          "target_admission_ms": 0.1916,
+          "target_path_ms": 0.9534999999999999,
+          "workload_ms": 3.4757
+        },
+        {
+          "source_plan_ms": 0.579,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1541,
+          "target_plan_ms": 0.6017,
+          "target_admission_ms": 0.2049,
+          "target_path_ms": 0.9607,
+          "workload_ms": 3.6162
+        },
+        {
+          "source_plan_ms": 0.9038,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.155,
+          "target_plan_ms": 0.6375,
+          "target_admission_ms": 0.2033,
+          "target_path_ms": 0.9958,
+          "workload_ms": 3.9764
+        },
+        {
+          "source_plan_ms": 0.6049,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1444,
+          "target_plan_ms": 0.5742,
+          "target_admission_ms": 0.199,
+          "target_path_ms": 0.9176,
+          "workload_ms": 3.5867
+        },
+        {
+          "source_plan_ms": 0.5849,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1389,
+          "target_plan_ms": 0.5678,
+          "target_admission_ms": 0.194,
+          "target_path_ms": 0.9007000000000001,
+          "workload_ms": 3.4152
+        },
+        {
+          "source_plan_ms": 0.5931,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1475,
+          "target_plan_ms": 0.5922,
+          "target_admission_ms": 0.2033,
+          "target_path_ms": 0.943,
+          "workload_ms": 3.591
+        },
+        {
+          "source_plan_ms": 0.5923,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1441,
+          "target_plan_ms": 0.5924,
+          "target_admission_ms": 0.202,
+          "target_path_ms": 0.9385000000000001,
+          "workload_ms": 3.5485
+        },
+        {
+          "source_plan_ms": 0.6626,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1503,
+          "target_plan_ms": 0.5659,
+          "target_admission_ms": 0.1973,
+          "target_path_ms": 0.9135,
+          "workload_ms": 3.5236
+        },
+        {
+          "source_plan_ms": 0.6335,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1551,
+          "target_plan_ms": 0.6272,
+          "target_admission_ms": 0.2147,
+          "target_path_ms": 0.997,
+          "workload_ms": 3.7783
+        },
+        {
+          "source_plan_ms": 0.64,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1498,
+          "target_plan_ms": 0.6205,
+          "target_admission_ms": 0.2106,
+          "target_path_ms": 0.9809,
+          "workload_ms": 3.7478
+        },
+        {
+          "source_plan_ms": 0.6131,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.144,
+          "target_plan_ms": 0.5963,
+          "target_admission_ms": 0.2035,
+          "target_path_ms": 0.9438000000000001,
+          "workload_ms": 3.6105
+        },
+        {
+          "source_plan_ms": 0.6012,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1747,
+          "target_plan_ms": 0.5947,
+          "target_admission_ms": 0.2048,
+          "target_path_ms": 0.9742,
+          "workload_ms": 3.5727
+        },
+        {
+          "source_plan_ms": 0.5963,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1519,
+          "target_plan_ms": 0.5939,
+          "target_admission_ms": 0.2186,
+          "target_path_ms": 0.9644,
+          "workload_ms": 3.7349
+        },
+        {
+          "source_plan_ms": 0.598,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1435,
+          "target_plan_ms": 0.5707,
+          "target_admission_ms": 0.2051,
+          "target_path_ms": 0.9193,
+          "workload_ms": 3.5282
+        },
+        {
+          "source_plan_ms": 0.5945,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1459,
+          "target_plan_ms": 0.5892,
+          "target_admission_ms": 0.203,
+          "target_path_ms": 0.9380999999999999,
+          "workload_ms": 3.5471
+        },
+        {
+          "source_plan_ms": 0.5952,
+          "publication_ms": 0.0,
+          "target_snapshot_ms": 0.1442,
+          "target_plan_ms": 0.5865,
+          "target_admission_ms": 0.2025,
+          "target_path_ms": 0.9332,
+          "workload_ms": 3.5938
+        }
+      ]
+    }
+  },
+  "series": {
+    "repeats": 24,
+    "targets": [
+      1,
+      4,
+      8
+    ],
+    "clock": "perf_counter_ns",
+    "unit": "ms",
+    "window": "First source observation through target settlement, inclusive; one publication only in warm.",
+    "sizes": {
+      "1": {
+        "cold": {
+          "median_ms": 3.5468,
+          "samples_ms": [
+            3.5414,
+            3.4521,
+            3.5885,
+            3.42,
+            3.5297,
+            3.48,
+            3.4109,
+            3.4429,
+            3.4702,
+            3.5095,
+            3.6905,
+            3.7797,
+            3.4925,
+            3.8457,
+            3.5682,
+            3.75,
+            3.8052,
+            3.6596,
+            3.6801,
+            3.5522,
+            3.6495,
+            3.6199,
+            3.4432,
+            3.3119
+          ],
+          "metrics": {
+            "expansions": 7,
+            "tested": 4,
+            "inspected": 0,
+            "validated": 0,
+            "bindings": 1
+          }
+        },
+        "warm": {
+          "median_ms": 3.5585500000000003,
+          "samples_ms": [
+            3.623,
+            3.5221,
+            3.4718,
+            3.4445,
+            3.5598,
+            3.5233,
+            3.4626,
+            3.4499,
+            3.4256,
+            3.4359,
+            3.5573,
+            3.4135,
+            3.7934,
+            3.5799,
+            3.9651,
+            3.8657,
+            3.5729,
+            3.6117,
+            3.5653,
+            3.6391,
+            3.763,
+            3.4158,
+            3.4211,
+            3.698
+          ],
+          "metrics": {
+            "expansions": 0,
+            "tested": 0,
+            "inspected": 1,
+            "validated": 1,
+            "bindings": 1
+          }
+        },
+        "paired_median_saving_ms": -0.015750000000000153,
+        "pairs_with_lower_warm_total": 11,
+        "paired_savings_ms": [
+          -0.08160000000000034,
+          -0.06999999999999984,
+          0.1166999999999998,
+          -0.02450000000000019,
+          -0.030100000000000016,
+          -0.043299999999999894,
+          -0.0517000000000003,
+          -0.007000000000000117,
+          0.04459999999999997,
+          0.07359999999999989,
+          0.13319999999999999,
+          0.3662000000000001,
+          -0.30089999999999995,
+          0.26580000000000004,
+          -0.39690000000000003,
+          -0.11569999999999991,
+          0.23229999999999995,
+          0.047900000000000276,
+          0.11479999999999979,
+          -0.08689999999999998,
+          -0.11349999999999971,
+          0.20409999999999995,
+          0.02210000000000001,
+          -0.3860999999999999
+        ]
+      },
+      "4": {
+        "cold": {
+          "median_ms": 9.1702,
+          "samples_ms": [
+            9.2157,
+            9.1023,
+            9.0783,
+            8.9007,
+            9.0239,
+            8.9516,
+            8.9121,
+            8.7632,
+            8.9223,
+            9.0512,
+            9.2362,
+            9.4738,
+            9.171,
+            9.6626,
+            9.4984,
+            9.7439,
+            9.6469,
+            9.3917,
+            9.49,
+            9.1694,
+            9.3094,
+            9.0713,
+            10.4551,
+            8.7979
+          ],
+          "metrics": {
+            "expansions": 28,
+            "tested": 16,
+            "inspected": 0,
+            "validated": 0,
+            "bindings": 4
+          }
+        },
+        "warm": {
+          "median_ms": 8.3736,
+          "samples_ms": [
+            8.6296,
+            8.285,
+            8.3207,
+            8.2063,
+            8.4148,
+            8.3102,
+            8.1542,
+            8.1562,
+            8.1344,
+            8.3276,
+            8.3257,
+            8.3324,
+            8.7374,
+            8.5049,
+            9.3291,
+            9.5712,
+            8.7061,
+            8.5861,
+            8.6276,
+            8.573,
+            8.5402,
+            8.1559,
+            8.1883,
+            8.4506
+          ],
+          "metrics": {
+            "expansions": 0,
+            "tested": 0,
+            "inspected": 4,
+            "validated": 4,
+            "bindings": 4
+          }
+        },
+        "paired_median_saving_ms": 0.7577500000000006,
+        "pairs_with_lower_warm_total": 24,
+        "paired_savings_ms": [
+          0.5861000000000001,
+          0.8172999999999995,
+          0.7576,
+          0.6943999999999999,
+          0.6090999999999998,
+          0.6413999999999991,
+          0.7579000000000011,
+          0.6069999999999993,
+          0.7879000000000005,
+          0.7235999999999994,
+          0.9105000000000008,
+          1.1414000000000009,
+          0.4336000000000002,
+          1.1577000000000002,
+          0.16929999999999978,
+          0.17270000000000074,
+          0.9408000000000012,
+          0.8056000000000001,
+          0.8624000000000009,
+          0.5963999999999992,
+          0.7691999999999997,
+          0.9154,
+          2.2668,
+          0.3473000000000006
+        ]
+      },
+      "8": {
+        "cold": {
+          "median_ms": 17.572200000000002,
+          "samples_ms": [
+            17.7058,
+            17.1955,
+            17.0528,
+            16.8755,
+            17.113,
+            17.1447,
+            16.9849,
+            16.4554,
+            16.9908,
+            17.5595,
+            17.3423,
+            17.6804,
+            17.4056,
+            17.85,
+            18.6551,
+            18.7126,
+            18.8387,
+            17.6257,
+            18.1585,
+            17.8836,
+            17.5849,
+            18.3936,
+            19.838,
+            16.5266
+          ],
+          "metrics": {
+            "expansions": 56,
+            "tested": 32,
+            "inspected": 0,
+            "validated": 0,
+            "bindings": 8
+          }
+        },
+        "warm": {
+          "median_ms": 15.5871,
+          "samples_ms": [
+            16.0767,
+            15.492,
+            15.5099,
+            15.4065,
+            15.4865,
+            15.6126,
+            14.9189,
+            14.9857,
+            15.2204,
+            15.498,
+            15.5627,
+            15.7711,
+            15.9662,
+            16.4,
+            17.2115,
+            17.3841,
+            16.1614,
+            16.1377,
+            16.006,
+            15.7989,
+            15.6025,
+            15.3013,
+            15.4527,
+            15.5717
+          ],
+          "metrics": {
+            "expansions": 0,
+            "tested": 0,
+            "inspected": 8,
+            "validated": 8,
+            "bindings": 8
+          }
+        },
+        "paired_median_saving_ms": 1.6662999999999997,
+        "pairs_with_lower_warm_total": 24,
+        "paired_savings_ms": [
+          1.629100000000001,
+          1.7034999999999982,
+          1.5429000000000013,
+          1.4689999999999994,
+          1.6265,
+          1.5320999999999998,
+          2.065999999999999,
+          1.4697000000000013,
+          1.7704000000000004,
+          2.0615000000000006,
+          1.779600000000002,
+          1.9092999999999982,
+          1.4393999999999991,
+          1.4500000000000028,
+          1.4436,
+          1.3284999999999982,
+          2.677299999999999,
+          1.4879999999999995,
+          2.1525,
+          2.0847000000000016,
+          1.982400000000002,
+          3.0923,
+          4.385300000000001,
+          0.9548999999999985
+        ]
+      }
+    },
+    "full_replay": {
+      "series_cold_8": {
+        "events": 110,
+        "full_replay_ms": 87.2835,
+        "errors": 0,
+        "tip": "4fed6b7e9e1c2c8684e416ee580823ade53d8f84ca600a045bfdea2bea8ffb25"
+      },
+      "series_warm_8": {
+        "events": 111,
+        "full_replay_ms": 80.2127,
+        "errors": 0,
+        "tip": "4b0f38bbe52609227dcb349a68e223e7a581a636a0c4038860b762f350fc6756"
+      }
+    }
+  }
+}

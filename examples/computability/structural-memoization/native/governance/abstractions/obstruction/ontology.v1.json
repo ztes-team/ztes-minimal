@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "reports",
+      "paid",
+      "blocks",
+      "changes"
+    ]
+  },
+  "returns": "Obstruction",
+  "body": {
+    "result": "obstruction(orders, reports, paid) if not blocks and not changes else None"
+  }
+}

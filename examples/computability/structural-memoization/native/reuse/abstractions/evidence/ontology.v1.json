@@ -1,0 +1,23 @@
+{
+  "abstraction": "evidence",
+  "version": 1,
+  "role": "ontology",
+  "inputs": {
+    "context": {}
+  },
+  "returns": {
+    "record": {
+      "case": "text",
+      "ref": "text",
+      "lot": "text",
+      "kind": "text",
+      "issuer": "text",
+      "finding": "text",
+      "sensor": "text",
+      "value": "integer"
+    }
+  },
+  "partial": true,
+  "boundary": true,
+  "criterion": "44914b3d16b7b1a1ca1d52a0b47971eac1d7dadc2692cb733633a641acb71373"
+}

@@ -47,6 +47,14 @@ for event (`tests/test_records.py`).
   scheduler, in classes 𝔗, 𝔚 and 𝔓. The last two carry the same execution payloads and differ in
   the specification of `policy`: the class is a property of the regime.
 * `tests/test_halting.py`.
+* The model `structural-memoization` (prepared by the co-authors): a transport-damage dispute
+  derives a settlement plan, checks it symbolically and publishes it; cold-chain disputes with the
+  same reduced funding signature (§5.4, Definition 12) retrieve it through their horizon, bind
+  their own evidence and are judged by their own criteria. Eight targets avoid 32 complete plan
+  tests. Controls: a contractual exclusion, a stricter certification, a changed planner version
+  and an unpublished catalogue. A second system governs a settlement whose fixed cap cannot cover
+  the loss and closes the compensation with refunds. The driver `experiment.py` regenerates the
+  13 archived records exactly; `tests/test_structural_memoization.py`.
 
 **Tooling**
 * `python -m ztes run` shows a value longer than 600 characters by its beginning and its length; the

@@ -76,7 +76,9 @@ binding after a failed batch); they use `examples/sqrt2` and
 own tests (`tests/test_examples.py`), described in [`examples/README.md`](../examples/README.md),
 and so do the physics examples (`tests/test_physics.py` and `tests/test_absorbing.py`), described in
 [`examples/physics/README.md`](../examples/physics/README.md), and the halting examples
-(`tests/test_halting.py`), described in [`examples/computability/README.md`](../examples/computability/README.md).
+(`tests/test_halting.py`), described in [`examples/computability/README.md`](../examples/computability/README.md),
+and the structural-memoization experiment (`tests/test_structural_memoization.py`), described in
+[`examples/computability/structural-memoization/README.md`](../examples/computability/structural-memoization/README.md).
 
 ## Experiments (`tests/test_experiments.py`)
 

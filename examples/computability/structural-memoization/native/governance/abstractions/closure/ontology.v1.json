@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "context": [
+      "changes",
+      "refunds",
+      "closures"
+    ]
+  },
+  "returns": "Closure",
+  "body": {
+    "result": "{'mandate': changes[0]['mandate'], 'witnesses': refunds} if changes and not closures else None"
+  }
+}

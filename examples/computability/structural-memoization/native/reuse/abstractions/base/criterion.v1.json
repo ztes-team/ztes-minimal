@@ -1,0 +1,60 @@
+{
+  "abstraction": "base",
+  "version": 1,
+  "role": "criterion",
+  "inputs": {
+    "context": {
+      "fundings": {
+        "from": "funding",
+        "select": "all",
+        "type": "json"
+      },
+      "prior": {
+        "from": "base",
+        "select": "all",
+        "type": "json"
+      }
+    },
+    "candidate": {
+      "name": "w",
+      "type": {
+        "record": {
+          "case": "text",
+          "ref": "text",
+          "funding_ref": "text",
+          "terms": {
+            "record": {
+              "case": "text",
+              "ref": "text",
+              "contract": "text",
+              "lot": "text",
+              "route": "text",
+              "asset": "text",
+              "primary_asset": "text",
+              "supplemental_asset": "text",
+              "beneficiary": "text",
+              "primary_payer": "text",
+              "guarantor": "text",
+              "instrument": "text",
+              "obligation": "integer",
+              "primary_limit": "integer",
+              "guarantee_limit": "integer",
+              "priority": "text",
+              "certification": "text",
+              "search_order": "text"
+            }
+          },
+          "signature": {
+            "list": "text"
+          }
+        }
+      }
+    }
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {
+    "result": "find_case(prior,w['case']) is None and any(base_valid(f) and w == base_event(f) for f in fundings)"
+  },
+  "library": "def split_signature():\n    return [\n        \"funding:v1\", \"recognized-obligation\", \"primary-first\",\n        \"nominated-supplemental\", \"compatible-units\", \"0<S<D<=S+G\",\n    ]\n\ndef funding_signature(d, s, g):\n    \"\"\"Reduction on admitted diagnoses whose amounts and local asset have been validated.\"\"\"\n    if 0 < s < d <= s + g:\n        return split_signature()\n    return None\n\ndef find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef base_valid(f):\n    return (f[\"route\"] in [\"transport\", \"cold_chain\"] and f[\"priority\"] == \"primary-first\"\n            and f[\"asset\"] == f[\"primary_asset\"] == f[\"supplemental_asset\"]\n            and min(f[\"obligation\"], f[\"primary_limit\"], f[\"guarantee_limit\"]) >= 0\n            and all([f[\"case\"], f[\"contract\"], f[\"lot\"], f[\"asset\"], f[\"instrument\"],\n                     f[\"beneficiary\"], f[\"primary_payer\"], f[\"guarantor\"]])\n            and len(set([f[\"beneficiary\"], f[\"primary_payer\"], f[\"guarantor\"]])) == 3\n            and f[\"certification\"] in [\"standard\", \"independent-review\"]\n            and f[\"search_order\"] in [\"supplemental-first\", \"primary-first\"])\n\ndef base_event(f):\n    return {\"case\": f[\"case\"], \"ref\": \"base/\" + f[\"case\"], \"funding_ref\": f[\"ref\"],\n            \"terms\": f, \"signature\": funding_signature(f[\"obligation\"], f[\"primary_limit\"],\n                                                      f[\"guarantee_limit\"]) or []}"
+}

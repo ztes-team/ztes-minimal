@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "reports"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Report"
+    }
+  },
+  "body": {
+    "result": "len(orders) == 1 and not reports and w['case'] == orders[0]['case'] and w['issuer'] == orders[0]['inspector'] and w['loss'] > 0 and w['ref'] != ''"
+  }
+}

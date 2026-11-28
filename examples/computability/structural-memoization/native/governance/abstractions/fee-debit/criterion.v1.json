@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "context": [
+      "debits",
+      "charges",
+      "changes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Charge"
+    }
+  },
+  "body": {
+    "result": "not changes and len(debits) < len(charges) and w == charges[len(debits)]"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "abstraction": "cold_chain",
+  "version": 1,
+  "role": "ontology",
+  "inputs": {
+    "context": {
+      "bases": {
+        "from": "base",
+        "select": "all",
+        "type": "json"
+      },
+      "evidence": {
+        "from": "evidence",
+        "select": "all",
+        "type": "json"
+      },
+      "prior": {
+        "from": "cold_chain",
+        "select": "all",
+        "type": "json"
+      }
+    }
+  },
+  "returns": {
+    "record": {
+      "case": "text",
+      "ref": "text",
+      "route": "text",
+      "base_ref": "text",
+      "signature": {
+        "list": "text"
+      },
+      "evidence": {
+        "list": "text"
+      }
+    }
+  },
+  "partial": true,
+  "body": {
+    "result": "next_diagnosis(bases,evidence,ROUTE,prior)"
+  },
+  "constants": {
+    "ROUTE": "cold_chain"
+  },
+  "library": "def find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef base_valid(f):\n    return (f[\"route\"] in [\"transport\", \"cold_chain\"] and f[\"priority\"] == \"primary-first\"\n            and f[\"asset\"] == f[\"primary_asset\"] == f[\"supplemental_asset\"]\n            and min(f[\"obligation\"], f[\"primary_limit\"], f[\"guarantee_limit\"]) >= 0\n            and all([f[\"case\"], f[\"contract\"], f[\"lot\"], f[\"asset\"], f[\"instrument\"],\n                     f[\"beneficiary\"], f[\"primary_payer\"], f[\"guarantor\"]])\n            and len(set([f[\"beneficiary\"], f[\"primary_payer\"], f[\"guarantor\"]])) == 3\n            and f[\"certification\"] in [\"standard\", \"independent-review\"]\n            and f[\"search_order\"] in [\"supplemental-first\", \"primary-first\"])\n\ndef evidence_of(evidence, f, kind):\n    for e in evidence:\n        if e[\"case\"] == f[\"case\"] and e[\"lot\"] == f[\"lot\"] and e[\"kind\"] == kind:\n            return e\n    return None\n\ndef diagnosis_for(base, evidence, route):\n    f = base[\"terms\"]\n    if f[\"route\"] != route or not base_valid(f):\n        return None\n    if route == \"transport\":\n        delivery = evidence_of(evidence, f, \"delivery\")\n        inspection = evidence_of(evidence, f, \"inspection\")\n        if (delivery is None or inspection is None or delivery[\"issuer\"] != \"carrier\"\n                or inspection[\"issuer\"] != \"inspector\" or inspection[\"finding\"] != \"damaged\"\n                or inspection[\"value\"] != f[\"obligation\"]):\n            return None\n        refs = [delivery[\"ref\"], inspection[\"ref\"]]\n    else:\n        reading = evidence_of(evidence, f, \"temperature\")\n        calibration = evidence_of(evidence, f, \"calibration\")\n        quality = evidence_of(evidence, f, \"quality\")\n        if (reading is None or calibration is None or quality is None\n                or reading[\"issuer\"] != \"logger\" or reading[\"value\"] <= 8\n                or calibration[\"issuer\"] != \"metrology\" or calibration[\"finding\"] != \"valid\"\n                or not reading[\"sensor\"] or calibration[\"sensor\"] != reading[\"sensor\"]\n                or quality[\"issuer\"] != \"quality-office\" or quality[\"finding\"] != \"breach\"\n                or quality[\"value\"] != f[\"obligation\"]):\n            return None\n        refs = [reading[\"ref\"], calibration[\"ref\"], quality[\"ref\"]]\n    return {\"case\": f[\"case\"], \"ref\": route + \"/\" + f[\"case\"], \"route\": route,\n            \"base_ref\": base[\"ref\"], \"signature\": base[\"signature\"], \"evidence\": refs}\n\ndef next_diagnosis(bases, evidence, route, prior):\n    for base in bases:\n        if find_case(prior, base[\"case\"]) is None:\n            diag = diagnosis_for(base, evidence, route)\n            if diag is not None:\n                return diag\n    return None",
+  "criterion": "e7c8927753c8695bde50d3f6b6140dfaefcd2dbed4a8e421ca0091c54ea6d3cb"
+}

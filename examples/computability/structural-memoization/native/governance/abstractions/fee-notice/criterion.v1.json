@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "context": [
+      "orders",
+      "changes",
+      "charges"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Charge"
+    }
+  },
+  "body": {
+    "result": "len(orders) == 1 and not changes and w['case'] == orders[0]['case'] and w['amount'] > 0 and w['issuer'] == orders[0]['fee_issuer'] and w['actor'] in orders[0]['fee_parties'] and w['ref'] != '' and all(n['ref'] != w['ref'] for n in charges)"
+  }
+}

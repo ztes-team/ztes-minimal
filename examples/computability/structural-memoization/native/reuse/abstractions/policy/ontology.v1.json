@@ -1,0 +1,28 @@
+{
+  "abstraction": "policy",
+  "version": 1,
+  "role": "ontology",
+  "inputs": {
+    "context": {}
+  },
+  "returns": {
+    "record": {
+      "case": "text",
+      "ref": "text",
+      "contract": "text",
+      "instrument": "text",
+      "asset": "text",
+      "beneficiary": "text",
+      "guarantor": "text",
+      "covers": {
+        "list": "text"
+      },
+      "approved": "boolean",
+      "primary_available": "integer",
+      "guarantee_available": "integer"
+    }
+  },
+  "partial": true,
+  "boundary": true,
+  "criterion": "9de906a977c49651be8e41e85bda8d1c61ac3c8ce08b83cd9a41c0a78f4be964"
+}

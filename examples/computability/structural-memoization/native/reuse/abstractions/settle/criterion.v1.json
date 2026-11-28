@@ -1,0 +1,68 @@
+{
+  "abstraction": "settle",
+  "version": 1,
+  "role": "criterion",
+  "inputs": {
+    "context": {
+      "plans": {
+        "from": "plan",
+        "select": "all",
+        "type": "json"
+      },
+      "fundings": {
+        "from": "funding",
+        "select": "all",
+        "type": "json"
+      },
+      "diagnoses": {
+        "from": [
+          "transport",
+          "cold_chain"
+        ],
+        "select": "all",
+        "type": "json"
+      },
+      "policies": {
+        "from": "policy",
+        "select": "all",
+        "type": "json"
+      },
+      "prior": {
+        "from": "settle",
+        "select": "all",
+        "type": "json"
+      }
+    },
+    "candidate": {
+      "name": "w",
+      "type": {
+        "record": {
+          "case": "text",
+          "ref": "text",
+          "plan_ref": "text",
+          "policy_ref": "text",
+          "diag_ref": "text",
+          "evidence": {
+            "list": "text"
+          },
+          "contract": "text",
+          "asset": "text",
+          "beneficiary": "text",
+          "primary_payer": "text",
+          "guarantor": "text",
+          "primary": "integer",
+          "supplemental": "integer",
+          "credit": "integer",
+          "origin": "text",
+          "publication": "integer"
+        }
+      }
+    }
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {
+    "result": "settlement_valid(w,fundings,diagnoses,policies,plans,prior)"
+  },
+  "library": "def find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef settlement_for(f, diag, policy, plan):\n    return {\"case\": f[\"case\"], \"ref\": \"settlement/\" + f[\"case\"], \"plan_ref\": plan[\"ref\"],\n            \"policy_ref\": policy[\"ref\"], \"diag_ref\": diag[\"ref\"], \"evidence\": diag[\"evidence\"],\n            \"contract\": f[\"contract\"], \"asset\": f[\"asset\"], \"beneficiary\": f[\"beneficiary\"],\n            \"primary_payer\": f[\"primary_payer\"], \"guarantor\": f[\"guarantor\"],\n            \"primary\": plan[\"allocation\"][\"primary\"], \"supplemental\": plan[\"allocation\"][\"supplemental\"],\n            \"credit\": plan[\"allocation\"][\"credit\"], \"origin\": plan[\"origin\"], \"publication\": plan[\"publication\"]}\n\ndef settlement_valid(w, fundings, diagnoses, policies, plans, prior):\n    case = w[\"case\"]\n    f = find_case(fundings, case)\n    diag = find_case(diagnoses, case)\n    policy = find_case(policies, case)\n    plan = find_case(plans, case)\n    if f is None or diag is None or policy is None or plan is None or find_case(prior, case) is not None:\n        return False\n    x = w[\"primary\"]\n    y = w[\"supplemental\"]\n    return (w == settlement_for(f, diag, policy, plan) and diag[\"route\"] in policy[\"covers\"]\n            and policy[\"contract\"] == f[\"contract\"] and policy[\"asset\"] == f[\"asset\"]\n            and policy[\"instrument\"] == f[\"instrument\"] and policy[\"guarantor\"] == f[\"guarantor\"]\n            and policy[\"beneficiary\"] == f[\"beneficiary\"] and policy[\"approved\"]\n            and x == min(f[\"obligation\"], f[\"primary_limit\"]) and 0 <= x <= policy[\"primary_available\"]\n            and 0 <= y <= min(f[\"guarantee_limit\"], policy[\"guarantee_available\"])\n            and x + y == w[\"credit\"] == f[\"obligation\"])"
+}

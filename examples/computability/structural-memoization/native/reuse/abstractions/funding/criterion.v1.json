@@ -1,0 +1,45 @@
+{
+  "abstraction": "funding",
+  "version": 1,
+  "role": "criterion",
+  "inputs": {
+    "context": {
+      "prior": {
+        "from": "funding",
+        "select": "all",
+        "type": "json"
+      }
+    },
+    "candidate": {
+      "name": "w",
+      "type": {
+        "record": {
+          "case": "text",
+          "ref": "text",
+          "contract": "text",
+          "lot": "text",
+          "route": "text",
+          "asset": "text",
+          "primary_asset": "text",
+          "supplemental_asset": "text",
+          "beneficiary": "text",
+          "primary_payer": "text",
+          "guarantor": "text",
+          "instrument": "text",
+          "obligation": "integer",
+          "primary_limit": "integer",
+          "guarantee_limit": "integer",
+          "priority": "text",
+          "certification": "text",
+          "search_order": "text"
+        }
+      }
+    }
+  },
+  "returns": "boolean",
+  "total": true,
+  "body": {
+    "result": "base_valid(w) and w['ref'] == 'funding/' + w['case'] and find_case(prior,w['case']) is None"
+  },
+  "library": "def find_case(rows, case):\n    for item in rows:\n        if item[\"case\"] == case:\n            return item\n    return None\n\ndef base_valid(f):\n    return (f[\"route\"] in [\"transport\", \"cold_chain\"] and f[\"priority\"] == \"primary-first\"\n            and f[\"asset\"] == f[\"primary_asset\"] == f[\"supplemental_asset\"]\n            and min(f[\"obligation\"], f[\"primary_limit\"], f[\"guarantee_limit\"]) >= 0\n            and all([f[\"case\"], f[\"contract\"], f[\"lot\"], f[\"asset\"], f[\"instrument\"],\n                     f[\"beneficiary\"], f[\"primary_payer\"], f[\"guarantor\"]])\n            and len(set([f[\"beneficiary\"], f[\"primary_payer\"], f[\"guarantor\"]])) == 3\n            and f[\"certification\"] in [\"standard\", \"independent-review\"]\n            and f[\"search_order\"] in [\"supplemental-first\", \"primary-first\"])"
+}

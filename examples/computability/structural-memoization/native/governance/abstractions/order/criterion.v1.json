@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "context": [
+      "orders"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Order"
+    }
+  },
+  "body": {
+    "result": "not orders and w['case'] == 'governed-shipment' and w['cap'] >= 0 and len(w['fee_parties']) == len(set(w['fee_parties'])) and all(w['fee_parties']) and all(w[k] for k in ('ref','beneficiary','inspector','authority','guarantor','fee_issuer'))"
+  }
+}

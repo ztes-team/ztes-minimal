@@ -1,0 +1,26 @@
+{
+  "system": "supply-dispute",
+  "abstractions": [
+    "funding",
+    "policy",
+    "evidence",
+    "base",
+    "transport",
+    "cold_chain",
+    "snapshot",
+    "plan",
+    "settle",
+    "catalogue"
+  ],
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3
+    }
+  ]
+}
