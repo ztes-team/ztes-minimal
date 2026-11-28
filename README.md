@@ -21,20 +21,19 @@ purpose: it shows the ideas of the paper, not every case.
 
 ## Start here
 
-| If you … | read |
+| What would you like to do? | Where to start |
 |---|---|
-| have read the paper and want to see the calculus run | [`docs/tour.md`](docs/tour.md): one invocation from start to finish, the paper mapped to the code, the examples in order |
-| want to check a result of the paper | [`REPRODUCING.md`](REPRODUCING.md): every result, the command that produces it, its output and its test |
-| meet a term you do not know, or one the paper names differently | [`docs/glossary.md`](docs/glossary.md) |
-| want to write a system of your own | [`docs/writing-a-system.md`](docs/writing-a-system.md) |
-| want to see the examples | [`examples/README.md`](examples/README.md) |
-| want to see a computation from physics on the record | [`examples/physics/README.md`](examples/physics/README.md): Feynman's sum over paths, slice by slice, in exact arithmetic; a quantum walk whose dark state gives the classes of Theorem 4 |
-| want to see the modalities of halting on the record | [`examples/computability/README.md`](examples/computability/README.md): halting machines, certified non-halting, Collatz, Antihydra, and 𝔚 against 𝔓 |
-| want to see loops, recursion and decomposition executed as interacting relations | [`experiments/README.md`](experiments/README.md): seven experiments, each one question about the calculus answered by a run |
-| want to know what changed between versions | [`CHANGELOG.md`](CHANGELOG.md) |
+| Follow one invocation from proposal to admission | [Guided tour](docs/tour.md) |
+| Run the examples from the paper | [Worked examples in reading order](examples/README.md) |
+| Check a result from the paper | [Commands, expected results and tests](REPRODUCING.md) |
+| Explore reuse, pruning, changes of rules or halting | [Computability guide](examples/computability/README.md) |
+| Run a loop, recursion or decomposition as interacting relations | [Experiments E1–E7](experiments/README.md) |
+| Follow a path sum or a quantum walk with an absorbing trap | [Physics models](examples/physics/README.md) |
+| Write a system | [Specification guide](docs/writing-a-system.md) |
+| Look up a term or a change between versions | [Glossary](docs/glossary.md) · [Changelog](CHANGELOG.md) |
 
 **The two papers.** This repository is the executable supplement of two papers. The base paper [2]
-defines the calculus, and its Section 8 and Table 8 describe the examples here; every section,
+defines the calculus. Its Section 8 and Table 8 describe the worked examples. Every section,
 theorem, corollary and table number in this repository refers to version 4 of [2]. The companion
 paper [4], *Observable, Governable, Cooperative: Execution Analytics and Adaptive Heuristic Agents in
 the OEE Calculus*, is in preparation. It studies heuristic agents executed by this substrate; its
@@ -548,10 +547,10 @@ docs/tests.md             the main tests of the model, the substrate and the too
 examples/README.md        the examples, described separately
 examples/<name>/          one directory per example: system.json, DESIGN.md, abstractions/, lib.py
 examples/physics/         systems beyond the paper, one directory per model (path-sums, absorbing-walk: three systems each)
-examples/computability/   systems beyond the paper on computability (halting: six systems)
-experiments/README.md     seven experiments: control as interacting relations, described simply
+examples/computability/   halting, structural memoization, factorization patterns and Goldbach representations
+experiments/README.md     questions, results and controls for experiments E1–E7
 experiments/run.py        runs one experiment by a fixed protocol and prints its answer
-experiments/e<k>-…/       the systems of each experiment, each with its DESIGN.md
+experiments/e<k>-…/       specifications and analyses used by the experiments
 ztes.yaml                 the configuration, with its defaults
 tests/                    test_model, test_substrate, test_system, test_cli, test_examples, test_config,
                           test_workers, test_experiments, …
