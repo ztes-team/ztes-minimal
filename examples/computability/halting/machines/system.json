@@ -1,0 +1,171 @@
+{
+  "system": "machines",
+  "title": "Halting and certified non-halting: three Busy Beaver champions and two machines that never halt",
+  "abstractions": [
+    "run",
+    "verdict"
+  ],
+  "kpi": "kpi",
+  "types": {
+    "Config": {
+      "record": {
+        "m": "integer",
+        "k": "integer",
+        "state": "text",
+        "head": "integer",
+        "lo": "integer",
+        "tape": {
+          "list": "integer"
+        }
+      }
+    },
+    "Verdict": {
+      "record": {
+        "m": "integer",
+        "halts": "boolean",
+        "kind": "text",
+        "i": "integer",
+        "j": "integer",
+        "steps": "integer",
+        "ones": "integer"
+      }
+    },
+    "Kpi": {
+      "record": {
+        "profile": "integer",
+        "machines": "integer",
+        "halting": "integer",
+        "certified": "integer",
+        "configurations": "integer",
+        "steps": {
+          "list": "integer"
+        },
+        "ones": {
+          "list": "integer"
+        },
+        "verdict_invocations": "integer",
+        "verdict_not_yet": "integer"
+      }
+    }
+  },
+  "constants": {
+    "K": 200
+  },
+  "derived": {
+    "TRANS": "table(MACHINE)"
+  },
+  "bindings": {
+    "configs": {
+      "from": "run",
+      "select": "map",
+      "type": "Config",
+      "key": "(x['m'], x['k'])",
+      "note": "(machine, step) → the recorded configuration"
+    },
+    "verdicts": {
+      "from": "verdict",
+      "select": "map",
+      "type": "Verdict",
+      "key": "x['m']",
+      "note": "machine → its recorded verdict"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "note": "machine 1: the BB(2) champion"
+    },
+    {
+      "govern": [
+        "run/criterion.v2",
+        "run/ontology.v2",
+        "verdict/criterion.v2",
+        "verdict/ontology.v2"
+      ],
+      "note": "machine 2: the BB(3) champion"
+    },
+    {
+      "phase": 3
+    },
+    {
+      "govern": [
+        "run/criterion.v3",
+        "run/ontology.v3",
+        "verdict/criterion.v3",
+        "verdict/ontology.v3"
+      ],
+      "note": "machine 3: the BB(4) champion"
+    },
+    {
+      "phase": 3
+    },
+    {
+      "govern": [
+        "run/criterion.v4",
+        "run/ontology.v4",
+        "verdict/criterion.v4",
+        "verdict/ontology.v4"
+      ],
+      "note": "machine 4: a cycler"
+    },
+    {
+      "phase": 3
+    },
+    {
+      "govern": [
+        "run/criterion.v5",
+        "run/ontology.v5",
+        "verdict/criterion.v5",
+        "verdict/ontology.v5"
+      ],
+      "note": "machine 5: a translated cycler"
+    },
+    {
+      "phase": 3
+    },
+    {
+      "kpi": true,
+      "note": "execution indicators, once, at the end"
+    }
+  ],
+  "expect": {
+    "events": 183,
+    "states": {
+      "run": "wait",
+      "verdict": "wait"
+    },
+    "values": {
+      "kpi": [
+        {
+          "profile": 1,
+          "machines": 5,
+          "halting": 3,
+          "certified": 2,
+          "configurations": 151,
+          "steps": [
+            6,
+            21,
+            107,
+            6,
+            6
+          ],
+          "ones": [
+            4,
+            5,
+            13,
+            0,
+            2
+          ],
+          "verdict_invocations": 84,
+          "verdict_not_yet": 79
+        }
+      ]
+    }
+  }
+}

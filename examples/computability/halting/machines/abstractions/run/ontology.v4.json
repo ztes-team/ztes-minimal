@@ -1,0 +1,15 @@
+{
+  "note": "[ω] the next configuration of machine 4, a cycler",
+  "constants": {
+    "M": 4,
+    "MACHINE": "1LB0RB_1LC0LC_0RA1RZ"
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ]
+  },
+  "returns": "Config",
+  "body_file": "ontology.v1.py"
+}

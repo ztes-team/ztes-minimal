@@ -1,0 +1,8 @@
+{
+  "note": "[ω] boundary (§5.2): the decision is an occurrence of the scheduler, not computed from C",
+  "boundary": true,
+  "returns": "Decision",
+  "inputs": {
+    "context": {}
+  }
+}

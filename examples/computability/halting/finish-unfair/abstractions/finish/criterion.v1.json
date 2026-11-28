@@ -1,0 +1,14 @@
+{
+  "note": "[τ] exactly the finish the recorded decisions call for",
+  "inputs": {
+    "context": [
+      "decisions",
+      "ticks",
+      "finishes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Finish"
+    }
+  }
+}

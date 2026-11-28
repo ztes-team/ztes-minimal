@@ -1,0 +1,15 @@
+{
+  "note": "[ω] the next configuration of machine 2, the BB(3) champion",
+  "constants": {
+    "M": 2,
+    "MACHINE": "1RB1RZ_1LB0RC_1LC1LA"
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ]
+  },
+  "returns": "Config",
+  "body_file": "ontology.v1.py"
+}

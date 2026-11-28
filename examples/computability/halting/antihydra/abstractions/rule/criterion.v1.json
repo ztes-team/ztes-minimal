@@ -1,0 +1,13 @@
+{
+  "note": "[τ] one step of the rules, checked against the step before it",
+  "inputs": {
+    "context": [
+      "steps",
+      "last"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Step"
+    }
+  }
+}

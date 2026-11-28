@@ -1,0 +1,13 @@
+{
+  "note": "[τ] the goal, once, at the step with b = −1",
+  "inputs": {
+    "context": [
+      "last",
+      "halts"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Halt"
+    }
+  }
+}

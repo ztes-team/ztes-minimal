@@ -1,0 +1,14 @@
+{
+  "note": "[ω] the verdict on machine 5, a translated cycler",
+  "constants": {
+    "M": 5
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ]
+  },
+  "returns": "Verdict",
+  "body_file": "ontology.v1.py"
+}

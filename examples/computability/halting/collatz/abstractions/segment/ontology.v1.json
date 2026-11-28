@@ -1,0 +1,9 @@
+{
+  "note": "[ω] the next piece of a trajectory, until it falls below its number",
+  "inputs": {
+    "context": [
+      "last"
+    ]
+  },
+  "returns": "Piece"
+}

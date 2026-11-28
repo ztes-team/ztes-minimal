@@ -1,0 +1,17 @@
+{
+  "note": "[τ] one transition of machine 1, the BB(2) champion",
+  "constants": {
+    "M": 1,
+    "MACHINE": "1RB1LB_1LA1RZ"
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Config"
+    }
+  }
+}

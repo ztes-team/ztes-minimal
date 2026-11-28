@@ -1,0 +1,15 @@
+{
+  "note": "[τ] the indicators of the latest profile, each equal to its definition in measure()",
+  "inputs": {
+    "context": {
+      "steps": "history",
+      "profile": "profile",
+      "profiles": "profiles",
+      "kpis": "kpis"
+    },
+    "candidate": {
+      "name": "w",
+      "type": "Kpi"
+    }
+  }
+}

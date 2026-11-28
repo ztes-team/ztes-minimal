@@ -1,0 +1,12 @@
+{
+  "note": "[ω] the indicators of the execution, computed on demand over the read-only record",
+  "inputs": {
+    "context": {
+      "steps": "history",
+      "profile": "profile",
+      "profiles": "profiles",
+      "kpis": "kpis"
+    }
+  },
+  "returns": "Kpi"
+}

@@ -1,0 +1,102 @@
+{
+  "system": "antihydra",
+  "title": "Antihydra: the rules of a six-state machine whose halting no one has decided",
+  "abstractions": [
+    "rule",
+    "halt"
+  ],
+  "kpi": "kpi",
+  "types": {
+    "Step": {
+      "record": {
+        "k": "integer",
+        "a": "integer",
+        "b": "integer"
+      }
+    },
+    "Halt": {
+      "record": {
+        "k": "integer"
+      }
+    },
+    "Kpi": {
+      "record": {
+        "profile": "integer",
+        "steps": "integer",
+        "b": "integer",
+        "even": "integer",
+        "odd": "integer",
+        "lowest_b": "integer",
+        "digits_of_a": "integer",
+        "halted": "boolean"
+      }
+    }
+  },
+  "bindings": {
+    "steps": {
+      "from": "rule",
+      "select": "count",
+      "note": "how many steps are recorded"
+    },
+    "last": {
+      "from": "rule",
+      "select": "last",
+      "type": "Step",
+      "default": {
+        "k": 0,
+        "a": 8,
+        "b": 0
+      },
+      "note": "the last recorded step"
+    },
+    "halts": {
+      "from": "halt",
+      "select": "count",
+      "note": "0 until the goal is recorded"
+    },
+    "history": {
+      "from": "rule",
+      "select": "all",
+      "type": "Step",
+      "note": "every recorded step"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "max_admissions": 1001,
+      "note": "a window of observation: step 0 and 1,000 iterations of the recurrence"
+    },
+    {
+      "kpi": true,
+      "note": "execution indicators, once, at the end"
+    }
+  ],
+  "expect": {
+    "events": 1012,
+    "states": {
+      "rule": "wait",
+      "halt": "wait"
+    },
+    "values": {
+      "kpi": [
+        {
+          "profile": 1,
+          "steps": 1000,
+          "b": 497,
+          "even": 499,
+          "odd": 501,
+          "lowest_b": 0,
+          "digits_of_a": 177,
+          "halted": false
+        }
+      ]
+    }
+  }
+}

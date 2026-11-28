@@ -1,0 +1,12 @@
+{
+  "note": "[ω] the indicators of the execution, computed on demand over the read-only record",
+  "inputs": {
+    "context": [
+      "pieces",
+      "profile",
+      "profiles",
+      "kpis"
+    ]
+  },
+  "returns": "Kpi"
+}

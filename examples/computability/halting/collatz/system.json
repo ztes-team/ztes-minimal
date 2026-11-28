@@ -1,0 +1,90 @@
+{
+  "system": "collatz",
+  "title": "Collatz: infinitely many goals, established one by one by an induction over the record",
+  "abstractions": [
+    "segment"
+  ],
+  "kpi": "kpi",
+  "types": {
+    "Piece": {
+      "record": {
+        "n": "integer",
+        "path": {
+          "list": "integer"
+        },
+        "below": "boolean"
+      }
+    },
+    "Kpi": {
+      "record": {
+        "profile": "integer",
+        "numbers": "integer",
+        "recorded_steps": "integer",
+        "steps_to_1": "integer",
+        "saved_permille": "integer",
+        "longest": "integer",
+        "longest_n": "integer"
+      }
+    }
+  },
+  "constants": {
+    "L": 1000
+  },
+  "bindings": {
+    "last": {
+      "from": "segment",
+      "select": "last",
+      "type": "Piece",
+      "default": {
+        "n": 0,
+        "path": [
+          0
+        ],
+        "below": true
+      },
+      "note": "the last recorded piece (number 0, fallen below, before the first): it gives the next number"
+    },
+    "pieces": {
+      "from": "segment",
+      "select": "all",
+      "type": "Piece",
+      "note": "every recorded piece"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "max_admissions": 1000,
+      "note": "a window of observation: the numbers 1 … 1000"
+    },
+    {
+      "kpi": true,
+      "note": "execution indicators, once, at the end"
+    }
+  ],
+  "expect": {
+    "events": 1009,
+    "states": {
+      "segment": "wait"
+    },
+    "values": {
+      "kpi": [
+        {
+          "profile": 1,
+          "numbers": 1000,
+          "recorded_steps": 5379,
+          "steps_to_1": 59542,
+          "saved_permille": 909,
+          "longest": 132,
+          "longest_n": 703
+        }
+      ]
+    }
+  }
+}

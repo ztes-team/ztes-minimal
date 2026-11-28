@@ -26,6 +26,22 @@ for event (`tests/test_records.py`).
   tests (records, replay modes, configurations, workers) cover every system under `examples/`,
   nested ones included.
 
+**Computability on the record** (`examples/computability/`, not examples of the paper)
+* The model `halting` executes the modalities of halting, with the evidence for every verdict. Each
+  class is stated for the maximal execution of a fixed regime and a named family of goals, of which
+  a record is a finite prefix; together the systems show executions in all four classes.
+* `machines`: the Busy Beaver champions with 2, 3 and 4 states halt after 6, 21 and 107 steps. A
+  cycler and a translated cycler never halt; each has a certificate that the criterion checks
+  without search (Proposition 14).
+* `collatz`: the numbers 1 … 1,000 reach 1, each by an induction over the record. 5,379 steps are
+  recorded instead of 59,542.
+* `antihydra`: the recurrence of the six-state machine whose halting is open, 1,000 iterations, no
+  verdict.
+* `finish-fair`, `finish-unfair`, `finish-unreachable`: tick/finish of §6.2 with a recorded
+  scheduler, in classes 𝔗, 𝔚 and 𝔓. The last two carry the same execution payloads and differ in
+  the specification of `policy`: the class is a property of the regime.
+* `tests/test_halting.py`.
+
 **Tooling**
 * `python -m ztes run` shows a value longer than 600 characters by its beginning and its length; the
   record keeps it whole, and `explain` shows it. The record display of the ten examples is unchanged.

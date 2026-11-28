@@ -1,0 +1,12 @@
+{
+  "note": "[τ] every step is T, and the piece stops at the first value below its number",
+  "inputs": {
+    "context": [
+      "last"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Piece"
+    }
+  }
+}

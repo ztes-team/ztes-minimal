@@ -1,0 +1,13 @@
+{
+  "note": "[τ] exactly the tick the recorded decisions call for",
+  "inputs": {
+    "context": [
+      "decisions",
+      "ticks"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Tick"
+    }
+  }
+}

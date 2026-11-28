@@ -1,0 +1,11 @@
+{
+  "note": "[ω] the next finish the recorded decisions call for",
+  "inputs": {
+    "context": [
+      "decisions",
+      "ticks",
+      "finishes"
+    ]
+  },
+  "returns": "Finish"
+}

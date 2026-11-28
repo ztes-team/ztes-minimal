@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the goal: a recorded step with b = −1",
+  "inputs": {
+    "context": [
+      "last",
+      "halts"
+    ]
+  },
+  "returns": "Halt"
+}

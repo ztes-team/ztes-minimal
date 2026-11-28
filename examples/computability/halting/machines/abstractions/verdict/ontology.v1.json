@@ -1,0 +1,13 @@
+{
+  "note": "[ω] the verdict on machine 1, the BB(2) champion",
+  "constants": {
+    "M": 1
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ]
+  },
+  "returns": "Verdict"
+}

@@ -1,0 +1,16 @@
+{
+  "note": "[τ] the verdict on machine 1, checked without search",
+  "constants": {
+    "M": 1
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Verdict"
+    }
+  }
+}

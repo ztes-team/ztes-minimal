@@ -1,0 +1,18 @@
+{
+  "note": "[τ] one transition of machine 4, a cycler",
+  "constants": {
+    "M": 4,
+    "MACHINE": "1LB0RB_1LC0LC_0RA1RZ"
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Config"
+    }
+  },
+  "body_file": "criterion.v1.py"
+}

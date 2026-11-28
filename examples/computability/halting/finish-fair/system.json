@@ -1,0 +1,90 @@
+{
+  "system": "finish-fair",
+  "title": "tick/finish with a fair scheduler: finish is taken after an even number of ticks",
+  "abstractions": [
+    "policy",
+    "tick",
+    "finish"
+  ],
+  "sources": {
+    "policy": {
+      "random": {
+        "seed": 6,
+        "size": 1,
+        "below": 2
+      }
+    }
+  },
+  "types": {
+    "Decision": {
+      "list": "integer"
+    },
+    "Tick": {
+      "record": {
+        "k": "integer"
+      }
+    },
+    "Finish": {
+      "record": {
+        "ticks": "integer"
+      }
+    }
+  },
+  "bindings": {
+    "decisions": {
+      "from": "policy",
+      "select": "all",
+      "type": "Decision",
+      "note": "the recorded decisions: 0 tick, 1 finish"
+    },
+    "ticks": {
+      "from": "tick",
+      "select": "count",
+      "note": "how many ticks are recorded"
+    },
+    "finishes": {
+      "from": "finish",
+      "select": "count",
+      "note": "0 until finish is recorded"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "note": "until terminal: finish is taken"
+    },
+    {
+      "kpi": true,
+      "note": "execution indicators, once, at the end"
+    }
+  ],
+  "expect": {
+    "events": 26,
+    "states": {
+      "policy": "closed",
+      "tick": "wait",
+      "finish": "wait"
+    },
+    "values": {
+      "finish": [
+        {
+          "ticks": 6
+        }
+      ]
+    },
+    "any_schedule": {
+      "note": "the policy may record more decisions before finish is recorded; the finish is the same",
+      "last": {
+        "finish": {
+          "ticks": 6
+        }
+      }
+    }
+  }
+}

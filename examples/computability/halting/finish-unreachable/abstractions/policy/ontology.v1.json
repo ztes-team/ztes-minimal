@@ -1,0 +1,12 @@
+{
+  "note": "[ω] a deterministic scheduler: it always proposes tick, while finish is not recorded",
+  "inputs": {
+    "context": [
+      "finishes"
+    ]
+  },
+  "returns": "Decision",
+  "body": {
+    "result": "[0] if finishes == 0 else None"
+  }
+}

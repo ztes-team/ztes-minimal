@@ -1,0 +1,18 @@
+{
+  "note": "[τ] one transition of machine 2, the BB(3) champion",
+  "constants": {
+    "M": 2,
+    "MACHINE": "1RB1RZ_1LB0RC_1LC1LA"
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Config"
+    }
+  },
+  "body_file": "criterion.v1.py"
+}

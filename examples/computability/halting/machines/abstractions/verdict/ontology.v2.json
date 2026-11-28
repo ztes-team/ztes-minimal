@@ -1,0 +1,14 @@
+{
+  "note": "[ω] the verdict on machine 2, the BB(3) champion",
+  "constants": {
+    "M": 2
+  },
+  "inputs": {
+    "context": [
+      "configs",
+      "verdicts"
+    ]
+  },
+  "returns": "Verdict",
+  "body_file": "ontology.v1.py"
+}

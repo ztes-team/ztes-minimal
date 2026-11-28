@@ -18,6 +18,12 @@ PINNED = {                      # example: (events, digest of the record)
     "aco":             (73,  "449255bb3c29dce2"),
     "aco-draw":        (138, "de75462c47bef7af"),
     "agent":           (85,  "275977ab65c077bd"),   # added in 0.1.1
+    "computability/halting/antihydra":             (1012, "91db8f046e3e1a14"),   # added after 0.1.2
+    "computability/halting/collatz":               (1009, "e22c3a9b81b3026f"),   # added after 0.1.2
+    "computability/halting/finish-fair":           (26,   "31a2c4d81d473c38"),   # added after 0.1.2
+    "computability/halting/finish-unfair":         (50,   "2f1ca06deb972113"),   # added after 0.1.2
+    "computability/halting/finish-unreachable":    (50,   "bbcf4291e6688799"),   # added after 0.1.2
+    "computability/halting/machines":              (183,  "b34659e7f8958d8b"),   # added after 0.1.2
     "dedekind-cut":    (26,  "cb2a10ba074ba456"),
     "factorization":   (27,  "7412db70b15c9f13"),
     "payment":         (21,  "93eab31cd4750c1f"),

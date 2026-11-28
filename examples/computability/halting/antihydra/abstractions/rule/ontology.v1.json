@@ -1,0 +1,10 @@
+{
+  "note": "[ω] the next step of the rules of Antihydra",
+  "inputs": {
+    "context": [
+      "steps",
+      "last"
+    ]
+  },
+  "returns": "Step"
+}

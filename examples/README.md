@@ -184,6 +184,21 @@ slice, in exact arithmetic, with the record as the memo table, in three systems:
 It adds no computational power (§4.5): it is the standard exact method, made replayable and
 governable. Its tests are in `tests/test_physics.py`, listed in [`physics/README.md`](physics/README.md#tests-teststest_physicspy).
 
+## Beyond the paper: computability
+
+[`computability/`](computability/README.md) holds a second branch of systems that are not examples
+of the paper. Its first model, [`halting`](computability/halting/DESIGN.md), executes the modalities
+of halting with the evidence for every verdict. Each class of Theorem 4 is stated for the maximal
+execution of a fixed regime and a named family of goals; together the systems show all four:
+* `machines`: three Busy Beaver champions halt; two machines never halt, each with a certificate
+  checked by the criterion (Proposition 14);
+* `collatz`: the numbers 1 … 1,000 reach 1 by an induction over the record;
+* `antihydra`: the recurrence of a six-state machine whose halting no one has decided;
+* `finish-fair`, `finish-unfair`, `finish-unreachable`: tick/finish of §6.2 with a recorded
+  scheduler, in classes 𝔗, 𝔚 and 𝔓. The last two have the same execution payloads.
+
+Its tests are in `tests/test_halting.py`, listed in [`computability/README.md`](computability/README.md#tests-teststest_haltingpy).
+
 ## Tests of the examples
 
 Every example states its expected end in `system.json` (`"expect"`); `python -m ztes run` compares
