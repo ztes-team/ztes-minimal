@@ -1,0 +1,4 @@
+{
+  "note": "[τ] the authority in force: one decision, only after a certificate is recorded, from the slice at which the walk waits; it may carry only step and certificate, with Q equal to the q it states, 0 < q ≤ 1",
+  "inputs": {"context": ["last", "certificates", "decisions"], "candidate": {"name": "w", "type": "Decision"}}
+}

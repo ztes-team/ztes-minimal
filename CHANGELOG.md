@@ -25,8 +25,9 @@ for event (`tests/test_records.py`).
 * The model `absorbing-walk`: a quantum walk on four nodes with an absorbing trap, in exact
   arithmetic. A dark state gives the classes of Theorem 4: `bright` attains every goal (𝔒); `dark`
   records a certificate, checked without search, that half of the walk never reaches the trap
-  (𝔓, Proposition 14); `dephasing` adds dephasing by a governed change and reaches the goals the
-  certificate excluded (Corollary 9). Tests in `tests/test_absorbing.py`.
+  (𝔓, Proposition 14); in `dephasing` a compensation event, admissible only after the certificate,
+  carries dephasing and the goals the certificate excluded are reached (§6.5, Corollary 9). Tests
+  in `tests/test_absorbing.py`.
 * `tests/test_physics.py`, with a Monte Carlo baseline that meets the sign problem. The general
   tests (records, replay modes, configurations, workers) cover every system under `examples/`,
   nested ones included.

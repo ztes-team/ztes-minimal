@@ -1,9 +1,10 @@
 {
   "system": "dephasing",
-  "title": "The dark walk, then a governed change that adds dephasing: the goals the certificate excluded become reachable (Corollary 9)",
+  "title": "The dark walk, then a compensation event admitted only after the certificate: dephasing makes the excluded goals reachable (Corollary 9)",
   "abstractions": [
     "certificate",
-    "step"
+    "step",
+    "compensation"
   ],
   "kpi": "kpi",
   "types": {
@@ -43,6 +44,17 @@
           "list": "integer"
         }
       }
+    },
+    "Decision": {
+      "record": {
+        "from": "integer",
+        "q": {
+          "list": "integer"
+        },
+        "specifications": {
+          "list": "specification"
+        }
+      }
     }
   },
   "constants": {
@@ -78,7 +90,16 @@
     ],
     "D": 13,
     "TRAP": 1,
-    "START": 2
+    "START": 2,
+    "T_DECIDE": 20,
+    "CHANGE": {
+      "$specifications": [
+        "step/criterion.v2",
+        "step/ontology.v2",
+        "certificate/criterion.v2",
+        "certificate/ontology.v2"
+      ]
+    }
   },
   "derived": {
     "U": "cayley(A, EPS, D)"
@@ -114,6 +135,11 @@
       "select": "all",
       "type": "Certificate",
       "note": "every recorded certificate"
+    },
+    "decisions": {
+      "from": "compensation",
+      "select": "count",
+      "note": "how many decisions of compensation are recorded"
     }
   },
   "plan": [
@@ -125,22 +151,8 @@
     },
     {
       "phase": 3,
-      "max_admissions": 22,
-      "note": "slices 0 … 20 and the certificate, under Q = 0"
-    },
-    {
-      "govern": [
-        "step/criterion.v2",
-        "step/ontology.v2",
-        "certificate/criterion.v2",
-        "certificate/ontology.v2"
-      ],
-      "note": "dephasing with strength 1/4: a new regime, continued from the recorded slice 20"
-    },
-    {
-      "phase": 3,
-      "max_admissions": 40,
-      "note": "slices 21 … 60, under Q = 1/4"
+      "max_admissions": 63,
+      "note": "a window of observation: the certificate, slices 0 … 20 under Q = 0, the decision of compensation, slices 21 … 60 under Q = 1/4"
     },
     {
       "kpi": true,
@@ -148,10 +160,11 @@
     }
   ],
   "expect": {
-    "events": 77,
+    "events": 76,
     "states": {
+      "certificate": "wait",
       "step": "wait",
-      "certificate": "wait"
+      "compensation": "wait"
     },
     "values": {
       "certificate": [
@@ -183,9 +196,46 @@
         }
       ]
     },
+    "last": {
+      "compensation": {
+        "from": 20,
+        "q": [
+          1,
+          4
+        ]
+      },
+      "step": {
+        "t": 60
+      }
+    },
     "any_schedule": {
-      "note": "under workers the certificate may be admitted at another position, or after the change, when certificate v2 proposes none; each window always holds the same number of admissions",
-      "events": 77
+      "note": "the walk waits at slice 20 for the decision, and the decision waits for the certificate: the history of every abstraction is that of the agenda",
+      "values": {
+        "certificate": [
+          {
+            "pair": [
+              2,
+              3
+            ],
+            "dark": "1/2",
+            "bound": "1/2",
+            "k": 2
+          }
+        ]
+      },
+      "last": {
+        "compensation": {
+          "from": 20,
+          "q": [
+            1,
+            4
+          ]
+        },
+        "step": {
+          "t": 60
+        }
+      },
+      "events": 76
     }
   }
 }

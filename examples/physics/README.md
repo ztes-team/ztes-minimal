@@ -7,7 +7,7 @@ model, and each model has several systems.
 | Model | Systems | What it computes |
 |---|---|---|
 | [`path-sums`](path-sums/DESIGN.md) | `checkerboard`, `two-slits`, `barrier` | Feynman's sum over paths for a relativistic particle on a lattice, slice by slice, in exact arithmetic |
-| [`absorbing-walk`](absorbing-walk/DESIGN.md) | `bright`, `dark`, `dephasing` | a quantum walk on four nodes with an absorbing trap: a dark state, a certificate of unreachability, and dephasing as a governed change; the classes of Theorem 4 |
+| [`absorbing-walk`](absorbing-walk/DESIGN.md) | `bright`, `dark`, `dephasing` | a quantum walk on four nodes with an absorbing trap: a dark state, a certificate of unreachability, and a compensation, admitted after it, that adds dephasing; the classes of Theorem 4 |
 
 ```bash
 python -m ztes run examples/physics/path-sums/checkerboard
@@ -84,7 +84,8 @@ and it never reaches the trap. The same walk then gives the classes of Theorem 4
 * from a start without a dark part every goal is attained, class 𝔒;
 * from a start with one an admitted certificate shows that most goals are unreachable, class 𝔓
   (Proposition 14);
-* dephasing, introduced by a governed change, makes them reachable again (Corollary 9).
+* dephasing, carried by a compensation event that is admissible only after the certificate, makes
+  them reachable again (§6.5, Corollary 9).
 
 A classical random walk on the same graph is absorbed with probability 1. Quantum walks with
 infinite hitting times, and transport that dephasing assists, are the bridge to the literature;
@@ -94,7 +95,7 @@ the model design gives the references, and what this small model does not show.
 |---|---|---|---|
 | [`bright`](absorbing-walk/bright/DESIGN.md) | start at node 4: G₁ … G₂₁ attained in 40 slices, an unconditional 𝔒 | 52 | 0.06 MB |
 | [`dark`](absorbing-walk/dark/DESIGN.md) | start at node 2: half of the walk stays dark; a certificate, checked without search, that absorbed ≤ 1/2 forever: 𝔓 | 53 | 0.06 MB |
-| [`dephasing`](absorbing-walk/dephasing/DESIGN.md) | `dark`, then dephasing q = 1/4 as a governed change: G₂ attained at slice 30 | 77 | 0.11 MB |
+| [`dephasing`](absorbing-walk/dephasing/DESIGN.md) | `dark`, then a compensation event, admissible only after the certificate, that carries dephasing q = 1/4: G₂ attained at slice 30 | 76 | 0.14 MB |
 
 The tests (`tests/test_absorbing.py`) are listed in the model design,
 [`absorbing-walk/DESIGN.md`](absorbing-walk/DESIGN.md), §7.

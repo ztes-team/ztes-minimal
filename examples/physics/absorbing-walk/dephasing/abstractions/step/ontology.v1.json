@@ -1,6 +1,6 @@
 {
-  "note": "[ω] the next slice from the last recorded one: U, then dephasing with Q, then absorption at TRAP; slice 0 from START",
+  "note": "[ω] the next slice from the last recorded one: U, then dephasing with Q, then absorption at TRAP; slice 0 from START; at slice T_DECIDE the walk waits for the decision of compensation",
   "constants": {"Q": [0, 1]},
-  "inputs": {"context": ["last"]},
+  "inputs": {"context": ["last", "decisions"]},
   "returns": "Slice"
 }

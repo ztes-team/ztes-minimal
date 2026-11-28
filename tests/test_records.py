@@ -27,9 +27,9 @@ PINNED = {                      # example: (events, digest of the record)
     "dedekind-cut":    (26,  "cb2a10ba074ba456"),
     "factorization":   (27,  "7412db70b15c9f13"),
     "payment":         (21,  "93eab31cd4750c1f"),
-    "physics/absorbing-walk/bright":    (52,  "2c928f9736a0dc04"),   # added after 0.1.2
-    "physics/absorbing-walk/dark":      (53,  "90ba00ad3e0f9ff8"),   # added after 0.1.2
-    "physics/absorbing-walk/dephasing": (77,  "ae148d9d519d5158"),   # added after 0.1.2
+    "physics/absorbing-walk/bright":    (52,  "eb2877635c0da683"),   # added after 0.1.2
+    "physics/absorbing-walk/dark":      (53,  "0ebb500a5a75349b"),   # added after 0.1.2
+    "physics/absorbing-walk/dephasing": (76,  "c65b4d6f0416b80d"),   # added after 0.1.2
     "physics/path-sums/barrier":      (237, "697c69821b4e496d"),   # added after 0.1.2
     "physics/path-sums/checkerboard": (50,  "ea260db8d38fef00"),   # added after 0.1.2
     "physics/path-sums/two-slits":    (89,  "3f029aeb116dc81a"),   # added after 0.1.2

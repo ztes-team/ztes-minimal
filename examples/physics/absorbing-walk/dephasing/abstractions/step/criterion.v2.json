@@ -1,6 +1,6 @@
 {
-  "note": "[τ] one slice under dephasing with strength 1/4, checked against the recorded slice before it; the body of v1",
+  "note": "[τ] one slice under dephasing with strength 1/4, checked against the recorded slice before it; the body of v1; carried by compensation",
   "constants": {"Q": [1, 4]},
-  "inputs": {"context": ["last"], "candidate": {"name": "w", "type": "Slice"}},
+  "inputs": {"context": ["last", "decisions"], "candidate": {"name": "w", "type": "Slice"}},
   "body_file": "criterion.v1.py"
 }

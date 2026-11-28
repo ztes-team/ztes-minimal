@@ -187,7 +187,7 @@ governable. Its tests are in `tests/test_physics.py`, listed in [`physics/README
 Its second model, [`absorbing-walk`](physics/absorbing-walk/DESIGN.md), is a quantum walk on four
 nodes with an absorbing trap. A dark state gives the classes of Theorem 4 in a physical system: 𝔒
 from one start, 𝔓 with an admitted certificate from another, and the restoration of reachability
-by a governed change that adds dephasing (Corollary 9). Its tests are in `tests/test_absorbing.py`.
+by a compensation event, admissible only after the certificate, that adds dephasing (Corollary 9). Its tests are in `tests/test_absorbing.py`.
 
 ## Beyond the paper: computability
 

@@ -7,7 +7,8 @@ what it cannot show by itself:
 * in `dark` the dark probability is 1/2 at every slice, and a wrong certificate is refused;
 * the step with absorption has the eigenvalues 0, 1 and (7 ± 2√17·i)/13, which give class 𝔒 to
   `bright` beyond its window;
-* in `dephasing` the goals the certificate excluded are attained after the governed change;
+* in `dephasing` a compensation event, admissible only after the certificate, changes the regime,
+  and the goals the certificate excluded are attained after it, with S_{t+1} <= (165/169)·S_t;
 * with q = 1 the walk is a classical Markov chain; a step that is not unitary, or a dephasing
   strength outside [0, 1], is refused.
 """
@@ -26,7 +27,7 @@ from ztes.system.system import System
 
 WALK = ROOT / "examples" / "physics" / "absorbing-walk"
 NAMES = ["bright", "dark", "dephasing"]
-EVENTS = {"bright": 52, "dark": 53, "dephasing": 77}
+EVENTS = {"bright": 52, "dark": 53, "dephasing": 76}
 
 _RUNS = {}
 
@@ -48,13 +49,13 @@ def values(C, a):
     return [e["payload"] for _, e in execs(C, a)]
 
 
-def variant(name, constants=None, step_q=None, plan=3):
+def variant(name, constants=None, step_q=None, plan=3, only=("step", "certificate")):
     """The record of a system with changed constants or dephasing strength (first plan steps only)."""
     m = read_directory(WALK / name)
     if constants:
         m["constants"] = dict(m["constants"], **constants)
     if step_q:
-        for a in ("step", "certificate"):
+        for a in only:
             for k in ("ontology", "criterion"):
                 m["specifications"][f"{a}/{k}.v1"]["constants"] = {"Q": step_q}
     system, store = System.from_dict(m), MemoryStore()
@@ -191,11 +192,13 @@ def test_a_wrong_certificate_is_refused_and_dephasing_admits_none():
     assert evaluation.judge(P, tau, good)
     assert not evaluation.judge(P, tau, dict(good, pair=[2, 4]))                      # U(e₂ − e₄) ≠ e₂ − e₄
     assert not evaluation.judge(P, tau, dict(good, pair=[1, 2]))                      # node 1 is the trap
+    for pair in ([], [2], [2, 3, 4]):                                                 # total on its domain
+        assert evaluation.judge(P, tau, dict(good, pair=pair)) is False
     assert not evaluation.judge(P, tau, dict(good, bound="1/3"))
     assert not evaluation.judge(P, tau, dict(good, k=3))
 
     _, D = run("dephasing")
-    after = max(n for n, e in enumerate(D) if e["coord"]["kind"] == "spec")             # after the governed change
+    after = execs(D, "compensation")[0][0]                                            # the governing event
     P = D[:after + 1]
     tau = lookups.load(P, lookups.active(P, "certificate", "criterion"))
     omega = lookups.load(P, lookups.active(P, "certificate", "ontology"))
@@ -236,15 +239,52 @@ def test_bright_the_step_with_absorption_has_no_other_eigenvalue_of_modulus_1():
 # ---- dephasing -----------------------------------------------------------------------------------
 
 def test_dephasing_restores_reachability_after_the_governed_change():
-    """Corollary 9: under Q = 0 the certificate excludes every goal from k = 2 on; after the change
-    to Q = 1/4 goal 2 is attained at slice 30. Slices 0 … 20 are those of `dark`, event for event."""
+    """Corollary 9: under Q = 0 the certificate excludes every goal from k = 2 on; the compensation
+    event that carries Q = 1/4 is admitted after it, at slice 20, and goal 2 is attained at slice 30.
+    The payloads of slices 0 … 20 are those of `dark`."""
     _, C = run("dephasing")
     _, Dk = run("dark")
     assert values(C, "step")[:21] == values(Dk, "step")[:21]
-    assert values(C, "certificate")[0]["k"] == 2
+    (c, _), = execs(C, "certificate")
+    (g, e), = execs(C, "compensation")
+    assert c < g and e["payload"]["from"] == 20 and e["payload"]["q"] == [1, 4]
+    assert [s["abstraction"] + "/" + s["role"] for s in e["payload"]["specifications"]] == [
+        "step/criterion", "step/ontology", "certificate/criterion", "certificate/ontology"]
+    assert [s["t"] for n, s in [(n, x["payload"]) for n, x in execs(C, "step")] if n > g][0] == 21
     goals = values(C, "kpi")[-1]["goals"]
     assert goals[:2] == [22, 30] and all(t > 20 for t in goals)
+    absorbed = [recorded(s)[1] for s in values(C, "step")]
+    assert absorbed[29] < Fraction(3, 4) <= absorbed[30]
     assert verify(C) == []
+
+
+def test_dephasing_remaining_probability_falls_by_at_least_165_169_per_step():
+    """After a step with dephasing at least the share q of what remains is diagonal, and from node 2,
+    3 or 4 one step moves at least 16/169 of a diagonal state to the trap, so S_{t+1} <= (1 − 16q/169)·S_t:
+    for q = 1/4, (165/169)·S_t from t = 21 on. Hence S_t → 0 and every G_k is attained."""
+    _, C = run("dephasing")
+    S = [sum(recorded(s)[0][k][k][0] for k in range(4)) for s in values(C, "step")]
+    assert all(S[t + 1] <= Fraction(165, 169) * S[t] for t in range(21, 60))
+    assert min(abs(z) ** 2 for z in [complex(x) for x in U13[0][1:]]) == 16
+
+
+def test_the_compensation_is_admissible_only_after_a_certificate():
+    """The criterion of compensation is the authority (R1). Without a certificate the walk waits at
+    slice 20 and no change is admitted; a decision that carries another q, or not the four
+    specifications of step and certificate, or from another slice, is refused."""
+    system, C = variant("dephasing", step_q=[1, 1], only=("certificate",))
+    assert values(C, "certificate") == [] and values(C, "compensation") == []
+    assert [s["t"] for s in values(C, "step")] == list(range(21))
+    _, D = run("dephasing")
+    (g, e), = execs(D, "compensation")
+    good = e["payload"]
+    tau = lookups.load(D[:g], e["coord"]["criterion"])
+    assert evaluation.judge(D[:g], tau, good)
+    assert not evaluation.judge(C, tau, good)                                          # no certificate recorded
+    assert not evaluation.judge(D[:g], tau, dict(good, q=[1, 2]))
+    assert not evaluation.judge(D[:g], tau, dict(good, specifications=good["specifications"][:2]))
+    assert not evaluation.judge(D[:g], tau, dict(good, **{"from": 19}))
+    assert evaluation.judge(D[:g], tau, dict(good, q=[])) is False
 
 
 # ---- the classical limit and refusals ------------------------------------------------------------

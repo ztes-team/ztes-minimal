@@ -6,9 +6,11 @@ def tau(A, TRAP, START, D, Q, U, certs, w):
     if certs > 0 or Q[0] != 0 or U is None:
         return False
     n = len(U)
+    if len(w["pair"]) != 2:
+        return False
     i = w["pair"][0] - 1
     j = w["pair"][1] - 1
-    if len(w["pair"]) != 2 or not (0 <= i < j < n) or i == TRAP - 1 or j == TRAP - 1:
+    if not (0 <= i < j < n) or i == TRAP - 1 or j == TRAP - 1:
         return False
     d = [1 if k == i else (-1 if k == j else 0) for k in range(n)]
     for r in range(n):

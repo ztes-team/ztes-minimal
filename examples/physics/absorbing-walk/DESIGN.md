@@ -9,7 +9,8 @@ attached to an absorbing trap, gives three outcomes:
 * from one start, every goal of the family below is attained at a finite step, class 𝔒;
 * from another start, half of the walk never reaches the trap. A certificate admitted in the record
   shows that most goals are unreachable at every prefix, class 𝔓;
-* a governed change that adds dephasing makes those goals reachable again (Corollary 9).
+* a compensation event, admissible only once that certificate is recorded, adds dephasing and
+  makes those goals reachable again (§6.5, Corollary 9).
 
 The mechanism is a dark state: a part of the walk that interference keeps away from the trap
 forever. A classical random walk on the same graph is absorbed with probability 1.
@@ -81,11 +82,17 @@ the trap is therefore at least ⟨d|ρ|d⟩/2 at every step.
   the only such vector is d. The probability that remains falls roughly as (9/13)ᵗ, so every G_k
   is attained at a finite step. The specification has no bound, so the unbounded execution is in 𝔒.
   This is an unconditional 𝔒, unlike `collatz`.
-* **`dephasing`, start at node 2.** Under q = 0 the certificate of `dark` is admitted. A governed
-  change then activates q = 1/4. Dephasing shrinks ρ₂₃, the coherence that keeps the dark state,
-  so the invariant fails, and every G_k becomes reachable from the recorded prefix. This is
-  Corollary 9: G₂ is reached along a governed history, although no continuation of the earlier
-  regime reaches it. Every judgment before the change still replays (R2).
+* **`dephasing`, start at node 2.** Under q = 0 the certificate of `dark` is admitted. A
+  compensation event, admissible only once that certificate is recorded, then activates q = 1/4 at
+  slice 20. Dephasing shrinks ρ₂₃, the coherence that keeps the dark state, so the invariant fails,
+  and every G_k becomes reachable. Let Sₜ be the probability that remains after step t. After a
+  step with dephasing, ρₜ = (1 − q)·PσₜP + q·P diag(σₜ)P, where σₜ is the state before dephasing and
+  both terms are positive semidefinite, so at least the share q of Sₜ is diagonal. From node 2, 3
+  or 4 one step moves at least |U₁ⱼ|² ≥ 16/169 of a diagonal state to the trap. Hence
+  Sₜ₊₁ ≤ (1 − 16q/169)·Sₜ, which is (165/169)·Sₜ for q = 1/4 from t = 21 on, and Sₜ → 0: every
+  threshold 1 − 2⁻ᵏ is crossed at a finite step. This is Corollary 9: G₂ is reached along a governed
+  history, at slice 30, although no continuation of the earlier regime reaches it. Every judgment
+  before the change still replays (R2).
 * **The classical limit, q = 1.** The diagonal then follows a Markov chain with transition
   probabilities |U_ij|², which are 81, 36, 36 and 16 out of 169. From every start it is absorbed
   with probability 1. A test checks this; no system records it.
@@ -94,7 +101,7 @@ the trap is therefore at least ⟨d|ρ|d⟩/2 at every step.
 |---|---|---|---|---|
 | `bright` | node 4 | 0 | G_k attained one by one | 𝔒 |
 | `dark` | node 2 | 0 | an admitted certificate: absorbed ≤ 1/2 forever | 𝔓 |
-| `dephasing` | node 2 | 0, then 1/4 | the certificate, a governed change, then G_k attained | 𝔓 under q = 0; after the change every G_k is reached along the governed history (Corollary 9) |
+| `dephasing` | node 2 | 0, then 1/4 | the certificate, the compensation event that it makes admissible, then G_k attained | 𝔓 under q = 0; after the change every G_k is reached along the governed history (Corollary 9) |
 
 `dark` and `bright` differ only in the constant START, the node of slice 0. In `finish-unfair` and
 `finish-unreachable` the specification of `policy` differs and the payloads are equal. Here the
@@ -106,6 +113,7 @@ rules of the walk are the same, and the start decides the class.
 |---|---|---|---|---|
 | `step` | Step | the next slice from the last recorded one; slice 0 from START | it equals one step exactly (U, then dephasing with Q, then absorption); trace + absorbed = 1; 0 ≤ Q ≤ 1 | `step` |
 | `certificate` | Unreach | if Q = 0: a pair of nodes other than node 1 with the same neighbours, d = eᵢ − eⱼ with ⟨d\|ρ₀\|d⟩ > 0 for the start ρ₀; the dark probability p = ⟨d\|ρ₀\|d⟩/2, the bound 1 − p, and the least k with 1 − 2⁻ᵏ > 1 − p; ⊥ if there is none | Ud = d exactly, with the U of its own regime; d is 0 at node 1; Q = 0; p is recomputed from the start; k is the least such k | `certificate` |
+| `compensation` (`dephasing` only) | – | when a certificate is recorded and the walk waits at slice 20: a decision that carries `step` and `certificate` v2, with Q = 1/4; ⊥ before, and after its decision | the authority in force: one decision, only after a certificate, from the slice at which the walk waits; it carries only the four specifications of `step` and `certificate`, with Q equal to the q it states, 0 < q ≤ 1 | `step`, `certificate`, itself |
 | `kpi` | – | the slices and certificates recorded, the first slice of each G_k, absorbed and the dark probability at the last slice | each equals its definition | all |
 
 Payload of a slice: `{"t": 7, "diag": [n₂, n₃, n₄], "off": [[re, im]₂₃, [re, im]₂₄, [re, im]₃₄],
@@ -138,22 +146,29 @@ is replayed). In `bright` the ontology finds the pair (2, 3), but p = 0, so it p
   and R2 replays its admission at its own prefix. It reads the regime, not the slices, because it
   is a claim about every continuation. Without it, a window of slices with absorbed < 1/2 would
   show only that no goal is attained yet.
-* **A governed change of the physics** (R1): `step` v2 and `certificate` v2 with Q = 1/4 continue from
-  the recorded slice 20, and nothing is recomputed.
+* **A compensation admitted in execution** (R1, §6.5 of the paper). The certificate is an admitted
+  diagnosis; it makes `compensation` due, whose decision carries the change Δ, `step` and
+  `certificate` v2 with Q = 1/4. Its criterion is the authority in force: it admits the change only
+  when the record holds a certificate, so the proof that the earlier regime cannot reach G₂ governs
+  what happens next. The walk continues from the recorded slice 20, and nothing is recomputed.
+* **The walk waits for the decision.** In `dephasing`, `step` v1 proposes nothing after slice 20
+  until `compensation` has decided, and `compensation` waits for the certificate. Every abstraction
+  then has the same history under every schedule (`docs/writing-a-system.md`, specifications carried
+  by a candidate). `step` and `certificate` change together, because a regime changes as a whole.
 
 ## 5. Plan
 
 ```
 bright      phase 1, phase 2; phase 3, a window of 41 admissions (slices 0 … 40); kpi
 dark        phase 1, phase 2; phase 3, a window of 42 admissions (slices 0 … 40 and the certificate); kpi
-dephasing   phase 1, phase 2; phase 3, a window of 22 (slices 0 … 20 and the certificate);
-            govern step v2, certificate v2 (Q = 1/4); phase 3, a window of 40 (slices 21 … 60); kpi
+dephasing   phase 1, phase 2; phase 3, a window of 63 admissions (the certificate, slices 0 … 20,
+            the decision of compensation, slices 21 … 60); kpi
 ```
 
 `certificate` reads only the regime (A, START, Q), so it is enabled from the first prefix, and the
-agenda admits it before slice 0. Under workers it can be admitted at another position, after a
-window, or in `dephasing` after the change, when version 2 proposes none; the windows always hold
-the same number of admissions. The records described here are those of the agenda.
+agenda admits it before slice 0. In `dark`, under workers, it can be admitted at another position of
+the window, or after it. In `dephasing` the waits make the history of every abstraction that of the
+agenda under every schedule. There is no `govern` step: the change is an admitted event.
 
 ## 6. Expected end
 
@@ -161,9 +176,9 @@ the same number of admissions. The records described here are those of the agend
 |---|---|---|---|---|
 | `bright` | 41 | none | 0.99999957 | 2, 5, 6, 9, 10, 13, 14, 16, 17, 20, 21, 24, … |
 | `dark` | 41 | (2, 3), p = 1/2, G_k unreachable for k ≥ 2 | 0.49999981, below 1/2 at every slice | none |
-| `dephasing` | 61 | (2, 3), before the change | 0.9915 | 22, 30, 36, 42, 49, 55 |
+| `dephasing` | 61 | (2, 3), before the change at slice 20 | 0.9915 | 22, 30, 36, 42, 49, 55 |
 
-The records have 52, 53 and 77 events with the KPI step, and R2 replays each. The run computes
+The records have 52, 53 and 76 events with the KPI step, and R2 replays each. The run computes
 these values, and the tests check them against an independent computation.
 
 ## 7. Tests (`tests/test_absorbing.py`)
@@ -175,9 +190,11 @@ these values, and the tests check them against an independent computation.
 | `test_every_slice_equals_an_independent_exact_computation` | every slice of the three systems equals a computation written apart from `lib.py`; trace + absorbed = 1 |
 | `test_the_step_is_the_crank_nicolson_form_and_unitary` | (I + iA/3)·U = I − iA/3 and U·U† = I for the U of §1, exactly |
 | `test_dark_keeps_half_of_the_walk_from_the_trap_at_every_slice` | ⟨d\|ρ\|d⟩/2 = 1/2 at every slice; absorbed < 1/2; the certificate |
-| `test_a_wrong_certificate_is_refused_and_dephasing_admits_none` | D2: the pair (2, 4), a pair with the trap, a wrong bound or k are refused; under Q = 1/4 the ontology proposes nothing |
+| `test_a_wrong_certificate_is_refused_and_dephasing_admits_none` | D2: the pair (2, 4), a pair with the trap, a wrong bound or k are refused; a pair of another length gives false, not an error; under Q = 1/4 the ontology proposes nothing |
 | `test_bright_the_step_with_absorption_has_no_other_eigenvalue_of_modulus_1` | λ(λ − 1)(13λ² − 14λ + 9) = 0 for PU, exactly; d is the eigenvector of 1; each G_k of the window at its first slice |
-| `test_dephasing_restores_reachability_after_the_governed_change` | Corollary 9: G₂ at slice 30, after the change; slices 0 … 20 equal those of `dark` |
+| `test_dephasing_restores_reachability_after_the_governed_change` | Corollary 9: the certificate, then the compensation at slice 20 carrying the four specifications; absorbed < 3/4 at slice 29 and ≥ 3/4 at slice 30; slices 0 … 20 equal those of `dark` |
+| `test_dephasing_remaining_probability_falls_by_at_least_165_169_per_step` | Sₜ₊₁ ≤ (165/169)·Sₜ at every slice from t = 21 on |
+| `test_the_compensation_is_admissible_only_after_a_certificate` | without a certificate the walk waits at slice 20 and nothing changes; a decision with another q, without all four specifications, or from another slice is refused |
 | `test_with_q_1_the_walk_is_a_classical_markov_chain` | the diagonal follows the chain \|U_ij\|² exactly, no coherence, absorbed > 99 % |
 | `test_a_wrong_digit_a_step_that_is_not_unitary_or_a_strength_outside_0_1_is_refused` | a changed numerator is refused; a directed edge makes U non-unitary, refused at slice 1; Q = 5/4 is refused at slice 0 |
 
@@ -198,7 +215,8 @@ they cover `path-sums`.
 DESIGN.md         this design of the model
 bright/           start at node 4: system.json, lib.py, DESIGN.md, abstractions/{step, certificate, kpi}
 dark/             start at node 2: the same rules of the walk
-dephasing/        start at node 2, then a governed change to Q = 1/4 (step and certificate v2)
+dephasing/        start at node 2, then a compensation event carrying Q = 1/4: abstractions/compensation,
+                  and step and certificate v2 (named in the constant CHANGE, not recorded by the plan)
 ```
 
 Every system is self-contained, so each repeats the helpers of the walk in its own `lib.py`.

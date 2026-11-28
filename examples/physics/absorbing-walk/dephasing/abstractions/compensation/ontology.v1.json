@@ -1,0 +1,5 @@
+{
+  "note": "[ω] the compensation of §6.5: when a certificate is recorded and the walk waits at slice T_DECIDE, a decision that carries step and certificate v2 (dephasing with strength 1/4); ⊥ before, and after its decision",
+  "inputs": {"context": ["last", "certificates", "decisions"]},
+  "returns": "Decision"
+}
