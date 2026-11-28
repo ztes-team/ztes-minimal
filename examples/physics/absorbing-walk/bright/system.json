@@ -1,0 +1,185 @@
+{
+  "system": "bright",
+  "title": "An absorbing quantum walk on four nodes, started at a node with no dark part: every goal is attained",
+  "abstractions": [
+    "certificate",
+    "step"
+  ],
+  "kpi": "kpi",
+  "types": {
+    "Slice": {
+      "record": {
+        "t": "integer",
+        "diag": {
+          "list": "integer"
+        },
+        "off": {
+          "list": {
+            "list": "integer"
+          }
+        },
+        "absorbed": "integer",
+        "den": "integer"
+      }
+    },
+    "Certificate": {
+      "record": {
+        "pair": {
+          "list": "integer"
+        },
+        "dark": "rational",
+        "bound": "rational",
+        "k": "integer"
+      }
+    },
+    "Kpi": {
+      "record": {
+        "profile": "integer",
+        "slices": "integer",
+        "certificates": "integer",
+        "absorbed_ppm": "integer",
+        "dark_ppm": "integer",
+        "goals": {
+          "list": "integer"
+        }
+      }
+    }
+  },
+  "constants": {
+    "A": [
+      [
+        0,
+        1,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        1,
+        0
+      ]
+    ],
+    "EPS": [
+      1,
+      3
+    ],
+    "D": 13,
+    "TRAP": 1,
+    "START": 4
+  },
+  "derived": {
+    "U": "cayley(A, EPS, D)"
+  },
+  "bindings": {
+    "last": {
+      "from": "step",
+      "select": "last",
+      "type": "Slice",
+      "default": {
+        "t": -1,
+        "diag": [],
+        "off": [],
+        "absorbed": 0,
+        "den": 1
+      },
+      "note": "the last recorded slice (t = -1 before slice 0)"
+    },
+    "certs": {
+      "from": "certificate",
+      "select": "count",
+      "note": "how many certificates are recorded"
+    },
+    "slices": {
+      "from": "step",
+      "select": "all",
+      "type": "Slice",
+      "frozen": true,
+      "note": "every recorded slice"
+    },
+    "certificates": {
+      "from": "certificate",
+      "select": "all",
+      "type": "Certificate",
+      "note": "every recorded certificate"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "max_admissions": 41,
+      "note": "a window of observation: slices 0 … 40; the walk itself has no bound"
+    },
+    {
+      "kpi": true,
+      "note": "execution indicators, once, at the end"
+    }
+  ],
+  "expect": {
+    "events": 52,
+    "states": {
+      "step": "wait",
+      "certificate": "wait"
+    },
+    "values": {
+      "certificate": [],
+      "kpi": [
+        {
+          "profile": 1,
+          "slices": 41,
+          "certificates": 0,
+          "absorbed_ppm": 999999,
+          "dark_ppm": 0,
+          "goals": [
+            2,
+            5,
+            6,
+            9,
+            10,
+            13,
+            14,
+            16,
+            17,
+            20,
+            21,
+            24,
+            25,
+            27,
+            28,
+            31,
+            32,
+            35,
+            36,
+            39,
+            40
+          ]
+        }
+      ]
+    },
+    "any_schedule": {
+      "note": "the certificate proposes nothing from this start, under every schedule",
+      "events": 52,
+      "values": {
+        "certificate": []
+      }
+    }
+  }
+}

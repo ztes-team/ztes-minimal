@@ -1,0 +1,7 @@
+{
+  "note": "[ω] the next slice under dephasing with strength 1/4, from the last recorded one; the body of v1",
+  "constants": {"Q": [1, 4]},
+  "inputs": {"context": ["last"]},
+  "returns": "Slice",
+  "body_file": "ontology.v1.py"
+}

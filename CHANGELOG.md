@@ -22,6 +22,11 @@ for event (`tests/test_records.py`).
   screen serve both experiments.
 * `barrier`: tunnelling through a mass barrier for five widths, with the probability beyond the
   barrier exact.
+* The model `absorbing-walk`: a quantum walk on four nodes with an absorbing trap, in exact
+  arithmetic. A dark state gives the classes of Theorem 4: `bright` attains every goal (𝔒); `dark`
+  records a certificate, checked without search, that half of the walk never reaches the trap
+  (𝔓, Proposition 14); `dephasing` adds dephasing by a governed change and reaches the goals the
+  certificate excluded (Corollary 9). Tests in `tests/test_absorbing.py`.
 * `tests/test_physics.py`, with a Monte Carlo baseline that meets the sign problem. The general
   tests (records, replay modes, configurations, workers) cover every system under `examples/`,
   nested ones included.

@@ -7,12 +7,17 @@ model, and each model has several systems.
 | Model | Systems | What it computes |
 |---|---|---|
 | [`path-sums`](path-sums/DESIGN.md) | `checkerboard`, `two-slits`, `barrier` | Feynman's sum over paths for a relativistic particle on a lattice, slice by slice, in exact arithmetic |
+| [`absorbing-walk`](absorbing-walk/DESIGN.md) | `bright`, `dark`, `dephasing` | a quantum walk on four nodes with an absorbing trap: a dark state, a certificate of unreachability, and dephasing as a governed change; the classes of Theorem 4 |
 
 ```bash
 python -m ztes run examples/physics/path-sums/checkerboard
 python -m ztes run examples/physics/path-sums/two-slits
 python -m ztes run examples/physics/path-sums/barrier
 python -m pytest -q tests/test_physics.py
+python -m ztes run examples/physics/absorbing-walk/bright
+python -m ztes run examples/physics/absorbing-walk/dark
+python -m ztes run examples/physics/absorbing-walk/dephasing
+python -m pytest -q tests/test_absorbing.py
 ```
 
 `run` shows a long value by its beginning and its length. `python -m ztes run … --record DIR`
@@ -66,3 +71,30 @@ The general tests of the examples also cover these systems:
 * both replay modes (`test_replay_modes.py`);
 * every store and configuration (`test_config.py`);
 * workers on every store and under random schedules (`test_workers.py`).
+
+## absorbing-walk
+
+A quantum walk on the square 1–2–4–3–1, with node 1 coupled to an absorbing trap. One step is the
+Crank–Nicolson form of the continuous-time walk, exactly unitary with entries over 13, followed by
+dephasing of strength q and by absorption. The state is a density matrix with exact entries.
+
+Nodes 2 and 3 have the same neighbours, so e₂ − e₃ is a dark state: the step leaves it unchanged,
+and it never reaches the trap. The same walk then gives the classes of Theorem 4 for the goals
+"absorbed ≥ 1 − 2⁻ᵏ", k = 1, 2, …:
+* from a start without a dark part every goal is attained, class 𝔒;
+* from a start with one an admitted certificate shows that most goals are unreachable, class 𝔓
+  (Proposition 14);
+* dephasing, introduced by a governed change, makes them reachable again (Corollary 9).
+
+A classical random walk on the same graph is absorbed with probability 1. Quantum walks with
+infinite hitting times, and transport that dephasing assists, are the bridge to the literature;
+the model design gives the references, and what this small model does not show.
+
+| System | What it adds | Events | Record |
+|---|---|---|---|
+| [`bright`](absorbing-walk/bright/DESIGN.md) | start at node 4: G₁ … G₂₁ attained in 40 slices, an unconditional 𝔒 | 52 | 0.06 MB |
+| [`dark`](absorbing-walk/dark/DESIGN.md) | start at node 2: half of the walk stays dark; a certificate, checked without search, that absorbed ≤ 1/2 forever: 𝔓 | 53 | 0.06 MB |
+| [`dephasing`](absorbing-walk/dephasing/DESIGN.md) | `dark`, then dephasing q = 1/4 as a governed change: G₂ attained at slice 30 | 77 | 0.11 MB |
+
+The tests (`tests/test_absorbing.py`) are listed in the model design,
+[`absorbing-walk/DESIGN.md`](absorbing-walk/DESIGN.md), §7.

@@ -1,0 +1,6 @@
+{
+  "note": "[ω] if Q = 0: a pair of nodes other than TRAP with the same neighbours whose dark state holds part of the start; ⊥ if there is none",
+  "constants": {"Q": [0, 1]},
+  "inputs": {"context": ["certs"]},
+  "returns": "Certificate"
+}

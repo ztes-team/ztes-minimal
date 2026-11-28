@@ -184,6 +184,11 @@ slice, in exact arithmetic, with the record as the memo table, in three systems:
 It adds no computational power (§4.5): it is the standard exact method, made replayable and
 governable. Its tests are in `tests/test_physics.py`, listed in [`physics/README.md`](physics/README.md#tests-teststest_physicspy).
 
+Its second model, [`absorbing-walk`](physics/absorbing-walk/DESIGN.md), is a quantum walk on four
+nodes with an absorbing trap. A dark state gives the classes of Theorem 4 in a physical system: 𝔒
+from one start, 𝔓 with an admitted certificate from another, and the restoration of reachability
+by a governed change that adds dephasing (Corollary 9). Its tests are in `tests/test_absorbing.py`.
+
 ## Beyond the paper: computability
 
 [`computability/`](computability/README.md) holds a second branch of systems that are not examples

@@ -74,7 +74,7 @@ specifications carried in execution, `test_prime_criterion.py` for the optional 
 binding after a failed batch); they use `examples/sqrt2` and
 `tests/systems/counter`, a small system written in the same standard form. The examples have their
 own tests (`tests/test_examples.py`), described in [`examples/README.md`](../examples/README.md),
-and so do the physics examples (`tests/test_physics.py`), described in
+and so do the physics examples (`tests/test_physics.py` and `tests/test_absorbing.py`), described in
 [`examples/physics/README.md`](../examples/physics/README.md), and the halting examples
 (`tests/test_halting.py`), described in [`examples/computability/README.md`](../examples/computability/README.md).
 

@@ -1,0 +1,7 @@
+{
+  "note": "[ω] the body of v1 under Q = 1/4: with dephasing there is no invariant, so it proposes nothing",
+  "constants": {"Q": [1, 4]},
+  "inputs": {"context": ["certs"]},
+  "returns": "Certificate",
+  "body_file": "ontology.v1.py"
+}

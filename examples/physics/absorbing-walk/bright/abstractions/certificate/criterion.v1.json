@@ -1,0 +1,5 @@
+{
+  "note": "[τ] Ud = d exactly for d = e_i − e_j, both nodes other than TRAP; Q = 0; the dark part p recomputed from the start; bound 1 − p; k the least with 2^-k < p",
+  "constants": {"Q": [0, 1]},
+  "inputs": {"context": ["certs"], "candidate": {"name": "w", "type": "Certificate"}}
+}

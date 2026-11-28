@@ -45,8 +45,11 @@ The model design is in [`halting/DESIGN.md`](halting/DESIGN.md).
 
 A certificate (i, j) shows that configuration j repeats configuration i, exactly or shifted into
 blank tape, with no halting configuration between them. By induction on the number of repetitions
-the computation from j repeats the steps i … j forever, so no future step halts (Proposition 14). An unconditional 𝔒 is in E7 (`sqrt2-digits`); machine 5 would give one, for the goals "the record
-contains a configuration in which cell k holds a 1", if `run` did not stop at its certificate.
+the computation from j repeats the steps i … j forever, so no future step halts (Proposition 14). An unconditional 𝔒 is in E7 (`sqrt2-digits`) and in the physics model `absorbing-walk`
+([`../physics/absorbing-walk/DESIGN.md`](../physics/absorbing-walk/DESIGN.md)), which also records a
+certificate of 𝔓 and a governed change that restores reachability. Machine 5 would give one, for
+the goals "the record contains a configuration in which cell k holds a 1", if `run` did not stop
+at its certificate.
 
 ## Tests (`tests/test_halting.py`)
 

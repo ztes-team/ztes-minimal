@@ -1,0 +1,5 @@
+{
+  "note": "[τ] one slice, checked against the recorded slice before it only: one step exactly, and probability is conserved",
+  "constants": {"Q": [0, 1]},
+  "inputs": {"context": ["last"], "candidate": {"name": "w", "type": "Slice"}}
+}

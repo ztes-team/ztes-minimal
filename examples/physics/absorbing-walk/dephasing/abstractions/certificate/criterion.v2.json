@@ -1,0 +1,6 @@
+{
+  "note": "[τ] the body of v1 under Q = 1/4: with dephasing it admits no certificate",
+  "constants": {"Q": [1, 4]},
+  "inputs": {"context": ["certs"], "candidate": {"name": "w", "type": "Certificate"}},
+  "body_file": "criterion.v1.py"
+}

@@ -1,0 +1,191 @@
+{
+  "system": "dephasing",
+  "title": "The dark walk, then a governed change that adds dephasing: the goals the certificate excluded become reachable (Corollary 9)",
+  "abstractions": [
+    "certificate",
+    "step"
+  ],
+  "kpi": "kpi",
+  "types": {
+    "Slice": {
+      "record": {
+        "t": "integer",
+        "diag": {
+          "list": "integer"
+        },
+        "off": {
+          "list": {
+            "list": "integer"
+          }
+        },
+        "absorbed": "integer",
+        "den": "integer"
+      }
+    },
+    "Certificate": {
+      "record": {
+        "pair": {
+          "list": "integer"
+        },
+        "dark": "rational",
+        "bound": "rational",
+        "k": "integer"
+      }
+    },
+    "Kpi": {
+      "record": {
+        "profile": "integer",
+        "slices": "integer",
+        "certificates": "integer",
+        "absorbed_ppm": "integer",
+        "dark_ppm": "integer",
+        "goals": {
+          "list": "integer"
+        }
+      }
+    }
+  },
+  "constants": {
+    "A": [
+      [
+        0,
+        1,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        1,
+        0
+      ]
+    ],
+    "EPS": [
+      1,
+      3
+    ],
+    "D": 13,
+    "TRAP": 1,
+    "START": 2
+  },
+  "derived": {
+    "U": "cayley(A, EPS, D)"
+  },
+  "bindings": {
+    "last": {
+      "from": "step",
+      "select": "last",
+      "type": "Slice",
+      "default": {
+        "t": -1,
+        "diag": [],
+        "off": [],
+        "absorbed": 0,
+        "den": 1
+      },
+      "note": "the last recorded slice (t = -1 before slice 0)"
+    },
+    "certs": {
+      "from": "certificate",
+      "select": "count",
+      "note": "how many certificates are recorded"
+    },
+    "slices": {
+      "from": "step",
+      "select": "all",
+      "type": "Slice",
+      "frozen": true,
+      "note": "every recorded slice"
+    },
+    "certificates": {
+      "from": "certificate",
+      "select": "all",
+      "type": "Certificate",
+      "note": "every recorded certificate"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3,
+      "max_admissions": 22,
+      "note": "slices 0 … 20 and the certificate, under Q = 0"
+    },
+    {
+      "govern": [
+        "step/criterion.v2",
+        "step/ontology.v2",
+        "certificate/criterion.v2",
+        "certificate/ontology.v2"
+      ],
+      "note": "dephasing with strength 1/4: a new regime, continued from the recorded slice 20"
+    },
+    {
+      "phase": 3,
+      "max_admissions": 40,
+      "note": "slices 21 … 60, under Q = 1/4"
+    },
+    {
+      "kpi": true,
+      "note": "execution indicators, once, at the end"
+    }
+  ],
+  "expect": {
+    "events": 77,
+    "states": {
+      "step": "wait",
+      "certificate": "wait"
+    },
+    "values": {
+      "certificate": [
+        {
+          "pair": [
+            2,
+            3
+          ],
+          "dark": "1/2",
+          "bound": "1/2",
+          "k": 2
+        }
+      ],
+      "kpi": [
+        {
+          "profile": 1,
+          "slices": 61,
+          "certificates": 1,
+          "absorbed_ppm": 991545,
+          "dark_ppm": 5466,
+          "goals": [
+            22,
+            30,
+            36,
+            42,
+            49,
+            55
+          ]
+        }
+      ]
+    },
+    "any_schedule": {
+      "note": "under workers the certificate may be admitted at another position, or after the change, when certificate v2 proposes none; each window always holds the same number of admissions",
+      "events": 77
+    }
+  }
+}

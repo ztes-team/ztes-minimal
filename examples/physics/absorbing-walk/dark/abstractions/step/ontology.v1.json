@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next slice from the last recorded one: U, then dephasing with Q, then absorption at TRAP; slice 0 from START",
+  "constants": {"Q": [0, 1]},
+  "inputs": {"context": ["last"]},
+  "returns": "Slice"
+}
