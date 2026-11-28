@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "context": [
+      "blocks",
+      "factors"
+    ]
+  },
+  "returns": "Factor",
+  "body": {
+    "result": "factor_candidate(blocks, factors)"
+  }
+}

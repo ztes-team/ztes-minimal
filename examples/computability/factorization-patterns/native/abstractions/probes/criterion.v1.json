@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "plans",
+      "blocks"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Block"
+    }
+  },
+  "body": {
+    "result": "valid_block(w, plans, blocks)"
+  }
+}

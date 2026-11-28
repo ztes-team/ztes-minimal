@@ -1,0 +1,511 @@
+{
+  "runs": {
+    "parity": {
+      "targets": [
+        {
+          "n": 1121,
+          "path": "parity",
+          "probes": [
+            35,
+            37,
+            39
+          ],
+          "factors": [
+            19,
+            59
+          ],
+          "target_builds": 0,
+          "pattern_reads": 0,
+          "event_positions": {
+            "target": 15,
+            "plan": 16,
+            "probes": 17,
+            "factor": 18
+          },
+          "plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "",
+          "activation_ref": "",
+          "observed_mask_constructions_in_plan_rederivation": 0
+        },
+        {
+          "n": 2929,
+          "path": "parity",
+          "probes": [
+            55,
+            57,
+            59,
+            61,
+            63,
+            65
+          ],
+          "factors": [
+            29,
+            101
+          ],
+          "target_builds": 0,
+          "pattern_reads": 0,
+          "event_positions": {
+            "target": 21,
+            "plan": 22,
+            "probes": 23,
+            "factor": 24
+          },
+          "plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "",
+          "activation_ref": "",
+          "observed_mask_constructions_in_plan_rederivation": 0
+        },
+        {
+          "n": 1643,
+          "path": "parity",
+          "probes": [
+            42
+          ],
+          "factors": [
+            31,
+            53
+          ],
+          "target_builds": 0,
+          "pattern_reads": 0,
+          "event_positions": {
+            "target": 25,
+            "plan": 26,
+            "probes": 27,
+            "factor": 28
+          },
+          "plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "",
+          "activation_ref": "",
+          "observed_mask_constructions_in_plan_rederivation": 0
+        }
+      ],
+      "search_probes": 10,
+      "diagnosis": {
+        "event": 19,
+        "ref": "diagnosis/1121",
+        "n": 1121,
+        "probes_ref": "probes/1121",
+        "failed_centers": [
+          35,
+          37
+        ],
+        "threshold": 2
+      },
+      "publication": {
+        "event": 20,
+        "ref": "pattern/1121",
+        "n": 1121,
+        "diagnosis_ref": "diagnosis/1121",
+        "modulus": 16,
+        "residue": 1,
+        "mask": [
+          1,
+          7,
+          9,
+          15
+        ]
+      },
+      "activation": null,
+      "distinct_factor_criteria": 1,
+      "replay": {
+        "events": 29,
+        "judgments_verified": 29,
+        "fully_verified": 29,
+        "tip": "21776add2115da8c7840e71f9a3ec27cb3ceb7577542e35074b42db5f7c3b4f0"
+      }
+    },
+    "fresh": {
+      "targets": [
+        {
+          "n": 1121,
+          "path": "parity",
+          "probes": [
+            35,
+            37,
+            39
+          ],
+          "factors": [
+            19,
+            59
+          ],
+          "target_builds": 0,
+          "pattern_reads": 0,
+          "event_positions": {
+            "target": 15,
+            "plan": 16,
+            "probes": 17,
+            "factor": 18
+          },
+          "plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "",
+          "activation_ref": "",
+          "observed_mask_constructions_in_plan_rederivation": 0
+        },
+        {
+          "n": 2929,
+          "path": "fresh",
+          "probes": [
+            55,
+            57,
+            63,
+            65
+          ],
+          "factors": [
+            29,
+            101
+          ],
+          "target_builds": 1,
+          "pattern_reads": 0,
+          "event_positions": {
+            "target": 22,
+            "plan": 23,
+            "probes": 24,
+            "factor": 25
+          },
+          "plan_ontology": "4baab773a09a46c0f2160de233d76914df4c62d8c2c67bf4c877c6cb8b34a239",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "pattern/1121",
+          "activation_ref": "activate/1121",
+          "observed_mask_constructions_in_plan_rederivation": 1
+        },
+        {
+          "n": 1643,
+          "path": "fallback",
+          "probes": [
+            42
+          ],
+          "factors": [
+            31,
+            53
+          ],
+          "target_builds": 0,
+          "pattern_reads": 0,
+          "event_positions": {
+            "target": 26,
+            "plan": 27,
+            "probes": 28,
+            "factor": 29
+          },
+          "plan_ontology": "4baab773a09a46c0f2160de233d76914df4c62d8c2c67bf4c877c6cb8b34a239",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "pattern/1121",
+          "activation_ref": "activate/1121",
+          "observed_mask_constructions_in_plan_rederivation": 0
+        }
+      ],
+      "search_probes": 8,
+      "diagnosis": {
+        "event": 19,
+        "ref": "diagnosis/1121",
+        "n": 1121,
+        "probes_ref": "probes/1121",
+        "failed_centers": [
+          35,
+          37
+        ],
+        "threshold": 2
+      },
+      "publication": {
+        "event": 20,
+        "ref": "pattern/1121",
+        "n": 1121,
+        "diagnosis_ref": "diagnosis/1121",
+        "modulus": 16,
+        "residue": 1,
+        "mask": [
+          1,
+          7,
+          9,
+          15
+        ]
+      },
+      "activation": {
+        "event": 21,
+        "ref": "activate/1121",
+        "authority": "87be0a4c630961f6bc4b22d0bc368141f35c110135a1f0f28d9e3eaa8dec3253",
+        "previous_plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+        "active_plan_ontology": "4baab773a09a46c0f2160de233d76914df4c62d8c2c67bf4c877c6cb8b34a239",
+        "diagnosis_ref": "diagnosis/1121",
+        "pattern_ref": "pattern/1121"
+      },
+      "distinct_factor_criteria": 1,
+      "replay": {
+        "events": 30,
+        "judgments_verified": 30,
+        "fully_verified": 30,
+        "tip": "5a922e6ff3d3834105ce35fd7428cbe7ee7887030d5dcc9d04188322f6d07f01"
+      }
+    },
+    "reuse": {
+      "targets": [
+        {
+          "n": 1121,
+          "path": "parity",
+          "probes": [
+            35,
+            37,
+            39
+          ],
+          "factors": [
+            19,
+            59
+          ],
+          "target_builds": 0,
+          "pattern_reads": 0,
+          "event_positions": {
+            "target": 15,
+            "plan": 16,
+            "probes": 17,
+            "factor": 18
+          },
+          "plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "",
+          "activation_ref": "",
+          "observed_mask_constructions_in_plan_rederivation": 0
+        },
+        {
+          "n": 2929,
+          "path": "reuse",
+          "probes": [
+            55,
+            57,
+            63,
+            65
+          ],
+          "factors": [
+            29,
+            101
+          ],
+          "target_builds": 0,
+          "pattern_reads": 1,
+          "event_positions": {
+            "target": 22,
+            "plan": 23,
+            "probes": 24,
+            "factor": 25
+          },
+          "plan_ontology": "898cdc35dfc386c37996ca250d75b94e254deb2425161e5b50999fbd257e1b50",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "pattern/1121",
+          "activation_ref": "activate/1121",
+          "observed_mask_constructions_in_plan_rederivation": 0
+        },
+        {
+          "n": 1643,
+          "path": "fallback",
+          "probes": [
+            42
+          ],
+          "factors": [
+            31,
+            53
+          ],
+          "target_builds": 0,
+          "pattern_reads": 0,
+          "event_positions": {
+            "target": 26,
+            "plan": 27,
+            "probes": 28,
+            "factor": 29
+          },
+          "plan_ontology": "898cdc35dfc386c37996ca250d75b94e254deb2425161e5b50999fbd257e1b50",
+          "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+          "pattern_ref": "pattern/1121",
+          "activation_ref": "activate/1121",
+          "observed_mask_constructions_in_plan_rederivation": 0
+        }
+      ],
+      "search_probes": 8,
+      "diagnosis": {
+        "event": 19,
+        "ref": "diagnosis/1121",
+        "n": 1121,
+        "probes_ref": "probes/1121",
+        "failed_centers": [
+          35,
+          37
+        ],
+        "threshold": 2
+      },
+      "publication": {
+        "event": 20,
+        "ref": "pattern/1121",
+        "n": 1121,
+        "diagnosis_ref": "diagnosis/1121",
+        "modulus": 16,
+        "residue": 1,
+        "mask": [
+          1,
+          7,
+          9,
+          15
+        ]
+      },
+      "activation": {
+        "event": 21,
+        "ref": "activate/1121",
+        "authority": "cdcd1f8364909d4e16d47d635ebf94144b477a0fb3ca3709fc7e2af12b00a4af",
+        "previous_plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+        "active_plan_ontology": "898cdc35dfc386c37996ca250d75b94e254deb2425161e5b50999fbd257e1b50",
+        "diagnosis_ref": "diagnosis/1121",
+        "pattern_ref": "pattern/1121"
+      },
+      "distinct_factor_criteria": 1,
+      "replay": {
+        "events": 30,
+        "judgments_verified": 30,
+        "fully_verified": 30,
+        "tip": "5da7d179529a2813fc25e654fe6b52991dbeac450c775bcc9dcdd6c274f7356f"
+      }
+    }
+  },
+  "identical_source_prefix_events": 21,
+  "faults": {
+    "incomplete_mask": {
+      "event": 20,
+      "field": "mask",
+      "injected_value": [
+        7,
+        15
+      ],
+      "judgment_error": "S1.2 criterion is false on replay",
+      "full_replay_rejected_at": 20
+    },
+    "dangling_plan_reference": {
+      "event": 23,
+      "field": "pattern_ref",
+      "injected_value": "pattern/missing",
+      "judgment_error": "S1.2 criterion is false on replay",
+      "full_replay_rejected_at": 23
+    },
+    "obsolete_plan_version": {
+      "event": 23,
+      "judgment_error": "S1.3 ontology version not active in Cⁿ"
+    },
+    "wrong_signature": {
+      "event": 27,
+      "field": "mode, mask",
+      "injected_value": [
+        "reuse",
+        [
+          1,
+          7,
+          9,
+          15
+        ]
+      ],
+      "judgment_error": "S1.2 criterion is false on replay",
+      "full_replay_rejected_at": 27
+    }
+  },
+  "no_trigger": {
+    "targets": [
+      {
+        "n": 1457,
+        "path": "parity",
+        "probes": [
+          39
+        ],
+        "factors": [
+          31,
+          47
+        ],
+        "target_builds": 0,
+        "pattern_reads": 0,
+        "event_positions": {
+          "target": 15,
+          "plan": 16,
+          "probes": 17,
+          "factor": 18
+        },
+        "plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+        "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+        "pattern_ref": "",
+        "activation_ref": ""
+      },
+      {
+        "n": 2929,
+        "path": "parity",
+        "probes": [
+          55,
+          57,
+          59,
+          61,
+          63,
+          65
+        ],
+        "factors": [
+          29,
+          101
+        ],
+        "target_builds": 0,
+        "pattern_reads": 0,
+        "event_positions": {
+          "target": 19,
+          "plan": 20,
+          "probes": 21,
+          "factor": 22
+        },
+        "plan_ontology": "b9441b5a5e1b8568a3bdd05265ae830a2969f077a60dcd7fbd45b7d53409b749",
+        "factor_criterion": "24567e071745fed637261cca4fcf5085fc8e88933434bfeb60283205eb4305bc",
+        "pattern_ref": "",
+        "activation_ref": ""
+      }
+    ],
+    "identical_initial_events": 15,
+    "attempts": {
+      "prefix_events": 19,
+      "prefix_tip": "7e667ed30208933b8bc9bcb38cd4a85a08b1a17b08456b2a60ee62d75876bbfd",
+      "calls": [
+        {
+          "lineage": "diagnosis",
+          "outcome": "Not Yet",
+          "events_added": 0
+        },
+        {
+          "lineage": "pattern",
+          "outcome": "Not Yet",
+          "events_added": 0
+        },
+        {
+          "lineage": "activate",
+          "outcome": "Not Yet",
+          "events_added": 0
+        }
+      ]
+    },
+    "attempts_after_target": {
+      "prefix_events": 23,
+      "prefix_tip": "75967524e74a2f41656fa1d8ba0721e0464a2e50d7d92c145e9a09564cac1621",
+      "calls": [
+        {
+          "lineage": "diagnosis",
+          "outcome": "Not Yet",
+          "events_added": 0
+        },
+        {
+          "lineage": "pattern",
+          "outcome": "Not Yet",
+          "events_added": 0
+        },
+        {
+          "lineage": "activate",
+          "outcome": "Not Yet",
+          "events_added": 0
+        }
+      ]
+    },
+    "search_probes": 7,
+    "replay": {
+      "events": 23,
+      "judgments_verified": 23,
+      "fully_verified": 23,
+      "tip": "75967524e74a2f41656fa1d8ba0721e0464a2e50d7d92c145e9a09564cac1621"
+    }
+  }
+}

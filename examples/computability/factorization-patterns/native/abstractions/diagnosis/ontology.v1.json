@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "context": [
+      "blocks",
+      "diagnoses"
+    ]
+  },
+  "returns": "Diagnosis",
+  "body": {
+    "result": "make_diagnosis(blocks, diagnoses)"
+  }
+}

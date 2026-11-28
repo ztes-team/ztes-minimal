@@ -212,6 +212,10 @@ the cost of its publication is recovered, and replays the evidence for each admi
 record: a pattern carries the versions under which it was derived and is used after a governed
 change of the rules only by a new proof under the new versions.
 
+The [factorization pattern experiment](computability/factorization-patterns/README.md) follows a
+residue filter from the probes that led to its publication through a governed change of search policy.
+Paired runs factor the same target and record which candidate centers were tested.
+
 ## Tests of the examples
 
 Every example states its expected end in `system.json` (`"expect"`); `python -m ztes run` compares

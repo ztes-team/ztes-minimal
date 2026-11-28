@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "blocks",
+      "diagnoses"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Diagnosis"
+    }
+  },
+  "body": {
+    "result": "w == make_diagnosis(blocks, diagnoses)"
+  }
+}

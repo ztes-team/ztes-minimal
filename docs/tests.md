@@ -82,6 +82,10 @@ and the structural-memoization experiment (`tests/test_structural_memoization.py
 and its thread (`tests/test_structural_memoization_thread.py`), described in
 [`examples/computability/structural-memoization/thread/DESIGN.md`](../examples/computability/structural-memoization/thread/DESIGN.md).
 
+The [factorization-patterns tests](../tests/test_factorization_patterns.py) regenerate the archived
+executions, including a source that produces no failed probes and leaves the old policy active.
+They also check that a missing probe is detected even when the recorded factors are correct.
+
 ## Experiments (`tests/test_experiments.py`)
 
 | Test | What it shows |

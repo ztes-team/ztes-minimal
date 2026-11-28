@@ -1,0 +1,17 @@
+{
+  "inputs": {
+    "context": [
+      "targets",
+      "plans",
+      "patterns",
+      "changes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Plan"
+    }
+  },
+  "body": {
+    "result": "valid_plan(w, targets, plans, patterns, changes)"
+  }
+}

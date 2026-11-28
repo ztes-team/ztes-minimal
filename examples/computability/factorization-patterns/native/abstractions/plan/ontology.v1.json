@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "context": [
+      "targets",
+      "plans"
+    ]
+  },
+  "returns": "Plan",
+  "body": {
+    "result": "propose_plan(targets, plans, [], [], 'parity')"
+  }
+}

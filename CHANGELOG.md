@@ -70,6 +70,10 @@ for event (`tests/test_records.py`).
   * The history of every abstraction is the same under workers. Each claim of `thread/DESIGN.md` has
     its test in `tests/test_structural_memoization_thread.py`.
 
+* The factorization-patterns experiment publishes a checked residue filter and activates a new
+  Fermat search policy under prior authority. Its records show which centers were tested, the
+  evidence for each factor and the behavior of a paired control without activation.
+
 **Tooling**
 * `python -m ztes run` shows a value longer than 600 characters by its beginning and its length; the
   record keeps it whole, and `explain` shows it. The record display of the ten examples is unchanged.

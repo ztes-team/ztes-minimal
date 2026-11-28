@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "targets",
+      "factors"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "integer"
+    }
+  },
+  "body": {
+    "result": "w >= 3 and w % 2 == 1 and w not in targets and len(targets) == len(factors)"
+  }
+}

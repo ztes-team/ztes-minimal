@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "context": [
+      "diagnoses",
+      "patterns"
+    ]
+  },
+  "returns": "Pattern",
+  "body": {
+    "result": "propose_pattern(diagnoses, patterns)"
+  }
+}

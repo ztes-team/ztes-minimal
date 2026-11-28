@@ -1,0 +1,140 @@
+{
+  "system": "factorization-patterns",
+  "abstractions": [
+    "target",
+    "plan",
+    "probes",
+    "factor",
+    "diagnosis",
+    "pattern",
+    "activate"
+  ],
+  "types": {
+    "Plan": {
+      "record": {
+        "ref": "text",
+        "n": "integer",
+        "target_ref": "text",
+        "mode": "text",
+        "pattern_ref": "text",
+        "activation_ref": "text",
+        "modulus": "integer",
+        "residue": "integer",
+        "mask": {
+          "list": "integer"
+        }
+      }
+    },
+    "Block": {
+      "record": {
+        "ref": "text",
+        "n": "integer",
+        "plan_ref": "text",
+        "centers": {
+          "list": "integer"
+        },
+        "differences": {
+          "list": "integer"
+        }
+      }
+    },
+    "Factor": {
+      "record": {
+        "ref": "text",
+        "n": "integer",
+        "probes_ref": "text",
+        "factors": {
+          "list": "integer"
+        },
+        "prime_remainders": {
+          "list": {
+            "list": "integer"
+          }
+        }
+      }
+    },
+    "Diagnosis": {
+      "record": {
+        "ref": "text",
+        "n": "integer",
+        "probes_ref": "text",
+        "failed_centers": {
+          "list": "integer"
+        },
+        "threshold": "integer"
+      }
+    },
+    "Pattern": {
+      "record": {
+        "ref": "text",
+        "n": "integer",
+        "diagnosis_ref": "text",
+        "modulus": "integer",
+        "residue": "integer",
+        "mask": {
+          "list": "integer"
+        }
+      }
+    },
+    "Change": {
+      "record": {
+        "ref": "text",
+        "diagnosis_ref": "text",
+        "pattern_ref": "text",
+        "materialization": "text",
+        "specifications": {
+          "list": "specification"
+        }
+      }
+    }
+  },
+  "constants": {
+    "POLICY": "reuse",
+    "SUCCESSOR": {
+      "$specifications": [
+        "plan/ontology.v2"
+      ]
+    }
+  },
+  "bindings": {
+    "targets": {
+      "from": "target",
+      "select": "all"
+    },
+    "plans": {
+      "from": "plan",
+      "select": "all"
+    },
+    "blocks": {
+      "from": "probes",
+      "select": "all"
+    },
+    "factors": {
+      "from": "factor",
+      "select": "all"
+    },
+    "diagnoses": {
+      "from": "diagnosis",
+      "select": "all"
+    },
+    "patterns": {
+      "from": "pattern",
+      "select": "all"
+    },
+    "changes": {
+      "from": "activate",
+      "select": "all"
+    }
+  },
+  "plan": [
+    {
+      "phase": 1
+    },
+    {
+      "phase": 2
+    },
+    {
+      "phase": 3
+    }
+  ]
+}

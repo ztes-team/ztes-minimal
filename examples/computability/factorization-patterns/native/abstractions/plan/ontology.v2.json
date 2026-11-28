@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "context": [
+      "targets",
+      "plans",
+      "patterns",
+      "changes"
+    ]
+  },
+  "returns": "Plan",
+  "body": {
+    "result": "propose_plan(targets, plans, patterns, changes, POLICY)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "diagnoses",
+      "patterns"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Pattern"
+    }
+  },
+  "body": {
+    "result": "valid_pattern(w, diagnoses, patterns)"
+  }
+}

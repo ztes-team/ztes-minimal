@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "context": [
+      "diagnoses",
+      "patterns",
+      "changes"
+    ]
+  },
+  "returns": "Change",
+  "body": {
+    "result": "change_candidate(diagnoses, patterns, changes, POLICY, SUCCESSOR)"
+  }
+}

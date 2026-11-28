@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "context": [
+      "plans",
+      "blocks"
+    ]
+  },
+  "returns": "Block",
+  "body": {
+    "result": "probe_block(plans, blocks)"
+  }
+}

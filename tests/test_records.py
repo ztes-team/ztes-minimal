@@ -18,6 +18,7 @@ PINNED = {                      # example: (events, digest of the record)
     "aco":             (73,  "449255bb3c29dce2"),
     "aco-draw":        (138, "de75462c47bef7af"),
     "agent":           (85,  "275977ab65c077bd"),   # added in 0.1.1
+    "computability/factorization-patterns/native":            (15, "d185eea265dd5ec7"),   # added after 0.1.2
     "computability/halting/antihydra":             (1012, "91db8f046e3e1a14"),   # added after 0.1.2
     "computability/halting/collatz":               (1009, "0c534871d6cb5392"),   # added after 0.1.2
     "computability/halting/finish-fair":           (26,   "1768734bf6acabc2"),   # added after 0.1.2

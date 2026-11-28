@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "context": [
+      "diagnoses",
+      "patterns",
+      "changes"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Change"
+    }
+  },
+  "body": {
+    "result": "valid_change(w, diagnoses, patterns, changes, POLICY, SUCCESSOR)"
+  }
+}

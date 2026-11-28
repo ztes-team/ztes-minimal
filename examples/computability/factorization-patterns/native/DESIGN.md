@@ -1,0 +1,5 @@
+# Native factorization experiment
+
+The seven lineages record the input, search plan, completed probe block, factor certificate, diagnosis, pattern and activation. Each reference pairs a lineage with its unique target in that record. The input carries the integer alone. For example, `target/2929` resolves to the unique `target` event with payload 2929. Event coordinates give the permanent record positions and version addresses.
+
+The default native plan installs the seven initial criteria and ontologies and starts the agenda. In the absence of a boundary input the record contains genesis and the 14 specification admissions. The experimental driver supplies the integer boundary observations and schedules the paired invocations described in the [experiment design](../DESIGN.md). An admitted activation carries the complete replacement for `plan/ontology.v2`. Factor verification keeps its original criterion. The fresh-mask control supplies a different materialization policy in its initial specifications.

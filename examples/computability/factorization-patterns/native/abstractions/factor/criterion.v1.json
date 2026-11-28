@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "context": [
+      "blocks",
+      "factors"
+    ],
+    "candidate": {
+      "name": "w",
+      "type": "Factor"
+    }
+  },
+  "body": {
+    "result": "valid_factor(w, blocks, factors)"
+  }
+}
