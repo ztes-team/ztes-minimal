@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next slice with a barrier 1 site(s) wide, from the recorded slice before it",
+  "constants": {"W": 1},
+  "inputs": {"context": ["slices"]},
+  "returns": "Slice", "body_file": "ontology.v1.py"
+}

@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next slice with a barrier 0 site(s) wide, from the recorded slice before it",
+  "constants": {"W": 0},
+  "inputs": {"context": ["slices"]},
+  "returns": "Slice"
+}

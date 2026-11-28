@@ -1,0 +1,5 @@
+{
+  "note": "[τ] one slice with a barrier 0 site(s) wide, checked against the slice before it; probability is conserved",
+  "constants": {"W": 0},
+  "inputs": {"context": ["slices"], "candidate": {"name": "w", "type": "Slice"}}
+}

@@ -10,7 +10,7 @@ import json
 
 import pytest
 
-from conftest import ROOT, quiet
+from conftest import EXAMPLES, ROOT, quiet
 from ztes.substrate.store import MemoryStore, read
 from ztes.system.system import System
 
@@ -21,6 +21,9 @@ PINNED = {                      # example: (events, digest of the record)
     "dedekind-cut":    (26,  "cb2a10ba074ba456"),
     "factorization":   (27,  "7412db70b15c9f13"),
     "payment":         (21,  "93eab31cd4750c1f"),
+    "physics/path-sums/barrier":      (237, "697c69821b4e496d"),   # added after 0.1.2
+    "physics/path-sums/checkerboard": (50,  "ea260db8d38fef00"),   # added after 0.1.2
+    "physics/path-sums/two-slits":    (89,  "3f029aeb116dc81a"),   # added after 0.1.2
     "prime-witnesses": (26,  "912bd79788754d47"),
     "sqrt2":           (16,  "2ac1e04d3a666ca2"),
     "tsp":             (468, "2f197520f400df1c"),
@@ -35,7 +38,7 @@ def digest(C):
 
 
 def test_every_example_is_pinned():
-    assert sorted(PINNED) == sorted(d.name for d in (ROOT / "examples").iterdir() if d.is_dir())
+    assert sorted(PINNED) == EXAMPLES
 
 
 @pytest.mark.parametrize("name", sorted(PINNED))

@@ -1,0 +1,5 @@
+{
+  "note": "[τ] one slice with a barrier 1 site(s) wide, checked against the slice before it; probability is conserved",
+  "constants": {"W": 1},
+  "inputs": {"context": ["slices"], "candidate": {"name": "w", "type": "Slice"}}, "body_file": "criterion.v1.py"
+}

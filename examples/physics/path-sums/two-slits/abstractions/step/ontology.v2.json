@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next slice of experiment 2: a which-path detector, one part per slit, from the recorded slice before it",
+  "constants": {"PARTS": 2},
+  "inputs": {"context": ["slices"]},
+  "returns": "Slice", "body_file": "ontology.v1.py"
+}

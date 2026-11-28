@@ -28,6 +28,7 @@ purpose: it shows the ideas of the paper, not every case.
 | meet a term you do not know, or one the paper names differently | [`docs/glossary.md`](docs/glossary.md) |
 | want to write a system of your own | [`docs/writing-a-system.md`](docs/writing-a-system.md) |
 | want to see the examples | [`examples/README.md`](examples/README.md) |
+| want to see a computation from physics on the record | [`examples/physics/README.md`](examples/physics/README.md): Feynman's sum over paths, slice by slice, in exact arithmetic |
 | want to see loops, recursion and decomposition executed as interacting relations | [`experiments/README.md`](experiments/README.md): seven experiments, each one question about the calculus answered by a run |
 | want to know what changed between versions | [`CHANGELOG.md`](CHANGELOG.md) |
 
@@ -545,6 +546,7 @@ docs/distribution.md      local or distributed execution as an option of the con
 docs/tests.md             the main tests of the model, the substrate and the tooling
 examples/README.md        the examples, described separately
 examples/<name>/          one directory per example: system.json, DESIGN.md, abstractions/, lib.py
+examples/physics/         systems beyond the paper, one directory per model (path-sums: three systems)
 experiments/README.md     seven experiments: control as interacting relations, described simply
 experiments/run.py        runs one experiment by a fixed protocol and prints its answer
 experiments/e<k>-…/       the systems of each experiment, each with its DESIGN.md

@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the transmitted probability of the recorded slices, barrier 3 site(s) wide",
+  "constants": {"W": 3},
+  "inputs": {"context": ["slices", "transmitted"], "candidate": {"name": "w", "type": "Transmitted"}}, "body_file": "criterion.v1.py"
+}

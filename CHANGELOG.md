@@ -3,6 +3,34 @@
 Section, theorem and table numbers refer to version 4 of the base paper, *A Calculus of Execution
 for Interacting Binary Relations* (https://doi.org/10.20944/preprints202608.1545.v4).
 
+## Unreleased
+
+The code of Z₀ and the ten examples of the paper are unchanged: their records are the same, event
+for event (`tests/test_records.py`).
+
+**Physics on the record** (`examples/physics/`, not examples of the paper)
+* The model `path-sums` computes Feynman's sum over paths for a relativistic particle on a lattice:
+  a discrete-time quantum walk, the unitary form of Feynman's checkerboard. It is computed slice
+  by slice in exact arithmetic, as integer numerators over a common denominator. The record is the
+  memo table, and conservation of probability is part of the admission criterion. It adds no
+  computational power (§4.5).
+* `checkerboard`: the free particle. The record equals the sum over all 2¹⁶ paths and a closed
+  form. One amplitude at T = 32 is computed on two light cones, reusing the 17 slices of the first
+  question.
+* `two-slits`: interference, with a which-path detector as a governed change. The two patterns
+  have the same total exactly and differ by the interference term only. The slices before the
+  screen serve both experiments.
+* `barrier`: tunnelling through a mass barrier for five widths, with the probability beyond the
+  barrier exact.
+* `tests/test_physics.py`, with a Monte Carlo baseline that meets the sign problem. The general
+  tests (records, replay modes, configurations, workers) cover every system under `examples/`,
+  nested ones included.
+
+**Tooling**
+* `python -m ztes run` shows a value longer than 600 characters by its beginning and its length; the
+  record keeps it whole, and `explain` shows it. The record display of the ten examples is unchanged.
+* The CI runs every system under `examples/`, nested ones included.
+
 ## 0.1.2 (2026-11-27)
 
 Archived release: https://doi.org/10.5281/zenodo.24608321.

@@ -13,6 +13,8 @@ ROOT = Path(__file__).parent.parent
 SQRT2 = ROOT / "examples" / "sqrt2"
 FACTOR = ROOT / "examples" / "factorization"
 COUNTER = Path(__file__).parent / "systems" / "counter"
+# every system under examples/, by its path relative to it (e.g. "sqrt2", "physics/path-sums/barrier")
+EXAMPLES = sorted(p.parent.relative_to(ROOT / "examples").as_posix() for p in (ROOT / "examples").rglob("system.json"))
 quiet = lambda *_: None
 
 

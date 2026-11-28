@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the indicators of the latest profile, each equal to its definition in measure()",
+  "constants": {"QUESTIONS": [[16, null], [32, 0]]},
+  "inputs": {"context": ["slices", "kernels", "profile", "profiles", "kpis"], "candidate": {"name": "w", "type": "Kpi"}}
+}

@@ -1,0 +1,5 @@
+{
+  "bindings": {
+    "kpis": {"from": "$self", "select": "count", "note": "measurements already recorded"}
+  }
+}

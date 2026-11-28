@@ -1,0 +1,7 @@
+{
+  "note": "[ω] the probabilities at T = 16, read from the recorded slice; ⊥ until it is recorded",
+  "constants": {"T": 16, "X": null, "NEEDED": 17},
+  "requires": {"step": "NEEDED"},
+  "inputs": {"context": ["slices", "kernels"]},
+  "returns": "Kernel"
+}

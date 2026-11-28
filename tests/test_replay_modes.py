@@ -8,14 +8,14 @@ module docstring says the mode does not check.
 """
 import pytest
 
-from conftest import ROOT, quiet
+from conftest import EXAMPLES, ROOT, quiet
 from ztes import defects
 from ztes.substrate.replay import verify
 from ztes.substrate.store import MemoryStore, read
 from ztes.system.system import System
 
 
-@pytest.mark.parametrize("name", sorted(d.name for d in (ROOT / "examples").iterdir() if d.is_dir()))
+@pytest.mark.parametrize("name", EXAMPLES)
 def test_a_sound_record_passes_both_modes(name):
     system, store = System(ROOT / "examples" / name), MemoryStore()
     system.run(store, log=quiet)

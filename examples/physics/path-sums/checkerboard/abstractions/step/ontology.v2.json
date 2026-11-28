@@ -1,0 +1,7 @@
+{
+  "note": "[ω] the same for question 2: the amplitude at x = 0, T = 32, on the cones of the source and of x",
+  "constants": {"T": 32, "X": 0},
+  "inputs": {"context": ["slices"]},
+  "returns": "Slice",
+  "body_file": "ontology.v1.py"
+}

@@ -10,16 +10,20 @@ from ..model.types import canon
 from ..substrate.replay import verify
 
 
+LONG = 600                      # a value longer than this is shown shortened in a display line (shown)
+
+
 def show(C, log=print):
     """Print the record, one event per line: an execution event with its value, a specification with
-    its role, version and address.
+    its role, version and address. A value longer than LONG characters is shown by its beginning and
+    its length (shown); `python -m ztes explain` shows it whole.
     """
     log(f"\n{'n':>4}  {'kind':7} {'abstraction':12} value")
     for e in C:
         c = e["coord"]
         if c["kind"] == "exec":
             p = e["payload"]
-            log(f"{c['n']:>4}  exec    {c['abstraction']:12} {_text(p)}{_decimal(p)}")
+            log(f"{c['n']:>4}  exec    {c['abstraction']:12} {shown(p)}{_decimal(p)}")
         elif c["kind"] == "spec":
             log(f"{c['n']:>4}  spec    {c['abstraction']:12} {c['role']} v{c['version']}   addr {c['addr'][:16]}…")
         else:
@@ -50,6 +54,12 @@ def summary(system, C, log=print):
 def _text(p):
     """A payload as text: strings as they are, other JSON values in JSON notation."""
     return p if isinstance(p, str) else json.dumps(p, ensure_ascii=False)
+
+
+def shown(p):
+    """A payload as text for a display line: whole up to LONG characters, else its beginning and its length."""
+    text = _text(p)
+    return text if len(text) <= LONG else f"{text[:200]} … ({len(text):,} characters)"
 
 
 def _decimal(p):

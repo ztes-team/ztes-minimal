@@ -171,6 +171,19 @@ third fails with no override and is refused; `transfer` is closed. Transfers 1 a
 payloads; only the retained evidence in their prefixes distinguishes their grounds, and only that
 evidence lets R2 reproduce both judgments.
 
+## Beyond the paper: physics
+
+[`physics/`](physics/README.md) holds systems that are not examples of the paper, on the same Z₀ and
+in the same standard form. Its first model, [`path-sums`](physics/path-sums/DESIGN.md), computes
+Feynman's sum over paths for a relativistic particle on a lattice. The sum is computed slice by
+slice, in exact arithmetic, with the record as the memo table, in three systems:
+* `checkerboard`, the free particle, checked against all 2¹⁶ paths and a closed form;
+* `two-slits`, interference, with a which-path detector as a governed change;
+* `barrier`, tunnelling through a mass barrier.
+
+It adds no computational power (§4.5): it is the standard exact method, made replayable and
+governable. Its tests are in `tests/test_physics.py`, listed in [`physics/README.md`](physics/README.md#tests-teststest_physicspy).
+
 ## Tests of the examples
 
 Every example states its expected end in `system.json` (`"expect"`); `python -m ztes run` compares

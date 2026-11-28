@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next slice of question 1 (every amplitude at T = 16), from the recorded slice before it",
+  "constants": {"T": 16, "X": null},
+  "inputs": {"context": ["slices"]},
+  "returns": "Slice"
+}

@@ -10,7 +10,7 @@ import time
 import fakeredis
 import pytest
 
-from conftest import ROOT, SQRT2, make_system, quiet
+from conftest import EXAMPLES, ROOT, SQRT2, make_system, quiet
 from ztes.service import AbstractionService, ServiceUnavailable
 from ztes.substrate.replay import verify
 from ztes.substrate.store import DiskStore, MemoryStore, RedisStore, read
@@ -19,7 +19,6 @@ from ztes.system import workers
 from ztes.system.report import check_expect
 from ztes.system.system import System
 
-EXAMPLES = sorted(p.name for p in (ROOT / "examples").iterdir() if (p / "system.json").exists())
 STORES = {"memory": lambda tmp: MemoryStore(), "disk": lambda tmp: DiskStore(tmp),
           "redis": lambda tmp: RedisStore(client=fakeredis.FakeRedis(), batch=5)}
 

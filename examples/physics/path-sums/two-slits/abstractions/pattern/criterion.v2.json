@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the pattern of the recorded slice T, experiment 2: a which-path detector, one part per slit",
+  "constants": {"PARTS": 2},
+  "inputs": {"context": ["slices", "patterns"], "candidate": {"name": "w", "type": "Pattern"}}, "body_file": "criterion.v1.py"
+}

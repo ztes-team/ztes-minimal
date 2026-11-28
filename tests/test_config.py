@@ -4,14 +4,13 @@ import time
 import fakeredis
 import pytest
 
-from conftest import ROOT, SQRT2, quiet
+from conftest import EXAMPLES, ROOT, SQRT2, quiet
 from ztes import config
 from ztes.service import AbstractionService, HttpService, ServiceUnavailable, make_app
 from ztes.substrate.replay import verify
 from ztes.substrate.store import DiskStore, MemoryStore, NotDurable, RedisStore, read
 from ztes.system.system import System
 
-EXAMPLES = sorted(p.name for p in (ROOT / "examples").iterdir() if (p / "system.json").exists())
 
 
 def record(system, store, services=None):

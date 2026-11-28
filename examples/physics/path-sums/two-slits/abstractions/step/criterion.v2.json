@@ -1,0 +1,5 @@
+{
+  "note": "[τ] one slice of experiment 2: a which-path detector, one part per slit, checked against the recorded slice before it; probability is conserved",
+  "constants": {"PARTS": 2},
+  "inputs": {"context": ["slices"], "candidate": {"name": "w", "type": "Slice"}}, "body_file": "criterion.v1.py"
+}

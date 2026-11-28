@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the pattern of the recorded slice T, experiment 1: no detector, one part",
+  "constants": {"PARTS": 1},
+  "inputs": {"context": ["slices", "patterns"], "candidate": {"name": "w", "type": "Pattern"}}
+}

@@ -1,0 +1,8 @@
+{
+  "note": "[ω] the same for question 2: the probability at x = 0, T = 32",
+  "constants": {"T": 32, "X": 0, "NEEDED": 33},
+  "requires": {"step": "NEEDED"},
+  "inputs": {"context": ["slices", "kernels"]},
+  "returns": "Kernel",
+  "body_file": "ontology.v1.py"
+}

@@ -1,0 +1,7 @@
+{
+  "note": "[ω] the transmitted probability through a barrier 0 site(s) wide; ⊥ until slice T is recorded",
+  "constants": {"W": 0, "NEEDED": 41},
+  "requires": {"step": "NEEDED"},
+  "inputs": {"context": ["slices", "transmitted"]},
+  "returns": "Transmitted"
+}

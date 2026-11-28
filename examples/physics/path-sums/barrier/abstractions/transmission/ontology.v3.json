@@ -1,0 +1,7 @@
+{
+  "note": "[ω] the transmitted probability through a barrier 2 site(s) wide; ⊥ until slice T is recorded",
+  "constants": {"W": 2, "NEEDED": 123},
+  "requires": {"step": "NEEDED"},
+  "inputs": {"context": ["slices", "transmitted"]},
+  "returns": "Transmitted", "body_file": "ontology.v1.py"
+}

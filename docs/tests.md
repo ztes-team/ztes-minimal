@@ -73,7 +73,9 @@ These tests concern the model and the substrate and are grouped by package (`tes
 specifications carried in execution, `test_prime_criterion.py` for the optional next-prime criterion, `test_map_recovery.py` for a map
 binding after a failed batch); they use `examples/sqrt2` and
 `tests/systems/counter`, a small system written in the same standard form. The examples have their
-own tests (`tests/test_examples.py`), described in [`examples/README.md`](../examples/README.md).
+own tests (`tests/test_examples.py`), described in [`examples/README.md`](../examples/README.md),
+and so do the physics examples (`tests/test_physics.py`), described in
+[`examples/physics/README.md`](../examples/physics/README.md).
 
 ## Experiments (`tests/test_experiments.py`)
 

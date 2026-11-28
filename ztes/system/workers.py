@@ -48,7 +48,7 @@ from ..substrate.governance import carried
 from ..substrate.store import read
 from ..substrate.z0 import ADMITTED, NOT_YET, Z0
 from . import agenda, sources
-from .report import _text
+from .report import shown
 
 CONTROL = "control"
 
@@ -238,7 +238,7 @@ class Coordinator:
         reports = self._wait(system, lambda r, n: r["state"] == "paused")
         C = read(self.store)
         for e in C[start:]:
-            log(f"   C^{e['coord']['n']:<3} {e['coord']['abstraction']:12} → admitted   ω = {_text(e['payload'])}")
+            log(f"   C^{e['coord']['n']:<3} {e['coord']['abstraction']:12} → admitted   ω = {shown(e['payload'])}")
         for a, r in reports.items():
             system.outcomes[a], system.last[a] = r["outcomes"], tuple(r["last"])
         if len(C) < until:

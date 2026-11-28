@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the transmitted probability of the recorded slices, barrier 0 site(s) wide",
+  "constants": {"W": 0},
+  "inputs": {"context": ["slices", "transmitted"], "candidate": {"name": "w", "type": "Transmitted"}}
+}

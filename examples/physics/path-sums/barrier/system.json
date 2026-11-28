@@ -1,0 +1,57 @@
+{
+  "system": "barrier",
+  "title": "Tunnelling through a mass barrier on Feynman's checkerboard: the transmitted probability, exactly",
+  "abstractions": ["step", "transmission"],
+  "kpi": "kpi",
+  "types": {
+    "Amplitudes": {"list": {"list": "integer"}},
+    "Slice": {"record": {"w": "integer", "t": "integer", "lo": "integer", "R": "Amplitudes", "L": "Amplitudes",
+                         "norm": "rational", "pruned": "rational"}},
+    "Transmitted": {"record": {"w": "integer", "T": "integer", "transmitted": "rational"}},
+    "Kpi": {"record": {"profile": "integer", "widths": {"list": "integer"}, "transmitted_ppm": {"list": "integer"},
+                       "slices": "integer", "sites": "integer", "pruned_sites": "integer",
+                       "transmission_invocations": "integer", "transmission_not_yet": "integer"}}
+  },
+  "constants": {
+    "OUT": [20, 15],
+    "IN": [7, 24],
+    "D": 25,
+    "PHASE": [4, 3],
+    "M": 8,
+    "X0": -12,
+    "T": 40
+  },
+  "bindings": {
+    "slices": {"from": "step", "select": "map", "type": "Slice", "key": "(x['w'], x['t'])",
+               "note": "the memo table: (barrier width, t) → the recorded slice"},
+    "transmitted": {"from": "transmission", "select": "all", "type": "Transmitted",
+                    "note": "the widths already answered"}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3, "note": "no barrier (W = 0)"},
+    {"govern": ["step/criterion.v2", "step/ontology.v2", "transmission/criterion.v2", "transmission/ontology.v2"],
+     "note": "a barrier one site wide"},
+    {"phase": 3},
+    {"govern": ["step/criterion.v3", "step/ontology.v3", "transmission/criterion.v3", "transmission/ontology.v3"],
+     "note": "two sites"},
+    {"phase": 3},
+    {"govern": ["step/criterion.v4", "step/ontology.v4", "transmission/criterion.v4", "transmission/ontology.v4"],
+     "note": "three sites"},
+    {"phase": 3},
+    {"govern": ["step/criterion.v5", "step/ontology.v5", "transmission/criterion.v5", "transmission/ontology.v5"],
+     "note": "four sites"},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 237,
+    "states": {"step": "wait", "transmission": "wait"},
+    "values": {
+      "kpi": [{"profile": 1, "widths": [0, 1, 2, 3, 4], "transmitted_ppm": [718251, 138690, 24149, 14588, 12218],
+               "slices": 205, "sites": 6722, "pruned_sites": 4963,
+               "transmission_invocations": 110, "transmission_not_yet": 105}]
+    }
+  }
+}

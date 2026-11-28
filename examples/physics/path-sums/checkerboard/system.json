@@ -1,0 +1,45 @@
+{
+  "system": "checkerboard",
+  "title": "Feynman's checkerboard: the sum over paths of a free relativistic particle, slice by slice",
+  "abstractions": ["step", "kernel"],
+  "kpi": "kpi",
+  "types": {
+    "Amplitudes": {"list": {"list": "integer"}},
+    "Slice":  {"record": {"t": "integer", "lo": "integer", "R": "Amplitudes", "L": "Amplitudes",
+                          "norm": "rational", "pruned": "rational"}},
+    "Kernel": {"record": {"T": "integer", "lo": "integer", "hi": "integer", "P": {"list": "rational"},
+                          "total": "rational"}},
+    "Kpi":    {"record": {"profile": "integer", "questions": "integer", "slices": "integer", "sites": "integer",
+                          "pruned_sites": "integer", "reused": "integer", "paths": "integer",
+                          "kernel_invocations": "integer", "kernel_not_yet": "integer"}}
+  },
+  "constants": {
+    "COIN": [4, 3],
+    "D": 5
+  },
+  "bindings": {
+    "done":    {"from": "step", "select": "count",
+                "note": "how many slices are recorded"},
+    "slices":  {"from": "step", "select": "map", "type": "Slice", "key": "(x['t'], x['lo'], x['lo'] + len(x['R']) - 1)",
+                "note": "the memo table: (t, lo, hi) → the recorded slice"},
+    "kernels": {"from": "kernel", "select": "all", "type": "Kernel",
+                "note": "the questions already answered"}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3, "note": "question 1: every amplitude at T = 16"},
+    {"govern": ["step/criterion.v2", "step/ontology.v2", "kernel/criterion.v2", "kernel/ontology.v2"],
+     "note": "question 2: the one amplitude at x = 0, T = 32; the slices up to t = 16 are recorded"},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 50,
+    "states": {"step": "wait", "kernel": "wait"},
+    "values": {
+      "kpi": [{"profile": 1, "questions": 2, "slices": 33, "sites": 545, "pruned_sites": 544, "reused": 17,
+               "paths": 601145926, "kernel_invocations": 20, "kernel_not_yet": 18}]
+    }
+  }
+}

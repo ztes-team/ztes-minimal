@@ -1,0 +1,7 @@
+{
+  "note": "[ω] the pattern at T of experiment 1: no detector, one part; ⊥ until slice T is recorded",
+  "constants": {"PARTS": 1, "NEEDED": 41},
+  "requires": {"step": "NEEDED"},
+  "inputs": {"context": ["slices", "patterns"]},
+  "returns": "Pattern"
+}

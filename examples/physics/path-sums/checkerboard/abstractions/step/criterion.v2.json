@@ -1,0 +1,6 @@
+{
+  "note": "[τ] the same check for question 2",
+  "constants": {"T": 32, "X": 0},
+  "inputs": {"context": ["slices"], "candidate": {"name": "w", "type": "Slice"}},
+  "body_file": "criterion.v1.py"
+}

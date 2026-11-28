@@ -41,7 +41,7 @@ from ..substrate import lookups
 from ..substrate.governance import carried
 from ..substrate.store import read
 from ..substrate.z0 import ADMITTED, FALSE, NOT_YET
-from .report import _text
+from .report import shown
 
 OUTCOME = {ADMITTED: "A", NOT_YET: "U", FALSE: "F"}        # the three outcomes of Axiom 0
 
@@ -62,7 +62,7 @@ def execute(system, z0, max_admissions, log):
         n = z0.position                                  # the prefix Cⁿ it was judged on
         system.last[a] = (result, w)
         count_outcome(system.outcomes[a], result, read(z0.store, n), a)
-        log(f"   C^{n:<3} {a:12} → {result}" + (f"   ω = {_text(w)}" if w is not None else ""))
+        log(f"   C^{n:<3} {a:12} → {result}" + (f"   ω = {shown(w)}" if w is not None else ""))
         if system.trace:
             for line in explain_invocation(system, read(z0.store, n), a, w):
                 log("        " + line)
@@ -116,7 +116,7 @@ def termination_report(system, C, log=print):
     for a in system.abstractions:
         result, w = system.last.get(a, (NOT_YET, None))
         if result == FALSE:
-            log(f"     {a:12} closed: ω = {_text(w)}, τ false")
+            log(f"     {a:12} closed: ω = {shown(w)}, τ false")
         else:
             external = [b for b in lookups.horizon(C, a) if b not in system.abstractions]
             where = f"waits on external {external}" if external else "its horizon is quiescent"

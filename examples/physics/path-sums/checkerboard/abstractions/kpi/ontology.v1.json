@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the indicators of the execution, computed on demand over the read-only record",
+  "constants": {"QUESTIONS": [[16, null], [32, 0]]},
+  "inputs": {"context": ["slices", "kernels", "profile", "profiles", "kpis"]},
+  "returns": "Kpi"
+}

@@ -1,0 +1,46 @@
+{
+  "system": "two-slits",
+  "title": "Two slits on Feynman's checkerboard: interference, and a which-path detector as a governed change",
+  "abstractions": ["step", "pattern"],
+  "kpi": "kpi",
+  "types": {
+    "Amplitudes": {"list": {"list": "integer"}},
+    "Part":    {"record": {"R": "Amplitudes", "L": "Amplitudes"}},
+    "Slice":   {"record": {"t": "integer", "lo": "integer", "parts": {"list": "Part"},
+                           "norm": "rational", "absorbed": "rational"}},
+    "Pattern": {"record": {"parts": "integer", "lo": "integer", "P": {"list": "rational"}, "total": "rational"}},
+    "Kpi":     {"record": {"profile": "integer", "slices": "integer", "reused": "integer",
+                           "through_permille": "integer", "same_total": "boolean", "interference_permille": "integer",
+                           "pattern_invocations": "integer", "pattern_not_yet": "integer"}}
+  },
+  "constants": {
+    "COIN": [4, 3],
+    "D": 5,
+    "T": 40,
+    "T0": 10,
+    "SLITS": [-4, 4]
+  },
+  "bindings": {
+    "slices":   {"from": "step", "select": "map", "type": "Slice", "key": "(x['t'], len(x['parts']))",
+                 "note": "the memo table: (t, number of parts) → the recorded slice"},
+    "patterns": {"from": "pattern", "select": "all", "type": "Pattern",
+                 "note": "the patterns already recorded"}
+  },
+  "plan": [
+    {"phase": 1},
+    {"phase": 2},
+    {"phase": 3, "note": "experiment 1: no detector; the paths through the two slits add"},
+    {"govern": ["step/criterion.v2", "step/ontology.v2", "pattern/criterion.v2", "pattern/ontology.v2"],
+     "note": "experiment 2: a which-path detector at the slits; the slices before the screen are recorded"},
+    {"phase": 3},
+    {"kpi": true, "note": "execution indicators, once, at the end"}
+  ],
+  "expect": {
+    "events": 89,
+    "states": {"step": "wait", "pattern": "wait"},
+    "values": {
+      "kpi": [{"profile": 1, "slices": 72, "reused": 10, "through_permille": 149, "same_total": true,
+               "interference_permille": 291, "pattern_invocations": 39, "pattern_not_yet": 37}]
+    }
+  }
+}

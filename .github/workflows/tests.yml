@@ -14,4 +14,4 @@ jobs:
       - run: pip install -e ".[test]"
       - run: python -m pytest -q
       - run: python -m ztes defects
-      - run: for e in examples/*/; do python -m ztes run "$e" > /dev/null && python -m ztes run "$e" --workers > /dev/null || exit 1; done
+      - run: for f in $(find examples -name system.json | sort); do e=$(dirname "$f"); python -m ztes run "$e" > /dev/null && python -m ztes run "$e" --workers > /dev/null || exit 1; done

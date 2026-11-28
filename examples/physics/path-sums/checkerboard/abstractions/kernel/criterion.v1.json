@@ -1,0 +1,5 @@
+{
+  "note": "[τ] the probabilities of the recorded slice T = 16",
+  "constants": {"T": 16, "X": null},
+  "inputs": {"context": ["slices", "kernels"], "candidate": {"name": "w", "type": "Kernel"}}
+}

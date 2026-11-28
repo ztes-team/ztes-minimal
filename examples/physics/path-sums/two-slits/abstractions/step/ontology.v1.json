@@ -1,0 +1,6 @@
+{
+  "note": "[ω] the next slice of experiment 1: no detector, one part, from the recorded slice before it",
+  "constants": {"PARTS": 1},
+  "inputs": {"context": ["slices"]},
+  "returns": "Slice"
+}
