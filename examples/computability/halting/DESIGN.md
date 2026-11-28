@@ -170,7 +170,32 @@ under workers. With seed 6 they are 0, 1, 0, 0, 1, 0, 0, 0, 1: two decisions for
 an odd number of ticks and are void, and finish is taken after 6 ticks (26 events). Under workers
 `policy` may record more decisions before finish is recorded; the finish is the same.
 
-## 7. Design decisions
+## 7. Relation to other approaches
+
+The distinctions of Theorem 4 have counterparts elsewhere; what differs is what they are computed
+over.
+* **Temporal logics and model checkers** (LTL, CTL, TLA+, Spin). Over a model of a system, a
+  branching-time logic separates a goal that stays reachable (EF goal) from one that is unreachable
+  (AG ¬goal). A strong fairness condition on finish separates `finish-fair` from `finish-unfair`,
+  where finish is enabled infinitely often and never taken. The classes of Theorem 4 belong to this
+  tradition (Alpern and Schneider). Here the tree is that of a regime whose specifications are
+  events of the same append-only record. It changes by governed admission (R1), and the status of a
+  recorded prefix is re-derived by replay (R2). In a model checker the specification is an input to
+  the tool, and a change of rules has to be encoded in the state of the model.
+* **Event sourcing and ledgers.** They keep an append-only log and often validate each entry
+  deterministically, close to the criterion (D2). The log records what was admitted, usually not
+  the specification that proposed it (D1). From the log and its rules alone it therefore cannot tell
+  apart three reasons why an entry is absent: a realization is pending; a candidate was admissible
+  but the scheduler chose another (`finish-unfair`); or no realization can propose it
+  (`finish-unreachable`).
+* **Proof assistants** (Coq, Lean). They check proofs and certificates step by step, and re-checking
+  a proof is a replay of its steps by the kernel; S(5) = 47,176,870 was established that way, with
+  certified deciders. A proof assistant can establish once that a kind of certificate is sound. The
+  record here admits instances of such certificates inside an execution, under a recorded criterion
+  that governance can change, and replays each admission from its own prefix. The two are
+  complementary.
+
+## 8. Design decisions
 
 * **One event per machine step, per rule step, and per Collatz piece.** Each criterion checks one
   step or one piece against the record.
@@ -183,7 +208,7 @@ an odd number of ticks and are void, and finish is taken after 6 ticks (26 event
 * **No time.** A step k, a decision or a piece is a value in the record (see the physics model,
   `examples/physics/path-sums/DESIGN.md` §1).
 
-## 8. Runs
+## 9. Runs
 
 | System | Events | Record | Run | Replay (R2) |
 |---|---|---|---|---|
@@ -193,13 +218,13 @@ an odd number of ticks and are void, and finish is taken after 6 ticks (26 event
 | `finish-fair` | 26 | 0.01 MB | < 0.1 s | < 0.1 s |
 | `finish-unfair`, `finish-unreachable` | 50 each | 0.02 MB | < 0.1 s | < 0.1 s |
 
-## 9. Tests (`tests/test_halting.py`)
+## 10. Tests (`tests/test_halting.py`)
 
 The tests are listed in [`../README.md`](../README.md#tests-teststest_haltingpy). The general tests
 of the examples cover these systems too: pinned records, both replay modes, every store and
 configuration, and workers on every store and under random schedules.
 
-## 10. Not in this step
+## 11. Not in this step
 
 * **The BB(5) champion.** It runs 47,176,870 steps, so it would take macro steps: one event per 10⁶
   steps, 48 events, and a criterion that recomputes each macro step. A run and its replay would take
