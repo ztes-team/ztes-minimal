@@ -1,6 +1,6 @@
 # Structural memoization under governed change: one thread
 
-*Not an example of the paper. This extends the co-authors' model in the parent directory and leaves
+*Described in §5.4 and §9.3 of the paper; not one of the ten examples of Table 8. This extends the co-authors' model in the parent directory and leaves
 its experiment, its timing series and its archived records unchanged. Base paper: §5.4 and
 Definition 12, Proposition 14, D1/D2, R1, R2, Corollary 9, §6.5, §9.3. Tags: [C] epistemic, [ω]
 ontological, [τ] eschatological.*
@@ -216,7 +216,7 @@ same under workers, abstraction by abstraction. Each system runs in under a seco
   grows with the cut.
 * **The change.** The change here is permissive, so every revalidation succeeds.
 
-## 10. Not in this step
+## 10. Outside this thread
 
 * A restrictive change, under which a revalidation is refused.
 * Memoization of the refund plan across cases with the same affected-set signature.

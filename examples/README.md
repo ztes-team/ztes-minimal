@@ -174,9 +174,9 @@ third fails with no override and is refused; `transfer` is closed. Transfers 1 a
 payloads; only the retained evidence in their prefixes distinguishes their grounds, and only that
 evidence lets R2 reproduce both judgments.
 
-## Beyond the paper: physics
+## Beyond Table 8: physics
 
-[`physics/`](physics/README.md) holds systems that are not examples of the paper, on the same Z₀ and
+[`physics/`](physics/README.md) holds systems outside the ten examples of the paper, on the same Z₀ and
 in the same standard form. Its first model, [`path-sums`](physics/path-sums/DESIGN.md), computes
 Feynman's sum over paths for a relativistic particle on a lattice. The sum is computed slice by
 slice, in exact arithmetic, with the record as the memo table, in three systems:
@@ -187,14 +187,14 @@ slice, in exact arithmetic, with the record as the memo table, in three systems:
 It adds no computational power (§4.5): it is the standard exact method, made replayable and
 governable. Its tests are in `tests/test_physics.py`, listed in [`physics/README.md`](physics/README.md#tests-teststest_physicspy).
 
-Its second model, [`absorbing-walk`](physics/absorbing-walk/DESIGN.md), is a quantum walk on four
+Its second model, [`absorbing-walk`](physics/absorbing-walk/DESIGN.md) (§6.5), is a quantum walk on four
 nodes with an absorbing trap. A dark state gives the classes of Theorem 4 in a physical system: 𝔒
 from one start, 𝔓 with an admitted certificate from another, and the restoration of reachability
 by a compensation event, admissible only after the certificate, that adds dephasing (Corollary 9). Its tests are in `tests/test_absorbing.py`.
 
-## Beyond the paper: computability
+## Beyond Table 8: computability
 
-[`computability/`](computability/README.md) holds a second branch of systems that are not examples
+[`computability/`](computability/README.md) holds a second branch of systems outside the ten examples
 of the paper. Its first model, [`halting`](computability/halting/DESIGN.md), executes the modalities
 of halting with the evidence for every verdict. Each class of Theorem 4 is stated for the maximal
 execution of a fixed regime and a named family of goals; together the systems show all four:
@@ -207,17 +207,23 @@ execution of a fixed regime and a named family of goals; together the systems sh
 
 Its tests are in `tests/test_halting.py`, listed in [`computability/README.md`](computability/README.md#tests-teststest_haltingpy).
 
-The [structural memoization model](computability/structural-memoization/README.md) follows a
+The [structural memoization model](computability/structural-memoization/README.md) (§5.4) follows a
 settlement graph from its construction in a transport dispute to its use in a different claim.
 The experiment measures the search avoided when the second case can read the graph, tests when
 the cost of its publication is recovered, and replays the evidence for each admission. Its
-[thread](computability/structural-memoization/thread/DESIGN.md) puts reuse and governance in one
+[thread](computability/structural-memoization/thread/DESIGN.md) (§5.4, §9.3) puts reuse and governance in one
 record: a pattern carries the versions under which it was derived and is used after a governed
 change of the rules only by a new proof under the new versions.
 
-The [factorization pattern experiment](computability/factorization-patterns/README.md) follows a
+The [factorization pattern experiment](computability/factorization-patterns/README.md) (§8.7) follows a
 residue filter from the probes that led to its publication through a governed change of search policy.
 Paired runs factor the same target and record which candidate centers were tested.
+
+The [Goldbach convolution](computability/goldbach-governed-convolution/README.md) (§8.3) counts the
+ordered prime pairs for every sum by a number-theoretic transform and checks the counts by
+enumeration. A governed change restricts the second addend; the next answer for 20 has three
+witnesses instead of four, the unchanged left transform is reused, and the earlier answer replays
+under the rules that admitted it.
 
 ## Tests of the examples
 

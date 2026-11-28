@@ -5,7 +5,7 @@
 A minimal executable substrate for the calculus in *A Calculus of Execution for Interacting Binary
 Relations* (Škarić, Ivanović, M. Radenković, Prokhorov, Labus, B. Radenković) [2], version 4 of the
 preprint, https://doi.org/10.20944/preprints202608.1545.v4. The heuristic agents of the companion
-paper [4], in preparation, run on the same substrate in
+paper [4] run on the same substrate in
 [oee-heuristic-agents](https://github.com/ztes-team/oee-heuristic-agents).
 
 This repository is a minimal realization of the Zero Tier Execution Substrate (ZTES) published in
@@ -36,7 +36,7 @@ purpose: it shows the ideas of the paper, not every case.
 defines the calculus. Its Section 8 and Table 8 describe the worked examples. Every section,
 theorem, corollary and table number in this repository refers to version 4 of [2]. The companion
 paper [4], *Observable, Governable, Cooperative: Execution Analytics and Adaptive Heuristic Agents in
-the OEE Calculus*, is in preparation. It studies heuristic agents executed by this substrate; its
+the OEE Calculus*, studies heuristic agents executed by this substrate; its
 examples are in oee-heuristic-agents, and the execution indicators (KPI) described below are the
 ones it uses.
 
@@ -546,7 +546,7 @@ docs/distribution.md      local or distributed execution as an option of the con
 docs/tests.md             the main tests of the model, the substrate and the tooling
 examples/README.md        the examples, described separately
 examples/<name>/          one directory per example: system.json, DESIGN.md, abstractions/, lib.py
-examples/physics/         systems beyond the paper, one directory per model (path-sums, absorbing-walk: three systems each)
+examples/physics/         path-sums and absorbing-walk (§6.5), three systems each
 examples/computability/   halting, structural memoization, factorization patterns and Goldbach representations
 experiments/README.md     questions, results and controls for experiments E1–E7
 experiments/run.py        runs one experiment by a fixed protocol and prints its answer
@@ -610,7 +610,7 @@ re-derives each candidate (§8.8).
   (the search of a heuristic, for example). It does not check that a candidate follows from the
   record: of the eight defects it finds seven, and misses the third, whose draws were never
   recorded; there R2 holds and only S1.2 fails. The full replay remains the default.
-* Not included yet: scheduling and abeyance
+* Not included: scheduling and abeyance
   abstractions (§5.2).
 
 ## References
@@ -625,9 +625,14 @@ re-derives each candidate (§8.8).
    Substrate for Evolutionary Software Systems. *Systems* **2026**, 14, 547.
    https://doi.org/10.3390/systems14050547
 4. Radenković, M.; Prokhorov, S.; Labus, A.; Radenković, B. *Observable, Governable, Cooperative:
-   Execution Analytics and Adaptive Heuristic Agents in the OEE Calculus*. In preparation.
+   Execution Analytics and Adaptive Heuristic Agents in the OEE Calculus*. Manuscript, 2026.
 
 Section, theorem, corollary and table numbers in this repository refer to version 4 of [2].
+
+## Authorship
+
+Parts of the code and documentation were prepared with the help of AI assistants (Claude,
+ChatGPT); the authors reviewed all changes and are responsible for them.
 
 ## License
 

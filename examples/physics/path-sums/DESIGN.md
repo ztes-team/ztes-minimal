@@ -168,7 +168,7 @@ its |weight|, so every sample carries (a + b)ᵀ = 1.4ᵀ times a phase. The rel
 
 This is the sign problem in its simplest form. The record gives the exact value for every T.
 
-## 7. Not in this step
+## 7. Outside this model
 
 * **The harmonic oscillator.** In a Dirac walk a quadratic electrostatic potential does not confine
   (Klein), but a position-dependent mass does. The comparison with Mehler's kernel holds only in

@@ -238,7 +238,7 @@ The tests are listed in [`../README.md`](../README.md#tests-teststest_haltingpy)
 of the examples cover these systems too: pinned records, both replay modes, every store and
 configuration, and workers on every store and under random schedules.
 
-## 11. Not in this step
+## 11. Outside this model
 
 * **The BB(5) champion.** It runs 47,176,870 steps, so it would take macro steps: one event per 10⁶
   steps, 48 events, and a criterion that recomputes each macro step. A run and its replay would take
@@ -249,5 +249,5 @@ configuration, and workers on every store and under random schedules.
   14 needs a symbolic invariant.
 * The six-state Antihydra machine itself, step by step, with its rules checked against it.
 * Langton's ant: its trajectory is unbounded (Bunimovich and Troubetzkoy), and the highway appears
-  after about 10,000 steps from a blank grid. It is a candidate for a goal affirmed at a finite
-  prefix with a certificate of persistence.
+  after about 10,000 steps from a blank grid. It would need a goal affirmed at a finite prefix
+  with a certificate of persistence.

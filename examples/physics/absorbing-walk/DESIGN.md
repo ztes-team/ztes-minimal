@@ -1,6 +1,6 @@
 # An absorbing quantum walk on four nodes: the model (step 0)
 
-*Not an example of the paper. Three systems on the same Z₀: `bright`, `dark`, `dephasing`.
+*Described in §6.5 of the paper; not one of the ten examples of Table 8. Three systems on the same Z₀: `bright`, `dark`, `dephasing`.
 Base paper: Theorem 4, Proposition 14, Corollary 9. Tags: [C] epistemic, [ω] ontological,
 [τ] eschatological (see [`examples/README.md`](../../README.md)).*
 
@@ -201,7 +201,7 @@ these values, and the tests check them against an independent computation.
 The general tests (pinned records, both replay modes, every store, workers) cover these systems as
 they cover `path-sums`.
 
-## 8. Not in this step
+## 8. Outside this model
 
 * The continuous-time walk e^(−iAt), whose values are not rational.
 * A light-harvesting complex: more sites, site energies, a thermal environment, and noise that is

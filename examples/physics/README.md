@@ -1,6 +1,7 @@
 # Physics on the record
 
-Systems that are not examples of the base paper. They run on the same Z₀ and are written in the
+Systems outside the ten examples of Table 8 of the base paper: `absorbing-walk` is described in §6.5,
+and `path-sums` is not in the paper. They run on the same Z₀ and are written in the
 same standard form as the ten examples in [`examples/`](../README.md). Each directory here is one
 model, and each model has several systems.
 

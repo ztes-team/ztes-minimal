@@ -1,6 +1,6 @@
 # The absorbing walk from a dark start: design (step 0)
 
-*Not an example of the paper; the model is described in [`../DESIGN.md`](../DESIGN.md). Base paper: Theorem 4, Proposition 14. Tags: [C] epistemic, [ω] ontological, [τ] eschatological.*
+*Part of the model of §6.5 of the paper, not one of the ten examples of Table 8; the model is described in [`../DESIGN.md`](../DESIGN.md). Base paper: Theorem 4, Proposition 14. Tags: [C] epistemic, [ω] ontological, [τ] eschatological.*
 
 **What this example adds.** Class 𝔓 with its evidence in the record. The walk starts at node 2, half
 of it is in the dark state, and an admitted certificate shows that every goal "absorbed ≥ 1 − 2⁻ᵏ"

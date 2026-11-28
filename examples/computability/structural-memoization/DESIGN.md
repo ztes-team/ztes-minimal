@@ -60,7 +60,7 @@ Before publication, the catalogue criterion checks the graph's typed dependencie
 | Canonical signature and compatible interface, reduction, planner, primitive and checker versions | Current compatibility and availability through the declared horizon |
 | Typed graph, role parameters, preconditions and conservation justification | Actual parties, units, amounts, caps, coverage and settlement authority |
 
-A checker may revalidate the short graph and its justification without enumerating competing plans. This difference is what the experiment measures. General discovery of $\mathcal B$, the reductions or a valid plan language from a single successful case remains an open question in this design.
+A checker may revalidate the short graph and its justification without enumerating competing plans. This difference is what the experiment measures. General discovery of $\mathcal B$, the reductions or a valid plan language from a single successful case is outside this design.
 
 ## 4. Endogenous use in the target
 

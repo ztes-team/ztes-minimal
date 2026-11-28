@@ -1,6 +1,6 @@
 # The absorbing walk from a bright start: design (step 0)
 
-*Not an example of the paper; the model is described in [`../DESIGN.md`](../DESIGN.md). Base paper: Theorem 4. Tags: [C] epistemic, [ω] ontological, [τ] eschatological.*
+*Part of the model of §6.5 of the paper, not one of the ten examples of Table 8; the model is described in [`../DESIGN.md`](../DESIGN.md). Base paper: Theorem 4. Tags: [C] epistemic, [ω] ontological, [τ] eschatological.*
 
 **What this example adds.** An unconditional, executed class 𝔒. The walk starts at node 4, which
 has no part in the dark state, and every goal "absorbed ≥ 1 − 2⁻ᵏ" is attained at a finite slice.

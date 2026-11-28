@@ -3,12 +3,13 @@
 Section, theorem and table numbers refer to version 4 of the base paper, *A Calculus of Execution
 for Interacting Binary Relations* (https://doi.org/10.20944/preprints202608.1545.v4).
 
-## Unreleased
+## 0.1.3 (2026-11-28)
 
 The code of Z₀ and the ten examples of the paper are unchanged: their records are the same, event
 for event (`tests/test_records.py`).
 
-**Physics on the record** (`examples/physics/`, not examples of the paper)
+**Physics on the record** (`examples/physics/`, outside the ten examples of Table 8;
+`absorbing-walk` is described in §6.5)
 * The model `path-sums` computes Feynman's sum over paths for a relativistic particle on a lattice:
   a discrete-time quantum walk, the unitary form of Feynman's checkerboard. It is computed slice
   by slice in exact arithmetic, as integer numerators over a common denominator. The record is the
@@ -32,7 +33,8 @@ for event (`tests/test_records.py`).
   tests (records, replay modes, configurations, workers) cover every system under `examples/`,
   nested ones included.
 
-**Computability on the record** (`examples/computability/`, not examples of the paper)
+**Computability on the record** (`examples/computability/`, outside the ten examples of Table 8; structural
+memoization is described in §5.4 and §9.3, factorization patterns in §8.7, Goldbach representations in §8.3)
 * The model `halting` executes the modalities of halting, with the evidence for every verdict. Each
   class is stated for the maximal execution of a fixed regime and a named family of goals, of which
   a record is a finite prefix; together the systems show executions in all four classes.
@@ -77,6 +79,17 @@ for event (`tests/test_records.py`).
 * The goldbach-governed-convolution example records every ordered prime pair for a queried sum.
   A governed change restricts one input. Later queries can reuse the unchanged input transform,
   and each result remains verifiable under the rules that produced it.
+
+**Documentation**
+* The guide to `examples/computability/` (prepared by the co-authors) leads through experiments E1–E7
+  and the four models by the questions they answer, each with an observed result and a command. The
+  start of the README is a table of what a reader wants to do and where to begin.
+* `REPRODUCING.md` gives the command, the output and the test for the results of §5.4, §6.5, §8.3,
+  §8.7 and §9.3, which come from the models added in this version.
+* The README says that parts of the code and documentation were prepared with the help of AI
+  assistants, and that the authors reviewed every change.
+* The sections that listed what a model leaves out are now *Outside this model*, and the version
+  is 0.1.3 in `pyproject.toml` and `CITATION.cff`.
 
 **Tooling**
 * `python -m ztes run` shows a value longer than 600 characters by its beginning and its length; the

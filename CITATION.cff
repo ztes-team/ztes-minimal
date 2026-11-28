@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "ZTES: a minimal Zero Tier Execution Substrate for the OEE calculus"
 type: software
-version: 0.1.2
-date-released: 2026-11-27
+version: 0.1.3
+date-released: 2026-11-28
 doi: "10.5281/zenodo.24416119"
 identifiers:
   - type: doi
@@ -41,9 +41,10 @@ abstract: >-
   A minimal realization of the Zero Tier Execution Substrate (ZTES) published in Systems 14 (2026)
   547, from which it takes its name, and the executable supplement to "A Calculus of Execution for
   Interacting Binary Relations" and to "Observable, Governable, Cooperative: Execution Analytics and
-  Adaptive Heuristic Agents in the OEE Calculus" (in preparation). Its fixed admission procedure Z0, which with the architecture
+  Adaptive Heuristic Agents in the OEE Calculus". Its fixed admission procedure Z0, which with the architecture
   S1 forms the zero-tier execution substrate, applies Axiom 0 to
   systems of abstractions given as JSON specifications, with ten worked examples, seven experiments,
+  models in physics and computability,
   eight defective mechanisms for the essential conditions of S1, and replay under R2.
 keywords: [execution calculus, binary relations, append-only record, replay, admission]
 references:
@@ -80,4 +81,4 @@ references:
       - {family-names: "Labus", given-names: "Aleksandra"}
       - {family-names: "Radenković", given-names: "Božidar"}
     year: 2026
-    notes: "In preparation"
+    notes: "Manuscript"

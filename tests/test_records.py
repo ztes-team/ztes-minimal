@@ -18,29 +18,29 @@ PINNED = {                      # example: (events, digest of the record)
     "aco":             (73,  "449255bb3c29dce2"),
     "aco-draw":        (138, "de75462c47bef7af"),
     "agent":           (85,  "275977ab65c077bd"),   # added in 0.1.1
-    "computability/factorization-patterns/native":            (15, "d185eea265dd5ec7"),   # added after 0.1.2
-    "computability/halting/antihydra":             (1012, "91db8f046e3e1a14"),   # added after 0.1.2
-    "computability/halting/collatz":               (1009, "0c534871d6cb5392"),   # added after 0.1.2
-    "computability/halting/finish-fair":           (26,   "1768734bf6acabc2"),   # added after 0.1.2
-    "computability/halting/finish-unfair":         (50,   "2f1ca06deb972113"),   # added after 0.1.2
-    "computability/halting/finish-unreachable":    (50,   "bbcf4291e6688799"),   # added after 0.1.2
-    "computability/halting/machines":              (183,  "b34659e7f8958d8b"),   # added after 0.1.2
-    "computability/goldbach-governed-convolution/native":  (17,   "52b5fc3c8031881e"),   # added after 0.1.2
+    "computability/factorization-patterns/native":            (15, "d185eea265dd5ec7"),   # added in 0.1.3
+    "computability/halting/antihydra":             (1012, "91db8f046e3e1a14"),   # added in 0.1.3
+    "computability/halting/collatz":               (1009, "0c534871d6cb5392"),   # added in 0.1.3
+    "computability/halting/finish-fair":           (26,   "1768734bf6acabc2"),   # added in 0.1.3
+    "computability/halting/finish-unfair":         (50,   "2f1ca06deb972113"),   # added in 0.1.3
+    "computability/halting/finish-unreachable":    (50,   "bbcf4291e6688799"),   # added in 0.1.3
+    "computability/halting/machines":              (183,  "b34659e7f8958d8b"),   # added in 0.1.3
+    "computability/goldbach-governed-convolution/native":  (17,   "52b5fc3c8031881e"),   # added in 0.1.3
     "computability/structural-memoization/native/governance": (23, "b87ed66c8af6807d"),
     "computability/structural-memoization/native/reuse":      (21, "d5671f0f2120839b"),
-    "computability/structural-memoization/thread/governed":       (118, "2815939ce84aa8db"),   # added after 0.1.2
-    "computability/structural-memoization/thread/regions":        (70,  "810568ff4fd36f9e"),   # added after 0.1.2
-    "computability/structural-memoization/thread/scaling":        (89,  "3c1e3192eec355c5"),   # added after 0.1.2
-    "computability/structural-memoization/thread/scaling-pruned": (89,  "b5bf4d7115548bc2"),   # added after 0.1.2
+    "computability/structural-memoization/thread/governed":       (118, "2815939ce84aa8db"),   # added in 0.1.3
+    "computability/structural-memoization/thread/regions":        (70,  "810568ff4fd36f9e"),   # added in 0.1.3
+    "computability/structural-memoization/thread/scaling":        (89,  "3c1e3192eec355c5"),   # added in 0.1.3
+    "computability/structural-memoization/thread/scaling-pruned": (89,  "b5bf4d7115548bc2"),   # added in 0.1.3
     "dedekind-cut":    (26,  "cb2a10ba074ba456"),
     "factorization":   (27,  "7412db70b15c9f13"),
     "payment":         (21,  "93eab31cd4750c1f"),
-    "physics/absorbing-walk/bright":    (52,  "eb2877635c0da683"),   # added after 0.1.2
-    "physics/absorbing-walk/dark":      (53,  "0ebb500a5a75349b"),   # added after 0.1.2
-    "physics/absorbing-walk/dephasing": (76,  "c65b4d6f0416b80d"),   # added after 0.1.2
-    "physics/path-sums/barrier":      (237, "697c69821b4e496d"),   # added after 0.1.2
-    "physics/path-sums/checkerboard": (50,  "ea260db8d38fef00"),   # added after 0.1.2
-    "physics/path-sums/two-slits":    (89,  "3f029aeb116dc81a"),   # added after 0.1.2
+    "physics/absorbing-walk/bright":    (52,  "eb2877635c0da683"),   # added in 0.1.3
+    "physics/absorbing-walk/dark":      (53,  "0ebb500a5a75349b"),   # added in 0.1.3
+    "physics/absorbing-walk/dephasing": (76,  "c65b4d6f0416b80d"),   # added in 0.1.3
+    "physics/path-sums/barrier":      (237, "697c69821b4e496d"),   # added in 0.1.3
+    "physics/path-sums/checkerboard": (50,  "ea260db8d38fef00"),   # added in 0.1.3
+    "physics/path-sums/two-slits":    (89,  "3f029aeb116dc81a"),   # added in 0.1.3
     "prime-witnesses": (26,  "912bd79788754d47"),
     "sqrt2":           (16,  "2ac1e04d3a666ca2"),
     "tsp":             (468, "2f197520f400df1c"),

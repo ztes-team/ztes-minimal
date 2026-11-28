@@ -5,7 +5,7 @@ the command that produces it, what the command prints, and the test that checks 
 and theorem numbers refer to version 4 of the base paper, *A Calculus of Execution for Interacting
 Binary Relations* (Preprints 2026, 2026081545, https://doi.org/10.20944/preprints202608.1545.v4).
 The examples of the companion paper, *Observable, Governable, Cooperative: Execution Analytics and
-Adaptive Heuristic Agents in the OEE Calculus* (in preparation), are reproduced in
+Adaptive Heuristic Agents in the OEE Calculus*, are reproduced in
 [oee-heuristic-agents](https://github.com/ztes-team/oee-heuristic-agents/blob/main/REPRODUCING.md).
 
 ```bash
@@ -46,6 +46,20 @@ make no claim of speed. Where an execution shows an infinite object, it shows a 
 `--record DIR` keeps the record; `python -m ztes explain DIR N` shows the ground of event N, and
 `python -m ztes verify DIR` replays a kept record. Positions are numbered from zero here and from one
 in the paper (§4.1.2): position k in the output is position k + 1 in the paper.
+
+## The examples of §5.4, §6.5, §8.3, §8.7 and §9.3
+
+These results come from the models under `examples/computability/` and `examples/physics/`. The
+drivers verify archived records; `ztes run` executes the ordinary systems from genesis.
+
+| Paper | Command | What it prints | Test |
+|---|---|---|---|
+| §5.4: eight targets reuse one settlement graph | `python examples/computability/structural-memoization/experiment.py --verify examples/computability/structural-memoization/results/records.json.gz` | 13 archived records, each `full replay OK`, among them `series_cold_8` (110 events) and `series_warm_8` (111); the README of the model gives the complete plans tested, 4, 16 and 32 for one, four and eight targets without publication and 0 with it | `test_published_executions_replay_and_can_be_reproduced` |
+| §5.4: the work of a derivation and of a reuse | `python -m ztes run examples/computability/structural-memoization/thread/scaling --record DIR`, then `python -m ztes explain DIR 88`; the same for `thread/scaling-pruned` | the `kpi` payload: `tested` 4, 15, 64 and 325 for k = 2 … 5 under the blind planner and 3, 6, 10 and 15 under the pruning planner, 0 for every reuse; 89 events each | `test_the_work_of_a_fresh_derivation_is_that_of_the_planner_version`, `test_a_reused_plan_costs_one_proof_in_the_ontology_and_one_in_the_criterion` |
+| §6.5: a certificate of unreachability and a compensation | `python -m ztes run examples/physics/absorbing-walk/dark`, then `python -m ztes run examples/physics/absorbing-walk/dephasing` | `dark`: the certificate `{"pair": [2, 3], "dark": "1/2", "bound": "1/2", "k": 2}` and absorption below 1/2 at slice 40; 53 events. `dephasing`: the compensation after slice 20 with q = 1/4, and `goals` [22, 30, …], the first slice of each threshold 1 − 2⁻ᵏ, so 3/4 is first reached at slice 30; 76 events | `test_dark_keeps_half_of_the_walk_from_the_trap_at_every_slice`, `test_the_compensation_is_admissible_only_after_a_certificate`, `test_dephasing_restores_reachability_after_the_governed_change` |
+| §8.3: a governed count of ordered prime pairs | `python examples/computability/goldbach-governed-convolution/experiment.py --verify examples/computability/goldbach-governed-convolution/results/records.json.gz` | for 20, 4 ordered pairs, and 3 after the change in `governed_reuse` and `governed_fresh`; 1 forward transform for the second query with reuse and 2 without; 28, 31, 32 and 28 events replayed | `test_all_archived_goldbach_runs_regenerate`, `test_tampered_successor_evidence_is_refused_at_its_own_event` |
+| §8.7: a governed change of search control | `python examples/computability/factorization-patterns/experiment.py --verify examples/computability/factorization-patterns/results/records.json.gz`, then `python examples/computability/factorization-patterns/population.py --check` | 10 search probes under `parity` and 8 under `fresh` and `reuse` (2,929 in four square tests instead of six); `All 4 injected faults were rejected`; over 153 targets, 338 square tests under `parity` and 325 with the mask, 16 compatible targets | `test_native_fixture_regenerates_published_records`, `test_probe_criterion_rejects_omitting_a_failed_target_probe` |
+| §9.3: a certificate, a decision, a governed change, refunds and closure | `python -m ztes run examples/computability/structural-memoization/thread/governed` | the certificate of X (`"bound": 100, "loss": 110`), the decision of `review-board`, the mandate with the rules r2, X settled with draws [60, 40, 10], and the closure of X after the refunds of the buyer and the carrier; 118 events | `test_the_rules_change_once_and_the_certified_case_is_paid_in_full_under_the_new_rules`, `test_a_pattern_of_the_earlier_rules_crosses_the_change_only_by_a_new_proof`, `test_closure_needs_a_refund_for_every_affected_party` |
 
 ## The eight safeguards (Table 5, Theorems C, C′ and D)
 
@@ -103,7 +117,7 @@ oee-heuristic-agents.
 [`docs/glossary.md`](docs/glossary.md) gives the terms of the paper next to those of the output,
 in particular Pending in the paper and Not Yet in the output.
 
-## Experiments (not in version 4 of the paper)
+## Experiments (§8.9)
 
 [`experiments/README.md`](experiments/README.md) describes seven experiments on control as
 interacting relations. Each is run by one command and checked by `tests/test_experiments.py`.
@@ -111,7 +125,7 @@ interacting relations. Each is run by one command and checked by `tests/test_exp
 | Experiment | Command | What it prints |
 |---|---|---|
 | E1 a loop without a loop | `python experiments/run.py e1` | 111 steps, 232 events, the exit on guard(111) = false |
-| E2 the end is recorded | `python experiments/run.py e2` | sum 39 in normal form; the control gives 5 under the agenda and by workers a sum that changes with the schedule (for example 16, 17 or 39), and R2 passes for every run |
+| E2 the end is recorded | `python experiments/run.py e2` | sum 39 in normal form; the control gives 5 under the agenda and by workers a sum that can change with the schedule (for example 16, 17 or 39), and R2 passes for every run |
 | E3 the record is the memo and the stack | `python experiments/run.py e3` | A(3, 4): 315 values against 10 307 naive calls; A(3, 5) adds 321; A(3, 7) = 1021 at depth 1023 |
 | E4 only what is demanded; a cycle | `python experiments/run.py e4` | f(10⁹) from 242 values; the cycle ends quiescent after 9 events |
 | E5 self-similarity | `python experiments/run.py e5` | nine substructures equal to their own records; prefixes that double; exponents 1 and 2 |

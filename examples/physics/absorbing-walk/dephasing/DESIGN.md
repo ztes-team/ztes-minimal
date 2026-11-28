@@ -1,6 +1,6 @@
 # The dark walk, then a compensation that adds dephasing: design (step 0)
 
-*Not an example of the paper; the model is described in [`../DESIGN.md`](../DESIGN.md). Base paper: Corollary 9, §6.5, Theorem 4, R1. Tags: [C] epistemic, [ω] ontological, [τ] eschatological.*
+*Part of the model of §6.5 of the paper, not one of the ten examples of Table 8; the model is described in [`../DESIGN.md`](../DESIGN.md). Base paper: Corollary 9, §6.5, Theorem 4, R1. Tags: [C] epistemic, [ω] ontological, [τ] eschatological.*
 
 **What this example adds.** Corollary 9 executed, with the compensation of §6.5 as an admitted
 event. The certificate of `dark` is an admitted diagnosis. It makes a compensation admissible, which

@@ -77,7 +77,7 @@ measured, the result, and one sentence.
 * **Link.** Principle R, Theorem K, and what R2 can and cannot see. The control is an executed
   instance of Proposition 10: read from the interleaving, the outcome depends on it.
 * **Result.** In normal form the sum is 39 under the agenda and in every run by workers. The control
-  gives 5 under the agenda (it ends after the first item) and by workers a sum that changes with
+  gives 5 under the agenda (it ends after the first item) and by workers a sum that can change with
   the schedule (for example 16, 17 or 39); R2 passes for every run.
 * **In one sentence.** Silence is not proof of an end: if the end is not a fact in the record, the
   result depends on the schedule, and replay cannot see it, because every judgment was true on its
